@@ -96567,6 +96567,8 @@ var viewbox = 1000;
 var margin = { top: 80, right: 80, left: 80, bottom: 80 };
 var width = viewbox - margin.left - margin.right;
 var height = viewbox - margin.top - margin.bottom;
+
+// math expression to plot
 var expression = undefined;
 
 var xScale = makeScale([0, 30], [0, width]);
@@ -96582,30 +96584,27 @@ var selectors = {
     path: ".path"
 };
 
-var zoom = (function () {
+function updateGraph() {
+    // remove transform
+    graphInner.select(selectors.path).attr("transform", null);
 
-    function updateGraph() {
-        // remove transform
-        graphInner.select(selectors.path).attr("transform", null);
+    zoom.x(xScale).y(yScale);
+    graphOuter.call(zoom);
 
-        zoom.x(xScale).y(yScale);
-        graphOuter.call(zoom);
+    // plot new bounds
+    plot(true);
+}
 
-        // plot new bounds
-        plot(true);
-    }
+var zoomed = _.throttle(function zoomed() {
+    var translate = zoom.translate();
+    var scale = zoom.scale();
 
-    var zoomed = _.throttle(function zoomed() {
-        var translate = zoom.translate();
-        var scale = zoom.scale();
+    graphOuter.select(selectors.xAxis).call(xAxis);
+    graphOuter.select(selectors.yAxis).call(yAxis);
+    graphInner.select(selectors.path).attr("transform", "translate(" + translate[0] + "," + translate[1] + ") scale(" + scale + ")");
+}, 16);
 
-        graphOuter.select(selectors.xAxis).call(xAxis);
-        graphOuter.select(selectors.yAxis).call(yAxis);
-        graphInner.select(selectors.path).attr("transform", "translate(" + translate[0] + "," + translate[1] + ") scale(" + scale + ")");
-    }, 16);
-
-    return d3.behavior.zoom().x(xScale).y(yScale).on("zoom", zoomed).on("zoomend", updateGraph);
-})();
+var zoom = d3.behavior.zoom().x(xScale).y(yScale).on("zoom", zoomed).on("zoomend", updateGraph);
 
 var path = d3.svg.line().x(function (d) {
     return d.x;
