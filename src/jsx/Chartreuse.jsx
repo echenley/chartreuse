@@ -23,12 +23,8 @@ class Chartreuse extends React.Component {
         this.state = {
             hideControls: false,
             fns: [
-                x => x * 1.5,
-                x => 0.1 * x * x + 1,
-                x => Math.sin(x) + 4,
-                x => Math.pow(Math.sin(x * x), 2) + 6,
-                x => Math.log(x) + 5,
-                () => Math.random() * 10
+                'x / 6',
+                'tan(x)'
             ],
             currentFn: 0
         };
@@ -61,6 +57,7 @@ class Chartreuse extends React.Component {
                 <NavBar
                     toggleControls={ this.setState.bind(this, { hideControls: !this.state.hideControls }) }
                     controlsHidden={ this.state.hideControls }
+                    addFn={ this.addFn.bind(this) }
                 />
                 <Controls
                     fns={ this.state.fns }
@@ -68,7 +65,9 @@ class Chartreuse extends React.Component {
                     updateFn={ this.updateFn.bind(this) }
                     currentFn= { currentFn }
                 />
-                <Graph fn={ this.state.fns[currentFn] } />
+                <Graph
+                    fn={ this.state.fns[currentFn] }
+                />
             </div>
         );
     }

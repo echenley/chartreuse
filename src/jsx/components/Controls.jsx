@@ -3,10 +3,7 @@
 'use strict';
 
 import React from 'react/addons';
-
-function getFnBody(fn) {
-    return fn.toString().match(/function[^{]+\{[\s\S]*return([\s\S]*)\}$/)[1];
-}
+import FnButton from './FnButton.jsx';
 
 class Controls extends React.Component {
 
@@ -15,26 +12,21 @@ class Controls extends React.Component {
         this.state = props;
     }
 
-    updateFn(i) {
-        this.props.updateFn(i);
-    }
-
     render() {
         let currentFn = this.props.currentFn;
 
         let buttons = this.props.fns.map((fn, i) => (
-            <button
-                className={ currentFn === i ? 'active' : '' }
-                onClick={ this.updateFn.bind(this, i) }
+            <FnButton
+                active={ currentFn === i }
+                updateFn={ this.props.updateFn }
+                id={ i }
+                fn={ fn }
                 key={ i }
-            >
-                { 'y = ' + getFnBody(fn) }
-            </button>
+            />
         ));
 
         return (
             <div className="controls">
-                <h1>Control Panel</h1>
                 { buttons }
             </div>
         );

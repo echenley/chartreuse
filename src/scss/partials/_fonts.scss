@@ -1,3 +1,0 @@
-$font: 'Open Sans';
-$googlified: str-replace($font, ' ', '+');
-@import url('//fonts.googleapis.com/css?family=' + $googlified + ':400,400italic,600,700,900');

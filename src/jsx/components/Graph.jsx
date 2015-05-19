@@ -35,7 +35,7 @@ class GraphComponent extends React.Component {
 }
 
 GraphComponent.propTypes = {
-    fn: React.PropTypes.func
+    fn: React.PropTypes.string
 };
 
 export default GraphComponent;

@@ -1,6 +1,8 @@
-$monospace: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
-$navbar-height: 40px;
-$controls-width: 300px;
+$font: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$gray: #ccc;
+$monospace: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier, monospace;
+$navbar-height: 60px;
+$controls-width: 200px;
 
 %valign {
     position: relative;

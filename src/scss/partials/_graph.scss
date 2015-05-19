@@ -9,24 +9,18 @@
     right: 0;
     width: 100%;
     height: 100%;
-    padding: $navbar-height 0 0 $controls-width;
+    background: #fff;
+    padding: $navbar-height 0 0;
     overflow-y: scroll;
-    transition: padding-left 0.3s;
-
-    .hide-controls & {
-        padding-left: 0;
-    }
-
 
     svg {
         position: relative;
         top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        right: 0;
+        transform: translate(0, -50%);
         display: block;
-        max-width: 90%;
-        max-height: 90%;
-        fill: #fff;
+        max-width: 100%;
+        max-height: 100%;
     }
 
     .x-axis,
@@ -41,16 +35,25 @@
         }
     }
 
-    .line {
+    .path {
         fill: none;
         stroke: blue;
-        stroke-width: 3;
+        stroke-width: 2;
+        transition: transform 50ms;
     }
 
-    .grid .tick {
+    .domain,
+    .range {
+        stroke-width: 0;
+    }
+
+    .tick line {
         stroke: #eee;
     }
-    .grid path {
-          stroke-width: 0;
+
+    // background
+    rect {
+        fill: #fff;
+        stroke-width: 0;
     }
 }

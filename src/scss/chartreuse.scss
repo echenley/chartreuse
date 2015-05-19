@@ -7,10 +7,10 @@ Author URI: henleyedition.com
 
 */
 
-@import 'partials/reset';
+@import 'vendor/media-queries';
 @import 'partials/variables';
 @import 'partials/functions';
-@import 'partials/fonts';
+@import 'partials/reset';
 @import 'partials/main';
 @import 'partials/navbar';
 @import 'partials/controls';

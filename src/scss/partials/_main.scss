@@ -3,12 +3,13 @@
 }
 
 body {
-    background: #ccc;
+    overflow: hidden;
     font-family: $font, sans-serif;
     font-size: 120%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    word-wrap: break-word;
 }
 
 html,
@@ -20,21 +21,6 @@ body,
 }
 
 .chartreuse {
-    button {
-        position: relative;
-        padding: 10px 20px;
-        border: 0;
-        border-radius: 1px;
-        outline: 0;
-        background: #fff;
-        color: #999;
-        cursor: pointer;
-
-        &:active {
-
-            color: #666;
-        }
-    }
 }
 
 code,

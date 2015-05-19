@@ -1,133 +1,172 @@
 'use strict';
 
 import d3 from 'd3';
+import math from 'mathjs';
+import _ from 'lodash';
 
-// main svg element
-let svg;
+// main svg elements
+let graphInner, graphOuter;
 
-// size is arbitrary, scales with viewport
+// size/margin is arbitrary, scales with viewport
 let viewbox = 1000;
-let defaultMargin = { top: 40, right: 40, left: 40, bottom: 40 };
+let margin = { top: 80, right: 80, left: 80, bottom: 80 };
+let width = viewbox - margin.left - margin.right;
+let height = viewbox - margin.top - margin.bottom;
+let expression;
 
-let defaults = {
-    xDomain: [0, 10],
-    yDomain: [0, 10],
-    margin: defaultMargin,
-    outerWidth: viewbox,
-    outerHeight: viewbox,
-    innerWidth: viewbox - defaultMargin.left - defaultMargin.right,
-    innerHeight: viewbox - defaultMargin.top - defaultMargin.bottom
+let xScale = makeScale([0, 30], [0, width]);
+let yScale = makeScale([0, 5], [height, 0]);
+
+let xAxis = makeAxis(xScale, 'bottom', -width);
+let yAxis = makeAxis(yScale, 'left', -height);
+
+let selectors = {
+    graphInner: '.graph-inner',
+    xAxis: '.x-axis',
+    yAxis: '.y-axis',
+    path: '.path'
 };
 
-let line = d3.svg.line()
-    .defined(d => !isNaN(d.x) && !isNaN(d.y))
+let zoom = (function() {
+
+    function updateGraph() {
+        // remove transform
+        graphInner.select(selectors.path)
+            .attr('transform', null);
+
+        zoom.x(xScale)
+            .y(yScale);
+        graphOuter.call(zoom);
+
+        // plot new bounds
+        plot(true);
+    }
+
+    let zoomed = _.throttle(function zoomed() {
+        let translate = zoom.translate();
+        let scale = zoom.scale();
+
+        graphOuter.select(selectors.xAxis).call(xAxis);
+        graphOuter.select(selectors.yAxis).call(yAxis);
+        graphInner.select(selectors.path)
+            .attr('transform', 'translate(' +
+                translate[0] + ',' +
+                translate[1] +
+            ') scale(' + scale + ')');
+    }, 16);
+
+    return d3.behavior.zoom()
+        .x(xScale)
+        .y(yScale)
+        .on('zoom', zoomed)
+        .on('zoomend', updateGraph);
+})();
+
+let path = d3.svg.line()
     .x(d => d.x)
     .y(d => d.y)
-    .interpolate('basis');
+    .defined(d => !isNaN(d.x) && !isNaN(d.y));
+    // .interpolate('basis');
 
-function setAxes(xDomain, yDomain) {
-    // inner width/height
-    let width = defaults.innerWidth;
-    let height = defaults.innerHeight;
-
-    let x = d3.scale.linear()
-        .domain(xDomain)
-        .range([0, width]);
-
-    let y = d3.scale.linear()
-        .domain(yDomain)
-        .range([height, 0]);
-
-    let xAxis = d3.svg.axis()
-        .scale(x)
-        .tickPadding(12)
-        .orient('bottom');
-
-    let yAxis = d3.svg.axis()
-        .scale(y)
-        .tickPadding(12)
-        .orient('left');
-
-    svg.select('.x-axis')
-        .call(xAxis);
-
-    svg.select('.y-axis')
-        .call(yAxis);
+function makeScale(domain, range) {
+    return d3.scale.linear()
+        .domain(domain)
+        .range(range);
 }
 
-function getDataPoints(fn) {
-    let xDomain = defaults.xDomain;
-    let yDomain = defaults.yDomain;
+function makeAxis(scale, orient, tickSize) {
+    return d3.svg.axis()
+        .scale(scale)
+        .orient(orient)
+        .tickPadding(12)
+        .tickFormat(function(d) {
+            var prefix = d3.formatPrefix(d);
+            // limit numbers to 4 decimal places
+            return Number(prefix.scale(d).toFixed(4)).toString() + prefix.symbol;
+        })
+        .tickSize(tickSize);
+}
 
-    let width = defaults.innerWidth;
-    let height = defaults.innerHeight;
+function getDataPoints() {
+    let xDomain = xScale.domain();
 
     // number of data samples
-    let n = 200;
-
-    let xScale = d3.scale.linear()
-        .domain(xDomain)
-        .range([0, width]);
-
-    let yScale = d3.scale.linear()
-        .domain(yDomain)
-        .range([height, 0]);
+    let n = 1000;
 
     // create an array of points along x-axis
-    let xPoints = d3.range(xDomain[0], xDomain[1], xDomain[1] / n);
+    let xPoints = d3.range(xDomain[0], xDomain[1], Math.abs(xDomain[1]) / n);
 
-    return xPoints.map(x => {
-        let scaledX = xScale(x);
-        let scaledY = yScale(fn(x));
-
-        return {
-            x: scaledX,
-            y: scaledY
-        };
-    }).filter(x => !!x);
+    // get y values and map results to object
+    return xPoints.map(x => ({
+        x: xScale(x),
+        y: yScale(expression.eval({ x: x }))
+    }));
 }
 
-function plot(fn) {
-    let transition = svg.transition();
-    let data = getDataPoints(fn);
+function plot(noAnimate) {
+    let data = getDataPoints();
 
-    setAxes(defaults.xDomain, defaults.yDomain);
+    if (noAnimate) {
+        graphInner.select(selectors.path)
+            .attr('d', path(data));
+    } else {
+        let transition = graphInner.transition();
 
-    transition.select('.line')
-        .duration(400)
-        .attr('d', line(data));
+        transition.select(selectors.path)
+            .duration(400)
+            .attr('d', path(data));
+    }
 }
 
 function init(selector) {
-    let margin = defaults.margin;
 
-    svg = d3.select(selector).append('svg')
-        .attr('viewBox', '0 0 ' + defaults.outerHeight + ' ' + defaults.outerWidth)
-        .append('g')
-            .attr('class', 'graph-inner')
-            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    graphOuter = d3.select(selector).append('svg')
+        .attr('viewBox', '0 0 ' + viewbox + ' ' + viewbox)
+      .append('g')
+        .attr('class', 'graph-outer')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+        .call(zoom);
+
+    // append background (this is necessary for the drag/zoom mechanic?)
+    // http://stackoverflow.com/a/17198478/3648823
+    graphOuter.append('rect')
+        .attr('width', width)
+        .attr('height', height);
 
     // append x-axis
-    svg.append('g')
-        .attr('class', 'x-axis')
-        .attr('transform', 'translate(0,' + defaults.innerHeight + ')');
+    graphOuter.append('g')
+        .attr('class', selectors.xAxis.slice(1))
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(xAxis);
 
     // append y-axis
-    svg.append('g')
-        .attr('class', 'y-axis');
+    graphOuter.append('g')
+        .attr('class', selectors.yAxis.slice(1))
+        .call(yAxis);
+
+    // set clip
+    graphOuter.append('defs').append('svg:clipPath')
+        .attr('id', 'clip')
+      .append('svg:rect')
+        .attr('id', 'clip-rect')
+        .attr('x', '0')
+        .attr('y', '0')
+        .attr('width', width)
+        .attr('height', height);
+
+    graphInner = graphOuter.append('g')
+        .attr('class', selectors.graphInner.slice(1))
+        .attr('clip-path', 'url(#clip)');
 
     // append function path
-    svg.append('path')
-        .attr('class', 'line');
-
-    // svg.append('g')
-    //     .attr('class', 'grid')
-    //     .attr('transform', 'translate(0,' + height + ')')
-    //     .call()
+    graphInner.append('svg:path')
+        .attr('class', selectors.path.slice(1));
 }
-
 
 export default {
     init: init,
-    plot: plot
+    plot: function methodName(exp) {
+        expression = math.compile(exp);
+        plot();
+    }
 };

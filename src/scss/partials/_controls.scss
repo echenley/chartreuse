@@ -1,37 +1,42 @@
 .controls {
-    $controls-bg: #666;
-
     z-index: 2;
     position: absolute;
     width: $controls-width;
     height: 100%;
     padding: ($navbar-height + 30px) 30px 30px;
-    background: $controls-bg;
+    background: rgba(#fff, 0.4);
+    overflow-y: scroll;
     // text-align: center;
-    transition: transform 0.3s;
-    // transition: transform 0.3s 0.3s;
+    transition: opacity 300ms;
 
     .hide-controls & {
-        transform: translateX(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 300ms, visibility 1ms 300ms;
     }
 
-    h1 {
-        margin: 0 0 2em;
-        font-size: 1.3em;
-        font-weight: 900;
-        color: #fff;
-    }
-
-    button {
+    .fn-button {
+        position: relative;
         display: block;
         width: 100%;
         margin: 5px 0 0;
-        text-align: left;
-        font-size: 0.8em;
+        padding: 10px 20px;
+        border: 0;
+        border-radius: 1px;
+        outline: 0;
+        background: rgba(#fff, 0.4);
+        color: #999;
         font-family: $monospace;
+        font-size: 0.8em;
+        text-align: left;
+        cursor: pointer;
 
         &.active {
             color: #111;
+        }
+
+        &:hover {
+
         }
     }
 }

@@ -18,6 +18,7 @@ var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var useref = require('gulp-useref');
 var exit = require('gulp-exit');
+var plumber = require('gulp-plumber');
 
 var jsEntry = 'Chartreuse';
 var sassEntry = 'src/scss/*.scss';
@@ -94,7 +95,7 @@ gulp.task('serve', function() {
         .pipe(webserver({
             livereload: true,
             port: 9000,
-            open: true,
+            // open: true,
             fallback: 'index.html'
         }));
 });
@@ -106,6 +107,7 @@ gulp.task('build', ['html', 'styles'], function() {
 gulp.task('dist', ['build'], function() {
     var assets = useref.assets();
     return gulp.src('build/*.html')
+        .pipe(plumber())
         .pipe(assets)
         .pipe(gulpif('*.js', uglify()))
         .pipe(gulpif('*.css', minifycss()))
