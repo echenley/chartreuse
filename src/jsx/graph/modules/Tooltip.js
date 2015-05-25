@@ -26,7 +26,7 @@ function update(graphOuter, data, xScale, yScale) {
     let right = data[i];
 
     if (left && right) {
-        nearestDataPoint = x - left.date > right.date - x ? right : left;
+        nearestDataPoint = x - left.x > right.x - x ? right : left;
     } else {
         // one or the other doesn't exist
         nearestDataPoint = left || right;

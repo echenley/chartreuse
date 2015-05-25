@@ -49,7 +49,7 @@ let axes = Axes.create({
 let line = d3.svg.line()
     .x(d => scales.x(d.x))
     .y(d => scales.y(d.y))
-    .defined(d => !isNaN(d.x) && !isNaN(d.y));
+    .defined(d => !isNaN(d.y));
     // .interpolate('basis-open');
 
 let zoom = (function() {
@@ -77,7 +77,10 @@ let zoom = (function() {
         yAxisEl.call(axes.y);
 
         // scale/translate the map rather than redraw every frame
-        pathEl.attr('transform', `translate(${translate[0]}, ${translate[1]}) scale(${scale})`);
+        pathEl.attr(
+            'transform',
+            `translate(${translate[0]}, ${translate[1]}) scale(${scale})`
+        );
     }
 
     return d3.behavior.zoom()
@@ -97,7 +100,11 @@ let plot = (function() {
         let n = 1500;
 
         // create an array of points along x-axis
-        let xPoints = d3.range(xDomain[0], xDomain[1], Math.abs(xDomain[1] - xDomain[0]) / n);
+        let xPoints = d3.range(
+            xDomain[0],
+            xDomain[1],
+            Math.abs(xDomain[1] - xDomain[0]) / n
+        );
 
         // get y values and map results to object
         return xPoints.map(x => ({
