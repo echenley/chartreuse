@@ -7,16 +7,24 @@ const selectors = {
     tooltipBg: '.tooltip-bg'
 };
 
+let circleRadius = 5;
+let offset = circleRadius * 2;
+let padding = { x: 8, y: 5 };
+
 let bisectX = d3.bisector(d => d.x).left;
-let tooltip, tooltipBg, xValue, yValue;
+
+// svg elements
+let tooltip, tooltipBg, xValue, yValue, circle;
 
 let hidden = true;
 
 function update(graphOuter, data, xScale, yScale) {
     let nearestDataPoint;
 
+    let mouseCoords = d3.mouse(graphOuter);
+
     // get x-coordinate
-    let x = xScale.invert(d3.mouse(graphOuter)[0]);
+    let x = xScale.invert(mouseCoords[0]);
 
     // get index within data array
     let i = bisectX(data, x);
@@ -32,8 +40,24 @@ function update(graphOuter, data, xScale, yScale) {
         nearestDataPoint = left || right;
     }
 
+    let translateX = xScale(nearestDataPoint.x);
+    let translateY;
+
+    if (isNaN(nearestDataPoint.y)) {
+        // don't show the circle if data point isNaN
+        circle.style('opacity', 0);
+        translateY = mouseCoords[1];
+    } else {
+        circle.style('opacity', null);
+        translateY = yScale(nearestDataPoint.y);
+    }
+
     // position tooltip and set text
-    tooltip.attr('transform', `translate(${xScale(nearestDataPoint.x)}, ${yScale(nearestDataPoint.y)})`);
+    tooltip.attr(
+        'transform',
+        `translate(${translateX}, ${translateY})`
+    );
+
     xValue.text(`x: ${nearestDataPoint.x}`);
     yValue.text(`y: ${nearestDataPoint.y}`);
 
@@ -45,13 +69,12 @@ function update(graphOuter, data, xScale, yScale) {
     // get bounds of tooltip
     let tooltipRect = tooltip[0][0].getBBox();
 
-    // set bg
-    // 5px padding is where the 10s come from
+    // position bg
     tooltip.select(selectors.tooltipBg)
-        .attr('x', tooltipRect.x + 10)
-        .attr('y', tooltipRect.y + 10)
-        .attr('width', tooltipRect.width)
-        .attr('height', tooltipRect.height);
+        .attr('x', tooltipRect.x + offset)
+        .attr('y', tooltipRect.y + offset)
+        .attr('width', tooltipRect.width - offset + padding.x * 2)
+        .attr('height', tooltipRect.height - offset + padding.y * 2);
 }
 
 function toggle() {
@@ -77,23 +100,23 @@ function init(container) {
         .attr('class', selectors.tooltipBg.slice(1));
 
     // tooltip circle
-    tooltip.append('circle')
-        .attr('r', 5);
+    circle = tooltip.append('circle')
+        .attr('r', circleRadius);
 
     // tooltip x value
     xValue = tooltip.append('text')
         .attr('class', 'x-value')
-        .attr('x', 15)
-        .attr('y', 25)
-        .attr('dy', '0.35em');
+        .attr('x', offset + padding.x)
+        .attr('y', offset + padding.y)
+        .attr('dy', '0.9em');
 
     // tooltip y value
     yValue = tooltip.append('text')
         .attr('class', 'y-value')
         .attr('transform', 'translate(0, 24)')
-        .attr('x', 15)
-        .attr('y', 25)
-        .attr('dy', '0.35em');
+        .attr('x', offset + padding.x)
+        .attr('y', offset + padding.y)
+        .attr('dy', '0.9em');
 }
 
 export default {

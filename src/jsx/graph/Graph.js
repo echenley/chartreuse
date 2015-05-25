@@ -49,7 +49,7 @@ let axes = Axes.create({
 let line = d3.svg.line()
     .x(d => scales.x(d.x))
     .y(d => scales.y(d.y))
-    .defined(d => !isNaN(d.y));
+    .defined(d => !isNaN(d.x) && !isNaN(d.y) && isFinite(d.y));
     // .interpolate('basis-open');
 
 let zoom = (function() {
@@ -107,10 +107,15 @@ let plot = (function() {
         );
 
         // get y values and map results to object
-        return xPoints.map(x => ({
+        let dataArr = xPoints.map(x => ({
             x: x,
             y: exp.eval({ x: x })
-        })).filter(d => !isNaN(d.y));
+        }));
+
+        // filter out NaN values
+        dataArr.filter(d => !isNaN(d.y));
+
+        return dataArr;
     }
 
     return function plot(newExp) {

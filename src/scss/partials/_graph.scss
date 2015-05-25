@@ -66,9 +66,8 @@
     }
 
     .tooltip {
-
         &-bg {
-            fill: #fff;
+            fill: rgba(#fff, 0.9);
             stroke: #333;
             stroke-width: 1;
         }

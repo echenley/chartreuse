@@ -25,10 +25,9 @@ class Chartreuse extends React.Component {
             hideControls: false,
             fns: [
                 'sin(x)',
-                'sqrt(x)',
+                'log(tan(sqrt(x)))',
                 'tan(x)',
-                'sqrt(sin(x))',
-                'sqrt(sin(x^2))'
+                'sqrt(sin(x))'
             ],
             currentFn: 0
         };
