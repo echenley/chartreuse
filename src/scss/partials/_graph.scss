@@ -15,6 +15,13 @@
         display: block;
         max-width: 100%;
         max-height: 100%;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+        &:focus {
+            .tooltip {
+                display: block !important;
+            }
+        }
     }
 
     .x-axis,
@@ -59,6 +66,7 @@
     }
 
     .tooltip {
+
         &-bg {
             fill: #fff;
             stroke: #333;

@@ -84,6 +84,7 @@ let zoom = (function() {
         .x(scales.x)
         .y(scales.y)
         .on('zoom', zoomed)
+        .on('zoomstart', Tooltip.hide)
         .on('zoomend', updateGraph);
 })();
 
@@ -128,7 +129,8 @@ let plot = (function() {
             pathEl.attr('stroke-dasharray', `${pathLength} ${pathLength}`)
                 .attr('stroke-dashoffset', pathLength)
                 .transition()
-                .duration(2000)
+                .ease(d3.ease('linear'))
+                .duration(1500)
                 .attr('stroke-dashoffset', 0);
         }
     };
@@ -146,7 +148,11 @@ function init(selector) {
         .on('mouseout', Tooltip.hide)
         .on('mousemove', function() {
             // d3's magic this binding:
-            // this === graphOuter[0][0]
+            // this === g.graphOuter DOM node
+            Tooltip.update(this, data, scales.x, scales.y);
+        })
+        .on('click', function() {
+            Tooltip.show();
             Tooltip.update(this, data, scales.x, scales.y);
         })
         .call(zoom);

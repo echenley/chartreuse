@@ -49,7 +49,7 @@ var Chartreuse = (function (_React$Component) {
             hideControls: false,
             fns: [
             // 'sqrt(1-x^2) + (x^2)^(1/3)', // heart
-            'sin(x)', 'sqrt(x)', 'tan(x)', 'sin(log(x))'],
+            'sin(x)', 'sqrt(x)', 'tan(x)', 'log(sin(sqrt(x)))'],
             currentFn: 0
         };
     }
@@ -84646,7 +84646,7 @@ var zoom = (function () {
         pathEl.attr('transform', 'translate(' + translate[0] + ', ' + translate[1] + ') scale(' + scale + ')');
     }
 
-    return _d32['default'].behavior.zoom().x(scales.x).y(scales.y).on('zoom', zoomed).on('zoomend', updateGraph);
+    return _d32['default'].behavior.zoom().x(scales.x).y(scales.y).on('zoom', zoomed).on('zoomstart', _modulesTooltip2['default'].hide).on('zoomend', updateGraph);
 })();
 
 var plot = (function () {
@@ -84689,7 +84689,7 @@ var plot = (function () {
             var pathLength = pathEl.node().getTotalLength();
 
             // draw line
-            pathEl.attr('stroke-dasharray', '' + pathLength + ' ' + pathLength).attr('stroke-dashoffset', pathLength).transition().duration(2000).attr('stroke-dashoffset', 0);
+            pathEl.attr('stroke-dasharray', '' + pathLength + ' ' + pathLength).attr('stroke-dashoffset', pathLength).transition().ease(_d32['default'].ease('linear')).duration(1500).attr('stroke-dashoffset', 0);
         }
     };
 })();
@@ -84699,7 +84699,10 @@ function init(selector) {
     // create main svg element and .graph-outer <g>
     graphOuter = _d32['default'].select(selector).append('svg').attr('viewBox', '0 0 ' + viewbox + ' ' + viewbox).append('g').attr('class', 'graph-outer').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')').on('mouseover', _modulesTooltip2['default'].show).on('mouseout', _modulesTooltip2['default'].hide).on('mousemove', function () {
         // d3's magic this binding:
-        // this === graphOuter[0][0]
+        // this === g.graphOuter DOM node
+        _modulesTooltip2['default'].update(this, data, scales.x, scales.y);
+    }).on('click', function () {
+        _modulesTooltip2['default'].show();
         _modulesTooltip2['default'].update(this, data, scales.x, scales.y);
     }).call(zoom);
 
@@ -84818,6 +84821,8 @@ var tooltip = undefined,
     xValue = undefined,
     yValue = undefined;
 
+var hidden = true;
+
 function update(graphOuter, data, xScale, yScale) {
     var nearestDataPoint = undefined;
 
@@ -84854,16 +84859,21 @@ function update(graphOuter, data, xScale, yScale) {
     tooltip.select(selectors.tooltipBg).attr('x', tooltipRect.x + 10).attr('y', tooltipRect.y + 10).attr('width', tooltipRect.width).attr('height', tooltipRect.height);
 }
 
+function toggle() {
+    hidden = !hidden;
+    tooltip.style('display', hidden ? 'none' : null);
+}
+
 function show() {
-    tooltip.style('display', null);
+    return hidden && toggle();
 }
 
 function hide() {
-    tooltip.style('display', 'none');
+    return hidden || toggle();
 }
 
 function init(container) {
-    tooltip = container.append('g').attr('class', selectors.tooltip.slice(1)).style('display', 'none');
+    tooltip = container.append('g').attr('class', selectors.tooltip.slice(1)).style('display', 0);
 
     // tooltip background
     tooltipBg = tooltip.append('svg:rect').attr('class', selectors.tooltipBg.slice(1));
@@ -84882,7 +84892,8 @@ exports['default'] = {
     init: init,
     update: update,
     show: show,
-    hide: hide
+    hide: hide,
+    toggle: toggle
 };
 module.exports = exports['default'];
 

@@ -10,6 +10,8 @@ const selectors = {
 let bisectX = d3.bisector(d => d.x).left;
 let tooltip, tooltipBg, xValue, yValue;
 
+let hidden = true;
+
 function update(graphOuter, data, xScale, yScale) {
     let nearestDataPoint;
 
@@ -52,18 +54,23 @@ function update(graphOuter, data, xScale, yScale) {
         .attr('height', tooltipRect.height);
 }
 
+function toggle() {
+    hidden = !hidden;
+    tooltip.style('display', hidden ? 'none' : null);
+}
+
 function show() {
-    tooltip.style('display', null);
+    return hidden && toggle();
 }
 
 function hide() {
-    tooltip.style('display', 'none');
+    return hidden || toggle();
 }
 
 function init(container) {
     tooltip = container.append('g')
         .attr('class', selectors.tooltip.slice(1))
-        .style('display', 'none');
+        .style('display', 0);
 
     // tooltip background
     tooltipBg = tooltip.append('svg:rect')
@@ -93,5 +100,6 @@ export default {
     init: init,
     update: update,
     show: show,
-    hide: hide
+    hide: hide,
+    toggle: toggle
 };

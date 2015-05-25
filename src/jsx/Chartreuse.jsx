@@ -28,7 +28,7 @@ class Chartreuse extends React.Component {
                 'sin(x)',
                 'sqrt(x)',
                 'tan(x)',
-                'sin(log(x))'
+                'log(sin(sqrt(x)))'
             ],
             currentFn: 0
         };

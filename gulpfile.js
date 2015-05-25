@@ -97,6 +97,7 @@ gulp.task('serve', function() {
     return gulp.src('build')
         .pipe(webserver({
             livereload: true,
+            host: '0.0.0.0',
             port: 9000,
             // open: true,
             fallback: 'index.html'
