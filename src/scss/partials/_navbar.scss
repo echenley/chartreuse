@@ -10,18 +10,29 @@
 
     > * {
         display: inline-block;
+        margin: 0 5px;
+        vertical-align: middle;
         @extend %valign;
     }
 
-    .btn {
-        padding: 6px 10px;
+    .btn,
+    .input {
+        padding: 0 10px;
         border: 1px solid $gray;
+        height: 30px;
+        line-height: 30px;
+    }
+
+    .btn {
         cursor: pointer;
-        font-size: 0.8em;
+        font-size: 0.7em;
 
         &:hover {
             color: #333;
             border-color: #333;
         }
+    }
+
+    .input {
     }
 }

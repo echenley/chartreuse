@@ -19,12 +19,17 @@ import cx from 'classnames';
 
 class Chartreuse extends React.Component {
 
-    constructor() {
+    constructor(props) {
+        super(props);
         this.state = {
             hideControls: false,
             fns: [
-                'x / 6',
-                'tan(x)'
+                // 'sqrt(1-x^2) + (x^2)^(1/3)', // heart
+                'sqrt(x)',
+                'tan(x)',
+                'sin(x)',
+                '2 * x * x * x - 2 * x * x + 2 * x',
+                'sin(log(x))'
             ],
             currentFn: 0
         };

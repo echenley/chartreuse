@@ -26,7 +26,7 @@ class NavBar extends React.Component {
                     { (this.props.controlsHidden ? 'Show' : 'Hide') + ' Controls' }
                 </a>
 
-                <input ref="expression" className="add-fn-input" placeholder="Enter new function" />
+                <input className="input" ref="expression" placeholder="Enter new function" />
                 <a className="btn dadd-fn-submit" onClick={ this.addFn.bind(this) }>Add</a>
             </div>
         );

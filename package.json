@@ -12,7 +12,7 @@
     "react-tools": "^0.13.2"
   },
   "devDependencies": {
-    "babelify": "^5.0.4",
+    "babelify": "^6.1.1",
     "browserify": "^9.0.3",
     "es6ify": "^1.6.0",
     "gulp": "^3.8.11",

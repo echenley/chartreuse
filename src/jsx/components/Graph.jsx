@@ -3,7 +3,7 @@
 'use strict';
 
 import React from 'react/addons';
-import Graph from '../d3/Graph';
+import Graph from '../graph/Graph';
 
 class GraphComponent extends React.Component {
 

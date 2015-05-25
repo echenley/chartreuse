@@ -1,15 +1,17 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /* @flow */
 
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 // var Router        = require('react-router');
 // var RouteHandler  = Router.RouteHandler;
@@ -18,76 +20,88 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 // var DefaultRoute  = Router.DefaultRoute;
 // var Link          = Router.Link;
 
-var React = _interopRequire(require("react/addons"));
+var _reactAddons = require('react/addons');
 
-var NavBar = _interopRequire(require("./components/NavBar.jsx"));
+var _reactAddons2 = _interopRequireDefault(_reactAddons);
 
-var Controls = _interopRequire(require("./components/Controls.jsx"));
+var _componentsNavBarJsx = require('./components/NavBar.jsx');
 
-var Graph = _interopRequire(require("./components/Graph.jsx"));
+var _componentsNavBarJsx2 = _interopRequireDefault(_componentsNavBarJsx);
 
-var cx = _interopRequire(require("classnames"));
+var _componentsControlsJsx = require('./components/Controls.jsx');
+
+var _componentsControlsJsx2 = _interopRequireDefault(_componentsControlsJsx);
+
+var _componentsGraphJsx = require('./components/Graph.jsx');
+
+var _componentsGraphJsx2 = _interopRequireDefault(_componentsGraphJsx);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var Chartreuse = (function (_React$Component) {
-    function Chartreuse() {
+    function Chartreuse(props) {
         _classCallCheck(this, Chartreuse);
 
+        _get(Object.getPrototypeOf(Chartreuse.prototype), 'constructor', this).call(this, props);
         this.state = {
             hideControls: false,
-            fns: ["x / 6", "tan(x)"],
+            fns: [
+            // 'sqrt(1-x^2) + (x^2)^(1/3)', // heart
+            'sqrt(x)', 'tan(x)', 'sin(x)', '2 * x * x * x - 2 * x * x + 2 * x', 'sin(log(x))'],
             currentFn: 0
         };
     }
 
     _inherits(Chartreuse, _React$Component);
 
-    _createClass(Chartreuse, {
-        updateFn: {
-            value: function updateFn(i) {
-                this.setState({
-                    currentFn: i
-                });
-            }
-        },
-        addFn: {
-            value: function addFn(fn) {
-                var fns = this.state.fns;
-                fns.push(fn);
-
-                this.setState({
-                    fns: fns
-                });
-            }
-        },
-        render: {
-            value: function render() {
-                var currentFn = this.state.currentFn;
-                var chartreuseCx = cx("chartreuse", { "hide-controls": this.state.hideControls });
-
-                return React.createElement(
-                    "div",
-                    { className: chartreuseCx },
-                    React.createElement(NavBar, {
-                        toggleControls: this.setState.bind(this, { hideControls: !this.state.hideControls }),
-                        controlsHidden: this.state.hideControls,
-                        addFn: this.addFn.bind(this)
-                    }),
-                    React.createElement(Controls, {
-                        fns: this.state.fns,
-                        addFn: this.addFn.bind(this),
-                        updateFn: this.updateFn.bind(this),
-                        currentFn: currentFn
-                    }),
-                    React.createElement(Graph, {
-                        fn: this.state.fns[currentFn]
-                    })
-                );
-            }
+    _createClass(Chartreuse, [{
+        key: 'updateFn',
+        value: function updateFn(i) {
+            this.setState({
+                currentFn: i
+            });
         }
-    });
+    }, {
+        key: 'addFn',
+        value: function addFn(fn) {
+            var fns = this.state.fns;
+            fns.push(fn);
+
+            this.setState({
+                fns: fns
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var currentFn = this.state.currentFn;
+            var chartreuseCx = (0, _classnames2['default'])('chartreuse', { 'hide-controls': this.state.hideControls });
+
+            return _reactAddons2['default'].createElement(
+                'div',
+                { className: chartreuseCx },
+                _reactAddons2['default'].createElement(_componentsNavBarJsx2['default'], {
+                    toggleControls: this.setState.bind(this, { hideControls: !this.state.hideControls }),
+                    controlsHidden: this.state.hideControls,
+                    addFn: this.addFn.bind(this)
+                }),
+                _reactAddons2['default'].createElement(_componentsControlsJsx2['default'], {
+                    fns: this.state.fns,
+                    addFn: this.addFn.bind(this),
+                    updateFn: this.updateFn.bind(this),
+                    currentFn: currentFn
+                }),
+                _reactAddons2['default'].createElement(_componentsGraphJsx2['default'], {
+                    fn: this.state.fns[currentFn]
+                })
+            );
+        }
+    }]);
 
     return Chartreuse;
-})(React.Component);
+})(_reactAddons2['default'].Component);
 
 // var routes = (
 //     <Route handler={ Chartreuse }></Route>
@@ -97,9 +111,9 @@ var Chartreuse = (function (_React$Component) {
 //     React.render(<Handler params={ state.params } />, document.getElementById('container'));
 // });
 
-React.render(React.createElement(Chartreuse, null), document.getElementById("container"));
+_reactAddons2['default'].render(_reactAddons2['default'].createElement(Chartreuse, null), document.getElementById('container'));
 
-},{"./components/Controls.jsx":681,"./components/Graph.jsx":683,"./components/NavBar.jsx":684,"classnames":163,"react/addons":509}],2:[function(require,module,exports){
+},{"./components/Controls.jsx":680,"./components/Graph.jsx":682,"./components/NavBar.jsx":683,"classnames":163,"react/addons":508}],2:[function(require,module,exports){
 
 },{}],3:[function(require,module,exports){
 /*!
@@ -1845,73 +1859,74 @@ var publicEncrypt = require('public-encrypt');
   }
 })
 
-},{"browserify-aes":11,"browserify-sign":27,"browserify-sign/algos":26,"create-ecdh":73,"create-hash":95,"create-hmac":107,"diffie-hellman":108,"pbkdf2":115,"public-encrypt":116,"randombytes":143}],8:[function(require,module,exports){
+},{"browserify-aes":11,"browserify-sign":27,"browserify-sign/algos":26,"create-ecdh":73,"create-hash":96,"create-hmac":108,"diffie-hellman":109,"pbkdf2":116,"public-encrypt":117,"randombytes":143}],8:[function(require,module,exports){
 (function (Buffer){
-var md5 = require('create-hash/md5');
-module.exports = EVP_BytesToKey;
-function EVP_BytesToKey(password, keyLen, ivLen) {
+var md5 = require('create-hash/md5')
+module.exports = EVP_BytesToKey
+function EVP_BytesToKey (password, keyLen, ivLen) {
   if (!Buffer.isBuffer(password)) {
-    password = new Buffer(password, 'binary');
+    password = new Buffer(password, 'binary')
   }
-  keyLen = keyLen/8;
-  ivLen = ivLen || 0;
-  var ki = 0;
-  var ii = 0;
-  var key = new Buffer(keyLen);
-  var iv = new Buffer(ivLen);
-  var addmd = 0;
-  var md_buf;
-  var i;
-  var bufs =  [];
+  keyLen = keyLen / 8
+  ivLen = ivLen || 0
+  var ki = 0
+  var ii = 0
+  var key = new Buffer(keyLen)
+  var iv = new Buffer(ivLen)
+  var addmd = 0
+  var md_buf
+  var i
+  var bufs = []
   while (true) {
-    if(addmd++ > 0) {
-       bufs.push(md_buf);
+    if (addmd++ > 0) {
+      bufs.push(md_buf)
     }
-    bufs.push(password);
-    md_buf = md5(Buffer.concat(bufs));
-    bufs = [];
-    i = 0;
-    if(keyLen > 0) {
-      while(true) {
-        if(keyLen === 0) {
-          break;
+    bufs.push(password)
+    md_buf = md5(Buffer.concat(bufs))
+    bufs = []
+    i = 0
+    if (keyLen > 0) {
+      while (true) {
+        if (keyLen === 0) {
+          break
         }
-        if(i === md_buf.length) {
-          break;
+        if (i === md_buf.length) {
+          break
         }
-        key[ki++] = md_buf[i];
-        keyLen--;
-        i++;
-       }
+        key[ki++] = md_buf[i]
+        keyLen--
+        i++
+      }
     }
-    if(ivLen > 0 && i !== md_buf.length) {
-      while(true) {
-        if(ivLen === 0) {
-          break;
+    if (ivLen > 0 && i !== md_buf.length) {
+      while (true) {
+        if (ivLen === 0) {
+          break
         }
-        if(i === md_buf.length) {
-          break;
+        if (i === md_buf.length) {
+          break
         }
-       iv[ii++] = md_buf[i];
-       ivLen--;
-       i++;
-     }
-   }
-   if(keyLen === 0 && ivLen === 0) {
-      break;
+        iv[ii++] = md_buf[i]
+        ivLen--
+        i++
+      }
+    }
+    if (keyLen === 0 && ivLen === 0) {
+      break
     }
   }
-  for(i=0;i<md_buf.length;i++) {
-    md_buf[i] = 0;
+  for (i = 0; i < md_buf.length; i++) {
+    md_buf[i] = 0
   }
   return {
     key: key,
     iv: iv
-  };
+  }
 }
+
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":3,"create-hash/md5":97}],9:[function(require,module,exports){
+},{"buffer":3,"create-hash/md5":98}],9:[function(require,module,exports){
 (function (Buffer){
 // based on the aes implimentation in triple sec
 // https://github.com/keybase/triplesec
@@ -1919,448 +1934,427 @@ function EVP_BytesToKey(password, keyLen, ivLen) {
 // which is in turn based on the one from crypto-js
 // https://code.google.com/p/crypto-js/
 
-var uint_max = Math.pow(2, 32);
-function fixup_uint32(x) {
-    var ret, x_pos;
-    ret = x > uint_max || x < 0 ? (x_pos = Math.abs(x) % uint_max, x < 0 ? uint_max - x_pos : x_pos) : x;
-    return ret;
+var uint_max = Math.pow(2, 32)
+function fixup_uint32 (x) {
+  var ret, x_pos
+  ret = x > uint_max || x < 0 ? (x_pos = Math.abs(x) % uint_max, x < 0 ? uint_max - x_pos : x_pos) : x
+  return ret
 }
-function scrub_vec(v) {
-  var i, _i, _ref;
-  for (i = _i = 0, _ref = v.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
-    v[i] = 0;
+function scrub_vec (v) {
+  for (var i = 0; i < v.length; v++) {
+    v[i] = 0
   }
-  return false;
+  return false
 }
 
-function Global() {
-  var i;
-  this.SBOX = [];
-  this.INV_SBOX = [];
-  this.SUB_MIX = (function() {
-    var _i, _results;
-    _results = [];
-    for (i = _i = 0; _i < 4; i = ++_i) {
-      _results.push([]);
-    }
-    return _results;
-  })();
-  this.INV_SUB_MIX = (function() {
-    var _i, _results;
-    _results = [];
-    for (i = _i = 0; _i < 4; i = ++_i) {
-      _results.push([]);
-    }
-    return _results;
-  })();
-  this.init();
-  this.RCON = [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36];
+function Global () {
+  this.SBOX = []
+  this.INV_SBOX = []
+  this.SUB_MIX = [[], [], [], []]
+  this.INV_SUB_MIX = [[], [], [], []]
+  this.init()
+  this.RCON = [0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36]
 }
 
-Global.prototype.init = function() {
-  var d, i, sx, t, x, x2, x4, x8, xi, _i;
-  d = (function() {
-    var _i, _results;
-    _results = [];
+Global.prototype.init = function () {
+  var d, i, sx, t, x, x2, x4, x8, xi, _i
+  d = (function () {
+    var _i, _results
+    _results = []
     for (i = _i = 0; _i < 256; i = ++_i) {
       if (i < 128) {
-        _results.push(i << 1);
+        _results.push(i << 1)
       } else {
-        _results.push((i << 1) ^ 0x11b);
+        _results.push((i << 1) ^ 0x11b)
       }
     }
-    return _results;
-  })();
-  x = 0;
-  xi = 0;
+    return _results
+  })()
+  x = 0
+  xi = 0
   for (i = _i = 0; _i < 256; i = ++_i) {
-    sx = xi ^ (xi << 1) ^ (xi << 2) ^ (xi << 3) ^ (xi << 4);
-    sx = (sx >>> 8) ^ (sx & 0xff) ^ 0x63;
-    this.SBOX[x] = sx;
-    this.INV_SBOX[sx] = x;
-    x2 = d[x];
-    x4 = d[x2];
-    x8 = d[x4];
-    t = (d[sx] * 0x101) ^ (sx * 0x1010100);
-    this.SUB_MIX[0][x] = (t << 24) | (t >>> 8);
-    this.SUB_MIX[1][x] = (t << 16) | (t >>> 16);
-    this.SUB_MIX[2][x] = (t << 8) | (t >>> 24);
-    this.SUB_MIX[3][x] = t;
-    t = (x8 * 0x1010101) ^ (x4 * 0x10001) ^ (x2 * 0x101) ^ (x * 0x1010100);
-    this.INV_SUB_MIX[0][sx] = (t << 24) | (t >>> 8);
-    this.INV_SUB_MIX[1][sx] = (t << 16) | (t >>> 16);
-    this.INV_SUB_MIX[2][sx] = (t << 8) | (t >>> 24);
-    this.INV_SUB_MIX[3][sx] = t;
+    sx = xi ^ (xi << 1) ^ (xi << 2) ^ (xi << 3) ^ (xi << 4)
+    sx = (sx >>> 8) ^ (sx & 0xff) ^ 0x63
+    this.SBOX[x] = sx
+    this.INV_SBOX[sx] = x
+    x2 = d[x]
+    x4 = d[x2]
+    x8 = d[x4]
+    t = (d[sx] * 0x101) ^ (sx * 0x1010100)
+    this.SUB_MIX[0][x] = (t << 24) | (t >>> 8)
+    this.SUB_MIX[1][x] = (t << 16) | (t >>> 16)
+    this.SUB_MIX[2][x] = (t << 8) | (t >>> 24)
+    this.SUB_MIX[3][x] = t
+    t = (x8 * 0x1010101) ^ (x4 * 0x10001) ^ (x2 * 0x101) ^ (x * 0x1010100)
+    this.INV_SUB_MIX[0][sx] = (t << 24) | (t >>> 8)
+    this.INV_SUB_MIX[1][sx] = (t << 16) | (t >>> 16)
+    this.INV_SUB_MIX[2][sx] = (t << 8) | (t >>> 24)
+    this.INV_SUB_MIX[3][sx] = t
     if (x === 0) {
-      x = xi = 1;
+      x = xi = 1
     } else {
-      x = x2 ^ d[d[d[x8 ^ x2]]];
-      xi ^= d[d[xi]];
+      x = x2 ^ d[d[d[x8 ^ x2]]]
+      xi ^= d[d[xi]]
     }
   }
-  return true;
-};
-
-var G = new Global();
-
-
-AES.blockSize = 4 * 4;
-
-AES.prototype.blockSize = AES.blockSize;
-
-AES.keySize = 256 / 8;
-
-AES.prototype.keySize = AES.keySize;
-
- function bufferToArray(buf) {
-  var len = buf.length/4;
-  var out = new Array(len);
-  var i = -1;
-  while (++i < len) {
-    out[i] = buf.readUInt32BE(i * 4);
-  }
-  return out;
- }
-function AES(key) {
-  this._key = bufferToArray(key);
-  this._doReset();
+  return true
 }
 
-AES.prototype._doReset = function() {
-  var invKsRow, keySize, keyWords, ksRow, ksRows, t, _i, _j;
-  keyWords = this._key;
-  keySize = keyWords.length;
-  this._nRounds = keySize + 6;
-  ksRows = (this._nRounds + 1) * 4;
-  this._keySchedule = [];
-  for (ksRow = _i = 0; 0 <= ksRows ? _i < ksRows : _i > ksRows; ksRow = 0 <= ksRows ? ++_i : --_i) {
-    this._keySchedule[ksRow] = ksRow < keySize ? keyWords[ksRow] : (t = this._keySchedule[ksRow - 1], (ksRow % keySize) === 0 ? (t = (t << 8) | (t >>> 24), t = (G.SBOX[t >>> 24] << 24) | (G.SBOX[(t >>> 16) & 0xff] << 16) | (G.SBOX[(t >>> 8) & 0xff] << 8) | G.SBOX[t & 0xff], t ^= G.RCON[(ksRow / keySize) | 0] << 24) : keySize > 6 && ksRow % keySize === 4 ? t = (G.SBOX[t >>> 24] << 24) | (G.SBOX[(t >>> 16) & 0xff] << 16) | (G.SBOX[(t >>> 8) & 0xff] << 8) | G.SBOX[t & 0xff] : void 0, this._keySchedule[ksRow - keySize] ^ t);
+var G = new Global()
+
+AES.blockSize = 4 * 4
+
+AES.prototype.blockSize = AES.blockSize
+
+AES.keySize = 256 / 8
+
+AES.prototype.keySize = AES.keySize
+
+function bufferToArray (buf) {
+  var len = buf.length / 4
+  var out = new Array(len)
+  var i = -1
+  while (++i < len) {
+    out[i] = buf.readUInt32BE(i * 4)
   }
-  this._invKeySchedule = [];
-  for (invKsRow = _j = 0; 0 <= ksRows ? _j < ksRows : _j > ksRows; invKsRow = 0 <= ksRows ? ++_j : --_j) {
-    ksRow = ksRows - invKsRow;
-    t = this._keySchedule[ksRow - (invKsRow % 4 ? 0 : 4)];
-    this._invKeySchedule[invKsRow] = invKsRow < 4 || ksRow <= 4 ? t : G.INV_SUB_MIX[0][G.SBOX[t >>> 24]] ^ G.INV_SUB_MIX[1][G.SBOX[(t >>> 16) & 0xff]] ^ G.INV_SUB_MIX[2][G.SBOX[(t >>> 8) & 0xff]] ^ G.INV_SUB_MIX[3][G.SBOX[t & 0xff]];
+  return out
+}
+function AES (key) {
+  this._key = bufferToArray(key)
+  this._doReset()
+}
+
+AES.prototype._doReset = function () {
+  var invKsRow, keySize, keyWords, ksRow, ksRows, t
+  keyWords = this._key
+  keySize = keyWords.length
+  this._nRounds = keySize + 6
+  ksRows = (this._nRounds + 1) * 4
+  this._keySchedule = []
+  for (ksRow = 0; ksRow < ksRows; ksRow++) {
+    this._keySchedule[ksRow] = ksRow < keySize ? keyWords[ksRow] : (t = this._keySchedule[ksRow - 1], (ksRow % keySize) === 0 ? (t = (t << 8) | (t >>> 24), t = (G.SBOX[t >>> 24] << 24) | (G.SBOX[(t >>> 16) & 0xff] << 16) | (G.SBOX[(t >>> 8) & 0xff] << 8) | G.SBOX[t & 0xff], t ^= G.RCON[(ksRow / keySize) | 0] << 24) : keySize > 6 && ksRow % keySize === 4 ? t = (G.SBOX[t >>> 24] << 24) | (G.SBOX[(t >>> 16) & 0xff] << 16) | (G.SBOX[(t >>> 8) & 0xff] << 8) | G.SBOX[t & 0xff] : void 0, this._keySchedule[ksRow - keySize] ^ t)
   }
-  return true;
-};
-
-AES.prototype.encryptBlock = function(M) {
-  M = bufferToArray(new Buffer(M));
-  var out = this._doCryptBlock(M, this._keySchedule, G.SUB_MIX, G.SBOX);
-  var buf = new Buffer(16);
-  buf.writeUInt32BE(out[0], 0);
-  buf.writeUInt32BE(out[1], 4);
-  buf.writeUInt32BE(out[2], 8);
-  buf.writeUInt32BE(out[3], 12);
-  return buf;
-};
-
-AES.prototype.decryptBlock = function(M) {
-  M = bufferToArray(new Buffer(M));
-  var temp = [M[3], M[1]];
-  M[1] = temp[0];
-  M[3] = temp[1];
-  var out = this._doCryptBlock(M, this._invKeySchedule, G.INV_SUB_MIX, G.INV_SBOX);
-  var buf = new Buffer(16);
-  buf.writeUInt32BE(out[0], 0);
-  buf.writeUInt32BE(out[3], 4);
-  buf.writeUInt32BE(out[2], 8);
-  buf.writeUInt32BE(out[1], 12);
-  return buf;
-};
-
-AES.prototype.scrub = function() {
-  scrub_vec(this._keySchedule);
-  scrub_vec(this._invKeySchedule);
-  scrub_vec(this._key);
-};
-
-AES.prototype._doCryptBlock = function(M, keySchedule, SUB_MIX, SBOX) {
-  var ksRow, round, s0, s1, s2, s3, t0, t1, t2, t3, _i, _ref;
-
-  s0 = M[0] ^ keySchedule[0];
-  s1 = M[1] ^ keySchedule[1];
-  s2 = M[2] ^ keySchedule[2];
-  s3 = M[3] ^ keySchedule[3];
-  ksRow = 4;
-  for (round = _i = 1, _ref = this._nRounds; 1 <= _ref ? _i < _ref : _i > _ref; round = 1 <= _ref ? ++_i : --_i) {
-    t0 = SUB_MIX[0][s0 >>> 24] ^ SUB_MIX[1][(s1 >>> 16) & 0xff] ^ SUB_MIX[2][(s2 >>> 8) & 0xff] ^ SUB_MIX[3][s3 & 0xff] ^ keySchedule[ksRow++];
-    t1 = SUB_MIX[0][s1 >>> 24] ^ SUB_MIX[1][(s2 >>> 16) & 0xff] ^ SUB_MIX[2][(s3 >>> 8) & 0xff] ^ SUB_MIX[3][s0 & 0xff] ^ keySchedule[ksRow++];
-    t2 = SUB_MIX[0][s2 >>> 24] ^ SUB_MIX[1][(s3 >>> 16) & 0xff] ^ SUB_MIX[2][(s0 >>> 8) & 0xff] ^ SUB_MIX[3][s1 & 0xff] ^ keySchedule[ksRow++];
-    t3 = SUB_MIX[0][s3 >>> 24] ^ SUB_MIX[1][(s0 >>> 16) & 0xff] ^ SUB_MIX[2][(s1 >>> 8) & 0xff] ^ SUB_MIX[3][s2 & 0xff] ^ keySchedule[ksRow++];
-    s0 = t0;
-    s1 = t1;
-    s2 = t2;
-    s3 = t3;
+  this._invKeySchedule = []
+  for (invKsRow = 0; invKsRow < ksRows; invKsRow++) {
+    ksRow = ksRows - invKsRow
+    t = this._keySchedule[ksRow - (invKsRow % 4 ? 0 : 4)]
+    this._invKeySchedule[invKsRow] = invKsRow < 4 || ksRow <= 4 ? t : G.INV_SUB_MIX[0][G.SBOX[t >>> 24]] ^ G.INV_SUB_MIX[1][G.SBOX[(t >>> 16) & 0xff]] ^ G.INV_SUB_MIX[2][G.SBOX[(t >>> 8) & 0xff]] ^ G.INV_SUB_MIX[3][G.SBOX[t & 0xff]]
   }
-  t0 = ((SBOX[s0 >>> 24] << 24) | (SBOX[(s1 >>> 16) & 0xff] << 16) | (SBOX[(s2 >>> 8) & 0xff] << 8) | SBOX[s3 & 0xff]) ^ keySchedule[ksRow++];
-  t1 = ((SBOX[s1 >>> 24] << 24) | (SBOX[(s2 >>> 16) & 0xff] << 16) | (SBOX[(s3 >>> 8) & 0xff] << 8) | SBOX[s0 & 0xff]) ^ keySchedule[ksRow++];
-  t2 = ((SBOX[s2 >>> 24] << 24) | (SBOX[(s3 >>> 16) & 0xff] << 16) | (SBOX[(s0 >>> 8) & 0xff] << 8) | SBOX[s1 & 0xff]) ^ keySchedule[ksRow++];
-  t3 = ((SBOX[s3 >>> 24] << 24) | (SBOX[(s0 >>> 16) & 0xff] << 16) | (SBOX[(s1 >>> 8) & 0xff] << 8) | SBOX[s2 & 0xff]) ^ keySchedule[ksRow++];
+  return true
+}
+
+AES.prototype.encryptBlock = function (M) {
+  M = bufferToArray(new Buffer(M))
+  var out = this._doCryptBlock(M, this._keySchedule, G.SUB_MIX, G.SBOX)
+  var buf = new Buffer(16)
+  buf.writeUInt32BE(out[0], 0)
+  buf.writeUInt32BE(out[1], 4)
+  buf.writeUInt32BE(out[2], 8)
+  buf.writeUInt32BE(out[3], 12)
+  return buf
+}
+
+AES.prototype.decryptBlock = function (M) {
+  M = bufferToArray(new Buffer(M))
+  var temp = [M[3], M[1]]
+  M[1] = temp[0]
+  M[3] = temp[1]
+  var out = this._doCryptBlock(M, this._invKeySchedule, G.INV_SUB_MIX, G.INV_SBOX)
+  var buf = new Buffer(16)
+  buf.writeUInt32BE(out[0], 0)
+  buf.writeUInt32BE(out[3], 4)
+  buf.writeUInt32BE(out[2], 8)
+  buf.writeUInt32BE(out[1], 12)
+  return buf
+}
+
+AES.prototype.scrub = function () {
+  scrub_vec(this._keySchedule)
+  scrub_vec(this._invKeySchedule)
+  scrub_vec(this._key)
+}
+
+AES.prototype._doCryptBlock = function (M, keySchedule, SUB_MIX, SBOX) {
+  var ksRow, s0, s1, s2, s3, t0, t1, t2, t3
+
+  s0 = M[0] ^ keySchedule[0]
+  s1 = M[1] ^ keySchedule[1]
+  s2 = M[2] ^ keySchedule[2]
+  s3 = M[3] ^ keySchedule[3]
+  ksRow = 4
+  for (var round = 1; round < this._nRounds; round++) {
+    t0 = SUB_MIX[0][s0 >>> 24] ^ SUB_MIX[1][(s1 >>> 16) & 0xff] ^ SUB_MIX[2][(s2 >>> 8) & 0xff] ^ SUB_MIX[3][s3 & 0xff] ^ keySchedule[ksRow++]
+    t1 = SUB_MIX[0][s1 >>> 24] ^ SUB_MIX[1][(s2 >>> 16) & 0xff] ^ SUB_MIX[2][(s3 >>> 8) & 0xff] ^ SUB_MIX[3][s0 & 0xff] ^ keySchedule[ksRow++]
+    t2 = SUB_MIX[0][s2 >>> 24] ^ SUB_MIX[1][(s3 >>> 16) & 0xff] ^ SUB_MIX[2][(s0 >>> 8) & 0xff] ^ SUB_MIX[3][s1 & 0xff] ^ keySchedule[ksRow++]
+    t3 = SUB_MIX[0][s3 >>> 24] ^ SUB_MIX[1][(s0 >>> 16) & 0xff] ^ SUB_MIX[2][(s1 >>> 8) & 0xff] ^ SUB_MIX[3][s2 & 0xff] ^ keySchedule[ksRow++]
+    s0 = t0
+    s1 = t1
+    s2 = t2
+    s3 = t3
+  }
+  t0 = ((SBOX[s0 >>> 24] << 24) | (SBOX[(s1 >>> 16) & 0xff] << 16) | (SBOX[(s2 >>> 8) & 0xff] << 8) | SBOX[s3 & 0xff]) ^ keySchedule[ksRow++]
+  t1 = ((SBOX[s1 >>> 24] << 24) | (SBOX[(s2 >>> 16) & 0xff] << 16) | (SBOX[(s3 >>> 8) & 0xff] << 8) | SBOX[s0 & 0xff]) ^ keySchedule[ksRow++]
+  t2 = ((SBOX[s2 >>> 24] << 24) | (SBOX[(s3 >>> 16) & 0xff] << 16) | (SBOX[(s0 >>> 8) & 0xff] << 8) | SBOX[s1 & 0xff]) ^ keySchedule[ksRow++]
+  t3 = ((SBOX[s3 >>> 24] << 24) | (SBOX[(s0 >>> 16) & 0xff] << 16) | (SBOX[(s1 >>> 8) & 0xff] << 8) | SBOX[s2 & 0xff]) ^ keySchedule[ksRow++]
   return [
     fixup_uint32(t0),
     fixup_uint32(t1),
     fixup_uint32(t2),
     fixup_uint32(t3)
-  ];
+  ]
+}
 
-};
+exports.AES = AES
 
-
-
-
-  exports.AES = AES;
 }).call(this,require("buffer").Buffer)
 
 },{"buffer":3}],10:[function(require,module,exports){
 (function (Buffer){
-var aes = require('./aes');
-var Transform = require('./cipherBase');
-var inherits = require('inherits');
-var GHASH = require('./ghash');
-var xor = require('./xor');
-inherits(StreamCipher, Transform);
-module.exports = StreamCipher;
+var aes = require('./aes')
+var Transform = require('./cipherBase')
+var inherits = require('inherits')
+var GHASH = require('./ghash')
+var xor = require('./xor')
+inherits(StreamCipher, Transform)
+module.exports = StreamCipher
 
-function StreamCipher(mode, key, iv, decrypt) {
+function StreamCipher (mode, key, iv, decrypt) {
   if (!(this instanceof StreamCipher)) {
-    return new StreamCipher(mode, key, iv);
+    return new StreamCipher(mode, key, iv)
   }
-  Transform.call(this);
-  this._finID = Buffer.concat([iv, new Buffer([0, 0, 0, 1])]);
-  iv = Buffer.concat([iv, new Buffer([0, 0, 0, 2])]);
-  this._cipher = new aes.AES(key);
-  this._prev = new Buffer(iv.length);
-  this._cache = new Buffer('');
-  this._secCache = new Buffer('');
-  this._decrypt = decrypt;
-  this._alen = 0;
-  this._len = 0;
-  iv.copy(this._prev);
-  this._mode = mode;
-  var h = new Buffer(4);
-  h.fill(0);
-  this._ghash = new GHASH(this._cipher.encryptBlock(h));
-  this._authTag = null;
-  this._called = false;
+  Transform.call(this)
+  this._finID = Buffer.concat([iv, new Buffer([0, 0, 0, 1])])
+  iv = Buffer.concat([iv, new Buffer([0, 0, 0, 2])])
+  this._cipher = new aes.AES(key)
+  this._prev = new Buffer(iv.length)
+  this._cache = new Buffer('')
+  this._secCache = new Buffer('')
+  this._decrypt = decrypt
+  this._alen = 0
+  this._len = 0
+  iv.copy(this._prev)
+  this._mode = mode
+  var h = new Buffer(4)
+  h.fill(0)
+  this._ghash = new GHASH(this._cipher.encryptBlock(h))
+  this._authTag = null
+  this._called = false
 }
 StreamCipher.prototype._update = function (chunk) {
   if (!this._called && this._alen) {
-    var rump = 16 - (this._alen % 16);
-    if (rump <16) {
-      rump = new Buffer(rump);
-      rump.fill(0);
-      this._ghash.update(rump);
+    var rump = 16 - (this._alen % 16)
+    if (rump < 16) {
+      rump = new Buffer(rump)
+      rump.fill(0)
+      this._ghash.update(rump)
     }
   }
-  this._called = true;
-  var out = this._mode.encrypt(this, chunk);
+  this._called = true
+  var out = this._mode.encrypt(this, chunk)
   if (this._decrypt) {
-    this._ghash.update(chunk);
+    this._ghash.update(chunk)
   } else {
-    this._ghash.update(out);
+    this._ghash.update(out)
   }
-  this._len += chunk.length;
-  return out;
-};
+  this._len += chunk.length
+  return out
+}
 StreamCipher.prototype._final = function () {
   if (this._decrypt && !this._authTag) {
-    throw new Error('Unsupported state or unable to authenticate data');
+    throw new Error('Unsupported state or unable to authenticate data')
   }
-  var tag = xor(this._ghash.final(this._alen * 8, this._len * 8), this._cipher.encryptBlock(this._finID));
+  var tag = xor(this._ghash.final(this._alen * 8, this._len * 8), this._cipher.encryptBlock(this._finID))
   if (this._decrypt) {
     if (xorTest(tag, this._authTag)) {
-      throw new Error('Unsupported state or unable to authenticate data');
+      throw new Error('Unsupported state or unable to authenticate data')
     }
   } else {
-    this._authTag = tag;
+    this._authTag = tag
   }
-  this._cipher.scrub();
-};
+  this._cipher.scrub()
+}
 StreamCipher.prototype.getAuthTag = function getAuthTag () {
   if (!this._decrypt && Buffer.isBuffer(this._authTag)) {
-    return this._authTag;
+    return this._authTag
   } else {
-    throw new Error('Attempting to get auth tag in unsupported state');
+    throw new Error('Attempting to get auth tag in unsupported state')
   }
-};
+}
 StreamCipher.prototype.setAuthTag = function setAuthTag (tag) {
   if (this._decrypt) {
-    this._authTag = tag;
+    this._authTag = tag
   } else {
-    throw new Error('Attempting to set auth tag in unsupported state');
+    throw new Error('Attempting to set auth tag in unsupported state')
   }
-};
+}
 StreamCipher.prototype.setAAD = function setAAD (buf) {
   if (!this._called) {
-    this._ghash.update(buf);
-    this._alen += buf.length;
+    this._ghash.update(buf)
+    this._alen += buf.length
   } else {
-    throw new Error('Attempting to set AAD in unsupported state');
+    throw new Error('Attempting to set AAD in unsupported state')
   }
-};
-function xorTest(a, b) {
-  var out = 0;
-  if (a.length !== b.length) {
-    out++;
-  }
-  var len = Math.min(a.length, b.length);
-  var i = -1;
-  while (++i < len) {
-    out += (a[i] ^ b[i]);
-  }
-  return out;
 }
-
-
+function xorTest (a, b) {
+  var out = 0
+  if (a.length !== b.length) {
+    out++
+  }
+  var len = Math.min(a.length, b.length)
+  var i = -1
+  while (++i < len) {
+    out += (a[i] ^ b[i])
+  }
+  return out
+}
 
 }).call(this,require("buffer").Buffer)
 
 },{"./aes":9,"./cipherBase":12,"./ghash":15,"./xor":25,"buffer":3,"inherits":145}],11:[function(require,module,exports){
-var ciphers = require('./encrypter');
-exports.createCipher = exports.Cipher = ciphers.createCipher;
-exports.createCipheriv = exports.Cipheriv = ciphers.createCipheriv;
-var deciphers = require('./decrypter');
-exports.createDecipher = exports.Decipher = deciphers.createDecipher;
-exports.createDecipheriv = exports.Decipheriv = deciphers.createDecipheriv;
-var modes = require('./modes');
+var ciphers = require('./encrypter')
+exports.createCipher = exports.Cipher = ciphers.createCipher
+exports.createCipheriv = exports.Cipheriv = ciphers.createCipheriv
+var deciphers = require('./decrypter')
+exports.createDecipher = exports.Decipher = deciphers.createDecipher
+exports.createDecipheriv = exports.Decipheriv = deciphers.createDecipheriv
+var modes = require('./modes')
 function getCiphers () {
-  return Object.keys(modes);
+  return Object.keys(modes)
 }
-exports.listCiphers = exports.getCiphers = getCiphers;
+exports.listCiphers = exports.getCiphers = getCiphers
 
 },{"./decrypter":13,"./encrypter":14,"./modes":16}],12:[function(require,module,exports){
 (function (Buffer){
-var Transform = require('stream').Transform;
-var inherits = require('inherits');
+var Transform = require('stream').Transform
+var inherits = require('inherits')
 
-module.exports = CipherBase;
-inherits(CipherBase, Transform);
-function CipherBase() {
-  Transform.call(this);
+module.exports = CipherBase
+inherits(CipherBase, Transform)
+function CipherBase () {
+  Transform.call(this)
 }
 CipherBase.prototype.update = function (data, inputEnc, outputEnc) {
   if (typeof data === 'string') {
-    data = new Buffer(data, inputEnc);
+    data = new Buffer(data, inputEnc)
   }
-  var outData = this._update(data);
+  var outData = this._update(data)
   if (outputEnc) {
-    outData = outData.toString(outputEnc);
+    outData = outData.toString(outputEnc)
   }
-  return outData;
-};
+  return outData
+}
 CipherBase.prototype._transform = function (data, _, next) {
-  this.push(this._update(data));
-  next();
-};
+  this.push(this._update(data))
+  next()
+}
 CipherBase.prototype._flush = function (next) {
   try {
-    this.push(this._final());
+    this.push(this._final())
   } catch(e) {
-    return next(e);
+    return next(e)
   }
-  next();
-};
+  next()
+}
 CipherBase.prototype.final = function (outputEnc) {
-  var outData = this._final() || new Buffer('');
+  var outData = this._final() || new Buffer('')
   if (outputEnc) {
-    outData = outData.toString(outputEnc);
+    outData = outData.toString(outputEnc)
   }
-  return outData;
-};
+  return outData
+}
+
 }).call(this,require("buffer").Buffer)
 
 },{"buffer":3,"inherits":145,"stream":159}],13:[function(require,module,exports){
 (function (Buffer){
-var aes = require('./aes');
-var Transform = require('./cipherBase');
-var inherits = require('inherits');
-var modes = require('./modes');
-var StreamCipher = require('./streamCipher');
-var AuthCipher = require('./authCipher');
-var ebtk = require('./EVP_BytesToKey');
+var aes = require('./aes')
+var Transform = require('./cipherBase')
+var inherits = require('inherits')
+var modes = require('./modes')
+var StreamCipher = require('./streamCipher')
+var AuthCipher = require('./authCipher')
+var ebtk = require('./EVP_BytesToKey')
 
-inherits(Decipher, Transform);
-function Decipher(mode, key, iv) {
+inherits(Decipher, Transform)
+function Decipher (mode, key, iv) {
   if (!(this instanceof Decipher)) {
-    return new Decipher(mode, key, iv);
+    return new Decipher(mode, key, iv)
   }
-  Transform.call(this);
-  this._cache = new Splitter();
-  this._last = void 0;
-  this._cipher = new aes.AES(key);
-  this._prev = new Buffer(iv.length);
-  iv.copy(this._prev);
-  this._mode = mode;
-  this._autopadding = true;
+  Transform.call(this)
+  this._cache = new Splitter()
+  this._last = void 0
+  this._cipher = new aes.AES(key)
+  this._prev = new Buffer(iv.length)
+  iv.copy(this._prev)
+  this._mode = mode
+  this._autopadding = true
 }
 Decipher.prototype._update = function (data) {
-  this._cache.add(data);
-  var chunk;
-  var thing;
-  var out = [];
+  this._cache.add(data)
+  var chunk
+  var thing
+  var out = []
   while ((chunk = this._cache.get(this._autopadding))) {
-    thing = this._mode.decrypt(this, chunk);
-    out.push(thing);
+    thing = this._mode.decrypt(this, chunk)
+    out.push(thing)
   }
-  return Buffer.concat(out);
-};
+  return Buffer.concat(out)
+}
 Decipher.prototype._final = function () {
-  var chunk = this._cache.flush();
+  var chunk = this._cache.flush()
   if (this._autopadding) {
-    return unpad(this._mode.decrypt(this, chunk));
+    return unpad(this._mode.decrypt(this, chunk))
   } else if (chunk) {
-    throw new Error('data not multiple of block length');
+    throw new Error('data not multiple of block length')
   }
-};
+}
 Decipher.prototype.setAutoPadding = function (setTo) {
-  this._autopadding = !!setTo;
-};
-function Splitter() {
-   if (!(this instanceof Splitter)) {
-    return new Splitter();
+  this._autopadding = !!setTo
+}
+function Splitter () {
+  if (!(this instanceof Splitter)) {
+    return new Splitter()
   }
-  this.cache = new Buffer('');
+  this.cache = new Buffer('')
 }
 Splitter.prototype.add = function (data) {
-  this.cache = Buffer.concat([this.cache, data]);
-};
+  this.cache = Buffer.concat([this.cache, data])
+}
 
 Splitter.prototype.get = function (autoPadding) {
-  var out;
+  var out
   if (autoPadding) {
     if (this.cache.length > 16) {
-      out = this.cache.slice(0, 16);
-      this.cache = this.cache.slice(16);
-      return out;
+      out = this.cache.slice(0, 16)
+      this.cache = this.cache.slice(16)
+      return out
     }
   } else {
     if (this.cache.length >= 16) {
-      out = this.cache.slice(0, 16);
-      this.cache = this.cache.slice(16);
-      return out;
+      out = this.cache.slice(0, 16)
+      this.cache = this.cache.slice(16)
+      return out
     }
   }
-  return null;
-};
+  return null
+}
 Splitter.prototype.flush = function () {
   if (this.cache.length) {
-    return this.cache;
+    return this.cache
   }
-};
-function unpad(last) {
-  var padded = last[15];
-  var i = -1;
+}
+function unpad (last) {
+  var padded = last[15]
+  var i = -1
   while (++i < padded) {
     if (last[(i + (16 - padded))] !== padded) {
-      throw new Error('unable to decrypt data');
+      throw new Error('unable to decrypt data')
     }
   }
   if (padded === 16) {
-    return;
+    return
   }
-  return last.slice(0, 16 - padded);
+  return last.slice(0, 16 - padded)
 }
 
 var modelist = {
@@ -2372,123 +2366,123 @@ var modelist = {
   OFB: require('./modes/ofb'),
   CTR: require('./modes/ctr'),
   GCM: require('./modes/ctr')
-};
+}
 
-
-function createDecipheriv(suite, password, iv) {
-  var config = modes[suite.toLowerCase()];
+function createDecipheriv (suite, password, iv) {
+  var config = modes[suite.toLowerCase()]
   if (!config) {
-    throw new TypeError('invalid suite type');
+    throw new TypeError('invalid suite type')
   }
   if (typeof iv === 'string') {
-    iv = new Buffer(iv);
+    iv = new Buffer(iv)
   }
   if (typeof password === 'string') {
-    password = new Buffer(password);
+    password = new Buffer(password)
   }
-  if (password.length !== config.key/8) {
-    throw new TypeError('invalid key length ' + password.length);
+  if (password.length !== config.key / 8) {
+    throw new TypeError('invalid key length ' + password.length)
   }
   if (iv.length !== config.iv) {
-    throw new TypeError('invalid iv length ' + iv.length);
+    throw new TypeError('invalid iv length ' + iv.length)
   }
   if (config.type === 'stream') {
-    return new StreamCipher(modelist[config.mode], password, iv, true);
+    return new StreamCipher(modelist[config.mode], password, iv, true)
   } else if (config.type === 'auth') {
-    return new AuthCipher(modelist[config.mode], password, iv, true);
+    return new AuthCipher(modelist[config.mode], password, iv, true)
   }
-  return new Decipher(modelist[config.mode], password, iv);
+  return new Decipher(modelist[config.mode], password, iv)
 }
 
 function createDecipher (suite, password) {
-  var config = modes[suite.toLowerCase()];
+  var config = modes[suite.toLowerCase()]
   if (!config) {
-    throw new TypeError('invalid suite type');
+    throw new TypeError('invalid suite type')
   }
-  var keys = ebtk(password, config.key, config.iv);
-  return createDecipheriv(suite, keys.key, keys.iv);
+  var keys = ebtk(password, config.key, config.iv)
+  return createDecipheriv(suite, keys.key, keys.iv)
 }
-exports.createDecipher = createDecipher;
-exports.createDecipheriv = createDecipheriv;
+exports.createDecipher = createDecipher
+exports.createDecipheriv = createDecipheriv
+
 }).call(this,require("buffer").Buffer)
 
 },{"./EVP_BytesToKey":8,"./aes":9,"./authCipher":10,"./cipherBase":12,"./modes":16,"./modes/cbc":17,"./modes/cfb":18,"./modes/cfb1":19,"./modes/cfb8":20,"./modes/ctr":21,"./modes/ecb":22,"./modes/ofb":23,"./streamCipher":24,"buffer":3,"inherits":145}],14:[function(require,module,exports){
 (function (Buffer){
-var aes = require('./aes');
-var Transform = require('./cipherBase');
-var inherits = require('inherits');
-var modes = require('./modes');
-var ebtk = require('./EVP_BytesToKey');
-var StreamCipher = require('./streamCipher');
-var AuthCipher = require('./authCipher');
-inherits(Cipher, Transform);
-function Cipher(mode, key, iv) {
+var aes = require('./aes')
+var Transform = require('./cipherBase')
+var inherits = require('inherits')
+var modes = require('./modes')
+var ebtk = require('./EVP_BytesToKey')
+var StreamCipher = require('./streamCipher')
+var AuthCipher = require('./authCipher')
+inherits(Cipher, Transform)
+function Cipher (mode, key, iv) {
   if (!(this instanceof Cipher)) {
-    return new Cipher(mode, key, iv);
+    return new Cipher(mode, key, iv)
   }
-  Transform.call(this);
-  this._cache = new Splitter();
-  this._cipher = new aes.AES(key);
-  this._prev = new Buffer(iv.length);
-  iv.copy(this._prev);
-  this._mode = mode;
-  this._autopadding = true;
+  Transform.call(this)
+  this._cache = new Splitter()
+  this._cipher = new aes.AES(key)
+  this._prev = new Buffer(iv.length)
+  iv.copy(this._prev)
+  this._mode = mode
+  this._autopadding = true
 }
 Cipher.prototype._update = function (data) {
-  this._cache.add(data);
-  var chunk;
-  var thing;
-  var out = [];
+  this._cache.add(data)
+  var chunk
+  var thing
+  var out = []
   while ((chunk = this._cache.get())) {
-    thing = this._mode.encrypt(this, chunk);
-    out.push(thing);
+    thing = this._mode.encrypt(this, chunk)
+    out.push(thing)
   }
-  return Buffer.concat(out);
-};
+  return Buffer.concat(out)
+}
 Cipher.prototype._final = function () {
-  var chunk = this._cache.flush();
+  var chunk = this._cache.flush()
   if (this._autopadding) {
-    chunk = this._mode.encrypt(this, chunk);
-    this._cipher.scrub();
-    return chunk;
+    chunk = this._mode.encrypt(this, chunk)
+    this._cipher.scrub()
+    return chunk
   } else if (chunk.toString('hex') !== '10101010101010101010101010101010') {
-    this._cipher.scrub();
-    throw new Error('data not multiple of block length');
+    this._cipher.scrub()
+    throw new Error('data not multiple of block length')
   }
-};
+}
 Cipher.prototype.setAutoPadding = function (setTo) {
-  this._autopadding = !!setTo;
-};
+  this._autopadding = !!setTo
+}
 
-function Splitter() {
-   if (!(this instanceof Splitter)) {
-    return new Splitter();
+function Splitter () {
+  if (!(this instanceof Splitter)) {
+    return new Splitter()
   }
-  this.cache = new Buffer('');
+  this.cache = new Buffer('')
 }
 Splitter.prototype.add = function (data) {
-  this.cache = Buffer.concat([this.cache, data]);
-};
+  this.cache = Buffer.concat([this.cache, data])
+}
 
 Splitter.prototype.get = function () {
   if (this.cache.length > 15) {
-    var out = this.cache.slice(0, 16);
-    this.cache = this.cache.slice(16);
-    return out;
+    var out = this.cache.slice(0, 16)
+    this.cache = this.cache.slice(16)
+    return out
   }
-  return null;
-};
+  return null
+}
 Splitter.prototype.flush = function () {
-  var len = 16 - this.cache.length;
-  var padBuff = new Buffer(len);
+  var len = 16 - this.cache.length
+  var padBuff = new Buffer(len)
 
-  var i = -1;
+  var i = -1
   while (++i < len) {
-    padBuff.writeUInt8(len, i);
+    padBuff.writeUInt8(len, i)
   }
-  var out = Buffer.concat([this.cache, padBuff]);
-  return out;
-};
+  var out = Buffer.concat([this.cache, padBuff])
+  return out
+}
 var modelist = {
   ECB: require('./modes/ecb'),
   CBC: require('./modes/cbc'),
@@ -2498,145 +2492,147 @@ var modelist = {
   OFB: require('./modes/ofb'),
   CTR: require('./modes/ctr'),
   GCM: require('./modes/ctr')
-};
+}
 
-function createCipheriv(suite, password, iv) {
-  var config = modes[suite.toLowerCase()];
+function createCipheriv (suite, password, iv) {
+  var config = modes[suite.toLowerCase()]
   if (!config) {
-    throw new TypeError('invalid suite type');
+    throw new TypeError('invalid suite type')
   }
   if (typeof iv === 'string') {
-    iv = new Buffer(iv);
+    iv = new Buffer(iv)
   }
   if (typeof password === 'string') {
-    password = new Buffer(password);
+    password = new Buffer(password)
   }
-  if (password.length !== config.key/8) {
-    throw new TypeError('invalid key length ' + password.length);
+  if (password.length !== config.key / 8) {
+    throw new TypeError('invalid key length ' + password.length)
   }
   if (iv.length !== config.iv) {
-    throw new TypeError('invalid iv length ' + iv.length);
+    throw new TypeError('invalid iv length ' + iv.length)
   }
   if (config.type === 'stream') {
-    return new StreamCipher(modelist[config.mode], password, iv);
+    return new StreamCipher(modelist[config.mode], password, iv)
   } else if (config.type === 'auth') {
-    return new AuthCipher(modelist[config.mode], password, iv);
+    return new AuthCipher(modelist[config.mode], password, iv)
   }
-  return new Cipher(modelist[config.mode], password, iv);
+  return new Cipher(modelist[config.mode], password, iv)
 }
 function createCipher (suite, password) {
-  var config = modes[suite.toLowerCase()];
+  var config = modes[suite.toLowerCase()]
   if (!config) {
-    throw new TypeError('invalid suite type');
+    throw new TypeError('invalid suite type')
   }
-  var keys = ebtk(password, config.key, config.iv);
-  return createCipheriv(suite, keys.key, keys.iv);
+  var keys = ebtk(password, config.key, config.iv)
+  return createCipheriv(suite, keys.key, keys.iv)
 }
 
-exports.createCipheriv = createCipheriv;
-exports.createCipher = createCipher;
+exports.createCipheriv = createCipheriv
+exports.createCipher = createCipher
+
 }).call(this,require("buffer").Buffer)
 
 },{"./EVP_BytesToKey":8,"./aes":9,"./authCipher":10,"./cipherBase":12,"./modes":16,"./modes/cbc":17,"./modes/cfb":18,"./modes/cfb1":19,"./modes/cfb8":20,"./modes/ctr":21,"./modes/ecb":22,"./modes/ofb":23,"./streamCipher":24,"buffer":3,"inherits":145}],15:[function(require,module,exports){
 (function (Buffer){
-var zeros = new Buffer(16);
-zeros.fill(0);
-module.exports = GHASH;
-function GHASH(key){
-  this.h = key;
-  this.state = new Buffer(16);
-  this.state.fill(0);
-  this.cache = new Buffer('');
+var zeros = new Buffer(16)
+zeros.fill(0)
+module.exports = GHASH
+function GHASH (key) {
+  this.h = key
+  this.state = new Buffer(16)
+  this.state.fill(0)
+  this.cache = new Buffer('')
 }
 // from http://bitwiseshiftleft.github.io/sjcl/doc/symbols/src/core_gcm.js.html
 // by Juho Vähä-Herttua
 GHASH.prototype.ghash = function (block) {
-  var i = -1;
+  var i = -1
   while (++i < block.length) {
-   this.state[i] ^= block[i];
+    this.state[i] ^= block[i]
   }
-  this._multiply();
-};
+  this._multiply()
+}
 
 GHASH.prototype._multiply = function () {
-  var Vi = toArray(this.h);
-  var Zi = [0, 0, 0, 0];
-  var j, xi, lsb_Vi;
-  var i = -1;
+  var Vi = toArray(this.h)
+  var Zi = [0, 0, 0, 0]
+  var j, xi, lsb_Vi
+  var i = -1
   while (++i < 128) {
-    xi = (this.state[~~(i/8)] & (1 << (7-i%8))) !== 0;
+    xi = (this.state[~~(i / 8)] & (1 << (7 - i % 8))) !== 0
     if (xi) {
       // Z_i+1 = Z_i ^ V_i
-      Zi = xor(Zi, Vi);
+      Zi = xor(Zi, Vi)
     }
 
     // Store the value of LSB(V_i)
-    lsb_Vi = (Vi[3] & 1) !== 0;
+    lsb_Vi = (Vi[3] & 1) !== 0
 
     // V_i+1 = V_i >> 1
-    for (j=3; j>0; j--) {
-      Vi[j] = (Vi[j] >>> 1) | ((Vi[j-1]&1) << 31);
+    for (j = 3; j > 0; j--) {
+      Vi[j] = (Vi[j] >>> 1) | ((Vi[j - 1] & 1) << 31)
     }
-    Vi[0] = Vi[0] >>> 1;
+    Vi[0] = Vi[0] >>> 1
 
     // If LSB(V_i) is 1, V_i+1 = (V_i >> 1) ^ R
     if (lsb_Vi) {
-      Vi[0] = Vi[0] ^ (0xe1 << 24);
+      Vi[0] = Vi[0] ^ (0xe1 << 24)
     }
   }
-  this.state = fromArray(Zi);
-};
+  this.state = fromArray(Zi)
+}
 GHASH.prototype.update = function (buf) {
-  this.cache = Buffer.concat([this.cache, buf]);
-  var chunk;
+  this.cache = Buffer.concat([this.cache, buf])
+  var chunk
   while (this.cache.length >= 16) {
-    chunk = this.cache.slice(0, 16);
-    this.cache = this.cache.slice(16);
-    this.ghash(chunk);
+    chunk = this.cache.slice(0, 16)
+    this.cache = this.cache.slice(16)
+    this.ghash(chunk)
   }
-};
+}
 GHASH.prototype.final = function (abl, bl) {
   if (this.cache.length) {
-    this.ghash(Buffer.concat([this.cache, zeros], 16));
+    this.ghash(Buffer.concat([this.cache, zeros], 16))
   }
   this.ghash(fromArray([
-     0, abl,
-     0, bl
-   ]));
-  return this.state;
-};
+    0, abl,
+    0, bl
+  ]))
+  return this.state
+}
 
-function toArray(buf) {
+function toArray (buf) {
   return [
     buf.readUInt32BE(0),
     buf.readUInt32BE(4),
     buf.readUInt32BE(8),
     buf.readUInt32BE(12)
-  ];
+  ]
 }
-function fromArray(out) {
-  out = out.map(fixup_uint32);
-  var buf = new Buffer(16);
-  buf.writeUInt32BE(out[0], 0);
-  buf.writeUInt32BE(out[1], 4);
-  buf.writeUInt32BE(out[2], 8);
-  buf.writeUInt32BE(out[3], 12);
-  return buf;
+function fromArray (out) {
+  out = out.map(fixup_uint32)
+  var buf = new Buffer(16)
+  buf.writeUInt32BE(out[0], 0)
+  buf.writeUInt32BE(out[1], 4)
+  buf.writeUInt32BE(out[2], 8)
+  buf.writeUInt32BE(out[3], 12)
+  return buf
 }
-var uint_max = Math.pow(2, 32);
-function fixup_uint32(x) {
-    var ret, x_pos;
-    ret = x > uint_max || x < 0 ? (x_pos = Math.abs(x) % uint_max, x < 0 ? uint_max - x_pos : x_pos) : x;
-    return ret;
+var uint_max = Math.pow(2, 32)
+function fixup_uint32 (x) {
+  var ret, x_pos
+  ret = x > uint_max || x < 0 ? (x_pos = Math.abs(x) % uint_max, x < 0 ? uint_max - x_pos : x_pos) : x
+  return ret
 }
-function xor(a, b) {
+function xor (a, b) {
   return [
     a[0] ^ b[0],
     a[1] ^ b[1],
     a[2] ^ b[2],
-    a[3] ^ b[3],
-  ];
+    a[3] ^ b[3]
+  ]
 }
+
 }).call(this,require("buffer").Buffer)
 
 },{"buffer":3}],16:[function(require,module,exports){
@@ -2646,370 +2642,379 @@ exports['aes-128-ecb'] = {
   iv: 0,
   mode: 'ECB',
   type: 'block'
-};
+}
 exports['aes-192-ecb'] = {
   cipher: 'AES',
   key: 192,
   iv: 0,
   mode: 'ECB',
   type: 'block'
-};
+}
 exports['aes-256-ecb'] = {
   cipher: 'AES',
   key: 256,
   iv: 0,
   mode: 'ECB',
   type: 'block'
-};
+}
 exports['aes-128-cbc'] = {
   cipher: 'AES',
   key: 128,
   iv: 16,
   mode: 'CBC',
   type: 'block'
-};
+}
 exports['aes-192-cbc'] = {
   cipher: 'AES',
   key: 192,
   iv: 16,
   mode: 'CBC',
   type: 'block'
-};
+}
 exports['aes-256-cbc'] = {
   cipher: 'AES',
   key: 256,
   iv: 16,
   mode: 'CBC',
   type: 'block'
-};
-exports['aes128'] = exports['aes-128-cbc'];
-exports['aes192'] = exports['aes-192-cbc'];
-exports['aes256'] = exports['aes-256-cbc'];
+}
+exports['aes128'] = exports['aes-128-cbc']
+exports['aes192'] = exports['aes-192-cbc']
+exports['aes256'] = exports['aes-256-cbc']
 exports['aes-128-cfb'] = {
   cipher: 'AES',
   key: 128,
   iv: 16,
   mode: 'CFB',
   type: 'stream'
-};
+}
 exports['aes-192-cfb'] = {
   cipher: 'AES',
   key: 192,
   iv: 16,
   mode: 'CFB',
   type: 'stream'
-};
+}
 exports['aes-256-cfb'] = {
   cipher: 'AES',
   key: 256,
   iv: 16,
   mode: 'CFB',
   type: 'stream'
-};
+}
 exports['aes-128-cfb8'] = {
   cipher: 'AES',
   key: 128,
   iv: 16,
   mode: 'CFB8',
   type: 'stream'
-};
+}
 exports['aes-192-cfb8'] = {
   cipher: 'AES',
   key: 192,
   iv: 16,
   mode: 'CFB8',
   type: 'stream'
-};
+}
 exports['aes-256-cfb8'] = {
   cipher: 'AES',
   key: 256,
   iv: 16,
   mode: 'CFB8',
   type: 'stream'
-};
+}
 exports['aes-128-cfb1'] = {
   cipher: 'AES',
   key: 128,
   iv: 16,
   mode: 'CFB1',
   type: 'stream'
-};
+}
 exports['aes-192-cfb1'] = {
   cipher: 'AES',
   key: 192,
   iv: 16,
   mode: 'CFB1',
   type: 'stream'
-};
+}
 exports['aes-256-cfb1'] = {
   cipher: 'AES',
   key: 256,
   iv: 16,
   mode: 'CFB1',
   type: 'stream'
-};
+}
 exports['aes-128-ofb'] = {
   cipher: 'AES',
   key: 128,
   iv: 16,
   mode: 'OFB',
   type: 'stream'
-};
+}
 exports['aes-192-ofb'] = {
   cipher: 'AES',
   key: 192,
   iv: 16,
   mode: 'OFB',
   type: 'stream'
-};
+}
 exports['aes-256-ofb'] = {
   cipher: 'AES',
   key: 256,
   iv: 16,
   mode: 'OFB',
   type: 'stream'
-};
+}
 exports['aes-128-ctr'] = {
   cipher: 'AES',
   key: 128,
   iv: 16,
   mode: 'CTR',
   type: 'stream'
-};
+}
 exports['aes-192-ctr'] = {
   cipher: 'AES',
   key: 192,
   iv: 16,
   mode: 'CTR',
   type: 'stream'
-};
+}
 exports['aes-256-ctr'] = {
   cipher: 'AES',
   key: 256,
   iv: 16,
   mode: 'CTR',
   type: 'stream'
-};
+}
 exports['aes-128-gcm'] = {
   cipher: 'AES',
   key: 128,
   iv: 12,
   mode: 'GCM',
   type: 'auth'
-};
+}
 exports['aes-192-gcm'] = {
   cipher: 'AES',
   key: 192,
   iv: 12,
   mode: 'GCM',
   type: 'auth'
-};
+}
 exports['aes-256-gcm'] = {
   cipher: 'AES',
   key: 256,
   iv: 12,
   mode: 'GCM',
   type: 'auth'
-};
+}
+
 },{}],17:[function(require,module,exports){
-var xor = require('../xor');
+var xor = require('../xor')
 exports.encrypt = function (self, block) {
-  var data = xor(block, self._prev);
-  self._prev = self._cipher.encryptBlock(data);
-  return self._prev;
-};
+  var data = xor(block, self._prev)
+  self._prev = self._cipher.encryptBlock(data)
+  return self._prev
+}
 exports.decrypt = function (self, block) {
-  var pad = self._prev;
-  self._prev = block;
-  var out = self._cipher.decryptBlock(block);
-  return xor(out, pad);
-};
+  var pad = self._prev
+  self._prev = block
+  var out = self._cipher.decryptBlock(block)
+  return xor(out, pad)
+}
+
 },{"../xor":25}],18:[function(require,module,exports){
 (function (Buffer){
-var xor = require('../xor');
+var xor = require('../xor')
 exports.encrypt = function (self, data, decrypt) {
-  var out = new Buffer('');
-  var len;
+  var out = new Buffer('')
+  var len
   while (data.length) {
     if (self._cache.length === 0) {
-      self._cache = self._cipher.encryptBlock(self._prev);
-      self._prev = new Buffer('');
+      self._cache = self._cipher.encryptBlock(self._prev)
+      self._prev = new Buffer('')
     }
     if (self._cache.length <= data.length) {
-      len = self._cache.length;
-      out = Buffer.concat([out, encryptStart(self, data.slice(0, len), decrypt)]);
-      data = data.slice(len);
+      len = self._cache.length
+      out = Buffer.concat([out, encryptStart(self, data.slice(0, len), decrypt)])
+      data = data.slice(len)
     } else {
-      out = Buffer.concat([out, encryptStart(self, data, decrypt)]);
-      break;
+      out = Buffer.concat([out, encryptStart(self, data, decrypt)])
+      break
     }
   }
-  return out;
-};
-function encryptStart(self, data, decrypt) {
-  var len = data.length;
-  var out = xor(data, self._cache);
-  self._cache = self._cache.slice(len);
-  self._prev = Buffer.concat([self._prev, decrypt?data:out]);
-  return out;
+  return out
 }
+function encryptStart (self, data, decrypt) {
+  var len = data.length
+  var out = xor(data, self._cache)
+  self._cache = self._cache.slice(len)
+  self._prev = Buffer.concat([self._prev, decrypt ? data : out])
+  return out
+}
+
 }).call(this,require("buffer").Buffer)
 
 },{"../xor":25,"buffer":3}],19:[function(require,module,exports){
 (function (Buffer){
-
-function encryptByte(self, byte, decrypt) {
-  var pad;
-  var i = -1;
-  var len = 8;
-  var out = 0;
-  var bit, value;
+function encryptByte (self, byteParam, decrypt) {
+  var pad
+  var i = -1
+  var len = 8
+  var out = 0
+  var bit, value
   while (++i < len) {
-    pad = self._cipher.encryptBlock(self._prev);
-    bit = (byte & (1 << (7-i))) ? 0x80:0;
-    value = pad[0] ^ bit;
-    out += ((value&0x80) >> (i%8));
-    self._prev = shiftIn(self._prev, decrypt?bit:value);
+    pad = self._cipher.encryptBlock(self._prev)
+    bit = (byteParam & (1 << (7 - i))) ? 0x80 : 0
+    value = pad[0] ^ bit
+    out += ((value & 0x80) >> (i % 8))
+    self._prev = shiftIn(self._prev, decrypt ? bit : value)
   }
-  return out;
+  return out
 }
 exports.encrypt = function (self, chunk, decrypt) {
-  var len = chunk.length;
-  var out = new Buffer(len);
-  var i = -1;
+  var len = chunk.length
+  var out = new Buffer(len)
+  var i = -1
   while (++i < len) {
-    out[i] = encryptByte(self, chunk[i], decrypt);
+    out[i] = encryptByte(self, chunk[i], decrypt)
   }
-  return out;
-};
-function shiftIn(buffer, value) {
-  var len = buffer.length;
-  var i = -1;
-  var out = new Buffer(buffer.length);
-  buffer = Buffer.concat([buffer, new Buffer([value])]);
-  while(++i < len) {
-    out[i] = buffer[i]<<1 | buffer[i+1]>>(7);
-  }
-  return out;
+  return out
 }
+function shiftIn (buffer, value) {
+  var len = buffer.length
+  var i = -1
+  var out = new Buffer(buffer.length)
+  buffer = Buffer.concat([buffer, new Buffer([value])])
+  while (++i < len) {
+    out[i] = buffer[i] << 1 | buffer[i + 1] >> (7)
+  }
+  return out
+}
+
 }).call(this,require("buffer").Buffer)
 
 },{"buffer":3}],20:[function(require,module,exports){
 (function (Buffer){
-function encryptByte(self, byte, decrypt) {
-  var pad = self._cipher.encryptBlock(self._prev);
-  var out = pad[0] ^ byte;
-  self._prev = Buffer.concat([self._prev.slice(1), new Buffer([decrypt?byte:out])]);
-  return out;
+function encryptByte (self, byteParam, decrypt) {
+  var pad = self._cipher.encryptBlock(self._prev)
+  var out = pad[0] ^ byteParam
+  self._prev = Buffer.concat([self._prev.slice(1), new Buffer([decrypt ? byteParam : out])])
+  return out
 }
 exports.encrypt = function (self, chunk, decrypt) {
-  var len = chunk.length;
-  var out = new Buffer(len);
-  var i = -1;
+  var len = chunk.length
+  var out = new Buffer(len)
+  var i = -1
   while (++i < len) {
-    out[i] = encryptByte(self, chunk[i], decrypt);
+    out[i] = encryptByte(self, chunk[i], decrypt)
   }
-  return out;
-};
+  return out
+}
+
 }).call(this,require("buffer").Buffer)
 
 },{"buffer":3}],21:[function(require,module,exports){
 (function (Buffer){
-var xor = require('../xor');
-function getBlock(self) {
-  var out = self._cipher.encryptBlock(self._prev);
-  incr32(self._prev);
-  return out;
+var xor = require('../xor')
+function getBlock (self) {
+  var out = self._cipher.encryptBlock(self._prev)
+  incr32(self._prev)
+  return out
 }
 exports.encrypt = function (self, chunk) {
   while (self._cache.length < chunk.length) {
-    self._cache = Buffer.concat([self._cache, getBlock(self)]);
+    self._cache = Buffer.concat([self._cache, getBlock(self)])
   }
-  var pad = self._cache.slice(0, chunk.length);
-  self._cache = self._cache.slice(chunk.length);
-  return xor(chunk, pad);
-};
-function incr32(iv) {
-  var len = iv.length;
-  var item;
+  var pad = self._cache.slice(0, chunk.length)
+  self._cache = self._cache.slice(chunk.length)
+  return xor(chunk, pad)
+}
+function incr32 (iv) {
+  var len = iv.length
+  var item
   while (len--) {
-    item = iv.readUInt8(len);
+    item = iv.readUInt8(len)
     if (item === 255) {
-      iv.writeUInt8(0, len);
+      iv.writeUInt8(0, len)
     } else {
-      item++;
-      iv.writeUInt8(item, len);
-      break;
+      item++
+      iv.writeUInt8(item, len)
+      break
     }
   }
 }
+
 }).call(this,require("buffer").Buffer)
 
 },{"../xor":25,"buffer":3}],22:[function(require,module,exports){
 exports.encrypt = function (self, block) {
-  return self._cipher.encryptBlock(block);
-};
+  return self._cipher.encryptBlock(block)
+}
 exports.decrypt = function (self, block) {
-  return self._cipher.decryptBlock(block);
-};
+  return self._cipher.decryptBlock(block)
+}
+
 },{}],23:[function(require,module,exports){
 (function (Buffer){
-var xor = require('../xor');
-function getBlock(self) {
-  self._prev = self._cipher.encryptBlock(self._prev);
-  return self._prev;
+var xor = require('../xor')
+function getBlock (self) {
+  self._prev = self._cipher.encryptBlock(self._prev)
+  return self._prev
 }
 exports.encrypt = function (self, chunk) {
   while (self._cache.length < chunk.length) {
-    self._cache = Buffer.concat([self._cache, getBlock(self)]);
+    self._cache = Buffer.concat([self._cache, getBlock(self)])
   }
-  var pad = self._cache.slice(0, chunk.length);
-  self._cache = self._cache.slice(chunk.length);
-  return xor(chunk, pad);
-};
+  var pad = self._cache.slice(0, chunk.length)
+  self._cache = self._cache.slice(chunk.length)
+  return xor(chunk, pad)
+}
+
 }).call(this,require("buffer").Buffer)
 
 },{"../xor":25,"buffer":3}],24:[function(require,module,exports){
 (function (Buffer){
-var aes = require('./aes');
-var Transform = require('./cipherBase');
-var inherits = require('inherits');
+var aes = require('./aes')
+var Transform = require('./cipherBase')
+var inherits = require('inherits')
 
-inherits(StreamCipher, Transform);
-module.exports = StreamCipher;
-function StreamCipher(mode, key, iv, decrypt) {
+inherits(StreamCipher, Transform)
+module.exports = StreamCipher
+function StreamCipher (mode, key, iv, decrypt) {
   if (!(this instanceof StreamCipher)) {
-    return new StreamCipher(mode, key, iv);
+    return new StreamCipher(mode, key, iv)
   }
-  Transform.call(this);
-  this._cipher = new aes.AES(key);
-  this._prev = new Buffer(iv.length);
-  this._cache = new Buffer('');
-  this._secCache = new Buffer('');
-  this._decrypt = decrypt;
-  iv.copy(this._prev);
-  this._mode = mode;
+  Transform.call(this)
+  this._cipher = new aes.AES(key)
+  this._prev = new Buffer(iv.length)
+  this._cache = new Buffer('')
+  this._secCache = new Buffer('')
+  this._decrypt = decrypt
+  iv.copy(this._prev)
+  this._mode = mode
 }
 StreamCipher.prototype._update = function (chunk) {
-  return this._mode.encrypt(this, chunk, this._decrypt);
-};
+  return this._mode.encrypt(this, chunk, this._decrypt)
+}
 StreamCipher.prototype._final = function () {
-  this._cipher.scrub();
-};
+  this._cipher.scrub()
+}
+
 }).call(this,require("buffer").Buffer)
 
 },{"./aes":9,"./cipherBase":12,"buffer":3,"inherits":145}],25:[function(require,module,exports){
 (function (Buffer){
-module.exports = xor;
-function xor(a, b) {
-  var len = Math.min(a.length, b.length);
-  var out = new Buffer(len);
-  var i = -1;
+module.exports = xor
+function xor (a, b) {
+  var len = Math.min(a.length, b.length)
+  var out = new Buffer(len)
+  var i = -1
   while (++i < len) {
-    out.writeUInt8(a[i] ^ b[i], i);
+    out.writeUInt8(a[i] ^ b[i], i)
   }
-  return out;
+  return out
 }
+
 }).call(this,require("buffer").Buffer)
 
 },{"buffer":3}],26:[function(require,module,exports){
@@ -3186,7 +3191,7 @@ Verify.prototype.verify = function verifyMethod (key, sig, enc) {
 
 }).call(this,require("buffer").Buffer)
 
-},{"./algos":26,"./sign":70,"./verify":71,"buffer":3,"create-hash":95,"inherits":145,"stream":159}],28:[function(require,module,exports){
+},{"./algos":26,"./sign":70,"./verify":71,"buffer":3,"create-hash":96,"inherits":145,"stream":159}],28:[function(require,module,exports){
 'use strict'
 exports['1.3.132.0.10'] = 'secp256k1'
 
@@ -3197,7 +3202,7 @@ exports['1.2.840.10045.3.1.1'] = 'p192'
 exports['1.2.840.10045.3.1.7'] = 'p256'
 
 },{}],29:[function(require,module,exports){
-(function(module, exports) {
+(function (module, exports) {
 
 'use strict';
 
@@ -3260,12 +3265,20 @@ BN.prototype._init = function init(number, base, endian) {
     if (number < 0x4000000) {
       this.words = [ number & 0x3ffffff ];
       this.length = 1;
-    } else {
+    } else if (number < 0x10000000000000) {
       this.words = [
         number & 0x3ffffff,
         (number / 0x4000000) & 0x3ffffff
       ];
       this.length = 2;
+    } else {
+      assert(number < 0x20000000000000); // 2 ^ 53 (unsafe)
+      this.words = [
+        number & 0x3ffffff,
+        (number / 0x4000000) & 0x3ffffff,
+        1
+      ];
+      this.length = 3;
     }
     return;
   } else if (typeof number === 'object') {
@@ -3294,6 +3307,12 @@ BN.prototype._init = function init(number, base, endian) {
 BN.prototype._initArray = function _initArray(number, base, endian) {
   // Perhaps a Uint8Array
   assert(typeof number.length === 'number');
+  if (number.length <= 0) {
+    this.words = [ 0 ];
+    this.length = 1;
+    return this;
+  }
+
   this.length = Math.ceil(number.length / 3);
   this.words = new Array(this.length);
   for (var i = 0; i < this.length; i++)
@@ -3625,50 +3644,60 @@ BN.prototype.toArray = function toArray() {
   return res;
 };
 
-/*
-function genCountBits(bits) {
-  var arr = [];
+if (Math.clz32) {
+  BN.prototype._countBits = function _countBits(w) {
+    return 32 - Math.clz32(w);
+  };
+} else {
+  BN.prototype._countBits = function _countBits(w) {
+    var t = w;
+    var r = 0;
+    if (t >= 0x1000) {
+      r += 13;
+      t >>>= 13;
+    }
+    if (t >= 0x40) {
+      r += 7;
+      t >>>= 7;
+    }
+    if (t >= 0x8) {
+      r += 4;
+      t >>>= 4;
+    }
+    if (t >= 0x02) {
+      r += 2;
+      t >>>= 2;
+    }
+    return r + t;
+  };
+}
 
-  for (var i = bits - 1; i >= 0; i--) {
-    var bit = '0x' + (1 << i).toString(16);
-    arr.push('w >= ' + bit + ' ? ' + (i + 1));
+BN.prototype._zeroBits = function _zeroBits(w) {
+  // Short-cut
+  if (w === 0)
+    return 26;
+
+  var t = w;
+  var r = 0;
+  if ((t & 0x1fff) === 0) {
+    r += 13;
+    t >>>= 13;
   }
-
-  return new Function('w', 'return ' + arr.join(' :\n') + ' :\n0;');
-};
-
-BN.prototype._countBits = genCountBits(26);
-*/
-
-// Sadly chrome apps could not contain `new Function()` calls
-BN.prototype._countBits = function _countBits(w) {
-  return w >= 0x2000000 ? 26 :
-         w >= 0x1000000 ? 25 :
-         w >= 0x800000 ? 24 :
-         w >= 0x400000 ? 23 :
-         w >= 0x200000 ? 22 :
-         w >= 0x100000 ? 21 :
-         w >= 0x80000 ? 20 :
-         w >= 0x40000 ? 19 :
-         w >= 0x20000 ? 18 :
-         w >= 0x10000 ? 17 :
-         w >= 0x8000 ? 16 :
-         w >= 0x4000 ? 15 :
-         w >= 0x2000 ? 14 :
-         w >= 0x1000 ? 13 :
-         w >= 0x800 ? 12 :
-         w >= 0x400 ? 11 :
-         w >= 0x200 ? 10 :
-         w >= 0x100 ? 9 :
-         w >= 0x80 ? 8 :
-         w >= 0x40 ? 7 :
-         w >= 0x20 ? 6 :
-         w >= 0x10 ? 5 :
-         w >= 0x8 ? 4 :
-         w >= 0x4 ? 3 :
-         w >= 0x2 ? 2 :
-         w >= 0x1 ? 1 :
-         0;
+  if ((t & 0x7f) === 0) {
+    r += 7;
+    t >>>= 7;
+  }
+  if ((t & 0xf) === 0) {
+    r += 4;
+    t >>>= 4;
+  }
+  if ((t & 0x3) === 0) {
+    r += 2;
+    t >>>= 2;
+  }
+  if ((t & 0x1) === 0)
+    r++;
+  return r;
 };
 
 // Return number of used bits in a BN
@@ -3677,6 +3706,21 @@ BN.prototype.bitLength = function bitLength() {
   var w = this.words[this.length - 1];
   var hi = this._countBits(w);
   return (this.length - 1) * 26 + hi;
+};
+
+// Number of trailing zero bits
+BN.prototype.zeroBits = function zeroBits() {
+  if (this.cmpn(0) === 0)
+    return 0;
+
+  var r = 0;
+  for (var i = 0; i < this.length; i++) {
+    var b = this._zeroBits(this.words[i]);
+    r += b;
+    if (b !== 26)
+      break;
+  }
+  return r;
 };
 
 BN.prototype.byteLength = function byteLength() {
@@ -4189,21 +4233,22 @@ BN.prototype.ishln = function ishln(bits) {
 
 // Shift-right in-place
 // NOTE: `hint` is a lowest bit before trailing zeroes
-// NOTE: if `extended` is true - { lo: ..., hi: } object will be returned
+// NOTE: if `extended` is present - it will be filled with destroyed bits
 BN.prototype.ishrn = function ishrn(bits, hint, extended) {
   assert(typeof bits === 'number' && bits >= 0);
+  var h;
   if (hint)
-    hint = (hint - (hint % 26)) / 26;
+    h = (hint - (hint % 26)) / 26;
   else
-    hint = 0;
+    h = 0;
 
   var r = bits % 26;
   var s = Math.min((bits - r) / 26, this.length);
   var mask = 0x3ffffff ^ ((0x3ffffff >>> r) << r);
   var maskedWords = extended;
 
-  hint -= s;
-  hint = Math.max(0, hint);
+  h -= s;
+  h = Math.max(0, h);
 
   // Extended mode, copy masked part
   if (maskedWords) {
@@ -4224,7 +4269,7 @@ BN.prototype.ishrn = function ishrn(bits, hint, extended) {
   }
 
   var carry = 0;
-  for (var i = this.length - 1; i >= 0 && (carry !== 0 || i >= hint); i--) {
+  for (var i = this.length - 1; i >= 0 && (carry !== 0 || i >= h); i--) {
     var word = this.words[i];
     this.words[i] = (carry << (26 - r)) | (word >>> r);
     carry = word & mask;
@@ -4240,8 +4285,6 @@ BN.prototype.ishrn = function ishrn(bits, hint, extended) {
   }
 
   this.strip();
-  if (extended)
-    return { hi: this, lo: maskedWords };
 
   return this;
 };
@@ -4437,8 +4480,8 @@ BN.prototype._wordDiv = function _wordDiv(num, mode) {
 
   // Normalize
   var bhi = b.words[b.length - 1];
-  for (var shift = 0; bhi < 0x2000000; shift++)
-    bhi <<= 1;
+  var bhiBits = this._countBits(bhi);
+  shift = 26 - bhiBits;
   if (shift !== 0) {
     b = b.shln(shift);
     a.ishln(shift);
@@ -4476,7 +4519,8 @@ BN.prototype._wordDiv = function _wordDiv(num, mode) {
       qj--;
       a.sign = false;
       a._ishlnsubmul(b, 1, j);
-      a.sign = !a.sign;
+      if (a.cmpn(0) !== 0)
+        a.sign = !a.sign;
     }
     if (q)
       q.words[j] = qj;
@@ -4598,7 +4642,82 @@ BN.prototype.divn = function divn(num) {
   return this.clone().idivn(num);
 };
 
-BN.prototype._egcd = function _egcd(x1, p) {
+BN.prototype.egcd = function egcd(p) {
+  assert(!p.sign);
+  assert(p.cmpn(0) !== 0);
+
+  var x = this;
+  var y = p.clone();
+
+  if (x.sign)
+    x = x.mod(p);
+  else
+    x = x.clone();
+
+  // A * x + B * y = x
+  var A = new BN(1);
+  var B = new BN(0);
+
+  // C * x + D * y = y
+  var C = new BN(0);
+  var D = new BN(1);
+
+  var g = 0;
+
+  while (x.isEven() && y.isEven()) {
+    x.ishrn(1);
+    y.ishrn(1);
+    ++g;
+  }
+
+  var yp = y.clone();
+  var xp = x.clone();
+
+  while (x.cmpn(0) !== 0) {
+    while (x.isEven()) {
+      x.ishrn(1);
+      if (A.isEven() && B.isEven()) {
+        A.ishrn(1);
+        B.ishrn(1);
+      } else {
+        A.iadd(yp).ishrn(1);
+        B.isub(xp).ishrn(1);
+      }
+    }
+
+    while (y.isEven()) {
+      y.ishrn(1);
+      if (C.isEven() && D.isEven()) {
+        C.ishrn(1);
+        D.ishrn(1);
+      } else {
+        C.iadd(yp).ishrn(1);
+        D.isub(xp).ishrn(1);
+      }
+    }
+
+    if (x.cmp(y) >= 0) {
+      x.isub(y);
+      A.isub(C);
+      B.isub(D);
+    } else {
+      y.isub(x);
+      C.isub(A);
+      D.isub(B);
+    }
+  }
+
+  return {
+    a: C,
+    b: D,
+    gcd: y.ishln(g)
+  };
+};
+
+// This is reduced incarnation of the binary EEA
+// above, designated to invert members of the
+// _prime_ fields F(p) at a maximal speed
+BN.prototype._invmp = function _invmp(p) {
   assert(!p.sign);
   assert(p.cmpn(0) !== 0);
 
@@ -4610,10 +4729,11 @@ BN.prototype._egcd = function _egcd(x1, p) {
   else
     a = a.clone();
 
+  var x1 = new BN(1);
   var x2 = new BN(0);
-  while (b.isEven())
-    b.ishrn(1);
+
   var delta = b.clone();
+
   while (a.cmpn(1) > 0 && b.cmpn(1) > 0) {
     while (a.isEven()) {
       a.ishrn(1);
@@ -4660,30 +4780,31 @@ BN.prototype.gcd = function gcd(num) {
     b.ishrn(1);
   }
 
-  while (a.isEven())
-    a.ishrn(1);
-
   do {
+    while (a.isEven())
+      a.ishrn(1);
     while (b.isEven())
       b.ishrn(1);
 
-    // Swap `a` and `b` to make `a` always bigger than `b`
-    if (a.cmp(b) < 0) {
+    var r = a.cmp(b);
+    if (r < 0) {
+      // Swap `a` and `b` to make `a` always bigger than `b`
       var t = a;
       a = b;
       b = t;
+    } else if (r === 0 || b.cmpn(1) === 0) {
+      break;
     }
-    a.isub(a.div(b).mul(b));
-  } while (a.cmpn(0) !== 0 && b.cmpn(0) !== 0);
-  if (a.cmpn(0) === 0)
-    return b.ishln(shift);
-  else
-    return a.ishln(shift);
+
+    a.isub(b);
+  } while (true);
+
+  return b.ishln(shift);
 };
 
 // Invert number in the field F(num)
 BN.prototype.invm = function invm(num) {
-  return this._egcd(new BN(1), num).mod(num);
+  return this.egcd(num).a.mod(num);
 };
 
 BN.prototype.isEven = function isEven() {
@@ -4933,13 +5054,13 @@ MPrime.prototype.ireduce = function ireduce(num) {
   var rlen;
 
   do {
-    var pair = r.ishrn(this.n, 0, this.tmp);
-    r = this.imulK(pair.hi);
-    r = r.iadd(pair.lo);
+    this.split(r, this.tmp);
+    r = this.imulK(r);
+    r = r.iadd(this.tmp);
     rlen = r.bitLength();
   } while (rlen > this.n);
 
-  var cmp = rlen < this.n ? -1 : r.cmp(this.p);
+  var cmp = rlen < this.n ? -1 : r.ucmp(this.p);
   if (cmp === 0) {
     r.words[0] = 0;
     r.length = 1;
@@ -4950,6 +5071,10 @@ MPrime.prototype.ireduce = function ireduce(num) {
   }
 
   return r;
+};
+
+MPrime.prototype.split = function split(input, out) {
+  input.ishrn(this.n, 0, out);
 };
 
 MPrime.prototype.imulK = function imulK(num) {
@@ -4963,6 +5088,34 @@ function K256() {
     'ffffffff ffffffff ffffffff ffffffff ffffffff ffffffff fffffffe fffffc2f');
 }
 inherits(K256, MPrime);
+
+K256.prototype.split = function split(input, output) {
+  // 256 = 9 * 26 + 22
+  var mask = 0x3fffff;
+
+  var outLen = Math.min(input.length, 9);
+  for (var i = 0; i < outLen; i++)
+    output.words[i] = input.words[i];
+  output.length = outLen;
+
+  if (input.length <= 9) {
+    input.words[0] = 0;
+    input.length = 1;
+    return;
+  }
+
+  // Shift by 9 limbs
+  var prev = input.words[9];
+  output.words[output.length++] = prev & mask;
+
+  for (var i = 10; i < input.length; i++) {
+    var next = input.words[i];
+    input.words[i - 10] = ((next & mask) << 4) | (prev >>> 22);
+    prev = next;
+  }
+  input.words[i - 10] = prev >>> 22;
+  input.length -= 9;
+};
 
 K256.prototype.imulK = function imulK(num) {
   // K = 0x1000003d1 = [ 0x40, 0x3d1 ]
@@ -5210,7 +5363,7 @@ Red.prototype.sqrt = function sqrt(a) {
 };
 
 Red.prototype.invm = function invm(a) {
-  var inv = a._egcd(new BN(1), this.m);
+  var inv = a._invmp(this.m);
   if (inv.sign) {
     inv.sign = false;
     return this.imod(inv).redNeg();
@@ -5221,7 +5374,12 @@ Red.prototype.invm = function invm(a) {
 
 Red.prototype.pow = function pow(a, num) {
   var w = [];
+
+  if (num.cmpn(0) === 0)
+    return new BN(1);
+
   var q = num.clone();
+
   while (q.cmpn(0) !== 0) {
     w.push(q.andln(1));
     q.ishrn(1);
@@ -5245,7 +5403,11 @@ Red.prototype.pow = function pow(a, num) {
 };
 
 Red.prototype.convertTo = function convertTo(num) {
-  return num.clone();
+  var r = num.mod(this.m);
+  if (r === num)
+    return r.clone();
+  else
+    return r;
 };
 
 Red.prototype.convertFrom = function convertFrom(num) {
@@ -5270,7 +5432,7 @@ function Mont(m) {
     this.shift += 26 - (this.shift % 26);
   this.r = new BN(1).ishln(this.shift);
   this.r2 = this.imod(this.r.sqr());
-  this.rinv = this.r.invm(this.m);
+  this.rinv = this.r._invmp(this.m);
 
   this.minv = this.rinv.mul(this.r).isubn(1).div(this.m);
   this.minv.sign = true;
@@ -5325,7 +5487,7 @@ Mont.prototype.mul = function mul(a, b) {
 
 Mont.prototype.invm = function invm(a) {
   // (AR)^-1 * R^2 = (A^-1 * R^-1) * R^2 = A^-1 * R
-  var res = this.imod(a.invm(this.m).mul(this.r2));
+  var res = this.imod(a._invmp(this.m).mul(this.r2));
   return res._forceRed(this);
 };
 
@@ -5382,6 +5544,8 @@ function getr(priv) {
 }).call(this,require("buffer").Buffer)
 
 },{"bn.js":29,"buffer":3,"randombytes":143}],31:[function(require,module,exports){
+'use strict';
+
 var elliptic = exports;
 
 elliptic.version = require('../package.json').version;
@@ -5394,7 +5558,9 @@ elliptic.curves = require('./elliptic/curves');
 // Protocols
 elliptic.ec = require('./elliptic/ec');
 
-},{"../package.json":50,"./elliptic/curve":34,"./elliptic/curves":37,"./elliptic/ec":38,"./elliptic/hmac-drbg":41,"./elliptic/utils":42,"brorand":43}],32:[function(require,module,exports){
+},{"../package.json":51,"./elliptic/curve":34,"./elliptic/curves":37,"./elliptic/ec":38,"./elliptic/hmac-drbg":41,"./elliptic/utils":43,"brorand":44}],32:[function(require,module,exports){
+'use strict';
+
 var bn = require('bn.js');
 var elliptic = require('../../elliptic');
 
@@ -5430,7 +5596,7 @@ BaseCurve.prototype.point = function point() {
   throw new Error('Not implemented');
 };
 
-BaseCurve.prototype.validate = function validate(point) {
+BaseCurve.prototype.validate = function validate() {
   throw new Error('Not implemented');
 };
 
@@ -5626,19 +5792,18 @@ BaseCurve.prototype._wnafMulAdd = function _wnafMulAdd(defW,
   return acc.toP();
 };
 
-BaseCurve.BasePoint = BasePoint;
-
 function BasePoint(curve, type) {
   this.curve = curve;
   this.type = type;
   this.precomputed = null;
 }
+BaseCurve.BasePoint = BasePoint;
 
 BasePoint.prototype.validate = function validate() {
   return this.curve.validate(this);
 };
 
-BasePoint.prototype.precompute = function precompute(power, _beta) {
+BasePoint.prototype.precompute = function precompute(power) {
   if (this.precomputed)
     return this;
 
@@ -5699,22 +5864,23 @@ BasePoint.prototype.dblp = function dblp(k) {
 };
 
 },{"../../elliptic":31,"bn.js":29}],33:[function(require,module,exports){
+'use strict';
+
 var curve = require('../curve');
 var elliptic = require('../../elliptic');
 var bn = require('bn.js');
 var inherits = require('inherits');
 var Base = curve.base;
 
-var getNAF = elliptic.utils.getNAF;
 var assert = elliptic.utils.assert;
 
 function EdwardsCurve(conf) {
   // NOTE: Important as we are creating point in Base.call()
-  this.twisted = conf.a != 1;
-  this.mOneA = this.twisted && conf.a == -1;
+  this.twisted = (conf.a | 0) !== 1;
+  this.mOneA = this.twisted && (conf.a | 0) === -1;
   this.extended = this.mOneA;
 
-  Base.call(this, 'mont', conf);
+  Base.call(this, 'edwards', conf);
 
   this.a = new bn(conf.a, 16).mod(this.red.m).toRed(this.red);
   this.c = new bn(conf.c, 16).toRed(this.red);
@@ -5723,7 +5889,7 @@ function EdwardsCurve(conf) {
   this.dd = this.d.redAdd(this.d);
 
   assert(!this.twisted || this.c.fromRed().cmpn(1) === 0);
-  this.oneC = conf.c == 1;
+  this.oneC = (conf.c | 0) === 1;
 }
 inherits(EdwardsCurve, Base);
 module.exports = EdwardsCurve;
@@ -5742,17 +5908,9 @@ EdwardsCurve.prototype._mulC = function _mulC(num) {
     return this.c.redMul(num);
 };
 
-EdwardsCurve.prototype.point = function point(x, y, z, t) {
-  return new Point(this, x, y, z, t);
-};
-
 // Just for compatibility with Short curve
 EdwardsCurve.prototype.jpoint = function jpoint(x, y, z, t) {
   return this.point(x, y, z, t);
-};
-
-EdwardsCurve.prototype.pointFromJSON = function pointFromJSON(obj) {
-  return Point.fromJSON(this, obj);
 };
 
 EdwardsCurve.prototype.pointFromX = function pointFromX(odd, x) {
@@ -5820,6 +5978,14 @@ function Point(curve, x, y, z, t) {
 }
 inherits(Point, Base.BasePoint);
 
+EdwardsCurve.prototype.pointFromJSON = function pointFromJSON(obj) {
+  return Point.fromJSON(this, obj);
+};
+
+EdwardsCurve.prototype.point = function point(x, y, z, t) {
+  return new Point(this, x, y, z, t);
+};
+
 Point.fromJSON = function fromJSON(curve, obj) {
   return new Point(curve, obj[0], obj[1], obj[2]);
 };
@@ -5839,7 +6005,8 @@ Point.prototype.isInfinity = function isInfinity() {
 };
 
 Point.prototype._extDbl = function _extDbl() {
-  // http://hyperelliptic.org/EFD/g1p/auto-twisted-extended-1.html#doubling-dbl-2008-hwcd
+  // hyperelliptic.org/EFD/g1p/auto-twisted-extended-1.html
+  //     #doubling-dbl-2008-hwcd
   // 4M + 4S
 
   // A = X1^2
@@ -5871,8 +6038,9 @@ Point.prototype._extDbl = function _extDbl() {
 };
 
 Point.prototype._projDbl = function _projDbl() {
-  // http://hyperelliptic.org/EFD/g1p/auto-twisted-projective.html#doubling-dbl-2008-bbjlp
-  // http://hyperelliptic.org/EFD/g1p/auto-edwards-projective.html#doubling-dbl-2007-bl
+  // hyperelliptic.org/EFD/g1p/auto-twisted-projective.html
+  //     #doubling-dbl-2008-bbjlp
+  //     #doubling-dbl-2007-bl
   // and others
   // Generally 3M + 4S or 2M + 4S
 
@@ -5883,6 +6051,9 @@ Point.prototype._projDbl = function _projDbl() {
   // D = Y1^2
   var d = this.y.redSqr();
 
+  var nx;
+  var ny;
+  var nz;
   if (this.curve.twisted) {
     // E = a * C
     var e = this.curve._mulA(c);
@@ -5890,36 +6061,36 @@ Point.prototype._projDbl = function _projDbl() {
     var f = e.redAdd(d);
     if (this.zOne) {
       // X3 = (B - C - D) * (F - 2)
-      var nx = b.redSub(c).redSub(d).redMul(f.redSub(this.curve.two));
+      nx = b.redSub(c).redSub(d).redMul(f.redSub(this.curve.two));
       // Y3 = F * (E - D)
-      var ny = f.redMul(e.redSub(d));
+      ny = f.redMul(e.redSub(d));
       // Z3 = F^2 - 2 * F
-      var nz = f.redSqr().redSub(f).redSub(f);
+      nz = f.redSqr().redSub(f).redSub(f);
     } else {
       // H = Z1^2
       var h = this.z.redSqr();
       // J = F - 2 * H
       var j = f.redSub(h).redISub(h);
       // X3 = (B-C-D)*J
-      var nx = b.redSub(c).redISub(d).redMul(j);
+      nx = b.redSub(c).redISub(d).redMul(j);
       // Y3 = F * (E - D)
-      var ny = f.redMul(e.redSub(d));
+      ny = f.redMul(e.redSub(d));
       // Z3 = F * J
-      var nz = f.redMul(j);
+      nz = f.redMul(j);
     }
   } else {
     // E = C + D
     var e = c.redAdd(d);
     // H = (c * Z1)^2
-    var h = this.curve._mulC(redMul(this.z)).redSqr();
+    var h = this.curve._mulC(this.c.redMul(this.z)).redSqr();
     // J = E - 2 * H
     var j = e.redSub(h).redSub(h);
     // X3 = c * (B - E) * J
-    var nx = this.curve._mulC(b.redISub(e)).redMul(j);
+    nx = this.curve._mulC(b.redISub(e)).redMul(j);
     // Y3 = c * E * (C - D)
-    var ny = this.curve._mulC(e).redMul(c.redISub(d));
+    ny = this.curve._mulC(e).redMul(c.redISub(d));
     // Z3 = E * J
-    var nz = e.redMul(j);
+    nz = e.redMul(j);
   }
   return this.curve.point(nx, ny, nz);
 };
@@ -5936,7 +6107,8 @@ Point.prototype.dbl = function dbl() {
 };
 
 Point.prototype._extAdd = function _extAdd(p) {
-  // http://hyperelliptic.org/EFD/g1p/auto-twisted-extended-1.html#addition-add-2008-hwcd-3
+  // hyperelliptic.org/EFD/g1p/auto-twisted-extended-1.html
+  //     #addition-add-2008-hwcd-3
   // 8M
 
   // A = (Y1 - X1) * (Y2 - X2)
@@ -5967,8 +6139,9 @@ Point.prototype._extAdd = function _extAdd(p) {
 };
 
 Point.prototype._projAdd = function _projAdd(p) {
-  // http://hyperelliptic.org/EFD/g1p/auto-twisted-projective.html#addition-add-2008-bbjlp
-  // http://hyperelliptic.org/EFD/g1p/auto-edwards-projective.html#addition-add-2007-bl
+  // hyperelliptic.org/EFD/g1p/auto-twisted-projective.html
+  //     #addition-add-2008-bbjlp
+  //     #addition-add-2007-bl
   // 10M + 1S
 
   // A = Z1 * Z2
@@ -5988,16 +6161,18 @@ Point.prototype._projAdd = function _projAdd(p) {
   // X3 = A * F * ((X1 + Y1) * (X2 + Y2) - C - D)
   var tmp = this.x.redAdd(this.y).redMul(p.x.redAdd(p.y)).redISub(c).redISub(d);
   var nx = a.redMul(f).redMul(tmp);
+  var ny;
+  var nz;
   if (this.curve.twisted) {
     // Y3 = A * G * (D - a * C)
-    var ny = a.redMul(g).redMul(d.redSub(this.curve._mulA(c)));
+    ny = a.redMul(g).redMul(d.redSub(this.curve._mulA(c)));
     // Z3 = F * G
-    var nz = f.redMul(g);
+    nz = f.redMul(g);
   } else {
     // Y3 = A * G * (D - C)
-    var ny = a.redMul(g).redMul(d.redSub(c));
+    ny = a.redMul(g).redMul(d.redSub(c));
     // Z3 = c * F * G
-    var nz = this.curve._mulC(f).redMul(g);
+    nz = this.curve._mulC(f).redMul(g);
   }
   return this.curve.point(nx, ny, nz);
 };
@@ -6062,6 +6237,8 @@ Point.prototype.toP = Point.prototype.normalize;
 Point.prototype.mixedAdd = Point.prototype.add;
 
 },{"../../elliptic":31,"../curve":34,"bn.js":29,"inherits":145}],34:[function(require,module,exports){
+'use strict';
+
 var curve = exports;
 
 curve.base = require('./base');
@@ -6070,14 +6247,12 @@ curve.mont = require('./mont');
 curve.edwards = require('./edwards');
 
 },{"./base":32,"./edwards":33,"./mont":35,"./short":36}],35:[function(require,module,exports){
+'use strict';
+
 var curve = require('../curve');
-var elliptic = require('../../elliptic');
 var bn = require('bn.js');
 var inherits = require('inherits');
 var Base = curve.base;
-
-var getNAF = elliptic.utils.getNAF;
-var assert = elliptic.utils.assert;
 
 function MontCurve(conf) {
   Base.call(this, 'mont', conf);
@@ -6090,14 +6265,6 @@ function MontCurve(conf) {
 }
 inherits(MontCurve, Base);
 module.exports = MontCurve;
-
-MontCurve.prototype.point = function point(x, z) {
-  return new Point(this, x, z);
-};
-
-MontCurve.prototype.pointFromJSON = function pointFromJSON(obj) {
-  return Point.fromJSON(this, obj);
-}
 
 MontCurve.prototype.validate = function validate(point) {
   var x = point.normalize().x;
@@ -6123,6 +6290,14 @@ function Point(curve, x, z) {
   }
 }
 inherits(Point, Base.BasePoint);
+
+MontCurve.prototype.point = function point(x, z) {
+  return new Point(this, x, z);
+};
+
+MontCurve.prototype.pointFromJSON = function pointFromJSON(obj) {
+  return Point.fromJSON(this, obj);
+};
 
 Point.prototype.precompute = function precompute() {
   // No-op
@@ -6165,7 +6340,7 @@ Point.prototype.dbl = function dbl() {
   return this.curve.point(nx, nz);
 };
 
-Point.prototype.add = function add(p) {
+Point.prototype.add = function add() {
   throw new Error('Not supported on Montgomery curve');
 };
 
@@ -6234,14 +6409,15 @@ Point.prototype.getX = function getX() {
   return this.x.fromRed();
 };
 
-},{"../../elliptic":31,"../curve":34,"bn.js":29,"inherits":145}],36:[function(require,module,exports){
+},{"../curve":34,"bn.js":29,"inherits":145}],36:[function(require,module,exports){
+'use strict';
+
 var curve = require('../curve');
 var elliptic = require('../../elliptic');
 var bn = require('bn.js');
 var inherits = require('inherits');
 var Base = curve.base;
 
-var getNAF = elliptic.utils.getNAF;
 var assert = elliptic.utils.assert;
 
 function ShortCurve(conf) {
@@ -6297,7 +6473,7 @@ ShortCurve.prototype._getEndomorphism = function _getEndomorphism(conf) {
     basis = conf.basis.map(function(vec) {
       return {
         a: new bn(vec.a, 16),
-        b: new bn(vec.b, 16),
+        b: new bn(vec.b, 16)
       };
     });
   } else {
@@ -6318,7 +6494,6 @@ ShortCurve.prototype._getEndoRoots = function _getEndoRoots(num) {
   var red = num === this.p ? this.red : bn.mont(num);
   var tinv = new bn(2).toRed(red).redInvm();
   var ntinv = tinv.redNeg();
-  var one = new bn(1).toRed(red);
 
   var s = new bn(3).toRed(red).redNeg().redSqrt().redMul(tinv);
 
@@ -6352,10 +6527,12 @@ ShortCurve.prototype._getEndoBasis = function _getEndoBasis(lambda) {
 
   var prevR;
   var i = 0;
+  var r;
+  var x;
   while (u.cmpn(0) !== 0) {
     var q = v.div(u);
-    var r = v.sub(q.mul(u));
-    var x = x2.sub(q.mul(x1));
+    r = v.sub(q.mul(u));
+    x = x2.sub(q.mul(x1));
     var y = y2.sub(q.mul(y1));
 
     if (!a1 && r.cmp(aprxSqrt) < 0) {
@@ -6420,10 +6597,6 @@ ShortCurve.prototype._endoSplit = function _endoSplit(k) {
   return { k1: k1, k2: k2 };
 };
 
-ShortCurve.prototype.point = function point(x, y, isRed) {
-  return new Point(this, x, y, isRed);
-};
-
 ShortCurve.prototype.pointFromX = function pointFromX(odd, x) {
   x = new bn(x, 16);
   if (!x.red)
@@ -6441,14 +6614,6 @@ ShortCurve.prototype.pointFromX = function pointFromX(odd, x) {
   return this.point(x, y);
 };
 
-ShortCurve.prototype.jpoint = function jpoint(x, y, z) {
-  return new JPoint(this, x, y, z);
-};
-
-ShortCurve.prototype.pointFromJSON = function pointFromJSON(obj, red) {
-  return Point.fromJSON(this, obj, red);
-};
-
 ShortCurve.prototype.validate = function validate(point) {
   if (point.inf)
     return true;
@@ -6461,7 +6626,8 @@ ShortCurve.prototype.validate = function validate(point) {
   return y.redSqr().redISub(rhs).cmpn(0) === 0;
 };
 
-ShortCurve.prototype._endoWnafMulAdd = function _endoWnafMulAdd(points, coeffs) {
+ShortCurve.prototype._endoWnafMulAdd =
+    function _endoWnafMulAdd(points, coeffs) {
   var npoints = this._endoWnafT1;
   var ncoeffs = this._endoWnafT2;
   for (var i = 0; i < points.length; i++) {
@@ -6516,6 +6682,14 @@ function Point(curve, x, y, isRed) {
 }
 inherits(Point, Base.BasePoint);
 
+ShortCurve.prototype.point = function point(x, y, isRed) {
+  return new Point(this, x, y, isRed);
+};
+
+ShortCurve.prototype.pointFromJSON = function pointFromJSON(obj, red) {
+  return Point.fromJSON(this, obj, red);
+};
+
 Point.prototype._getBeta = function _getBeta() {
   if (!this.curve.endo)
     return;
@@ -6527,9 +6701,9 @@ Point.prototype._getBeta = function _getBeta() {
   var beta = this.curve.point(this.x.redMul(this.curve.endo.beta), this.y);
   if (pre) {
     var curve = this.curve;
-    function endoMul(p) {
+    var endoMul = function(p) {
       return curve.point(p.x.redMul(curve.endo.beta), p.y);
-    }
+    };
     pre.beta = beta;
     beta.precomputed = {
       beta: null,
@@ -6559,7 +6733,7 @@ Point.prototype.toJSON = function toJSON() {
       wnd: this.precomputed.naf.wnd,
       points: this.precomputed.naf.points.slice(1)
     }
-  }];
+  } ];
 };
 
 Point.fromJSON = function fromJSON(curve, obj, red) {
@@ -6591,7 +6765,7 @@ Point.fromJSON = function fromJSON(curve, obj, red) {
 Point.prototype.inspect = function inspect() {
   if (this.isInfinity())
     return '<EC Point Infinity>';
-  return '<EC Point x: ' + this.x.fromRed().toString(16 ,2) +
+  return '<EC Point x: ' + this.x.fromRed().toString(16, 2) +
       ' y: ' + this.y.fromRed().toString(16, 2) + '>';
 };
 
@@ -6689,9 +6863,9 @@ Point.prototype.neg = function neg(_precompute) {
   var res = this.curve.point(this.x, this.y.redNeg());
   if (_precompute && this.precomputed) {
     var pre = this.precomputed;
-    function negate(p) {
+    var negate = function(p) {
       return p.neg();
-    }
+    };
     res.precomputed = {
       naf: pre.naf && {
         wnd: pre.naf.wnd,
@@ -6735,6 +6909,10 @@ function JPoint(curve, x, y, z) {
   this.zOne = this.z === this.curve.one;
 }
 inherits(JPoint, Base.BasePoint);
+
+ShortCurve.prototype.jpoint = function jpoint(x, y, z) {
+  return new JPoint(this, x, y, z);
+};
 
 JPoint.prototype.toP = function toP() {
   if (this.isInfinity())
@@ -6888,9 +7066,13 @@ JPoint.prototype.dbl = function dbl() {
 };
 
 JPoint.prototype._zeroDbl = function _zeroDbl() {
+  var nx;
+  var ny;
+  var nz;
   // Z = 1
   if (this.zOne) {
-    // http://hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-0.html#doubling-mdbl-2007-bl
+    // hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-0.html
+    //     #doubling-mdbl-2007-bl
     // 1M + 5S + 14A
 
     // XX = X1^2
@@ -6913,13 +7095,14 @@ JPoint.prototype._zeroDbl = function _zeroDbl() {
     yyyy8 = yyyy8.redIAdd(yyyy8);
 
     // X3 = T
-    var nx = t;
+    nx = t;
     // Y3 = M * (S - T) - 8 * YYYY
-    var ny = m.redMul(s.redISub(t)).redISub(yyyy8);
+    ny = m.redMul(s.redISub(t)).redISub(yyyy8);
     // Z3 = 2*Y1
-    var nz = this.y.redAdd(this.y);
+    nz = this.y.redAdd(this.y);
   } else {
-    // http://hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-0.html#doubling-dbl-2009-l
+    // hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-0.html
+    //     #doubling-dbl-2009-l
     // 2M + 5S + 13A
 
     // A = X1^2
@@ -6942,11 +7125,11 @@ JPoint.prototype._zeroDbl = function _zeroDbl() {
     c8 = c8.redIAdd(c8);
 
     // X3 = F - 2 * D
-    var nx = f.redISub(d).redISub(d);
+    nx = f.redISub(d).redISub(d);
     // Y3 = E * (D - X3) - 8 * C
-    var ny = e.redMul(d.redISub(nx)).redISub(c8);
+    ny = e.redMul(d.redISub(nx)).redISub(c8);
     // Z3 = 2 * Y1 * Z1
-    var nz = this.y.redMul(this.z);
+    nz = this.y.redMul(this.z);
     nz = nz.redIAdd(nz);
   }
 
@@ -6954,9 +7137,13 @@ JPoint.prototype._zeroDbl = function _zeroDbl() {
 };
 
 JPoint.prototype._threeDbl = function _threeDbl() {
+  var nx;
+  var ny;
+  var nz;
   // Z = 1
   if (this.zOne) {
-    // http://hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-3.html#doubling-mdbl-2007-bl
+    // hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-3.html
+    //     #doubling-mdbl-2007-bl
     // 1M + 5S + 15A
 
     // XX = X1^2
@@ -6973,16 +7160,16 @@ JPoint.prototype._threeDbl = function _threeDbl() {
     // T = M^2 - 2 * S
     var t = m.redSqr().redISub(s).redISub(s);
     // X3 = T
-    var nx = t;
+    nx = t;
     // Y3 = M * (S - T) - 8 * YYYY
     var yyyy8 = yyyy.redIAdd(yyyy);
     yyyy8 = yyyy8.redIAdd(yyyy8);
     yyyy8 = yyyy8.redIAdd(yyyy8);
-    var ny = m.redMul(s.redISub(t)).redISub(yyyy8);
+    ny = m.redMul(s.redISub(t)).redISub(yyyy8);
     // Z3 = 2 * Y1
-    var nz = this.y.redAdd(this.y);
+    nz = this.y.redAdd(this.y);
   } else {
-    // http://hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-3.html#doubling-dbl-2001-b
+    // hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-3.html#doubling-dbl-2001-b
     // 3M + 5S
 
     // delta = Z1^2
@@ -6998,15 +7185,15 @@ JPoint.prototype._threeDbl = function _threeDbl() {
     var beta4 = beta.redIAdd(beta);
     beta4 = beta4.redIAdd(beta4);
     var beta8 = beta4.redAdd(beta4);
-    var nx = alpha.redSqr().redISub(beta8);
+    nx = alpha.redSqr().redISub(beta8);
     // Z3 = (Y1 + Z1)^2 - gamma - delta
-    var nz = this.y.redAdd(this.z).redSqr().redISub(gamma).redISub(delta);
+    nz = this.y.redAdd(this.z).redSqr().redISub(gamma).redISub(delta);
     // Y3 = alpha * (4 * beta - X3) - 8 * gamma^2
     var ggamma8 = gamma.redSqr();
     ggamma8 = ggamma8.redIAdd(ggamma8);
     ggamma8 = ggamma8.redIAdd(ggamma8);
     ggamma8 = ggamma8.redIAdd(ggamma8);
-    var ny = alpha.redMul(beta4.redISub(nx)).redISub(ggamma8);
+    ny = alpha.redMul(beta4.redISub(nx)).redISub(ggamma8);
   }
 
   return this.curve.jpoint(nx, ny, nz);
@@ -7014,7 +7201,6 @@ JPoint.prototype._threeDbl = function _threeDbl() {
 
 JPoint.prototype._dbl = function _dbl() {
   var a = this.curve.a;
-  var tinv = this.curve.tinv;
 
   // 4M + 6S + 10A
   var jx = this.x;
@@ -7047,7 +7233,7 @@ JPoint.prototype.trpl = function trpl() {
   if (!this.curve.zeroA)
     return this.dbl().add(this);
 
-  // http://hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-0.html#tripling-tpl-2007-bl
+  // hyperelliptic.org/EFD/g1p/auto-shortw-jacobian-0.html#tripling-tpl-2007-bl
   // 5M + 10S + ...
 
   // XX = X1^2
@@ -7133,10 +7319,11 @@ JPoint.prototype.isInfinity = function isInfinity() {
 };
 
 },{"../../elliptic":31,"../curve":34,"bn.js":29,"inherits":145}],37:[function(require,module,exports){
+'use strict';
+
 var curves = exports;
 
 var hash = require('hash.js');
-var bn = require('bn.js');
 var elliptic = require('../elliptic');
 
 var assert = elliptic.utils.assert;
@@ -7185,7 +7372,7 @@ defineCurve('p192', {
   g: [
     '188da80e b03090f6 7cbf20eb 43a18800 f4ff0afd 82ff1012',
     '07192b95 ffc8da78 631011ed 6b24cdd5 73f977a1 1e794811'
-  ],
+  ]
 });
 
 defineCurve('p224', {
@@ -7200,7 +7387,7 @@ defineCurve('p224', {
   g: [
     'b70e0cbd 6bb4bf7f 321390b9 4a03c1d3 56c21122 343280d6 115c1d21',
     'bd376388 b5f723fb 4c22dfe6 cd4375a0 5a074764 44d58199 85007e34'
-  ],
+  ]
 });
 
 defineCurve('p256', {
@@ -7215,7 +7402,7 @@ defineCurve('p256', {
   g: [
     '6b17d1f2 e12c4247 f8bce6e5 63a440f2 77037d81 2deb33a0 f4a13945 d898c296',
     '4fe342e2 fe1a7f9b 8ee7eb4a 7c0f9e16 2bce3357 6b315ece cbb64068 37bf51f5'
-  ],
+  ]
 });
 
 defineCurve('curve25519', {
@@ -7251,6 +7438,13 @@ defineCurve('ed25519', {
   ]
 });
 
+var pre;
+try {
+  pre = require('./precomputed/secp256k1');
+} catch (e) {
+  pre = undefined;
+}
+
 defineCurve('secp256k1', {
   type: 'short',
   prime: 'k256',
@@ -7279,790 +7473,13 @@ defineCurve('secp256k1', {
   g: [
     '79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798',
     '483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8',
-    {
-      'doubles': {
-        'step': 4,
-        'points': [
-          [
-            'e60fce93b59e9ec53011aabc21c23e97b2a31369b87a5ae9c44ee89e2a6dec0a',
-            'f7e3507399e595929db99f34f57937101296891e44d23f0be1f32cce69616821'
-          ],
-          [
-            '8282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508',
-            '11f8a8098557dfe45e8256e830b60ace62d613ac2f7b17bed31b6eaff6e26caf'
-          ],
-          [
-            '175e159f728b865a72f99cc6c6fc846de0b93833fd2222ed73fce5b551e5b739',
-            'd3506e0d9e3c79eba4ef97a51ff71f5eacb5955add24345c6efa6ffee9fed695'
-          ],
-          [
-            '363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640',
-            '4e273adfc732221953b445397f3363145b9a89008199ecb62003c7f3bee9de9'
-          ],
-          [
-            '8b4b5f165df3c2be8c6244b5b745638843e4a781a15bcd1b69f79a55dffdf80c',
-            '4aad0a6f68d308b4b3fbd7813ab0da04f9e336546162ee56b3eff0c65fd4fd36'
-          ],
-          [
-            '723cbaa6e5db996d6bf771c00bd548c7b700dbffa6c0e77bcb6115925232fcda',
-            '96e867b5595cc498a921137488824d6e2660a0653779494801dc069d9eb39f5f'
-          ],
-          [
-            'eebfa4d493bebf98ba5feec812c2d3b50947961237a919839a533eca0e7dd7fa',
-            '5d9a8ca3970ef0f269ee7edaf178089d9ae4cdc3a711f712ddfd4fdae1de8999'
-          ],
-          [
-            '100f44da696e71672791d0a09b7bde459f1215a29b3c03bfefd7835b39a48db0',
-            'cdd9e13192a00b772ec8f3300c090666b7ff4a18ff5195ac0fbd5cd62bc65a09'
-          ],
-          [
-            'e1031be262c7ed1b1dc9227a4a04c017a77f8d4464f3b3852c8acde6e534fd2d',
-            '9d7061928940405e6bb6a4176597535af292dd419e1ced79a44f18f29456a00d'
-          ],
-          [
-            'feea6cae46d55b530ac2839f143bd7ec5cf8b266a41d6af52d5e688d9094696d',
-            'e57c6b6c97dce1bab06e4e12bf3ecd5c981c8957cc41442d3155debf18090088'
-          ],
-          [
-            'da67a91d91049cdcb367be4be6ffca3cfeed657d808583de33fa978bc1ec6cb1',
-            '9bacaa35481642bc41f463f7ec9780e5dec7adc508f740a17e9ea8e27a68be1d'
-          ],
-          [
-            '53904faa0b334cdda6e000935ef22151ec08d0f7bb11069f57545ccc1a37b7c0',
-            '5bc087d0bc80106d88c9eccac20d3c1c13999981e14434699dcb096b022771c8'
-          ],
-          [
-            '8e7bcd0bd35983a7719cca7764ca906779b53a043a9b8bcaeff959f43ad86047',
-            '10b7770b2a3da4b3940310420ca9514579e88e2e47fd68b3ea10047e8460372a'
-          ],
-          [
-            '385eed34c1cdff21e6d0818689b81bde71a7f4f18397e6690a841e1599c43862',
-            '283bebc3e8ea23f56701de19e9ebf4576b304eec2086dc8cc0458fe5542e5453'
-          ],
-          [
-            '6f9d9b803ecf191637c73a4413dfa180fddf84a5947fbc9c606ed86c3fac3a7',
-            '7c80c68e603059ba69b8e2a30e45c4d47ea4dd2f5c281002d86890603a842160'
-          ],
-          [
-            '3322d401243c4e2582a2147c104d6ecbf774d163db0f5e5313b7e0e742d0e6bd',
-            '56e70797e9664ef5bfb019bc4ddaf9b72805f63ea2873af624f3a2e96c28b2a0'
-          ],
-          [
-            '85672c7d2de0b7da2bd1770d89665868741b3f9af7643397721d74d28134ab83',
-            '7c481b9b5b43b2eb6374049bfa62c2e5e77f17fcc5298f44c8e3094f790313a6'
-          ],
-          [
-            '948bf809b1988a46b06c9f1919413b10f9226c60f668832ffd959af60c82a0a',
-            '53a562856dcb6646dc6b74c5d1c3418c6d4dff08c97cd2bed4cb7f88d8c8e589'
-          ],
-          [
-            '6260ce7f461801c34f067ce0f02873a8f1b0e44dfc69752accecd819f38fd8e8',
-            'bc2da82b6fa5b571a7f09049776a1ef7ecd292238051c198c1a84e95b2b4ae17'
-          ],
-          [
-            'e5037de0afc1d8d43d8348414bbf4103043ec8f575bfdc432953cc8d2037fa2d',
-            '4571534baa94d3b5f9f98d09fb990bddbd5f5b03ec481f10e0e5dc841d755bda'
-          ],
-          [
-            'e06372b0f4a207adf5ea905e8f1771b4e7e8dbd1c6a6c5b725866a0ae4fce725',
-            '7a908974bce18cfe12a27bb2ad5a488cd7484a7787104870b27034f94eee31dd'
-          ],
-          [
-            '213c7a715cd5d45358d0bbf9dc0ce02204b10bdde2a3f58540ad6908d0559754',
-            '4b6dad0b5ae462507013ad06245ba190bb4850f5f36a7eeddff2c27534b458f2'
-          ],
-          [
-            '4e7c272a7af4b34e8dbb9352a5419a87e2838c70adc62cddf0cc3a3b08fbd53c',
-            '17749c766c9d0b18e16fd09f6def681b530b9614bff7dd33e0b3941817dcaae6'
-          ],
-          [
-            'fea74e3dbe778b1b10f238ad61686aa5c76e3db2be43057632427e2840fb27b6',
-            '6e0568db9b0b13297cf674deccb6af93126b596b973f7b77701d3db7f23cb96f'
-          ],
-          [
-            '76e64113f677cf0e10a2570d599968d31544e179b760432952c02a4417bdde39',
-            'c90ddf8dee4e95cf577066d70681f0d35e2a33d2b56d2032b4b1752d1901ac01'
-          ],
-          [
-            'c738c56b03b2abe1e8281baa743f8f9a8f7cc643df26cbee3ab150242bcbb891',
-            '893fb578951ad2537f718f2eacbfbbbb82314eef7880cfe917e735d9699a84c3'
-          ],
-          [
-            'd895626548b65b81e264c7637c972877d1d72e5f3a925014372e9f6588f6c14b',
-            'febfaa38f2bc7eae728ec60818c340eb03428d632bb067e179363ed75d7d991f'
-          ],
-          [
-            'b8da94032a957518eb0f6433571e8761ceffc73693e84edd49150a564f676e03',
-            '2804dfa44805a1e4d7c99cc9762808b092cc584d95ff3b511488e4e74efdf6e7'
-          ],
-          [
-            'e80fea14441fb33a7d8adab9475d7fab2019effb5156a792f1a11778e3c0df5d',
-            'eed1de7f638e00771e89768ca3ca94472d155e80af322ea9fcb4291b6ac9ec78'
-          ],
-          [
-            'a301697bdfcd704313ba48e51d567543f2a182031efd6915ddc07bbcc4e16070',
-            '7370f91cfb67e4f5081809fa25d40f9b1735dbf7c0a11a130c0d1a041e177ea1'
-          ],
-          [
-            '90ad85b389d6b936463f9d0512678de208cc330b11307fffab7ac63e3fb04ed4',
-            'e507a3620a38261affdcbd9427222b839aefabe1582894d991d4d48cb6ef150'
-          ],
-          [
-            '8f68b9d2f63b5f339239c1ad981f162ee88c5678723ea3351b7b444c9ec4c0da',
-            '662a9f2dba063986de1d90c2b6be215dbbea2cfe95510bfdf23cbf79501fff82'
-          ],
-          [
-            'e4f3fb0176af85d65ff99ff9198c36091f48e86503681e3e6686fd5053231e11',
-            '1e63633ad0ef4f1c1661a6d0ea02b7286cc7e74ec951d1c9822c38576feb73bc'
-          ],
-          [
-            '8c00fa9b18ebf331eb961537a45a4266c7034f2f0d4e1d0716fb6eae20eae29e',
-            'efa47267fea521a1a9dc343a3736c974c2fadafa81e36c54e7d2a4c66702414b'
-          ],
-          [
-            'e7a26ce69dd4829f3e10cec0a9e98ed3143d084f308b92c0997fddfc60cb3e41',
-            '2a758e300fa7984b471b006a1aafbb18d0a6b2c0420e83e20e8a9421cf2cfd51'
-          ],
-          [
-            'b6459e0ee3662ec8d23540c223bcbdc571cbcb967d79424f3cf29eb3de6b80ef',
-            '67c876d06f3e06de1dadf16e5661db3c4b3ae6d48e35b2ff30bf0b61a71ba45'
-          ],
-          [
-            'd68a80c8280bb840793234aa118f06231d6f1fc67e73c5a5deda0f5b496943e8',
-            'db8ba9fff4b586d00c4b1f9177b0e28b5b0e7b8f7845295a294c84266b133120'
-          ],
-          [
-            '324aed7df65c804252dc0270907a30b09612aeb973449cea4095980fc28d3d5d',
-            '648a365774b61f2ff130c0c35aec1f4f19213b0c7e332843967224af96ab7c84'
-          ],
-          [
-            '4df9c14919cde61f6d51dfdbe5fee5dceec4143ba8d1ca888e8bd373fd054c96',
-            '35ec51092d8728050974c23a1d85d4b5d506cdc288490192ebac06cad10d5d'
-          ],
-          [
-            '9c3919a84a474870faed8a9c1cc66021523489054d7f0308cbfc99c8ac1f98cd',
-            'ddb84f0f4a4ddd57584f044bf260e641905326f76c64c8e6be7e5e03d4fc599d'
-          ],
-          [
-            '6057170b1dd12fdf8de05f281d8e06bb91e1493a8b91d4cc5a21382120a959e5',
-            '9a1af0b26a6a4807add9a2daf71df262465152bc3ee24c65e899be932385a2a8'
-          ],
-          [
-            'a576df8e23a08411421439a4518da31880cef0fba7d4df12b1a6973eecb94266',
-            '40a6bf20e76640b2c92b97afe58cd82c432e10a7f514d9f3ee8be11ae1b28ec8'
-          ],
-          [
-            '7778a78c28dec3e30a05fe9629de8c38bb30d1f5cf9a3a208f763889be58ad71',
-            '34626d9ab5a5b22ff7098e12f2ff580087b38411ff24ac563b513fc1fd9f43ac'
-          ],
-          [
-            '928955ee637a84463729fd30e7afd2ed5f96274e5ad7e5cb09eda9c06d903ac',
-            'c25621003d3f42a827b78a13093a95eeac3d26efa8a8d83fc5180e935bcd091f'
-          ],
-          [
-            '85d0fef3ec6db109399064f3a0e3b2855645b4a907ad354527aae75163d82751',
-            '1f03648413a38c0be29d496e582cf5663e8751e96877331582c237a24eb1f962'
-          ],
-          [
-            'ff2b0dce97eece97c1c9b6041798b85dfdfb6d8882da20308f5404824526087e',
-            '493d13fef524ba188af4c4dc54d07936c7b7ed6fb90e2ceb2c951e01f0c29907'
-          ],
-          [
-            '827fbbe4b1e880ea9ed2b2e6301b212b57f1ee148cd6dd28780e5e2cf856e241',
-            'c60f9c923c727b0b71bef2c67d1d12687ff7a63186903166d605b68baec293ec'
-          ],
-          [
-            'eaa649f21f51bdbae7be4ae34ce6e5217a58fdce7f47f9aa7f3b58fa2120e2b3',
-            'be3279ed5bbbb03ac69a80f89879aa5a01a6b965f13f7e59d47a5305ba5ad93d'
-          ],
-          [
-            'e4a42d43c5cf169d9391df6decf42ee541b6d8f0c9a137401e23632dda34d24f',
-            '4d9f92e716d1c73526fc99ccfb8ad34ce886eedfa8d8e4f13a7f7131deba9414'
-          ],
-          [
-            '1ec80fef360cbdd954160fadab352b6b92b53576a88fea4947173b9d4300bf19',
-            'aeefe93756b5340d2f3a4958a7abbf5e0146e77f6295a07b671cdc1cc107cefd'
-          ],
-          [
-            '146a778c04670c2f91b00af4680dfa8bce3490717d58ba889ddb5928366642be',
-            'b318e0ec3354028add669827f9d4b2870aaa971d2f7e5ed1d0b297483d83efd0'
-          ],
-          [
-            'fa50c0f61d22e5f07e3acebb1aa07b128d0012209a28b9776d76a8793180eef9',
-            '6b84c6922397eba9b72cd2872281a68a5e683293a57a213b38cd8d7d3f4f2811'
-          ],
-          [
-            'da1d61d0ca721a11b1a5bf6b7d88e8421a288ab5d5bba5220e53d32b5f067ec2',
-            '8157f55a7c99306c79c0766161c91e2966a73899d279b48a655fba0f1ad836f1'
-          ],
-          [
-            'a8e282ff0c9706907215ff98e8fd416615311de0446f1e062a73b0610d064e13',
-            '7f97355b8db81c09abfb7f3c5b2515888b679a3e50dd6bd6cef7c73111f4cc0c'
-          ],
-          [
-            '174a53b9c9a285872d39e56e6913cab15d59b1fa512508c022f382de8319497c',
-            'ccc9dc37abfc9c1657b4155f2c47f9e6646b3a1d8cb9854383da13ac079afa73'
-          ],
-          [
-            '959396981943785c3d3e57edf5018cdbe039e730e4918b3d884fdff09475b7ba',
-            '2e7e552888c331dd8ba0386a4b9cd6849c653f64c8709385e9b8abf87524f2fd'
-          ],
-          [
-            'd2a63a50ae401e56d645a1153b109a8fcca0a43d561fba2dbb51340c9d82b151',
-            'e82d86fb6443fcb7565aee58b2948220a70f750af484ca52d4142174dcf89405'
-          ],
-          [
-            '64587e2335471eb890ee7896d7cfdc866bacbdbd3839317b3436f9b45617e073',
-            'd99fcdd5bf6902e2ae96dd6447c299a185b90a39133aeab358299e5e9faf6589'
-          ],
-          [
-            '8481bde0e4e4d885b3a546d3e549de042f0aa6cea250e7fd358d6c86dd45e458',
-            '38ee7b8cba5404dd84a25bf39cecb2ca900a79c42b262e556d64b1b59779057e'
-          ],
-          [
-            '13464a57a78102aa62b6979ae817f4637ffcfed3c4b1ce30bcd6303f6caf666b',
-            '69be159004614580ef7e433453ccb0ca48f300a81d0942e13f495a907f6ecc27'
-          ],
-          [
-            'bc4a9df5b713fe2e9aef430bcc1dc97a0cd9ccede2f28588cada3a0d2d83f366',
-            'd3a81ca6e785c06383937adf4b798caa6e8a9fbfa547b16d758d666581f33c1'
-          ],
-          [
-            '8c28a97bf8298bc0d23d8c749452a32e694b65e30a9472a3954ab30fe5324caa',
-            '40a30463a3305193378fedf31f7cc0eb7ae784f0451cb9459e71dc73cbef9482'
-          ],
-          [
-            '8ea9666139527a8c1dd94ce4f071fd23c8b350c5a4bb33748c4ba111faccae0',
-            '620efabbc8ee2782e24e7c0cfb95c5d735b783be9cf0f8e955af34a30e62b945'
-          ],
-          [
-            'dd3625faef5ba06074669716bbd3788d89bdde815959968092f76cc4eb9a9787',
-            '7a188fa3520e30d461da2501045731ca941461982883395937f68d00c644a573'
-          ],
-          [
-            'f710d79d9eb962297e4f6232b40e8f7feb2bc63814614d692c12de752408221e',
-            'ea98e67232d3b3295d3b535532115ccac8612c721851617526ae47a9c77bfc82'
-          ]
-        ]
-      },
-      'naf': {
-        'wnd': 7,
-        'points': [
-          [
-            'f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9',
-            '388f7b0f632de8140fe337e62a37f3566500a99934c2231b6cb9fd7584b8e672'
-          ],
-          [
-            '2f8bde4d1a07209355b4a7250a5c5128e88b84bddc619ab7cba8d569b240efe4',
-            'd8ac222636e5e3d6d4dba9dda6c9c426f788271bab0d6840dca87d3aa6ac62d6'
-          ],
-          [
-            '5cbdf0646e5db4eaa398f365f2ea7a0e3d419b7e0330e39ce92bddedcac4f9bc',
-            '6aebca40ba255960a3178d6d861a54dba813d0b813fde7b5a5082628087264da'
-          ],
-          [
-            'acd484e2f0c7f65309ad178a9f559abde09796974c57e714c35f110dfc27ccbe',
-            'cc338921b0a7d9fd64380971763b61e9add888a4375f8e0f05cc262ac64f9c37'
-          ],
-          [
-            '774ae7f858a9411e5ef4246b70c65aac5649980be5c17891bbec17895da008cb',
-            'd984a032eb6b5e190243dd56d7b7b365372db1e2dff9d6a8301d74c9c953c61b'
-          ],
-          [
-            'f28773c2d975288bc7d1d205c3748651b075fbc6610e58cddeeddf8f19405aa8',
-            'ab0902e8d880a89758212eb65cdaf473a1a06da521fa91f29b5cb52db03ed81'
-          ],
-          [
-            'd7924d4f7d43ea965a465ae3095ff41131e5946f3c85f79e44adbcf8e27e080e',
-            '581e2872a86c72a683842ec228cc6defea40af2bd896d3a5c504dc9ff6a26b58'
-          ],
-          [
-            'defdea4cdb677750a420fee807eacf21eb9898ae79b9768766e4faa04a2d4a34',
-            '4211ab0694635168e997b0ead2a93daeced1f4a04a95c0f6cfb199f69e56eb77'
-          ],
-          [
-            '2b4ea0a797a443d293ef5cff444f4979f06acfebd7e86d277475656138385b6c',
-            '85e89bc037945d93b343083b5a1c86131a01f60c50269763b570c854e5c09b7a'
-          ],
-          [
-            '352bbf4a4cdd12564f93fa332ce333301d9ad40271f8107181340aef25be59d5',
-            '321eb4075348f534d59c18259dda3e1f4a1b3b2e71b1039c67bd3d8bcf81998c'
-          ],
-          [
-            '2fa2104d6b38d11b0230010559879124e42ab8dfeff5ff29dc9cdadd4ecacc3f',
-            '2de1068295dd865b64569335bd5dd80181d70ecfc882648423ba76b532b7d67'
-          ],
-          [
-            '9248279b09b4d68dab21a9b066edda83263c3d84e09572e269ca0cd7f5453714',
-            '73016f7bf234aade5d1aa71bdea2b1ff3fc0de2a887912ffe54a32ce97cb3402'
-          ],
-          [
-            'daed4f2be3a8bf278e70132fb0beb7522f570e144bf615c07e996d443dee8729',
-            'a69dce4a7d6c98e8d4a1aca87ef8d7003f83c230f3afa726ab40e52290be1c55'
-          ],
-          [
-            'c44d12c7065d812e8acf28d7cbb19f9011ecd9e9fdf281b0e6a3b5e87d22e7db',
-            '2119a460ce326cdc76c45926c982fdac0e106e861edf61c5a039063f0e0e6482'
-          ],
-          [
-            '6a245bf6dc698504c89a20cfded60853152b695336c28063b61c65cbd269e6b4',
-            'e022cf42c2bd4a708b3f5126f16a24ad8b33ba48d0423b6efd5e6348100d8a82'
-          ],
-          [
-            '1697ffa6fd9de627c077e3d2fe541084ce13300b0bec1146f95ae57f0d0bd6a5',
-            'b9c398f186806f5d27561506e4557433a2cf15009e498ae7adee9d63d01b2396'
-          ],
-          [
-            '605bdb019981718b986d0f07e834cb0d9deb8360ffb7f61df982345ef27a7479',
-            '2972d2de4f8d20681a78d93ec96fe23c26bfae84fb14db43b01e1e9056b8c49'
-          ],
-          [
-            '62d14dab4150bf497402fdc45a215e10dcb01c354959b10cfe31c7e9d87ff33d',
-            '80fc06bd8cc5b01098088a1950eed0db01aa132967ab472235f5642483b25eaf'
-          ],
-          [
-            '80c60ad0040f27dade5b4b06c408e56b2c50e9f56b9b8b425e555c2f86308b6f',
-            '1c38303f1cc5c30f26e66bad7fe72f70a65eed4cbe7024eb1aa01f56430bd57a'
-          ],
-          [
-            '7a9375ad6167ad54aa74c6348cc54d344cc5dc9487d847049d5eabb0fa03c8fb',
-            'd0e3fa9eca8726909559e0d79269046bdc59ea10c70ce2b02d499ec224dc7f7'
-          ],
-          [
-            'd528ecd9b696b54c907a9ed045447a79bb408ec39b68df504bb51f459bc3ffc9',
-            'eecf41253136e5f99966f21881fd656ebc4345405c520dbc063465b521409933'
-          ],
-          [
-            '49370a4b5f43412ea25f514e8ecdad05266115e4a7ecb1387231808f8b45963',
-            '758f3f41afd6ed428b3081b0512fd62a54c3f3afbb5b6764b653052a12949c9a'
-          ],
-          [
-            '77f230936ee88cbbd73df930d64702ef881d811e0e1498e2f1c13eb1fc345d74',
-            '958ef42a7886b6400a08266e9ba1b37896c95330d97077cbbe8eb3c7671c60d6'
-          ],
-          [
-            'f2dac991cc4ce4b9ea44887e5c7c0bce58c80074ab9d4dbaeb28531b7739f530',
-            'e0dedc9b3b2f8dad4da1f32dec2531df9eb5fbeb0598e4fd1a117dba703a3c37'
-          ],
-          [
-            '463b3d9f662621fb1b4be8fbbe2520125a216cdfc9dae3debcba4850c690d45b',
-            '5ed430d78c296c3543114306dd8622d7c622e27c970a1de31cb377b01af7307e'
-          ],
-          [
-            'f16f804244e46e2a09232d4aff3b59976b98fac14328a2d1a32496b49998f247',
-            'cedabd9b82203f7e13d206fcdf4e33d92a6c53c26e5cce26d6579962c4e31df6'
-          ],
-          [
-            'caf754272dc84563b0352b7a14311af55d245315ace27c65369e15f7151d41d1',
-            'cb474660ef35f5f2a41b643fa5e460575f4fa9b7962232a5c32f908318a04476'
-          ],
-          [
-            '2600ca4b282cb986f85d0f1709979d8b44a09c07cb86d7c124497bc86f082120',
-            '4119b88753c15bd6a693b03fcddbb45d5ac6be74ab5f0ef44b0be9475a7e4b40'
-          ],
-          [
-            '7635ca72d7e8432c338ec53cd12220bc01c48685e24f7dc8c602a7746998e435',
-            '91b649609489d613d1d5e590f78e6d74ecfc061d57048bad9e76f302c5b9c61'
-          ],
-          [
-            '754e3239f325570cdbbf4a87deee8a66b7f2b33479d468fbc1a50743bf56cc18',
-            '673fb86e5bda30fb3cd0ed304ea49a023ee33d0197a695d0c5d98093c536683'
-          ],
-          [
-            'e3e6bd1071a1e96aff57859c82d570f0330800661d1c952f9fe2694691d9b9e8',
-            '59c9e0bba394e76f40c0aa58379a3cb6a5a2283993e90c4167002af4920e37f5'
-          ],
-          [
-            '186b483d056a033826ae73d88f732985c4ccb1f32ba35f4b4cc47fdcf04aa6eb',
-            '3b952d32c67cf77e2e17446e204180ab21fb8090895138b4a4a797f86e80888b'
-          ],
-          [
-            'df9d70a6b9876ce544c98561f4be4f725442e6d2b737d9c91a8321724ce0963f',
-            '55eb2dafd84d6ccd5f862b785dc39d4ab157222720ef9da217b8c45cf2ba2417'
-          ],
-          [
-            '5edd5cc23c51e87a497ca815d5dce0f8ab52554f849ed8995de64c5f34ce7143',
-            'efae9c8dbc14130661e8cec030c89ad0c13c66c0d17a2905cdc706ab7399a868'
-          ],
-          [
-            '290798c2b6476830da12fe02287e9e777aa3fba1c355b17a722d362f84614fba',
-            'e38da76dcd440621988d00bcf79af25d5b29c094db2a23146d003afd41943e7a'
-          ],
-          [
-            'af3c423a95d9f5b3054754efa150ac39cd29552fe360257362dfdecef4053b45',
-            'f98a3fd831eb2b749a93b0e6f35cfb40c8cd5aa667a15581bc2feded498fd9c6'
-          ],
-          [
-            '766dbb24d134e745cccaa28c99bf274906bb66b26dcf98df8d2fed50d884249a',
-            '744b1152eacbe5e38dcc887980da38b897584a65fa06cedd2c924f97cbac5996'
-          ],
-          [
-            '59dbf46f8c94759ba21277c33784f41645f7b44f6c596a58ce92e666191abe3e',
-            'c534ad44175fbc300f4ea6ce648309a042ce739a7919798cd85e216c4a307f6e'
-          ],
-          [
-            'f13ada95103c4537305e691e74e9a4a8dd647e711a95e73cb62dc6018cfd87b8',
-            'e13817b44ee14de663bf4bc808341f326949e21a6a75c2570778419bdaf5733d'
-          ],
-          [
-            '7754b4fa0e8aced06d4167a2c59cca4cda1869c06ebadfb6488550015a88522c',
-            '30e93e864e669d82224b967c3020b8fa8d1e4e350b6cbcc537a48b57841163a2'
-          ],
-          [
-            '948dcadf5990e048aa3874d46abef9d701858f95de8041d2a6828c99e2262519',
-            'e491a42537f6e597d5d28a3224b1bc25df9154efbd2ef1d2cbba2cae5347d57e'
-          ],
-          [
-            '7962414450c76c1689c7b48f8202ec37fb224cf5ac0bfa1570328a8a3d7c77ab',
-            '100b610ec4ffb4760d5c1fc133ef6f6b12507a051f04ac5760afa5b29db83437'
-          ],
-          [
-            '3514087834964b54b15b160644d915485a16977225b8847bb0dd085137ec47ca',
-            'ef0afbb2056205448e1652c48e8127fc6039e77c15c2378b7e7d15a0de293311'
-          ],
-          [
-            'd3cc30ad6b483e4bc79ce2c9dd8bc54993e947eb8df787b442943d3f7b527eaf',
-            '8b378a22d827278d89c5e9be8f9508ae3c2ad46290358630afb34db04eede0a4'
-          ],
-          [
-            '1624d84780732860ce1c78fcbfefe08b2b29823db913f6493975ba0ff4847610',
-            '68651cf9b6da903e0914448c6cd9d4ca896878f5282be4c8cc06e2a404078575'
-          ],
-          [
-            '733ce80da955a8a26902c95633e62a985192474b5af207da6df7b4fd5fc61cd4',
-            'f5435a2bd2badf7d485a4d8b8db9fcce3e1ef8e0201e4578c54673bc1dc5ea1d'
-          ],
-          [
-            '15d9441254945064cf1a1c33bbd3b49f8966c5092171e699ef258dfab81c045c',
-            'd56eb30b69463e7234f5137b73b84177434800bacebfc685fc37bbe9efe4070d'
-          ],
-          [
-            'a1d0fcf2ec9de675b612136e5ce70d271c21417c9d2b8aaaac138599d0717940',
-            'edd77f50bcb5a3cab2e90737309667f2641462a54070f3d519212d39c197a629'
-          ],
-          [
-            'e22fbe15c0af8ccc5780c0735f84dbe9a790badee8245c06c7ca37331cb36980',
-            'a855babad5cd60c88b430a69f53a1a7a38289154964799be43d06d77d31da06'
-          ],
-          [
-            '311091dd9860e8e20ee13473c1155f5f69635e394704eaa74009452246cfa9b3',
-            '66db656f87d1f04fffd1f04788c06830871ec5a64feee685bd80f0b1286d8374'
-          ],
-          [
-            '34c1fd04d301be89b31c0442d3e6ac24883928b45a9340781867d4232ec2dbdf',
-            '9414685e97b1b5954bd46f730174136d57f1ceeb487443dc5321857ba73abee'
-          ],
-          [
-            'f219ea5d6b54701c1c14de5b557eb42a8d13f3abbcd08affcc2a5e6b049b8d63',
-            '4cb95957e83d40b0f73af4544cccf6b1f4b08d3c07b27fb8d8c2962a400766d1'
-          ],
-          [
-            'd7b8740f74a8fbaab1f683db8f45de26543a5490bca627087236912469a0b448',
-            'fa77968128d9c92ee1010f337ad4717eff15db5ed3c049b3411e0315eaa4593b'
-          ],
-          [
-            '32d31c222f8f6f0ef86f7c98d3a3335ead5bcd32abdd94289fe4d3091aa824bf',
-            '5f3032f5892156e39ccd3d7915b9e1da2e6dac9e6f26e961118d14b8462e1661'
-          ],
-          [
-            '7461f371914ab32671045a155d9831ea8793d77cd59592c4340f86cbc18347b5',
-            '8ec0ba238b96bec0cbdddcae0aa442542eee1ff50c986ea6b39847b3cc092ff6'
-          ],
-          [
-            'ee079adb1df1860074356a25aa38206a6d716b2c3e67453d287698bad7b2b2d6',
-            '8dc2412aafe3be5c4c5f37e0ecc5f9f6a446989af04c4e25ebaac479ec1c8c1e'
-          ],
-          [
-            '16ec93e447ec83f0467b18302ee620f7e65de331874c9dc72bfd8616ba9da6b5',
-            '5e4631150e62fb40d0e8c2a7ca5804a39d58186a50e497139626778e25b0674d'
-          ],
-          [
-            'eaa5f980c245f6f038978290afa70b6bd8855897f98b6aa485b96065d537bd99',
-            'f65f5d3e292c2e0819a528391c994624d784869d7e6ea67fb18041024edc07dc'
-          ],
-          [
-            '78c9407544ac132692ee1910a02439958ae04877151342ea96c4b6b35a49f51',
-            'f3e0319169eb9b85d5404795539a5e68fa1fbd583c064d2462b675f194a3ddb4'
-          ],
-          [
-            '494f4be219a1a77016dcd838431aea0001cdc8ae7a6fc688726578d9702857a5',
-            '42242a969283a5f339ba7f075e36ba2af925ce30d767ed6e55f4b031880d562c'
-          ],
-          [
-            'a598a8030da6d86c6bc7f2f5144ea549d28211ea58faa70ebf4c1e665c1fe9b5',
-            '204b5d6f84822c307e4b4a7140737aec23fc63b65b35f86a10026dbd2d864e6b'
-          ],
-          [
-            'c41916365abb2b5d09192f5f2dbeafec208f020f12570a184dbadc3e58595997',
-            '4f14351d0087efa49d245b328984989d5caf9450f34bfc0ed16e96b58fa9913'
-          ],
-          [
-            '841d6063a586fa475a724604da03bc5b92a2e0d2e0a36acfe4c73a5514742881',
-            '73867f59c0659e81904f9a1c7543698e62562d6744c169ce7a36de01a8d6154'
-          ],
-          [
-            '5e95bb399a6971d376026947f89bde2f282b33810928be4ded112ac4d70e20d5',
-            '39f23f366809085beebfc71181313775a99c9aed7d8ba38b161384c746012865'
-          ],
-          [
-            '36e4641a53948fd476c39f8a99fd974e5ec07564b5315d8bf99471bca0ef2f66',
-            'd2424b1b1abe4eb8164227b085c9aa9456ea13493fd563e06fd51cf5694c78fc'
-          ],
-          [
-            '336581ea7bfbbb290c191a2f507a41cf5643842170e914faeab27c2c579f726',
-            'ead12168595fe1be99252129b6e56b3391f7ab1410cd1e0ef3dcdcabd2fda224'
-          ],
-          [
-            '8ab89816dadfd6b6a1f2634fcf00ec8403781025ed6890c4849742706bd43ede',
-            '6fdcef09f2f6d0a044e654aef624136f503d459c3e89845858a47a9129cdd24e'
-          ],
-          [
-            '1e33f1a746c9c5778133344d9299fcaa20b0938e8acff2544bb40284b8c5fb94',
-            '60660257dd11b3aa9c8ed618d24edff2306d320f1d03010e33a7d2057f3b3b6'
-          ],
-          [
-            '85b7c1dcb3cec1b7ee7f30ded79dd20a0ed1f4cc18cbcfcfa410361fd8f08f31',
-            '3d98a9cdd026dd43f39048f25a8847f4fcafad1895d7a633c6fed3c35e999511'
-          ],
-          [
-            '29df9fbd8d9e46509275f4b125d6d45d7fbe9a3b878a7af872a2800661ac5f51',
-            'b4c4fe99c775a606e2d8862179139ffda61dc861c019e55cd2876eb2a27d84b'
-          ],
-          [
-            'a0b1cae06b0a847a3fea6e671aaf8adfdfe58ca2f768105c8082b2e449fce252',
-            'ae434102edde0958ec4b19d917a6a28e6b72da1834aff0e650f049503a296cf2'
-          ],
-          [
-            '4e8ceafb9b3e9a136dc7ff67e840295b499dfb3b2133e4ba113f2e4c0e121e5',
-            'cf2174118c8b6d7a4b48f6d534ce5c79422c086a63460502b827ce62a326683c'
-          ],
-          [
-            'd24a44e047e19b6f5afb81c7ca2f69080a5076689a010919f42725c2b789a33b',
-            '6fb8d5591b466f8fc63db50f1c0f1c69013f996887b8244d2cdec417afea8fa3'
-          ],
-          [
-            'ea01606a7a6c9cdd249fdfcfacb99584001edd28abbab77b5104e98e8e3b35d4',
-            '322af4908c7312b0cfbfe369f7a7b3cdb7d4494bc2823700cfd652188a3ea98d'
-          ],
-          [
-            'af8addbf2b661c8a6c6328655eb96651252007d8c5ea31be4ad196de8ce2131f',
-            '6749e67c029b85f52a034eafd096836b2520818680e26ac8f3dfbcdb71749700'
-          ],
-          [
-            'e3ae1974566ca06cc516d47e0fb165a674a3dabcfca15e722f0e3450f45889',
-            '2aeabe7e4531510116217f07bf4d07300de97e4874f81f533420a72eeb0bd6a4'
-          ],
-          [
-            '591ee355313d99721cf6993ffed1e3e301993ff3ed258802075ea8ced397e246',
-            'b0ea558a113c30bea60fc4775460c7901ff0b053d25ca2bdeee98f1a4be5d196'
-          ],
-          [
-            '11396d55fda54c49f19aa97318d8da61fa8584e47b084945077cf03255b52984',
-            '998c74a8cd45ac01289d5833a7beb4744ff536b01b257be4c5767bea93ea57a4'
-          ],
-          [
-            '3c5d2a1ba39c5a1790000738c9e0c40b8dcdfd5468754b6405540157e017aa7a',
-            'b2284279995a34e2f9d4de7396fc18b80f9b8b9fdd270f6661f79ca4c81bd257'
-          ],
-          [
-            'cc8704b8a60a0defa3a99a7299f2e9c3fbc395afb04ac078425ef8a1793cc030',
-            'bdd46039feed17881d1e0862db347f8cf395b74fc4bcdc4e940b74e3ac1f1b13'
-          ],
-          [
-            'c533e4f7ea8555aacd9777ac5cad29b97dd4defccc53ee7ea204119b2889b197',
-            '6f0a256bc5efdf429a2fb6242f1a43a2d9b925bb4a4b3a26bb8e0f45eb596096'
-          ],
-          [
-            'c14f8f2ccb27d6f109f6d08d03cc96a69ba8c34eec07bbcf566d48e33da6593',
-            'c359d6923bb398f7fd4473e16fe1c28475b740dd098075e6c0e8649113dc3a38'
-          ],
-          [
-            'a6cbc3046bc6a450bac24789fa17115a4c9739ed75f8f21ce441f72e0b90e6ef',
-            '21ae7f4680e889bb130619e2c0f95a360ceb573c70603139862afd617fa9b9f'
-          ],
-          [
-            '347d6d9a02c48927ebfb86c1359b1caf130a3c0267d11ce6344b39f99d43cc38',
-            '60ea7f61a353524d1c987f6ecec92f086d565ab687870cb12689ff1e31c74448'
-          ],
-          [
-            'da6545d2181db8d983f7dcb375ef5866d47c67b1bf31c8cf855ef7437b72656a',
-            '49b96715ab6878a79e78f07ce5680c5d6673051b4935bd897fea824b77dc208a'
-          ],
-          [
-            'c40747cc9d012cb1a13b8148309c6de7ec25d6945d657146b9d5994b8feb1111',
-            '5ca560753be2a12fc6de6caf2cb489565db936156b9514e1bb5e83037e0fa2d4'
-          ],
-          [
-            '4e42c8ec82c99798ccf3a610be870e78338c7f713348bd34c8203ef4037f3502',
-            '7571d74ee5e0fb92a7a8b33a07783341a5492144cc54bcc40a94473693606437'
-          ],
-          [
-            '3775ab7089bc6af823aba2e1af70b236d251cadb0c86743287522a1b3b0dedea',
-            'be52d107bcfa09d8bcb9736a828cfa7fac8db17bf7a76a2c42ad961409018cf7'
-          ],
-          [
-            'cee31cbf7e34ec379d94fb814d3d775ad954595d1314ba8846959e3e82f74e26',
-            '8fd64a14c06b589c26b947ae2bcf6bfa0149ef0be14ed4d80f448a01c43b1c6d'
-          ],
-          [
-            'b4f9eaea09b6917619f6ea6a4eb5464efddb58fd45b1ebefcdc1a01d08b47986',
-            '39e5c9925b5a54b07433a4f18c61726f8bb131c012ca542eb24a8ac07200682a'
-          ],
-          [
-            'd4263dfc3d2df923a0179a48966d30ce84e2515afc3dccc1b77907792ebcc60e',
-            '62dfaf07a0f78feb30e30d6295853ce189e127760ad6cf7fae164e122a208d54'
-          ],
-          [
-            '48457524820fa65a4f8d35eb6930857c0032acc0a4a2de422233eeda897612c4',
-            '25a748ab367979d98733c38a1fa1c2e7dc6cc07db2d60a9ae7a76aaa49bd0f77'
-          ],
-          [
-            'dfeeef1881101f2cb11644f3a2afdfc2045e19919152923f367a1767c11cceda',
-            'ecfb7056cf1de042f9420bab396793c0c390bde74b4bbdff16a83ae09a9a7517'
-          ],
-          [
-            '6d7ef6b17543f8373c573f44e1f389835d89bcbc6062ced36c82df83b8fae859',
-            'cd450ec335438986dfefa10c57fea9bcc521a0959b2d80bbf74b190dca712d10'
-          ],
-          [
-            'e75605d59102a5a2684500d3b991f2e3f3c88b93225547035af25af66e04541f',
-            'f5c54754a8f71ee540b9b48728473e314f729ac5308b06938360990e2bfad125'
-          ],
-          [
-            'eb98660f4c4dfaa06a2be453d5020bc99a0c2e60abe388457dd43fefb1ed620c',
-            '6cb9a8876d9cb8520609af3add26cd20a0a7cd8a9411131ce85f44100099223e'
-          ],
-          [
-            '13e87b027d8514d35939f2e6892b19922154596941888336dc3563e3b8dba942',
-            'fef5a3c68059a6dec5d624114bf1e91aac2b9da568d6abeb2570d55646b8adf1'
-          ],
-          [
-            'ee163026e9fd6fe017c38f06a5be6fc125424b371ce2708e7bf4491691e5764a',
-            '1acb250f255dd61c43d94ccc670d0f58f49ae3fa15b96623e5430da0ad6c62b2'
-          ],
-          [
-            'b268f5ef9ad51e4d78de3a750c2dc89b1e626d43505867999932e5db33af3d80',
-            '5f310d4b3c99b9ebb19f77d41c1dee018cf0d34fd4191614003e945a1216e423'
-          ],
-          [
-            'ff07f3118a9df035e9fad85eb6c7bfe42b02f01ca99ceea3bf7ffdba93c4750d',
-            '438136d603e858a3a5c440c38eccbaddc1d2942114e2eddd4740d098ced1f0d8'
-          ],
-          [
-            '8d8b9855c7c052a34146fd20ffb658bea4b9f69e0d825ebec16e8c3ce2b526a1',
-            'cdb559eedc2d79f926baf44fb84ea4d44bcf50fee51d7ceb30e2e7f463036758'
-          ],
-          [
-            '52db0b5384dfbf05bfa9d472d7ae26dfe4b851ceca91b1eba54263180da32b63',
-            'c3b997d050ee5d423ebaf66a6db9f57b3180c902875679de924b69d84a7b375'
-          ],
-          [
-            'e62f9490d3d51da6395efd24e80919cc7d0f29c3f3fa48c6fff543becbd43352',
-            '6d89ad7ba4876b0b22c2ca280c682862f342c8591f1daf5170e07bfd9ccafa7d'
-          ],
-          [
-            '7f30ea2476b399b4957509c88f77d0191afa2ff5cb7b14fd6d8e7d65aaab1193',
-            'ca5ef7d4b231c94c3b15389a5f6311e9daff7bb67b103e9880ef4bff637acaec'
-          ],
-          [
-            '5098ff1e1d9f14fb46a210fada6c903fef0fb7b4a1dd1d9ac60a0361800b7a00',
-            '9731141d81fc8f8084d37c6e7542006b3ee1b40d60dfe5362a5b132fd17ddc0'
-          ],
-          [
-            '32b78c7de9ee512a72895be6b9cbefa6e2f3c4ccce445c96b9f2c81e2778ad58',
-            'ee1849f513df71e32efc3896ee28260c73bb80547ae2275ba497237794c8753c'
-          ],
-          [
-            'e2cb74fddc8e9fbcd076eef2a7c72b0ce37d50f08269dfc074b581550547a4f7',
-            'd3aa2ed71c9dd2247a62df062736eb0baddea9e36122d2be8641abcb005cc4a4'
-          ],
-          [
-            '8438447566d4d7bedadc299496ab357426009a35f235cb141be0d99cd10ae3a8',
-            'c4e1020916980a4da5d01ac5e6ad330734ef0d7906631c4f2390426b2edd791f'
-          ],
-          [
-            '4162d488b89402039b584c6fc6c308870587d9c46f660b878ab65c82c711d67e',
-            '67163e903236289f776f22c25fb8a3afc1732f2b84b4e95dbda47ae5a0852649'
-          ],
-          [
-            '3fad3fa84caf0f34f0f89bfd2dcf54fc175d767aec3e50684f3ba4a4bf5f683d',
-            'cd1bc7cb6cc407bb2f0ca647c718a730cf71872e7d0d2a53fa20efcdfe61826'
-          ],
-          [
-            '674f2600a3007a00568c1a7ce05d0816c1fb84bf1370798f1c69532faeb1a86b',
-            '299d21f9413f33b3edf43b257004580b70db57da0b182259e09eecc69e0d38a5'
-          ],
-          [
-            'd32f4da54ade74abb81b815ad1fb3b263d82d6c692714bcff87d29bd5ee9f08f',
-            'f9429e738b8e53b968e99016c059707782e14f4535359d582fc416910b3eea87'
-          ],
-          [
-            '30e4e670435385556e593657135845d36fbb6931f72b08cb1ed954f1e3ce3ff6',
-            '462f9bce619898638499350113bbc9b10a878d35da70740dc695a559eb88db7b'
-          ],
-          [
-            'be2062003c51cc3004682904330e4dee7f3dcd10b01e580bf1971b04d4cad297',
-            '62188bc49d61e5428573d48a74e1c655b1c61090905682a0d5558ed72dccb9bc'
-          ],
-          [
-            '93144423ace3451ed29e0fb9ac2af211cb6e84a601df5993c419859fff5df04a',
-            '7c10dfb164c3425f5c71a3f9d7992038f1065224f72bb9d1d902a6d13037b47c'
-          ],
-          [
-            'b015f8044f5fcbdcf21ca26d6c34fb8197829205c7b7d2a7cb66418c157b112c',
-            'ab8c1e086d04e813744a655b2df8d5f83b3cdc6faa3088c1d3aea1454e3a1d5f'
-          ],
-          [
-            'd5e9e1da649d97d89e4868117a465a3a4f8a18de57a140d36b3f2af341a21b52',
-            '4cb04437f391ed73111a13cc1d4dd0db1693465c2240480d8955e8592f27447a'
-          ],
-          [
-            'd3ae41047dd7ca065dbf8ed77b992439983005cd72e16d6f996a5316d36966bb',
-            'bd1aeb21ad22ebb22a10f0303417c6d964f8cdd7df0aca614b10dc14d125ac46'
-          ],
-          [
-            '463e2763d885f958fc66cdd22800f0a487197d0a82e377b49f80af87c897b065',
-            'bfefacdb0e5d0fd7df3a311a94de062b26b80c61fbc97508b79992671ef7ca7f'
-          ],
-          [
-            '7985fdfd127c0567c6f53ec1bb63ec3158e597c40bfe747c83cddfc910641917',
-            '603c12daf3d9862ef2b25fe1de289aed24ed291e0ec6708703a5bd567f32ed03'
-          ],
-          [
-            '74a1ad6b5f76e39db2dd249410eac7f99e74c59cb83d2d0ed5ff1543da7703e9',
-            'cc6157ef18c9c63cd6193d83631bbea0093e0968942e8c33d5737fd790e0db08'
-          ],
-          [
-            '30682a50703375f602d416664ba19b7fc9bab42c72747463a71d0896b22f6da3',
-            '553e04f6b018b4fa6c8f39e7f311d3176290d0e0f19ca73f17714d9977a22ff8'
-          ],
-          [
-            '9e2158f0d7c0d5f26c3791efefa79597654e7a2b2464f52b1ee6c1347769ef57',
-            '712fcdd1b9053f09003a3481fa7762e9ffd7c8ef35a38509e2fbf2629008373'
-          ],
-          [
-            '176e26989a43c9cfeba4029c202538c28172e566e3c4fce7322857f3be327d66',
-            'ed8cc9d04b29eb877d270b4878dc43c19aefd31f4eee09ee7b47834c1fa4b1c3'
-          ],
-          [
-            '75d46efea3771e6e68abb89a13ad747ecf1892393dfc4f1b7004788c50374da8',
-            '9852390a99507679fd0b86fd2b39a868d7efc22151346e1a3ca4726586a6bed8'
-          ],
-          [
-            '809a20c67d64900ffb698c4c825f6d5f2310fb0451c869345b7319f645605721',
-            '9e994980d9917e22b76b061927fa04143d096ccc54963e6a5ebfa5f3f8e286c1'
-          ],
-          [
-            '1b38903a43f7f114ed4500b4eac7083fdefece1cf29c63528d563446f972c180',
-            '4036edc931a60ae889353f77fd53de4a2708b26b6f5da72ad3394119daf408f9'
-          ]
-        ]
-      }
-    }
+    pre
   ]
 });
 
-},{"../elliptic":31,"bn.js":29,"hash.js":44}],38:[function(require,module,exports){
+},{"../elliptic":31,"./precomputed/secp256k1":42,"hash.js":45}],38:[function(require,module,exports){
+'use strict';
+
 var bn = require('bn.js');
 var elliptic = require('../../elliptic');
 var utils = elliptic.utils;
@@ -8100,8 +7517,16 @@ function EC(options) {
 }
 module.exports = EC;
 
-EC.prototype.keyPair = function keyPair(priv, pub) {
-  return new KeyPair(this, priv, pub);
+EC.prototype.keyPair = function keyPair(options) {
+  return new KeyPair(this, options);
+};
+
+EC.prototype.keyFromPrivate = function keyFromPrivate(priv, enc) {
+  return KeyPair.fromPrivate(this, priv, enc);
+};
+
+EC.prototype.keyFromPublic = function keyFromPublic(pub, enc) {
+  return KeyPair.fromPublic(this, pub, enc);
 };
 
 EC.prototype.genKeyPair = function genKeyPair(options) {
@@ -8124,7 +7549,7 @@ EC.prototype.genKeyPair = function genKeyPair(options) {
       continue;
 
     priv.iaddn(1);
-    return this.keyPair(priv);
+    return this.keyFromPrivate(priv);
   } while (true);
 };
 
@@ -8138,11 +7563,16 @@ EC.prototype._truncateToN = function truncateToN(msg, truncOnly) {
     return msg;
 };
 
-EC.prototype.sign = function sign(msg, key, options) {
-  key = this.keyPair(key, 'hex');
-  msg = this._truncateToN(new bn(msg, 16));
+EC.prototype.sign = function sign(msg, key, enc, options) {
+  if (typeof enc === 'object') {
+    options = enc;
+    enc = null;
+  }
   if (!options)
     options = {};
+
+  key = this.keyFromPrivate(key, enc);
+  msg = this._truncateToN(new bn(msg, 16));
 
   // Zero-extend key to provide enough entropy
   var bytes = this.n.byteLength();
@@ -8186,13 +7616,13 @@ EC.prototype.sign = function sign(msg, key, options) {
     if (options.canonical && s.cmp(this.nh) > 0)
       s = this.n.sub(s);
 
-    return new Signature(r, s);
+    return new Signature({ r: r, s: s });
   } while (true);
 };
 
-EC.prototype.verify = function verify(msg, signature, key) {
+EC.prototype.verify = function verify(msg, signature, key, enc) {
   msg = this._truncateToN(new bn(msg, 16));
-  key = this.keyPair(key, 'hex');
+  key = this.keyFromPublic(key, enc);
   signature = new Signature(signature, 'hex');
 
   // Perform primitive values validation
@@ -8216,52 +7646,45 @@ EC.prototype.verify = function verify(msg, signature, key) {
 };
 
 },{"../../elliptic":31,"./key":39,"./signature":40,"bn.js":29}],39:[function(require,module,exports){
+'use strict';
+
 var bn = require('bn.js');
 
 var elliptic = require('../../elliptic');
 var utils = elliptic.utils;
-var assert = utils.assert;
 
-function KeyPair(ec, priv, pub) {
-  if (priv instanceof KeyPair)
-    return priv;
-  if (pub instanceof KeyPair)
-    return pub;
-
-  if (!priv) {
-    priv = pub;
-    pub = null;
-  }
-  if (priv !== null && typeof priv === 'object') {
-    if (priv.x) {
-      // KeyPair(public)
-      pub = priv;
-      priv = null;
-    } else if (priv.priv || priv.pub) {
-      // KeyPair({ priv: ..., pub: ... })
-      pub = priv.pub;
-      priv = priv.priv;
-    }
-  }
-
+function KeyPair(ec, options) {
   this.ec = ec;
   this.priv = null;
   this.pub = null;
 
-  // KeyPair(public, 'hex')
-  if (this._importPublicHex(priv, pub))
-    return;
-
-  if (pub === 'hex')
-    pub = null;
-
-  // KeyPair(priv, pub)
-  if (priv)
-    this._importPrivate(priv);
-  if (pub)
-    this._importPublic(pub);
+  // KeyPair(ec, { priv: ..., pub: ... })
+  if (options.priv)
+    this._importPrivate(options.priv, options.privEnc);
+  if (options.pub)
+    this._importPublic(options.pub, options.pubEnc);
 }
 module.exports = KeyPair;
+
+KeyPair.fromPublic = function fromPublic(ec, pub, enc) {
+  if (pub instanceof KeyPair)
+    return pub;
+
+  return new KeyPair(ec, {
+    pub: pub,
+    pubEnc: enc
+  });
+};
+
+KeyPair.fromPrivate = function fromPrivate(ec, priv, enc) {
+  if (priv instanceof KeyPair)
+    return priv;
+
+  return new KeyPair(ec, {
+    priv: priv,
+    privEnc: enc
+  });
+};
 
 KeyPair.prototype.validate = function validate() {
   var pub = this.getPublic();
@@ -8295,14 +7718,20 @@ KeyPair.prototype.getPublic = function getPublic(compact, enc) {
   for (var i = x.length; i < len; i++)
     x.unshift(0);
 
-  if (compact) {
-    var res = [ this.pub.getY().isEven() ? 0x02 : 0x03 ].concat(x);
+  var res;
+  if (this.ec.curve.type !== 'mont') {
+    if (compact) {
+      res = [ this.pub.getY().isEven() ? 0x02 : 0x03 ].concat(x);
+    } else {
+      var y = this.pub.getY().toArray();
+      for (var i = y.length; i < len; i++)
+        y.unshift(0);
+      var res = [ 0x04 ].concat(x, y);
+    }
   } else {
-    var y = this.pub.getY().toArray();
-    for (var i = y.length; i < len; i++)
-      y.unshift(0);
-    var res = [ 0x04 ].concat(x, y);
+    res = x;
   }
+
   return utils.encode(res, enc);
 };
 
@@ -8313,33 +7742,40 @@ KeyPair.prototype.getPrivate = function getPrivate(enc) {
     return this.priv;
 };
 
-KeyPair.prototype._importPrivate = function _importPrivate(key) {
-  this.priv = new bn(key, 16);
+KeyPair.prototype._importPrivate = function _importPrivate(key, enc) {
+  this.priv = new bn(key, enc || 16);
 
   // Ensure that the priv won't be bigger than n, otherwise we may fail
   // in fixed multiplication method
   this.priv = this.priv.mod(this.ec.curve.n);
 };
 
-KeyPair.prototype._importPublic = function _importPublic(key) {
-  this.pub = this.ec.curve.point(key.x, key.y);
+KeyPair.prototype._importPublic = function _importPublic(key, enc) {
+  if (key.x || key.y) {
+    this.pub = this.ec.curve.point(key.x, key.y);
+    return;
+  }
+
+  key = utils.toArray(key, enc);
+  if (this.ec.curve.type !== 'mont')
+    return this._importPublicShort(key);
+  else
+    return this._importPublicMont(key);
 };
 
-KeyPair.prototype._importPublicHex = function _importPublic(key, enc) {
-  key = utils.toArray(key, enc);
+KeyPair.prototype._importPublicShort = function _importPublicShort(key) {
   var len = this.ec.curve.p.byteLength();
   if (key[0] === 0x04 && key.length - 1 === 2 * len) {
     this.pub = this.ec.curve.point(
       key.slice(1, 1 + len),
       key.slice(1 + len, 1 + 2 * len));
   } else if ((key[0] === 0x02 || key[0] === 0x03) && key.length - 1 === len) {
-    this.pub = this.ec.curve.pointFromX(key[0] === 0x03,
-                                        key.slice(1, 1 +len));
-  } else {
-    return false;
+    this.pub = this.ec.curve.pointFromX(key[0] === 0x03, key.slice(1, 1 + len));
   }
+};
 
-  return true;
+KeyPair.prototype._importPublicMont = function _importPublicMont(key) {
+  this.pub = this.ec.curve.point(key, 1);
 };
 
 // ECDH
@@ -8362,22 +7798,24 @@ KeyPair.prototype.inspect = function inspect() {
 };
 
 },{"../../elliptic":31,"bn.js":29}],40:[function(require,module,exports){
+'use strict';
+
 var bn = require('bn.js');
 
 var elliptic = require('../../elliptic');
 var utils = elliptic.utils;
 var assert = utils.assert;
 
-function Signature(r, s) {
-  if (r instanceof Signature)
-    return r;
+function Signature(options, enc) {
+  if (options instanceof Signature)
+    return options;
 
-  if (this._importDER(r, s))
+  if (this._importDER(options, enc))
     return;
 
-  assert(r && s, 'Signature without r or s');
-  this.r = new bn(r, 16);
-  this.s = new bn(s, 16);
+  assert(options.r && options.s, 'Signature without r or s');
+  this.r = new bn(options.r, 16);
+  this.s = new bn(options.s, 16);
 }
 module.exports = Signature;
 
@@ -8427,6 +7865,8 @@ Signature.prototype.toDER = function toDER(enc) {
 };
 
 },{"../../elliptic":31,"bn.js":29}],41:[function(require,module,exports){
+'use strict';
+
 var hash = require('hash.js');
 var elliptic = require('../elliptic');
 var utils = elliptic.utils;
@@ -8540,8 +7980,790 @@ HmacDRBG.prototype.generate = function generate(len, enc, add, addEnc) {
   return utils.encode(res, enc);
 };
 
-},{"../elliptic":31,"hash.js":44}],42:[function(require,module,exports){
-var bn = require('bn.js');
+},{"../elliptic":31,"hash.js":45}],42:[function(require,module,exports){
+module.exports = {
+  doubles: {
+    step: 4,
+    points: [
+      [
+        'e60fce93b59e9ec53011aabc21c23e97b2a31369b87a5ae9c44ee89e2a6dec0a',
+        'f7e3507399e595929db99f34f57937101296891e44d23f0be1f32cce69616821'
+      ],
+      [
+        '8282263212c609d9ea2a6e3e172de238d8c39cabd5ac1ca10646e23fd5f51508',
+        '11f8a8098557dfe45e8256e830b60ace62d613ac2f7b17bed31b6eaff6e26caf'
+      ],
+      [
+        '175e159f728b865a72f99cc6c6fc846de0b93833fd2222ed73fce5b551e5b739',
+        'd3506e0d9e3c79eba4ef97a51ff71f5eacb5955add24345c6efa6ffee9fed695'
+      ],
+      [
+        '363d90d447b00c9c99ceac05b6262ee053441c7e55552ffe526bad8f83ff4640',
+        '4e273adfc732221953b445397f3363145b9a89008199ecb62003c7f3bee9de9'
+      ],
+      [
+        '8b4b5f165df3c2be8c6244b5b745638843e4a781a15bcd1b69f79a55dffdf80c',
+        '4aad0a6f68d308b4b3fbd7813ab0da04f9e336546162ee56b3eff0c65fd4fd36'
+      ],
+      [
+        '723cbaa6e5db996d6bf771c00bd548c7b700dbffa6c0e77bcb6115925232fcda',
+        '96e867b5595cc498a921137488824d6e2660a0653779494801dc069d9eb39f5f'
+      ],
+      [
+        'eebfa4d493bebf98ba5feec812c2d3b50947961237a919839a533eca0e7dd7fa',
+        '5d9a8ca3970ef0f269ee7edaf178089d9ae4cdc3a711f712ddfd4fdae1de8999'
+      ],
+      [
+        '100f44da696e71672791d0a09b7bde459f1215a29b3c03bfefd7835b39a48db0',
+        'cdd9e13192a00b772ec8f3300c090666b7ff4a18ff5195ac0fbd5cd62bc65a09'
+      ],
+      [
+        'e1031be262c7ed1b1dc9227a4a04c017a77f8d4464f3b3852c8acde6e534fd2d',
+        '9d7061928940405e6bb6a4176597535af292dd419e1ced79a44f18f29456a00d'
+      ],
+      [
+        'feea6cae46d55b530ac2839f143bd7ec5cf8b266a41d6af52d5e688d9094696d',
+        'e57c6b6c97dce1bab06e4e12bf3ecd5c981c8957cc41442d3155debf18090088'
+      ],
+      [
+        'da67a91d91049cdcb367be4be6ffca3cfeed657d808583de33fa978bc1ec6cb1',
+        '9bacaa35481642bc41f463f7ec9780e5dec7adc508f740a17e9ea8e27a68be1d'
+      ],
+      [
+        '53904faa0b334cdda6e000935ef22151ec08d0f7bb11069f57545ccc1a37b7c0',
+        '5bc087d0bc80106d88c9eccac20d3c1c13999981e14434699dcb096b022771c8'
+      ],
+      [
+        '8e7bcd0bd35983a7719cca7764ca906779b53a043a9b8bcaeff959f43ad86047',
+        '10b7770b2a3da4b3940310420ca9514579e88e2e47fd68b3ea10047e8460372a'
+      ],
+      [
+        '385eed34c1cdff21e6d0818689b81bde71a7f4f18397e6690a841e1599c43862',
+        '283bebc3e8ea23f56701de19e9ebf4576b304eec2086dc8cc0458fe5542e5453'
+      ],
+      [
+        '6f9d9b803ecf191637c73a4413dfa180fddf84a5947fbc9c606ed86c3fac3a7',
+        '7c80c68e603059ba69b8e2a30e45c4d47ea4dd2f5c281002d86890603a842160'
+      ],
+      [
+        '3322d401243c4e2582a2147c104d6ecbf774d163db0f5e5313b7e0e742d0e6bd',
+        '56e70797e9664ef5bfb019bc4ddaf9b72805f63ea2873af624f3a2e96c28b2a0'
+      ],
+      [
+        '85672c7d2de0b7da2bd1770d89665868741b3f9af7643397721d74d28134ab83',
+        '7c481b9b5b43b2eb6374049bfa62c2e5e77f17fcc5298f44c8e3094f790313a6'
+      ],
+      [
+        '948bf809b1988a46b06c9f1919413b10f9226c60f668832ffd959af60c82a0a',
+        '53a562856dcb6646dc6b74c5d1c3418c6d4dff08c97cd2bed4cb7f88d8c8e589'
+      ],
+      [
+        '6260ce7f461801c34f067ce0f02873a8f1b0e44dfc69752accecd819f38fd8e8',
+        'bc2da82b6fa5b571a7f09049776a1ef7ecd292238051c198c1a84e95b2b4ae17'
+      ],
+      [
+        'e5037de0afc1d8d43d8348414bbf4103043ec8f575bfdc432953cc8d2037fa2d',
+        '4571534baa94d3b5f9f98d09fb990bddbd5f5b03ec481f10e0e5dc841d755bda'
+      ],
+      [
+        'e06372b0f4a207adf5ea905e8f1771b4e7e8dbd1c6a6c5b725866a0ae4fce725',
+        '7a908974bce18cfe12a27bb2ad5a488cd7484a7787104870b27034f94eee31dd'
+      ],
+      [
+        '213c7a715cd5d45358d0bbf9dc0ce02204b10bdde2a3f58540ad6908d0559754',
+        '4b6dad0b5ae462507013ad06245ba190bb4850f5f36a7eeddff2c27534b458f2'
+      ],
+      [
+        '4e7c272a7af4b34e8dbb9352a5419a87e2838c70adc62cddf0cc3a3b08fbd53c',
+        '17749c766c9d0b18e16fd09f6def681b530b9614bff7dd33e0b3941817dcaae6'
+      ],
+      [
+        'fea74e3dbe778b1b10f238ad61686aa5c76e3db2be43057632427e2840fb27b6',
+        '6e0568db9b0b13297cf674deccb6af93126b596b973f7b77701d3db7f23cb96f'
+      ],
+      [
+        '76e64113f677cf0e10a2570d599968d31544e179b760432952c02a4417bdde39',
+        'c90ddf8dee4e95cf577066d70681f0d35e2a33d2b56d2032b4b1752d1901ac01'
+      ],
+      [
+        'c738c56b03b2abe1e8281baa743f8f9a8f7cc643df26cbee3ab150242bcbb891',
+        '893fb578951ad2537f718f2eacbfbbbb82314eef7880cfe917e735d9699a84c3'
+      ],
+      [
+        'd895626548b65b81e264c7637c972877d1d72e5f3a925014372e9f6588f6c14b',
+        'febfaa38f2bc7eae728ec60818c340eb03428d632bb067e179363ed75d7d991f'
+      ],
+      [
+        'b8da94032a957518eb0f6433571e8761ceffc73693e84edd49150a564f676e03',
+        '2804dfa44805a1e4d7c99cc9762808b092cc584d95ff3b511488e4e74efdf6e7'
+      ],
+      [
+        'e80fea14441fb33a7d8adab9475d7fab2019effb5156a792f1a11778e3c0df5d',
+        'eed1de7f638e00771e89768ca3ca94472d155e80af322ea9fcb4291b6ac9ec78'
+      ],
+      [
+        'a301697bdfcd704313ba48e51d567543f2a182031efd6915ddc07bbcc4e16070',
+        '7370f91cfb67e4f5081809fa25d40f9b1735dbf7c0a11a130c0d1a041e177ea1'
+      ],
+      [
+        '90ad85b389d6b936463f9d0512678de208cc330b11307fffab7ac63e3fb04ed4',
+        'e507a3620a38261affdcbd9427222b839aefabe1582894d991d4d48cb6ef150'
+      ],
+      [
+        '8f68b9d2f63b5f339239c1ad981f162ee88c5678723ea3351b7b444c9ec4c0da',
+        '662a9f2dba063986de1d90c2b6be215dbbea2cfe95510bfdf23cbf79501fff82'
+      ],
+      [
+        'e4f3fb0176af85d65ff99ff9198c36091f48e86503681e3e6686fd5053231e11',
+        '1e63633ad0ef4f1c1661a6d0ea02b7286cc7e74ec951d1c9822c38576feb73bc'
+      ],
+      [
+        '8c00fa9b18ebf331eb961537a45a4266c7034f2f0d4e1d0716fb6eae20eae29e',
+        'efa47267fea521a1a9dc343a3736c974c2fadafa81e36c54e7d2a4c66702414b'
+      ],
+      [
+        'e7a26ce69dd4829f3e10cec0a9e98ed3143d084f308b92c0997fddfc60cb3e41',
+        '2a758e300fa7984b471b006a1aafbb18d0a6b2c0420e83e20e8a9421cf2cfd51'
+      ],
+      [
+        'b6459e0ee3662ec8d23540c223bcbdc571cbcb967d79424f3cf29eb3de6b80ef',
+        '67c876d06f3e06de1dadf16e5661db3c4b3ae6d48e35b2ff30bf0b61a71ba45'
+      ],
+      [
+        'd68a80c8280bb840793234aa118f06231d6f1fc67e73c5a5deda0f5b496943e8',
+        'db8ba9fff4b586d00c4b1f9177b0e28b5b0e7b8f7845295a294c84266b133120'
+      ],
+      [
+        '324aed7df65c804252dc0270907a30b09612aeb973449cea4095980fc28d3d5d',
+        '648a365774b61f2ff130c0c35aec1f4f19213b0c7e332843967224af96ab7c84'
+      ],
+      [
+        '4df9c14919cde61f6d51dfdbe5fee5dceec4143ba8d1ca888e8bd373fd054c96',
+        '35ec51092d8728050974c23a1d85d4b5d506cdc288490192ebac06cad10d5d'
+      ],
+      [
+        '9c3919a84a474870faed8a9c1cc66021523489054d7f0308cbfc99c8ac1f98cd',
+        'ddb84f0f4a4ddd57584f044bf260e641905326f76c64c8e6be7e5e03d4fc599d'
+      ],
+      [
+        '6057170b1dd12fdf8de05f281d8e06bb91e1493a8b91d4cc5a21382120a959e5',
+        '9a1af0b26a6a4807add9a2daf71df262465152bc3ee24c65e899be932385a2a8'
+      ],
+      [
+        'a576df8e23a08411421439a4518da31880cef0fba7d4df12b1a6973eecb94266',
+        '40a6bf20e76640b2c92b97afe58cd82c432e10a7f514d9f3ee8be11ae1b28ec8'
+      ],
+      [
+        '7778a78c28dec3e30a05fe9629de8c38bb30d1f5cf9a3a208f763889be58ad71',
+        '34626d9ab5a5b22ff7098e12f2ff580087b38411ff24ac563b513fc1fd9f43ac'
+      ],
+      [
+        '928955ee637a84463729fd30e7afd2ed5f96274e5ad7e5cb09eda9c06d903ac',
+        'c25621003d3f42a827b78a13093a95eeac3d26efa8a8d83fc5180e935bcd091f'
+      ],
+      [
+        '85d0fef3ec6db109399064f3a0e3b2855645b4a907ad354527aae75163d82751',
+        '1f03648413a38c0be29d496e582cf5663e8751e96877331582c237a24eb1f962'
+      ],
+      [
+        'ff2b0dce97eece97c1c9b6041798b85dfdfb6d8882da20308f5404824526087e',
+        '493d13fef524ba188af4c4dc54d07936c7b7ed6fb90e2ceb2c951e01f0c29907'
+      ],
+      [
+        '827fbbe4b1e880ea9ed2b2e6301b212b57f1ee148cd6dd28780e5e2cf856e241',
+        'c60f9c923c727b0b71bef2c67d1d12687ff7a63186903166d605b68baec293ec'
+      ],
+      [
+        'eaa649f21f51bdbae7be4ae34ce6e5217a58fdce7f47f9aa7f3b58fa2120e2b3',
+        'be3279ed5bbbb03ac69a80f89879aa5a01a6b965f13f7e59d47a5305ba5ad93d'
+      ],
+      [
+        'e4a42d43c5cf169d9391df6decf42ee541b6d8f0c9a137401e23632dda34d24f',
+        '4d9f92e716d1c73526fc99ccfb8ad34ce886eedfa8d8e4f13a7f7131deba9414'
+      ],
+      [
+        '1ec80fef360cbdd954160fadab352b6b92b53576a88fea4947173b9d4300bf19',
+        'aeefe93756b5340d2f3a4958a7abbf5e0146e77f6295a07b671cdc1cc107cefd'
+      ],
+      [
+        '146a778c04670c2f91b00af4680dfa8bce3490717d58ba889ddb5928366642be',
+        'b318e0ec3354028add669827f9d4b2870aaa971d2f7e5ed1d0b297483d83efd0'
+      ],
+      [
+        'fa50c0f61d22e5f07e3acebb1aa07b128d0012209a28b9776d76a8793180eef9',
+        '6b84c6922397eba9b72cd2872281a68a5e683293a57a213b38cd8d7d3f4f2811'
+      ],
+      [
+        'da1d61d0ca721a11b1a5bf6b7d88e8421a288ab5d5bba5220e53d32b5f067ec2',
+        '8157f55a7c99306c79c0766161c91e2966a73899d279b48a655fba0f1ad836f1'
+      ],
+      [
+        'a8e282ff0c9706907215ff98e8fd416615311de0446f1e062a73b0610d064e13',
+        '7f97355b8db81c09abfb7f3c5b2515888b679a3e50dd6bd6cef7c73111f4cc0c'
+      ],
+      [
+        '174a53b9c9a285872d39e56e6913cab15d59b1fa512508c022f382de8319497c',
+        'ccc9dc37abfc9c1657b4155f2c47f9e6646b3a1d8cb9854383da13ac079afa73'
+      ],
+      [
+        '959396981943785c3d3e57edf5018cdbe039e730e4918b3d884fdff09475b7ba',
+        '2e7e552888c331dd8ba0386a4b9cd6849c653f64c8709385e9b8abf87524f2fd'
+      ],
+      [
+        'd2a63a50ae401e56d645a1153b109a8fcca0a43d561fba2dbb51340c9d82b151',
+        'e82d86fb6443fcb7565aee58b2948220a70f750af484ca52d4142174dcf89405'
+      ],
+      [
+        '64587e2335471eb890ee7896d7cfdc866bacbdbd3839317b3436f9b45617e073',
+        'd99fcdd5bf6902e2ae96dd6447c299a185b90a39133aeab358299e5e9faf6589'
+      ],
+      [
+        '8481bde0e4e4d885b3a546d3e549de042f0aa6cea250e7fd358d6c86dd45e458',
+        '38ee7b8cba5404dd84a25bf39cecb2ca900a79c42b262e556d64b1b59779057e'
+      ],
+      [
+        '13464a57a78102aa62b6979ae817f4637ffcfed3c4b1ce30bcd6303f6caf666b',
+        '69be159004614580ef7e433453ccb0ca48f300a81d0942e13f495a907f6ecc27'
+      ],
+      [
+        'bc4a9df5b713fe2e9aef430bcc1dc97a0cd9ccede2f28588cada3a0d2d83f366',
+        'd3a81ca6e785c06383937adf4b798caa6e8a9fbfa547b16d758d666581f33c1'
+      ],
+      [
+        '8c28a97bf8298bc0d23d8c749452a32e694b65e30a9472a3954ab30fe5324caa',
+        '40a30463a3305193378fedf31f7cc0eb7ae784f0451cb9459e71dc73cbef9482'
+      ],
+      [
+        '8ea9666139527a8c1dd94ce4f071fd23c8b350c5a4bb33748c4ba111faccae0',
+        '620efabbc8ee2782e24e7c0cfb95c5d735b783be9cf0f8e955af34a30e62b945'
+      ],
+      [
+        'dd3625faef5ba06074669716bbd3788d89bdde815959968092f76cc4eb9a9787',
+        '7a188fa3520e30d461da2501045731ca941461982883395937f68d00c644a573'
+      ],
+      [
+        'f710d79d9eb962297e4f6232b40e8f7feb2bc63814614d692c12de752408221e',
+        'ea98e67232d3b3295d3b535532115ccac8612c721851617526ae47a9c77bfc82'
+      ]
+    ]
+  },
+  naf: {
+    wnd: 7,
+    points: [
+      [
+        'f9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9',
+        '388f7b0f632de8140fe337e62a37f3566500a99934c2231b6cb9fd7584b8e672'
+      ],
+      [
+        '2f8bde4d1a07209355b4a7250a5c5128e88b84bddc619ab7cba8d569b240efe4',
+        'd8ac222636e5e3d6d4dba9dda6c9c426f788271bab0d6840dca87d3aa6ac62d6'
+      ],
+      [
+        '5cbdf0646e5db4eaa398f365f2ea7a0e3d419b7e0330e39ce92bddedcac4f9bc',
+        '6aebca40ba255960a3178d6d861a54dba813d0b813fde7b5a5082628087264da'
+      ],
+      [
+        'acd484e2f0c7f65309ad178a9f559abde09796974c57e714c35f110dfc27ccbe',
+        'cc338921b0a7d9fd64380971763b61e9add888a4375f8e0f05cc262ac64f9c37'
+      ],
+      [
+        '774ae7f858a9411e5ef4246b70c65aac5649980be5c17891bbec17895da008cb',
+        'd984a032eb6b5e190243dd56d7b7b365372db1e2dff9d6a8301d74c9c953c61b'
+      ],
+      [
+        'f28773c2d975288bc7d1d205c3748651b075fbc6610e58cddeeddf8f19405aa8',
+        'ab0902e8d880a89758212eb65cdaf473a1a06da521fa91f29b5cb52db03ed81'
+      ],
+      [
+        'd7924d4f7d43ea965a465ae3095ff41131e5946f3c85f79e44adbcf8e27e080e',
+        '581e2872a86c72a683842ec228cc6defea40af2bd896d3a5c504dc9ff6a26b58'
+      ],
+      [
+        'defdea4cdb677750a420fee807eacf21eb9898ae79b9768766e4faa04a2d4a34',
+        '4211ab0694635168e997b0ead2a93daeced1f4a04a95c0f6cfb199f69e56eb77'
+      ],
+      [
+        '2b4ea0a797a443d293ef5cff444f4979f06acfebd7e86d277475656138385b6c',
+        '85e89bc037945d93b343083b5a1c86131a01f60c50269763b570c854e5c09b7a'
+      ],
+      [
+        '352bbf4a4cdd12564f93fa332ce333301d9ad40271f8107181340aef25be59d5',
+        '321eb4075348f534d59c18259dda3e1f4a1b3b2e71b1039c67bd3d8bcf81998c'
+      ],
+      [
+        '2fa2104d6b38d11b0230010559879124e42ab8dfeff5ff29dc9cdadd4ecacc3f',
+        '2de1068295dd865b64569335bd5dd80181d70ecfc882648423ba76b532b7d67'
+      ],
+      [
+        '9248279b09b4d68dab21a9b066edda83263c3d84e09572e269ca0cd7f5453714',
+        '73016f7bf234aade5d1aa71bdea2b1ff3fc0de2a887912ffe54a32ce97cb3402'
+      ],
+      [
+        'daed4f2be3a8bf278e70132fb0beb7522f570e144bf615c07e996d443dee8729',
+        'a69dce4a7d6c98e8d4a1aca87ef8d7003f83c230f3afa726ab40e52290be1c55'
+      ],
+      [
+        'c44d12c7065d812e8acf28d7cbb19f9011ecd9e9fdf281b0e6a3b5e87d22e7db',
+        '2119a460ce326cdc76c45926c982fdac0e106e861edf61c5a039063f0e0e6482'
+      ],
+      [
+        '6a245bf6dc698504c89a20cfded60853152b695336c28063b61c65cbd269e6b4',
+        'e022cf42c2bd4a708b3f5126f16a24ad8b33ba48d0423b6efd5e6348100d8a82'
+      ],
+      [
+        '1697ffa6fd9de627c077e3d2fe541084ce13300b0bec1146f95ae57f0d0bd6a5',
+        'b9c398f186806f5d27561506e4557433a2cf15009e498ae7adee9d63d01b2396'
+      ],
+      [
+        '605bdb019981718b986d0f07e834cb0d9deb8360ffb7f61df982345ef27a7479',
+        '2972d2de4f8d20681a78d93ec96fe23c26bfae84fb14db43b01e1e9056b8c49'
+      ],
+      [
+        '62d14dab4150bf497402fdc45a215e10dcb01c354959b10cfe31c7e9d87ff33d',
+        '80fc06bd8cc5b01098088a1950eed0db01aa132967ab472235f5642483b25eaf'
+      ],
+      [
+        '80c60ad0040f27dade5b4b06c408e56b2c50e9f56b9b8b425e555c2f86308b6f',
+        '1c38303f1cc5c30f26e66bad7fe72f70a65eed4cbe7024eb1aa01f56430bd57a'
+      ],
+      [
+        '7a9375ad6167ad54aa74c6348cc54d344cc5dc9487d847049d5eabb0fa03c8fb',
+        'd0e3fa9eca8726909559e0d79269046bdc59ea10c70ce2b02d499ec224dc7f7'
+      ],
+      [
+        'd528ecd9b696b54c907a9ed045447a79bb408ec39b68df504bb51f459bc3ffc9',
+        'eecf41253136e5f99966f21881fd656ebc4345405c520dbc063465b521409933'
+      ],
+      [
+        '49370a4b5f43412ea25f514e8ecdad05266115e4a7ecb1387231808f8b45963',
+        '758f3f41afd6ed428b3081b0512fd62a54c3f3afbb5b6764b653052a12949c9a'
+      ],
+      [
+        '77f230936ee88cbbd73df930d64702ef881d811e0e1498e2f1c13eb1fc345d74',
+        '958ef42a7886b6400a08266e9ba1b37896c95330d97077cbbe8eb3c7671c60d6'
+      ],
+      [
+        'f2dac991cc4ce4b9ea44887e5c7c0bce58c80074ab9d4dbaeb28531b7739f530',
+        'e0dedc9b3b2f8dad4da1f32dec2531df9eb5fbeb0598e4fd1a117dba703a3c37'
+      ],
+      [
+        '463b3d9f662621fb1b4be8fbbe2520125a216cdfc9dae3debcba4850c690d45b',
+        '5ed430d78c296c3543114306dd8622d7c622e27c970a1de31cb377b01af7307e'
+      ],
+      [
+        'f16f804244e46e2a09232d4aff3b59976b98fac14328a2d1a32496b49998f247',
+        'cedabd9b82203f7e13d206fcdf4e33d92a6c53c26e5cce26d6579962c4e31df6'
+      ],
+      [
+        'caf754272dc84563b0352b7a14311af55d245315ace27c65369e15f7151d41d1',
+        'cb474660ef35f5f2a41b643fa5e460575f4fa9b7962232a5c32f908318a04476'
+      ],
+      [
+        '2600ca4b282cb986f85d0f1709979d8b44a09c07cb86d7c124497bc86f082120',
+        '4119b88753c15bd6a693b03fcddbb45d5ac6be74ab5f0ef44b0be9475a7e4b40'
+      ],
+      [
+        '7635ca72d7e8432c338ec53cd12220bc01c48685e24f7dc8c602a7746998e435',
+        '91b649609489d613d1d5e590f78e6d74ecfc061d57048bad9e76f302c5b9c61'
+      ],
+      [
+        '754e3239f325570cdbbf4a87deee8a66b7f2b33479d468fbc1a50743bf56cc18',
+        '673fb86e5bda30fb3cd0ed304ea49a023ee33d0197a695d0c5d98093c536683'
+      ],
+      [
+        'e3e6bd1071a1e96aff57859c82d570f0330800661d1c952f9fe2694691d9b9e8',
+        '59c9e0bba394e76f40c0aa58379a3cb6a5a2283993e90c4167002af4920e37f5'
+      ],
+      [
+        '186b483d056a033826ae73d88f732985c4ccb1f32ba35f4b4cc47fdcf04aa6eb',
+        '3b952d32c67cf77e2e17446e204180ab21fb8090895138b4a4a797f86e80888b'
+      ],
+      [
+        'df9d70a6b9876ce544c98561f4be4f725442e6d2b737d9c91a8321724ce0963f',
+        '55eb2dafd84d6ccd5f862b785dc39d4ab157222720ef9da217b8c45cf2ba2417'
+      ],
+      [
+        '5edd5cc23c51e87a497ca815d5dce0f8ab52554f849ed8995de64c5f34ce7143',
+        'efae9c8dbc14130661e8cec030c89ad0c13c66c0d17a2905cdc706ab7399a868'
+      ],
+      [
+        '290798c2b6476830da12fe02287e9e777aa3fba1c355b17a722d362f84614fba',
+        'e38da76dcd440621988d00bcf79af25d5b29c094db2a23146d003afd41943e7a'
+      ],
+      [
+        'af3c423a95d9f5b3054754efa150ac39cd29552fe360257362dfdecef4053b45',
+        'f98a3fd831eb2b749a93b0e6f35cfb40c8cd5aa667a15581bc2feded498fd9c6'
+      ],
+      [
+        '766dbb24d134e745cccaa28c99bf274906bb66b26dcf98df8d2fed50d884249a',
+        '744b1152eacbe5e38dcc887980da38b897584a65fa06cedd2c924f97cbac5996'
+      ],
+      [
+        '59dbf46f8c94759ba21277c33784f41645f7b44f6c596a58ce92e666191abe3e',
+        'c534ad44175fbc300f4ea6ce648309a042ce739a7919798cd85e216c4a307f6e'
+      ],
+      [
+        'f13ada95103c4537305e691e74e9a4a8dd647e711a95e73cb62dc6018cfd87b8',
+        'e13817b44ee14de663bf4bc808341f326949e21a6a75c2570778419bdaf5733d'
+      ],
+      [
+        '7754b4fa0e8aced06d4167a2c59cca4cda1869c06ebadfb6488550015a88522c',
+        '30e93e864e669d82224b967c3020b8fa8d1e4e350b6cbcc537a48b57841163a2'
+      ],
+      [
+        '948dcadf5990e048aa3874d46abef9d701858f95de8041d2a6828c99e2262519',
+        'e491a42537f6e597d5d28a3224b1bc25df9154efbd2ef1d2cbba2cae5347d57e'
+      ],
+      [
+        '7962414450c76c1689c7b48f8202ec37fb224cf5ac0bfa1570328a8a3d7c77ab',
+        '100b610ec4ffb4760d5c1fc133ef6f6b12507a051f04ac5760afa5b29db83437'
+      ],
+      [
+        '3514087834964b54b15b160644d915485a16977225b8847bb0dd085137ec47ca',
+        'ef0afbb2056205448e1652c48e8127fc6039e77c15c2378b7e7d15a0de293311'
+      ],
+      [
+        'd3cc30ad6b483e4bc79ce2c9dd8bc54993e947eb8df787b442943d3f7b527eaf',
+        '8b378a22d827278d89c5e9be8f9508ae3c2ad46290358630afb34db04eede0a4'
+      ],
+      [
+        '1624d84780732860ce1c78fcbfefe08b2b29823db913f6493975ba0ff4847610',
+        '68651cf9b6da903e0914448c6cd9d4ca896878f5282be4c8cc06e2a404078575'
+      ],
+      [
+        '733ce80da955a8a26902c95633e62a985192474b5af207da6df7b4fd5fc61cd4',
+        'f5435a2bd2badf7d485a4d8b8db9fcce3e1ef8e0201e4578c54673bc1dc5ea1d'
+      ],
+      [
+        '15d9441254945064cf1a1c33bbd3b49f8966c5092171e699ef258dfab81c045c',
+        'd56eb30b69463e7234f5137b73b84177434800bacebfc685fc37bbe9efe4070d'
+      ],
+      [
+        'a1d0fcf2ec9de675b612136e5ce70d271c21417c9d2b8aaaac138599d0717940',
+        'edd77f50bcb5a3cab2e90737309667f2641462a54070f3d519212d39c197a629'
+      ],
+      [
+        'e22fbe15c0af8ccc5780c0735f84dbe9a790badee8245c06c7ca37331cb36980',
+        'a855babad5cd60c88b430a69f53a1a7a38289154964799be43d06d77d31da06'
+      ],
+      [
+        '311091dd9860e8e20ee13473c1155f5f69635e394704eaa74009452246cfa9b3',
+        '66db656f87d1f04fffd1f04788c06830871ec5a64feee685bd80f0b1286d8374'
+      ],
+      [
+        '34c1fd04d301be89b31c0442d3e6ac24883928b45a9340781867d4232ec2dbdf',
+        '9414685e97b1b5954bd46f730174136d57f1ceeb487443dc5321857ba73abee'
+      ],
+      [
+        'f219ea5d6b54701c1c14de5b557eb42a8d13f3abbcd08affcc2a5e6b049b8d63',
+        '4cb95957e83d40b0f73af4544cccf6b1f4b08d3c07b27fb8d8c2962a400766d1'
+      ],
+      [
+        'd7b8740f74a8fbaab1f683db8f45de26543a5490bca627087236912469a0b448',
+        'fa77968128d9c92ee1010f337ad4717eff15db5ed3c049b3411e0315eaa4593b'
+      ],
+      [
+        '32d31c222f8f6f0ef86f7c98d3a3335ead5bcd32abdd94289fe4d3091aa824bf',
+        '5f3032f5892156e39ccd3d7915b9e1da2e6dac9e6f26e961118d14b8462e1661'
+      ],
+      [
+        '7461f371914ab32671045a155d9831ea8793d77cd59592c4340f86cbc18347b5',
+        '8ec0ba238b96bec0cbdddcae0aa442542eee1ff50c986ea6b39847b3cc092ff6'
+      ],
+      [
+        'ee079adb1df1860074356a25aa38206a6d716b2c3e67453d287698bad7b2b2d6',
+        '8dc2412aafe3be5c4c5f37e0ecc5f9f6a446989af04c4e25ebaac479ec1c8c1e'
+      ],
+      [
+        '16ec93e447ec83f0467b18302ee620f7e65de331874c9dc72bfd8616ba9da6b5',
+        '5e4631150e62fb40d0e8c2a7ca5804a39d58186a50e497139626778e25b0674d'
+      ],
+      [
+        'eaa5f980c245f6f038978290afa70b6bd8855897f98b6aa485b96065d537bd99',
+        'f65f5d3e292c2e0819a528391c994624d784869d7e6ea67fb18041024edc07dc'
+      ],
+      [
+        '78c9407544ac132692ee1910a02439958ae04877151342ea96c4b6b35a49f51',
+        'f3e0319169eb9b85d5404795539a5e68fa1fbd583c064d2462b675f194a3ddb4'
+      ],
+      [
+        '494f4be219a1a77016dcd838431aea0001cdc8ae7a6fc688726578d9702857a5',
+        '42242a969283a5f339ba7f075e36ba2af925ce30d767ed6e55f4b031880d562c'
+      ],
+      [
+        'a598a8030da6d86c6bc7f2f5144ea549d28211ea58faa70ebf4c1e665c1fe9b5',
+        '204b5d6f84822c307e4b4a7140737aec23fc63b65b35f86a10026dbd2d864e6b'
+      ],
+      [
+        'c41916365abb2b5d09192f5f2dbeafec208f020f12570a184dbadc3e58595997',
+        '4f14351d0087efa49d245b328984989d5caf9450f34bfc0ed16e96b58fa9913'
+      ],
+      [
+        '841d6063a586fa475a724604da03bc5b92a2e0d2e0a36acfe4c73a5514742881',
+        '73867f59c0659e81904f9a1c7543698e62562d6744c169ce7a36de01a8d6154'
+      ],
+      [
+        '5e95bb399a6971d376026947f89bde2f282b33810928be4ded112ac4d70e20d5',
+        '39f23f366809085beebfc71181313775a99c9aed7d8ba38b161384c746012865'
+      ],
+      [
+        '36e4641a53948fd476c39f8a99fd974e5ec07564b5315d8bf99471bca0ef2f66',
+        'd2424b1b1abe4eb8164227b085c9aa9456ea13493fd563e06fd51cf5694c78fc'
+      ],
+      [
+        '336581ea7bfbbb290c191a2f507a41cf5643842170e914faeab27c2c579f726',
+        'ead12168595fe1be99252129b6e56b3391f7ab1410cd1e0ef3dcdcabd2fda224'
+      ],
+      [
+        '8ab89816dadfd6b6a1f2634fcf00ec8403781025ed6890c4849742706bd43ede',
+        '6fdcef09f2f6d0a044e654aef624136f503d459c3e89845858a47a9129cdd24e'
+      ],
+      [
+        '1e33f1a746c9c5778133344d9299fcaa20b0938e8acff2544bb40284b8c5fb94',
+        '60660257dd11b3aa9c8ed618d24edff2306d320f1d03010e33a7d2057f3b3b6'
+      ],
+      [
+        '85b7c1dcb3cec1b7ee7f30ded79dd20a0ed1f4cc18cbcfcfa410361fd8f08f31',
+        '3d98a9cdd026dd43f39048f25a8847f4fcafad1895d7a633c6fed3c35e999511'
+      ],
+      [
+        '29df9fbd8d9e46509275f4b125d6d45d7fbe9a3b878a7af872a2800661ac5f51',
+        'b4c4fe99c775a606e2d8862179139ffda61dc861c019e55cd2876eb2a27d84b'
+      ],
+      [
+        'a0b1cae06b0a847a3fea6e671aaf8adfdfe58ca2f768105c8082b2e449fce252',
+        'ae434102edde0958ec4b19d917a6a28e6b72da1834aff0e650f049503a296cf2'
+      ],
+      [
+        '4e8ceafb9b3e9a136dc7ff67e840295b499dfb3b2133e4ba113f2e4c0e121e5',
+        'cf2174118c8b6d7a4b48f6d534ce5c79422c086a63460502b827ce62a326683c'
+      ],
+      [
+        'd24a44e047e19b6f5afb81c7ca2f69080a5076689a010919f42725c2b789a33b',
+        '6fb8d5591b466f8fc63db50f1c0f1c69013f996887b8244d2cdec417afea8fa3'
+      ],
+      [
+        'ea01606a7a6c9cdd249fdfcfacb99584001edd28abbab77b5104e98e8e3b35d4',
+        '322af4908c7312b0cfbfe369f7a7b3cdb7d4494bc2823700cfd652188a3ea98d'
+      ],
+      [
+        'af8addbf2b661c8a6c6328655eb96651252007d8c5ea31be4ad196de8ce2131f',
+        '6749e67c029b85f52a034eafd096836b2520818680e26ac8f3dfbcdb71749700'
+      ],
+      [
+        'e3ae1974566ca06cc516d47e0fb165a674a3dabcfca15e722f0e3450f45889',
+        '2aeabe7e4531510116217f07bf4d07300de97e4874f81f533420a72eeb0bd6a4'
+      ],
+      [
+        '591ee355313d99721cf6993ffed1e3e301993ff3ed258802075ea8ced397e246',
+        'b0ea558a113c30bea60fc4775460c7901ff0b053d25ca2bdeee98f1a4be5d196'
+      ],
+      [
+        '11396d55fda54c49f19aa97318d8da61fa8584e47b084945077cf03255b52984',
+        '998c74a8cd45ac01289d5833a7beb4744ff536b01b257be4c5767bea93ea57a4'
+      ],
+      [
+        '3c5d2a1ba39c5a1790000738c9e0c40b8dcdfd5468754b6405540157e017aa7a',
+        'b2284279995a34e2f9d4de7396fc18b80f9b8b9fdd270f6661f79ca4c81bd257'
+      ],
+      [
+        'cc8704b8a60a0defa3a99a7299f2e9c3fbc395afb04ac078425ef8a1793cc030',
+        'bdd46039feed17881d1e0862db347f8cf395b74fc4bcdc4e940b74e3ac1f1b13'
+      ],
+      [
+        'c533e4f7ea8555aacd9777ac5cad29b97dd4defccc53ee7ea204119b2889b197',
+        '6f0a256bc5efdf429a2fb6242f1a43a2d9b925bb4a4b3a26bb8e0f45eb596096'
+      ],
+      [
+        'c14f8f2ccb27d6f109f6d08d03cc96a69ba8c34eec07bbcf566d48e33da6593',
+        'c359d6923bb398f7fd4473e16fe1c28475b740dd098075e6c0e8649113dc3a38'
+      ],
+      [
+        'a6cbc3046bc6a450bac24789fa17115a4c9739ed75f8f21ce441f72e0b90e6ef',
+        '21ae7f4680e889bb130619e2c0f95a360ceb573c70603139862afd617fa9b9f'
+      ],
+      [
+        '347d6d9a02c48927ebfb86c1359b1caf130a3c0267d11ce6344b39f99d43cc38',
+        '60ea7f61a353524d1c987f6ecec92f086d565ab687870cb12689ff1e31c74448'
+      ],
+      [
+        'da6545d2181db8d983f7dcb375ef5866d47c67b1bf31c8cf855ef7437b72656a',
+        '49b96715ab6878a79e78f07ce5680c5d6673051b4935bd897fea824b77dc208a'
+      ],
+      [
+        'c40747cc9d012cb1a13b8148309c6de7ec25d6945d657146b9d5994b8feb1111',
+        '5ca560753be2a12fc6de6caf2cb489565db936156b9514e1bb5e83037e0fa2d4'
+      ],
+      [
+        '4e42c8ec82c99798ccf3a610be870e78338c7f713348bd34c8203ef4037f3502',
+        '7571d74ee5e0fb92a7a8b33a07783341a5492144cc54bcc40a94473693606437'
+      ],
+      [
+        '3775ab7089bc6af823aba2e1af70b236d251cadb0c86743287522a1b3b0dedea',
+        'be52d107bcfa09d8bcb9736a828cfa7fac8db17bf7a76a2c42ad961409018cf7'
+      ],
+      [
+        'cee31cbf7e34ec379d94fb814d3d775ad954595d1314ba8846959e3e82f74e26',
+        '8fd64a14c06b589c26b947ae2bcf6bfa0149ef0be14ed4d80f448a01c43b1c6d'
+      ],
+      [
+        'b4f9eaea09b6917619f6ea6a4eb5464efddb58fd45b1ebefcdc1a01d08b47986',
+        '39e5c9925b5a54b07433a4f18c61726f8bb131c012ca542eb24a8ac07200682a'
+      ],
+      [
+        'd4263dfc3d2df923a0179a48966d30ce84e2515afc3dccc1b77907792ebcc60e',
+        '62dfaf07a0f78feb30e30d6295853ce189e127760ad6cf7fae164e122a208d54'
+      ],
+      [
+        '48457524820fa65a4f8d35eb6930857c0032acc0a4a2de422233eeda897612c4',
+        '25a748ab367979d98733c38a1fa1c2e7dc6cc07db2d60a9ae7a76aaa49bd0f77'
+      ],
+      [
+        'dfeeef1881101f2cb11644f3a2afdfc2045e19919152923f367a1767c11cceda',
+        'ecfb7056cf1de042f9420bab396793c0c390bde74b4bbdff16a83ae09a9a7517'
+      ],
+      [
+        '6d7ef6b17543f8373c573f44e1f389835d89bcbc6062ced36c82df83b8fae859',
+        'cd450ec335438986dfefa10c57fea9bcc521a0959b2d80bbf74b190dca712d10'
+      ],
+      [
+        'e75605d59102a5a2684500d3b991f2e3f3c88b93225547035af25af66e04541f',
+        'f5c54754a8f71ee540b9b48728473e314f729ac5308b06938360990e2bfad125'
+      ],
+      [
+        'eb98660f4c4dfaa06a2be453d5020bc99a0c2e60abe388457dd43fefb1ed620c',
+        '6cb9a8876d9cb8520609af3add26cd20a0a7cd8a9411131ce85f44100099223e'
+      ],
+      [
+        '13e87b027d8514d35939f2e6892b19922154596941888336dc3563e3b8dba942',
+        'fef5a3c68059a6dec5d624114bf1e91aac2b9da568d6abeb2570d55646b8adf1'
+      ],
+      [
+        'ee163026e9fd6fe017c38f06a5be6fc125424b371ce2708e7bf4491691e5764a',
+        '1acb250f255dd61c43d94ccc670d0f58f49ae3fa15b96623e5430da0ad6c62b2'
+      ],
+      [
+        'b268f5ef9ad51e4d78de3a750c2dc89b1e626d43505867999932e5db33af3d80',
+        '5f310d4b3c99b9ebb19f77d41c1dee018cf0d34fd4191614003e945a1216e423'
+      ],
+      [
+        'ff07f3118a9df035e9fad85eb6c7bfe42b02f01ca99ceea3bf7ffdba93c4750d',
+        '438136d603e858a3a5c440c38eccbaddc1d2942114e2eddd4740d098ced1f0d8'
+      ],
+      [
+        '8d8b9855c7c052a34146fd20ffb658bea4b9f69e0d825ebec16e8c3ce2b526a1',
+        'cdb559eedc2d79f926baf44fb84ea4d44bcf50fee51d7ceb30e2e7f463036758'
+      ],
+      [
+        '52db0b5384dfbf05bfa9d472d7ae26dfe4b851ceca91b1eba54263180da32b63',
+        'c3b997d050ee5d423ebaf66a6db9f57b3180c902875679de924b69d84a7b375'
+      ],
+      [
+        'e62f9490d3d51da6395efd24e80919cc7d0f29c3f3fa48c6fff543becbd43352',
+        '6d89ad7ba4876b0b22c2ca280c682862f342c8591f1daf5170e07bfd9ccafa7d'
+      ],
+      [
+        '7f30ea2476b399b4957509c88f77d0191afa2ff5cb7b14fd6d8e7d65aaab1193',
+        'ca5ef7d4b231c94c3b15389a5f6311e9daff7bb67b103e9880ef4bff637acaec'
+      ],
+      [
+        '5098ff1e1d9f14fb46a210fada6c903fef0fb7b4a1dd1d9ac60a0361800b7a00',
+        '9731141d81fc8f8084d37c6e7542006b3ee1b40d60dfe5362a5b132fd17ddc0'
+      ],
+      [
+        '32b78c7de9ee512a72895be6b9cbefa6e2f3c4ccce445c96b9f2c81e2778ad58',
+        'ee1849f513df71e32efc3896ee28260c73bb80547ae2275ba497237794c8753c'
+      ],
+      [
+        'e2cb74fddc8e9fbcd076eef2a7c72b0ce37d50f08269dfc074b581550547a4f7',
+        'd3aa2ed71c9dd2247a62df062736eb0baddea9e36122d2be8641abcb005cc4a4'
+      ],
+      [
+        '8438447566d4d7bedadc299496ab357426009a35f235cb141be0d99cd10ae3a8',
+        'c4e1020916980a4da5d01ac5e6ad330734ef0d7906631c4f2390426b2edd791f'
+      ],
+      [
+        '4162d488b89402039b584c6fc6c308870587d9c46f660b878ab65c82c711d67e',
+        '67163e903236289f776f22c25fb8a3afc1732f2b84b4e95dbda47ae5a0852649'
+      ],
+      [
+        '3fad3fa84caf0f34f0f89bfd2dcf54fc175d767aec3e50684f3ba4a4bf5f683d',
+        'cd1bc7cb6cc407bb2f0ca647c718a730cf71872e7d0d2a53fa20efcdfe61826'
+      ],
+      [
+        '674f2600a3007a00568c1a7ce05d0816c1fb84bf1370798f1c69532faeb1a86b',
+        '299d21f9413f33b3edf43b257004580b70db57da0b182259e09eecc69e0d38a5'
+      ],
+      [
+        'd32f4da54ade74abb81b815ad1fb3b263d82d6c692714bcff87d29bd5ee9f08f',
+        'f9429e738b8e53b968e99016c059707782e14f4535359d582fc416910b3eea87'
+      ],
+      [
+        '30e4e670435385556e593657135845d36fbb6931f72b08cb1ed954f1e3ce3ff6',
+        '462f9bce619898638499350113bbc9b10a878d35da70740dc695a559eb88db7b'
+      ],
+      [
+        'be2062003c51cc3004682904330e4dee7f3dcd10b01e580bf1971b04d4cad297',
+        '62188bc49d61e5428573d48a74e1c655b1c61090905682a0d5558ed72dccb9bc'
+      ],
+      [
+        '93144423ace3451ed29e0fb9ac2af211cb6e84a601df5993c419859fff5df04a',
+        '7c10dfb164c3425f5c71a3f9d7992038f1065224f72bb9d1d902a6d13037b47c'
+      ],
+      [
+        'b015f8044f5fcbdcf21ca26d6c34fb8197829205c7b7d2a7cb66418c157b112c',
+        'ab8c1e086d04e813744a655b2df8d5f83b3cdc6faa3088c1d3aea1454e3a1d5f'
+      ],
+      [
+        'd5e9e1da649d97d89e4868117a465a3a4f8a18de57a140d36b3f2af341a21b52',
+        '4cb04437f391ed73111a13cc1d4dd0db1693465c2240480d8955e8592f27447a'
+      ],
+      [
+        'd3ae41047dd7ca065dbf8ed77b992439983005cd72e16d6f996a5316d36966bb',
+        'bd1aeb21ad22ebb22a10f0303417c6d964f8cdd7df0aca614b10dc14d125ac46'
+      ],
+      [
+        '463e2763d885f958fc66cdd22800f0a487197d0a82e377b49f80af87c897b065',
+        'bfefacdb0e5d0fd7df3a311a94de062b26b80c61fbc97508b79992671ef7ca7f'
+      ],
+      [
+        '7985fdfd127c0567c6f53ec1bb63ec3158e597c40bfe747c83cddfc910641917',
+        '603c12daf3d9862ef2b25fe1de289aed24ed291e0ec6708703a5bd567f32ed03'
+      ],
+      [
+        '74a1ad6b5f76e39db2dd249410eac7f99e74c59cb83d2d0ed5ff1543da7703e9',
+        'cc6157ef18c9c63cd6193d83631bbea0093e0968942e8c33d5737fd790e0db08'
+      ],
+      [
+        '30682a50703375f602d416664ba19b7fc9bab42c72747463a71d0896b22f6da3',
+        '553e04f6b018b4fa6c8f39e7f311d3176290d0e0f19ca73f17714d9977a22ff8'
+      ],
+      [
+        '9e2158f0d7c0d5f26c3791efefa79597654e7a2b2464f52b1ee6c1347769ef57',
+        '712fcdd1b9053f09003a3481fa7762e9ffd7c8ef35a38509e2fbf2629008373'
+      ],
+      [
+        '176e26989a43c9cfeba4029c202538c28172e566e3c4fce7322857f3be327d66',
+        'ed8cc9d04b29eb877d270b4878dc43c19aefd31f4eee09ee7b47834c1fa4b1c3'
+      ],
+      [
+        '75d46efea3771e6e68abb89a13ad747ecf1892393dfc4f1b7004788c50374da8',
+        '9852390a99507679fd0b86fd2b39a868d7efc22151346e1a3ca4726586a6bed8'
+      ],
+      [
+        '809a20c67d64900ffb698c4c825f6d5f2310fb0451c869345b7319f645605721',
+        '9e994980d9917e22b76b061927fa04143d096ccc54963e6a5ebfa5f3f8e286c1'
+      ],
+      [
+        '1b38903a43f7f114ed4500b4eac7083fdefece1cf29c63528d563446f972c180',
+        '4036edc931a60ae889353f77fd53de4a2708b26b6f5da72ad3394119daf408f9'
+      ]
+    ]
+  }
+};
+
+},{}],43:[function(require,module,exports){
+'use strict';
 
 var utils = exports;
 
@@ -8556,31 +8778,39 @@ function toArray(msg, enc) {
   if (!msg)
     return [];
   var res = [];
-  if (typeof msg === 'string') {
-    if (!enc) {
-      for (var i = 0; i < msg.length; i++) {
-        var c = msg.charCodeAt(i);
-        var hi = c >> 8;
-        var lo = c & 0xff;
-        if (hi)
-          res.push(hi, lo);
-        else
-          res.push(lo);
-      }
-    } else if (enc === 'hex') {
-      msg = msg.replace(/[^a-z0-9]+/ig, '');
-      if (msg.length % 2 !== 0)
-        msg = '0' + msg;
-      for (var i = 0; i < msg.length; i += 2)
-        res.push(parseInt(msg[i] + msg[i + 1], 16));
-    }
-  } else {
+  if (typeof msg !== 'string') {
     for (var i = 0; i < msg.length; i++)
       res[i] = msg[i] | 0;
+    return res;
+  }
+  if (!enc) {
+    for (var i = 0; i < msg.length; i++) {
+      var c = msg.charCodeAt(i);
+      var hi = c >> 8;
+      var lo = c & 0xff;
+      if (hi)
+        res.push(hi, lo);
+      else
+        res.push(lo);
+    }
+  } else if (enc === 'hex') {
+    msg = msg.replace(/[^a-z0-9]+/ig, '');
+    if (msg.length % 2 !== 0)
+      msg = '0' + msg;
+    for (var i = 0; i < msg.length; i += 2)
+      res.push(parseInt(msg[i] + msg[i + 1], 16));
   }
   return res;
 }
 utils.toArray = toArray;
+
+function zero2(word) {
+  if (word.length === 1)
+    return '0' + word;
+  else
+    return word;
+}
+utils.zero2 = zero2;
 
 function toHex(msg) {
   var res = '';
@@ -8596,14 +8826,6 @@ utils.encode = function encode(arr, enc) {
   else
     return arr;
 };
-
-function zero2(word) {
-  if (word.length === 1)
-    return '0' + word;
-  else
-    return word;
-}
-utils.zero2 = zero2;
 
 // Represent num in a w-NAF form
 function getNAF(num, w) {
@@ -8692,7 +8914,7 @@ function getJSF(k1, k2) {
 }
 utils.getJSF = getJSF;
 
-},{"bn.js":29}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 var r;
 
 module.exports = function rand(len) {
@@ -8751,7 +8973,7 @@ if (typeof window === 'object') {
   }
 }
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 var hash = exports;
 
 hash.utils = require('./hash/utils');
@@ -8768,7 +8990,7 @@ hash.sha384 = hash.sha.sha384;
 hash.sha512 = hash.sha.sha512;
 hash.ripemd160 = hash.ripemd.ripemd160;
 
-},{"./hash/common":45,"./hash/hmac":46,"./hash/ripemd":47,"./hash/sha":48,"./hash/utils":49}],45:[function(require,module,exports){
+},{"./hash/common":46,"./hash/hmac":47,"./hash/ripemd":48,"./hash/sha":49,"./hash/utils":50}],46:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 var assert = utils.assert;
@@ -8861,7 +9083,7 @@ BlockHash.prototype._pad = function pad() {
   return res;
 };
 
-},{"../hash":44}],46:[function(require,module,exports){
+},{"../hash":45}],47:[function(require,module,exports){
 var hmac = exports;
 
 var hash = require('../hash');
@@ -8911,7 +9133,7 @@ Hmac.prototype.digest = function digest(enc) {
   return this.outer.digest(enc);
 };
 
-},{"../hash":44}],47:[function(require,module,exports){
+},{"../hash":45}],48:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 
@@ -9030,7 +9252,7 @@ var r = [
   7, 4, 13, 1, 10, 6, 15, 3, 12, 0, 9, 5, 2, 14, 11, 8,
   3, 10, 14, 4, 9, 15, 8, 1, 2, 7, 0, 6, 13, 11, 5, 12,
   1, 9, 11, 10, 0, 8, 12, 4, 13, 3, 7, 15, 14, 5, 6, 2,
-  4, 0, 5, 9, 7, 12, 2, 10, 14, 1, 3, 8, 11, 6, 15, 13,
+  4, 0, 5, 9, 7, 12, 2, 10, 14, 1, 3, 8, 11, 6, 15, 13
 ];
 
 var rh = [
@@ -9046,7 +9268,7 @@ var s = [
   7, 6, 8, 13, 11, 9, 7, 15, 7, 12, 15, 9, 11, 7, 13, 12,
   11, 13, 6, 7, 14, 9, 13, 15, 14, 8, 13, 6, 5, 12, 7, 5,
   11, 12, 14, 15, 14, 15, 9, 8, 9, 14, 5, 6, 8, 6, 5, 12,
-  9, 15, 5, 11, 6, 8, 13, 12, 5, 12, 13, 14, 11, 8, 5, 6,
+  9, 15, 5, 11, 6, 8, 13, 12, 5, 12, 13, 14, 11, 8, 5, 6
 ];
 
 var sh = [
@@ -9057,7 +9279,7 @@ var sh = [
   8, 5, 12, 9, 12, 5, 14, 6, 8, 13, 6, 5, 15, 13, 11, 11
 ];
 
-},{"../hash":44}],48:[function(require,module,exports){
+},{"../hash":45}],49:[function(require,module,exports){
 var hash = require('../hash');
 var utils = hash.utils;
 var assert = utils.assert;
@@ -9623,7 +9845,7 @@ function g1_512_lo(xh, xl) {
   return r;
 }
 
-},{"../hash":44}],49:[function(require,module,exports){
+},{"../hash":45}],50:[function(require,module,exports){
 var utils = exports;
 var inherits = require('inherits');
 
@@ -9882,14 +10104,14 @@ function shr64_lo(ah, al, num) {
 };
 exports.shr64_lo = shr64_lo;
 
-},{"inherits":145}],50:[function(require,module,exports){
+},{"inherits":145}],51:[function(require,module,exports){
 module.exports={
   "name": "elliptic",
-  "version": "1.0.1",
+  "version": "3.0.3",
   "description": "EC cryptography",
   "main": "lib/elliptic.js",
   "scripts": {
-    "test": "mocha --reporter=spec test/*-test.js"
+    "test": "make lint && mocha --reporter=spec test/*-test.js"
   },
   "repository": {
     "type": "git",
@@ -9912,20 +10134,23 @@ module.exports={
   "homepage": "https://github.com/indutny/elliptic",
   "devDependencies": {
     "browserify": "^3.44.2",
-    "mocha": "^1.18.2",
+    "jscs": "^1.11.3",
+    "jshint": "^2.6.0",
+    "mocha": "^2.1.0",
     "uglify-js": "^2.4.13"
   },
   "dependencies": {
-    "bn.js": "^1.0.0",
+    "bn.js": "^2.0.0",
     "brorand": "^1.0.1",
     "hash.js": "^1.0.0",
     "inherits": "^2.0.1"
   },
-  "gitHead": "17dc013761dd1efcfb868e2b06b0b897627b40be",
-  "_id": "elliptic@1.0.1",
-  "_shasum": "d180376b66a17d74995c837796362ac4d22aefe3",
-  "_from": "elliptic@>=1.0.0 <2.0.0",
-  "_npmVersion": "1.4.28",
+  "gitHead": "c8d7cf551fdf2ce3ecc5264b29084244ae6aa2b2",
+  "_id": "elliptic@3.0.3",
+  "_shasum": "865c9b420bfbe55006b9f969f97a0d2c44966595",
+  "_from": "elliptic@>=3.0.0 <4.0.0",
+  "_npmVersion": "2.5.1",
+  "_nodeVersion": "1.3.0",
   "_npmUser": {
     "name": "indutny",
     "email": "fedor@indutny.com"
@@ -9937,15 +10162,15 @@ module.exports={
     }
   ],
   "dist": {
-    "shasum": "d180376b66a17d74995c837796362ac4d22aefe3",
-    "tarball": "http://registry.npmjs.org/elliptic/-/elliptic-1.0.1.tgz"
+    "shasum": "865c9b420bfbe55006b9f969f97a0d2c44966595",
+    "tarball": "http://registry.npmjs.org/elliptic/-/elliptic-3.0.3.tgz"
   },
   "directories": {},
-  "_resolved": "https://registry.npmjs.org/elliptic/-/elliptic-1.0.1.tgz",
+  "_resolved": "https://registry.npmjs.org/elliptic/-/elliptic-3.0.3.tgz",
   "readme": "ERROR: No README data found!"
 }
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 (function (Buffer){
 var createHash = require('create-hash');
 module.exports = function evp(password, salt, keyLen) {
@@ -9988,7 +10213,7 @@ module.exports = function evp(password, salt, keyLen) {
 };
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":3,"create-hash":95}],52:[function(require,module,exports){
+},{"buffer":3,"create-hash":96}],53:[function(require,module,exports){
 module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
 "2.16.840.1.101.3.4.1.2": "aes-128-cbc",
 "2.16.840.1.101.3.4.1.3": "aes-128-ofb",
@@ -10002,7 +10227,7 @@ module.exports={"2.16.840.1.101.3.4.1.1": "aes-128-ecb",
 "2.16.840.1.101.3.4.1.43": "aes-256-ofb",
 "2.16.840.1.101.3.4.1.44": "aes-256-cfb"
 }
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 // from https://github.com/indutny/self-signed/blob/gh-pages/lib/asn1.js
 // Fedor, you are amazing.
 
@@ -10121,12 +10346,12 @@ exports.signature = asn1.define('signature', function() {
   );
 });
 
-},{"asn1.js":56}],54:[function(require,module,exports){
+},{"asn1.js":57}],55:[function(require,module,exports){
 (function (Buffer){
 // adapted from https://github.com/apatil/pemstrip
-var findProc = /Proc-Type: 4,ENCRYPTED\n\r?DEK-Info: AES-((?:128)|(?:192)|(?:256))-CBC,([0-9A-H]+)\n\r?\n\r?([0-9A-z\n\r\+\/\=]+)\n\r?/m;
-var startRegex =/^-----BEGIN (.*) KEY-----\n/m;
-var fullRegex = /^-----BEGIN (.*) KEY-----\n\r?([0-9A-z\n\r\+\/\=]+)\n\r?-----END \1 KEY-----$/m;
+var findProc = /Proc-Type: 4,ENCRYPTED\r?\nDEK-Info: AES-((?:128)|(?:192)|(?:256))-CBC,([0-9A-H]+)\r?\n\r?\n([0-9A-z\n\r\+\/\=]+)\r?\n/m;
+var startRegex =/^-----BEGIN (.*) KEY-----\r?\n/m;
+var fullRegex = /^-----BEGIN (.*) KEY-----\r?\n([0-9A-z\n\r\+\/\=]+)\r?\n-----END \1 KEY-----$/m;
 var evp = require('./EVP_BytesToKey');
 var ciphers = require('browserify-aes');
 module.exports = function (okey, password) {
@@ -10135,11 +10360,11 @@ module.exports = function (okey, password) {
   var decrypted;
   if (!match) {
     var match2 = key.match(fullRegex);
-    decrypted = new Buffer(match2[2].replace(/\n\r?/g, ''), 'base64');
+    decrypted = new Buffer(match2[2].replace(/\r?\n/g, ''), 'base64');
   } else {
     var suite = 'aes' + match[1];
     var iv = new Buffer(match[2], 'hex');
-    var cipherText = new Buffer(match[3].replace(/\n\r?/g, ''), 'base64');
+    var cipherText = new Buffer(match[3].replace(/\r?\n/g, ''), 'base64');
     var cipherKey = evp(password, iv.slice(0,8), parseInt(match[1]));
     var out = [];
     var cipher = ciphers.createDecipheriv(suite, cipherKey, iv);
@@ -10153,30 +10378,26 @@ module.exports = function (okey, password) {
     data: decrypted
   };
 };
+
 // http://stackoverflow.com/a/7033705
-function wrap(str) {
-  var chunks = [];
-  while (str) {
-    if (str.length < 64) {
-      chunks.push(str);
-      break;
-    }
-    else {
-      chunks.push(str.slice(0, 64));
-      str = str.slice(64);
-    }
+function wrap (str) {
+  var chunks = []
+
+  for (var i = 0; i < str.length; i += 64) {
+    chunks.push(str.slice(i, i + 64))
   }
-  return chunks.join("\n");
+  return chunks.join("\n")
 }
+
 }).call(this,require("buffer").Buffer)
 
-},{"./EVP_BytesToKey":51,"browserify-aes":11,"buffer":3}],55:[function(require,module,exports){
+},{"./EVP_BytesToKey":52,"browserify-aes":11,"buffer":3}],56:[function(require,module,exports){
 (function (Buffer){
 var asn1 = require('./asn1');
 var aesid = require('./aesid.json');
 var fixProc = require('./fixProc');
 var ciphers = require('browserify-aes');
-var compat = require('pbkdf2-compat');
+var compat = require('pbkdf2');
 module.exports = parseKeys;
 
 function parseKeys(buffer) {
@@ -10261,7 +10482,7 @@ function parseKeys(buffer) {
 parseKeys.signature = asn1.signature;
 function decrypt(data, password) {
   var salt = data.algorithm.decrypt.kde.kdeparams.salt;
-  var iters = data.algorithm.decrypt.kde.kdeparams.iters;
+  var iters = parseInt(data.algorithm.decrypt.kde.kdeparams.iters.toString(), 10);
   var algo = aesid[data.algorithm.decrypt.cipher.algo.join('.')];
   var iv = data.algorithm.decrypt.cipher.iv;
   var cipherText = data.subjectPrivateKey;
@@ -10273,9 +10494,10 @@ function decrypt(data, password) {
   out.push(cipher.final());
   return Buffer.concat(out);
 }
+
 }).call(this,require("buffer").Buffer)
 
-},{"./aesid.json":52,"./asn1":53,"./fixProc":54,"browserify-aes":11,"buffer":3,"pbkdf2-compat":69}],56:[function(require,module,exports){
+},{"./aesid.json":53,"./asn1":54,"./fixProc":55,"browserify-aes":11,"buffer":3,"pbkdf2":116}],57:[function(require,module,exports){
 var asn1 = exports;
 
 asn1.bignum = require('bn.js');
@@ -10286,7 +10508,7 @@ asn1.constants = require('./asn1/constants');
 asn1.decoders = require('./asn1/decoders');
 asn1.encoders = require('./asn1/encoders');
 
-},{"./asn1/api":57,"./asn1/base":59,"./asn1/constants":63,"./asn1/decoders":65,"./asn1/encoders":67,"bn.js":29}],57:[function(require,module,exports){
+},{"./asn1/api":58,"./asn1/base":60,"./asn1/constants":64,"./asn1/decoders":66,"./asn1/encoders":68,"bn.js":29}],58:[function(require,module,exports){
 var asn1 = require('../asn1');
 var inherits = require('inherits');
 
@@ -10347,7 +10569,7 @@ Entity.prototype.encode = function encode(data, enc, /* internal */ reporter) {
   return this._getEncoder(enc).encode(data, reporter);
 };
 
-},{"../asn1":56,"inherits":145,"vm":161}],58:[function(require,module,exports){
+},{"../asn1":57,"inherits":145,"vm":161}],59:[function(require,module,exports){
 var inherits = require('inherits');
 var Reporter = require('../base').Reporter;
 var Buffer = require('buffer').Buffer;
@@ -10367,7 +10589,7 @@ inherits(DecoderBuffer, Reporter);
 exports.DecoderBuffer = DecoderBuffer;
 
 DecoderBuffer.prototype.save = function save() {
-  return { offset: this.offset };
+  return { offset: this.offset, reporter: Reporter.prototype.save.call(this) };
 };
 
 DecoderBuffer.prototype.restore = function restore(save) {
@@ -10377,6 +10599,7 @@ DecoderBuffer.prototype.restore = function restore(save) {
   res.length = this.offset;
 
   this.offset = save.offset;
+  Reporter.prototype.restore.call(this, save.reporter);
 
   return res;
 };
@@ -10415,7 +10638,7 @@ function EncoderBuffer(value, reporter) {
   if (Array.isArray(value)) {
     this.length = 0;
     this.value = value.map(function(item) {
-      if (!(item instanceof EncoderBuffer))
+      if (!item || item.constructor.name !== 'EncoderBuffer')
         item = new EncoderBuffer(item, reporter);
       this.length += item.length;
       return item;
@@ -10464,7 +10687,7 @@ EncoderBuffer.prototype.join = function join(out, offset) {
   return out;
 };
 
-},{"../base":59,"buffer":3,"inherits":145}],59:[function(require,module,exports){
+},{"../base":60,"buffer":3,"inherits":145}],60:[function(require,module,exports){
 var base = exports;
 
 base.Reporter = require('./reporter').Reporter;
@@ -10472,7 +10695,7 @@ base.DecoderBuffer = require('./buffer').DecoderBuffer;
 base.EncoderBuffer = require('./buffer').EncoderBuffer;
 base.Node = require('./node');
 
-},{"./buffer":58,"./node":60,"./reporter":61}],60:[function(require,module,exports){
+},{"./buffer":59,"./node":61,"./reporter":62}],61:[function(require,module,exports){
 var Reporter = require('../base').Reporter;
 var EncoderBuffer = require('../base').EncoderBuffer;
 var assert = require('minimalistic-assert');
@@ -10750,7 +10973,8 @@ Node.prototype._decode = function decode(input) {
       input,
       state.explicit !== null ? state.explicit :
           state.implicit !== null ? state.implicit :
-              state.tag || 0
+              state.tag || 0,
+      state.any
     );
     if (input.isError(present))
       return present;
@@ -11049,7 +11273,7 @@ Node.prototype._encodePrimitive = function encodePrimitive(tag, data) {
     throw new Error('Unsupported tag: ' + tag);
 };
 
-},{"../base":59,"minimalistic-assert":68}],61:[function(require,module,exports){
+},{"../base":60,"minimalistic-assert":69}],62:[function(require,module,exports){
 var inherits = require('inherits');
 
 function Reporter(options) {
@@ -11064,6 +11288,19 @@ exports.Reporter = Reporter;
 
 Reporter.prototype.isError = function isError(obj) {
   return obj instanceof ReporterError;
+};
+
+Reporter.prototype.save = function save() {
+  var state = this._reporterState;
+
+  return { obj: state.obj, pathLen: state.path.length };
+};
+
+Reporter.prototype.restore = function restore(data) {
+  var state = this._reporterState;
+
+  state.obj = data.obj;
+  state.path = state.path.slice(0, data.pathLen);
 };
 
 Reporter.prototype.enterKey = function enterKey(key) {
@@ -11140,7 +11377,7 @@ ReporterError.prototype.rethrow = function rethrow(msg) {
   return this;
 };
 
-},{"inherits":145}],62:[function(require,module,exports){
+},{"inherits":145}],63:[function(require,module,exports){
 var constants = require('../constants');
 
 exports.tagClass = {
@@ -11184,7 +11421,7 @@ exports.tag = {
 };
 exports.tagByName = constants._reverse(exports.tag);
 
-},{"../constants":63}],63:[function(require,module,exports){
+},{"../constants":64}],64:[function(require,module,exports){
 var constants = exports;
 
 // Helper
@@ -11205,7 +11442,7 @@ constants._reverse = function reverse(map) {
 
 constants.der = require('./der');
 
-},{"./der":62}],64:[function(require,module,exports){
+},{"./der":63}],65:[function(require,module,exports){
 var inherits = require('inherits');
 
 var asn1 = require('../../asn1');
@@ -11240,7 +11477,7 @@ function DERNode(parent) {
 }
 inherits(DERNode, base.Node);
 
-DERNode.prototype._peekTag = function peekTag(buffer, tag) {
+DERNode.prototype._peekTag = function peekTag(buffer, tag, any) {
   if (buffer.isEmpty())
     return false;
 
@@ -11251,7 +11488,7 @@ DERNode.prototype._peekTag = function peekTag(buffer, tag) {
 
   buffer.restore(state);
 
-  return decodedTag.tag === tag || decodedTag.tagStr === tag;
+  return decodedTag.tag === tag || decodedTag.tagStr === tag || any;
 };
 
 DERNode.prototype._decodeTag = function decodeTag(buffer, tag, any) {
@@ -11413,23 +11650,12 @@ DERNode.prototype._decodeBool = function decodeBool(buffer) {
 };
 
 DERNode.prototype._decodeInt = function decodeInt(buffer, values) {
-  var res = 0;
-
   // Bigint, return as it is (assume big endian)
   var raw = buffer.raw();
-  if (raw.length > 3)
-    return new bignum(raw);
-
-  while (!buffer.isEmpty()) {
-    res <<= 8;
-    var i = buffer.readUInt8();
-    if (buffer.isError(i))
-      return i;
-    res |= i;
-  }
+  var res = new bignum(raw);
 
   if (values)
-    res = values[res] || res;
+    res = values[res.toString(10)] || res;
 
   return res;
 };
@@ -11507,12 +11733,12 @@ function derDecodeLen(buf, primitive, fail) {
   return len;
 }
 
-},{"../../asn1":56,"inherits":145}],65:[function(require,module,exports){
+},{"../../asn1":57,"inherits":145}],66:[function(require,module,exports){
 var decoders = exports;
 
 decoders.der = require('./der');
 
-},{"./der":64}],66:[function(require,module,exports){
+},{"./der":65}],67:[function(require,module,exports){
 var inherits = require('inherits');
 var Buffer = require('buffer').Buffer;
 
@@ -11631,7 +11857,7 @@ DERNode.prototype._encodeObjid = function encodeObjid(id, values, relative) {
 };
 
 function two(num) {
-  if (num <= 10)
+  if (num < 10)
     return '0' + num;
   else
     return num;
@@ -11643,7 +11869,7 @@ DERNode.prototype._encodeTime = function encodeTime(time, tag) {
 
   if (tag === 'gentime') {
     str = [
-      date.getFullYear(),
+      two(date.getFullYear()),
       two(date.getUTCMonth() + 1),
       two(date.getUTCDate()),
       two(date.getUTCHours()),
@@ -11653,7 +11879,7 @@ DERNode.prototype._encodeTime = function encodeTime(time, tag) {
     ].join('');
   } else if (tag === 'utctime') {
     str = [
-      date.getFullYear() % 100,
+      two(date.getFullYear() % 100),
       two(date.getUTCMonth() + 1),
       two(date.getUTCDate()),
       two(date.getUTCHours()),
@@ -11684,9 +11910,9 @@ DERNode.prototype._encodeInt = function encodeInt(num, values) {
   }
 
   // Bignum, assume big endian
-  if (bignum !== null && num instanceof bignum) {
+  if (typeof num !== 'number' && !Buffer.isBuffer(num)) {
     var numArray = num.toArray();
-    if(num.sign === false && numArray[0] & 0x80) {
+    if (num.sign === false && numArray[0] & 0x80) {
       numArray.unshift(0);
     }
     num = new Buffer(numArray);
@@ -11784,12 +12010,12 @@ function encodeTag(tag, primitive, cls, reporter) {
   return res;
 }
 
-},{"../../asn1":56,"buffer":3,"inherits":145}],67:[function(require,module,exports){
+},{"../../asn1":57,"buffer":3,"inherits":145}],68:[function(require,module,exports){
 var encoders = exports;
 
 encoders.der = require('./der');
 
-},{"./der":66}],68:[function(require,module,exports){
+},{"./der":67}],69:[function(require,module,exports){
 module.exports = assert;
 
 function assert(val, msg) {
@@ -11802,90 +12028,7 @@ assert.equal = function assertEqual(l, r, msg) {
     throw new Error(msg || ('Assertion failed: ' + l + ' != ' + r));
 };
 
-},{}],69:[function(require,module,exports){
-(function (Buffer){
-var createHmac = require('create-hmac')
-
-exports.pbkdf2 = pbkdf2
-function pbkdf2 (password, salt, iterations, keylen, digest, callback) {
-  if (typeof digest === 'function') {
-    callback = digest
-    digest = undefined
-  }
-
-  if (typeof callback !== 'function') {
-    throw new Error('No callback provided to pbkdf2')
-  }
-
-  var result = pbkdf2Sync(password, salt, iterations, keylen, digest)
-  setTimeout(function () {
-    callback(undefined, result)
-  })
-}
-
-exports.pbkdf2Sync = pbkdf2Sync
-function pbkdf2Sync (password, salt, iterations, keylen, digest) {
-  if (typeof iterations !== 'number')
-    throw new TypeError('Iterations not a number')
-
-  if (iterations < 0)
-    throw new TypeError('Bad iterations')
-
-  if (typeof keylen !== 'number')
-    throw new TypeError('Key length not a number')
-
-  if (keylen < 0)
-    throw new TypeError('Bad key length')
-
-  digest = digest || 'sha1'
-
-  if (!Buffer.isBuffer(password)) password = new Buffer(password)
-  if (!Buffer.isBuffer(salt)) salt = new Buffer(salt)
-
-  var hLen
-  var l = 1
-  var DK = new Buffer(keylen)
-  var block1 = new Buffer(salt.length + 4)
-  salt.copy(block1, 0, 0, salt.length)
-
-  var r
-  var T
-
-  for (var i = 1; i <= l; i++) {
-    block1.writeUInt32BE(i, salt.length)
-    var U = createHmac(digest, password).update(block1).digest()
-
-    if (!hLen) {
-      hLen = U.length
-      T = new Buffer(hLen)
-      l = Math.ceil(keylen / hLen)
-      r = keylen - (l - 1) * hLen
-
-      if (keylen > (Math.pow(2, 32) - 1) * hLen)
-        throw new TypeError('keylen exceeds maximum length')
-    }
-
-    U.copy(T, 0, 0, hLen)
-
-    for (var j = 1; j < iterations; j++) {
-      U = createHmac(digest, password).update(U).digest()
-
-      for (var k = 0; k < hLen; k++) {
-        T[k] ^= U[k]
-      }
-    }
-
-    var destPos = (i - 1) * hLen
-    var len = (i === l ? r : hLen)
-    T.copy(DK, destPos, 0, len)
-  }
-
-  return DK
-}
-
-}).call(this,require("buffer").Buffer)
-
-},{"buffer":3,"create-hmac":107}],70:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 (function (Buffer){
 // much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
 var parseKeys = require('parse-asn1')
@@ -11900,17 +12043,17 @@ function sign (hash, key, hashType, signType) {
   var priv = parseKeys(key)
   if (priv.curve) {
     if (signType !== 'ecdsa') {
-      throw new Error('wrong public key type')
+      throw new Error('wrong private key type')
     }
     return ecSign(hash, priv)
   } else if (priv.type === 'dsa') {
     return dsaSign(hash, priv, hashType)
     if (signType !== 'dsa') {
-      throw new Error('wrong public key type')
+      throw new Error('wrong private key type')
     }
   } else {
     if (signType !== 'rsa') {
-      throw new Error('wrong public key type')
+      throw new Error('wrong private key type')
     }
   }
   var len = priv.modulus.byteLength()
@@ -12064,7 +12207,7 @@ function makeR (g, k, p, q) {
 
 }).call(this,require("buffer").Buffer)
 
-},{"./curves":28,"bn.js":29,"browserify-rsa":30,"buffer":3,"create-hmac":107,"elliptic":31,"parse-asn1":55}],71:[function(require,module,exports){
+},{"./curves":28,"bn.js":29,"browserify-rsa":30,"buffer":3,"create-hmac":108,"elliptic":31,"parse-asn1":56}],71:[function(require,module,exports){
 (function (Buffer){
 'use strict'
 // much of this based on https://github.com/indutny/self-signed/blob/gh-pages/lib/rsa.js
@@ -12133,7 +12276,7 @@ function ecVerify (sig, hash, pub) {
   var curve = new elliptic.ec(curveId)
 
   var pubkey = pub.data.subjectPrivateKey.data
-  return curve.verify(hash.toString('hex'), sig.toString('hex'), pubkey.toString('hex'))
+  return curve.verify(hash, sig, pubkey)
 }
 function dsaVerify (sig, hash, pub) {
   var p = pub.data.p
@@ -12169,7 +12312,7 @@ function checkValue (b, q) {
 
 }).call(this,require("buffer").Buffer)
 
-},{"./curves":28,"bn.js":29,"buffer":3,"elliptic":31,"parse-asn1":55}],72:[function(require,module,exports){
+},{"./curves":28,"bn.js":29,"buffer":3,"elliptic":31,"parse-asn1":56}],72:[function(require,module,exports){
 (function (Buffer){
 var elliptic = require('elliptic');
 var BN = require('bn.js');
@@ -12226,9 +12369,7 @@ ECDH.prototype.computeSecret = function (other, inenc, enc) {
 	if (!Buffer.isBuffer(other)) {
 		other = new Buffer(other, inenc);
 	}
-	other = new BN(other);
-	other = other.toString(16);
-	var otherPub = this.curve.keyPair(other, 'hex').getPublic();
+	var otherPub = this.curve.keyFromPublic(other).getPublic();
 	var out = otherPub.mul(this.keys.getPrivate()).getX();
 	return formatReturnValue(out, enc, this.curveType.byteLength);
 };
@@ -12254,9 +12395,7 @@ ECDH.prototype.setPublicKey = function (pub, enc) {
 	if (!Buffer.isBuffer(pub)) {
 		pub = new Buffer(pub, enc);
 	}
-	var pkey = new BN(pub);
-	pkey = pkey.toArray();
-	this.keys._importPublicHex(pkey);
+	this.keys._importPublic(pub);
 	return this;
 };
 
@@ -12287,6 +12426,7 @@ function formatReturnValue(bn, enc, len) {
 		return buf.toString(enc);
 	}
 }
+
 }).call(this,require("buffer").Buffer)
 
 },{"bn.js":74,"buffer":3,"elliptic":75}],73:[function(require,module,exports){
@@ -12297,7 +12437,7 @@ module.exports = createECDH || require('./browser');
 arguments[4][29][0].apply(exports,arguments)
 },{"dup":29}],75:[function(require,module,exports){
 arguments[4][31][0].apply(exports,arguments)
-},{"../package.json":94,"./elliptic/curve":78,"./elliptic/curves":81,"./elliptic/ec":82,"./elliptic/hmac-drbg":85,"./elliptic/utils":86,"brorand":87,"dup":31}],76:[function(require,module,exports){
+},{"../package.json":95,"./elliptic/curve":78,"./elliptic/curves":81,"./elliptic/ec":82,"./elliptic/hmac-drbg":85,"./elliptic/utils":87,"brorand":88,"dup":31}],76:[function(require,module,exports){
 arguments[4][32][0].apply(exports,arguments)
 },{"../../elliptic":75,"bn.js":74,"dup":32}],77:[function(require,module,exports){
 arguments[4][33][0].apply(exports,arguments)
@@ -12305,11 +12445,11 @@ arguments[4][33][0].apply(exports,arguments)
 arguments[4][34][0].apply(exports,arguments)
 },{"./base":76,"./edwards":77,"./mont":79,"./short":80,"dup":34}],79:[function(require,module,exports){
 arguments[4][35][0].apply(exports,arguments)
-},{"../../elliptic":75,"../curve":78,"bn.js":74,"dup":35,"inherits":145}],80:[function(require,module,exports){
+},{"../curve":78,"bn.js":74,"dup":35,"inherits":145}],80:[function(require,module,exports){
 arguments[4][36][0].apply(exports,arguments)
 },{"../../elliptic":75,"../curve":78,"bn.js":74,"dup":36,"inherits":145}],81:[function(require,module,exports){
 arguments[4][37][0].apply(exports,arguments)
-},{"../elliptic":75,"bn.js":74,"dup":37,"hash.js":88}],82:[function(require,module,exports){
+},{"../elliptic":75,"./precomputed/secp256k1":86,"dup":37,"hash.js":89}],82:[function(require,module,exports){
 arguments[4][38][0].apply(exports,arguments)
 },{"../../elliptic":75,"./key":83,"./signature":84,"bn.js":74,"dup":38}],83:[function(require,module,exports){
 arguments[4][39][0].apply(exports,arguments)
@@ -12317,25 +12457,90 @@ arguments[4][39][0].apply(exports,arguments)
 arguments[4][40][0].apply(exports,arguments)
 },{"../../elliptic":75,"bn.js":74,"dup":40}],85:[function(require,module,exports){
 arguments[4][41][0].apply(exports,arguments)
-},{"../elliptic":75,"dup":41,"hash.js":88}],86:[function(require,module,exports){
+},{"../elliptic":75,"dup":41,"hash.js":89}],86:[function(require,module,exports){
 arguments[4][42][0].apply(exports,arguments)
-},{"bn.js":74,"dup":42}],87:[function(require,module,exports){
+},{"dup":42}],87:[function(require,module,exports){
 arguments[4][43][0].apply(exports,arguments)
 },{"dup":43}],88:[function(require,module,exports){
 arguments[4][44][0].apply(exports,arguments)
-},{"./hash/common":89,"./hash/hmac":90,"./hash/ripemd":91,"./hash/sha":92,"./hash/utils":93,"dup":44}],89:[function(require,module,exports){
+},{"dup":44}],89:[function(require,module,exports){
 arguments[4][45][0].apply(exports,arguments)
-},{"../hash":88,"dup":45}],90:[function(require,module,exports){
+},{"./hash/common":90,"./hash/hmac":91,"./hash/ripemd":92,"./hash/sha":93,"./hash/utils":94,"dup":45}],90:[function(require,module,exports){
 arguments[4][46][0].apply(exports,arguments)
-},{"../hash":88,"dup":46}],91:[function(require,module,exports){
+},{"../hash":89,"dup":46}],91:[function(require,module,exports){
 arguments[4][47][0].apply(exports,arguments)
-},{"../hash":88,"dup":47}],92:[function(require,module,exports){
+},{"../hash":89,"dup":47}],92:[function(require,module,exports){
 arguments[4][48][0].apply(exports,arguments)
-},{"../hash":88,"dup":48}],93:[function(require,module,exports){
+},{"../hash":89,"dup":48}],93:[function(require,module,exports){
 arguments[4][49][0].apply(exports,arguments)
-},{"dup":49,"inherits":145}],94:[function(require,module,exports){
+},{"../hash":89,"dup":49}],94:[function(require,module,exports){
 arguments[4][50][0].apply(exports,arguments)
-},{"dup":50}],95:[function(require,module,exports){
+},{"dup":50,"inherits":145}],95:[function(require,module,exports){
+module.exports={
+  "name": "elliptic",
+  "version": "3.0.3",
+  "description": "EC cryptography",
+  "main": "lib/elliptic.js",
+  "scripts": {
+    "test": "make lint && mocha --reporter=spec test/*-test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:indutny/elliptic"
+  },
+  "keywords": [
+    "EC",
+    "Elliptic",
+    "curve",
+    "Cryptography"
+  ],
+  "author": {
+    "name": "Fedor Indutny",
+    "email": "fedor@indutny.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/indutny/elliptic/issues"
+  },
+  "homepage": "https://github.com/indutny/elliptic",
+  "devDependencies": {
+    "browserify": "^3.44.2",
+    "jscs": "^1.11.3",
+    "jshint": "^2.6.0",
+    "mocha": "^2.1.0",
+    "uglify-js": "^2.4.13"
+  },
+  "dependencies": {
+    "bn.js": "^2.0.0",
+    "brorand": "^1.0.1",
+    "hash.js": "^1.0.0",
+    "inherits": "^2.0.1"
+  },
+  "gitHead": "c8d7cf551fdf2ce3ecc5264b29084244ae6aa2b2",
+  "_id": "elliptic@3.0.3",
+  "_shasum": "865c9b420bfbe55006b9f969f97a0d2c44966595",
+  "_from": "elliptic@>=3.0.0 <4.0.0",
+  "_npmVersion": "2.5.1",
+  "_nodeVersion": "1.3.0",
+  "_npmUser": {
+    "name": "indutny",
+    "email": "fedor@indutny.com"
+  },
+  "maintainers": [
+    {
+      "name": "indutny",
+      "email": "fedor@indutny.com"
+    }
+  ],
+  "dist": {
+    "shasum": "865c9b420bfbe55006b9f969f97a0d2c44966595",
+    "tarball": "http://registry.npmjs.org/elliptic/-/elliptic-3.0.3.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/elliptic/-/elliptic-3.0.3.tgz"
+}
+
+},{}],96:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var inherits = require('inherits')
@@ -12429,7 +12634,7 @@ module.exports = function createHash (alg) {
 
 }).call(this,require("buffer").Buffer)
 
-},{"./md5":97,"buffer":3,"inherits":145,"ripemd160":98,"sha.js":100,"stream":159}],96:[function(require,module,exports){
+},{"./md5":98,"buffer":3,"inherits":145,"ripemd160":99,"sha.js":101,"stream":159}],97:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var intSize = 4;
@@ -12467,7 +12672,7 @@ function hash(buf, fn, hashSize, bigEndian) {
 exports.hash = hash;
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":3}],97:[function(require,module,exports){
+},{"buffer":3}],98:[function(require,module,exports){
 'use strict';
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
@@ -12624,7 +12829,7 @@ function bit_rol(num, cnt)
 module.exports = function md5(buf) {
   return helpers.hash(buf, core_md5, 16);
 };
-},{"./helpers":96}],98:[function(require,module,exports){
+},{"./helpers":97}],99:[function(require,module,exports){
 (function (Buffer){
 /*
 CryptoJS v3.1.2
@@ -12839,7 +13044,7 @@ module.exports = ripemd160
 
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":3}],99:[function(require,module,exports){
+},{"buffer":3}],100:[function(require,module,exports){
 (function (Buffer){
 //prototype class for hash functions
 function Hash (blockSize, finalSize) {
@@ -12913,7 +13118,7 @@ module.exports = Hash
 
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":3}],100:[function(require,module,exports){
+},{"buffer":3}],101:[function(require,module,exports){
 var exports = module.exports = function (alg) {
   var Alg = exports[alg.toLowerCase()]
   if(!Alg) throw new Error(alg + ' is not supported (we accept pull requests)')
@@ -12928,7 +13133,7 @@ exports.sha256 = require('./sha256')
 exports.sha384 = require('./sha384')
 exports.sha512 = require('./sha512')
 
-},{"./sha":101,"./sha1":102,"./sha224":103,"./sha256":104,"./sha384":105,"./sha512":106}],101:[function(require,module,exports){
+},{"./sha":102,"./sha1":103,"./sha224":104,"./sha256":105,"./sha384":106,"./sha512":107}],102:[function(require,module,exports){
 (function (Buffer){
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-0, as defined
@@ -13032,7 +13237,7 @@ module.exports = Sha
 
 }).call(this,require("buffer").Buffer)
 
-},{"./hash":99,"buffer":3,"inherits":145}],102:[function(require,module,exports){
+},{"./hash":100,"buffer":3,"inherits":145}],103:[function(require,module,exports){
 (function (Buffer){
 /*
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-1, as defined
@@ -13133,7 +13338,7 @@ module.exports = Sha1
 
 }).call(this,require("buffer").Buffer)
 
-},{"./hash":99,"buffer":3,"inherits":145}],103:[function(require,module,exports){
+},{"./hash":100,"buffer":3,"inherits":145}],104:[function(require,module,exports){
 (function (Buffer){
 /**
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
@@ -13190,7 +13395,7 @@ module.exports = Sha224
 
 }).call(this,require("buffer").Buffer)
 
-},{"./hash":99,"./sha256":104,"buffer":3,"inherits":145}],104:[function(require,module,exports){
+},{"./hash":100,"./sha256":105,"buffer":3,"inherits":145}],105:[function(require,module,exports){
 (function (Buffer){
 /**
  * A JavaScript implementation of the Secure Hash Algorithm, SHA-256, as defined
@@ -13344,7 +13549,7 @@ module.exports = Sha256
 
 }).call(this,require("buffer").Buffer)
 
-},{"./hash":99,"buffer":3,"inherits":145}],105:[function(require,module,exports){
+},{"./hash":100,"buffer":3,"inherits":145}],106:[function(require,module,exports){
 (function (Buffer){
 var inherits = require('inherits')
 var SHA512 = require('./sha512');
@@ -13405,7 +13610,7 @@ module.exports = Sha384
 
 }).call(this,require("buffer").Buffer)
 
-},{"./hash":99,"./sha512":106,"buffer":3,"inherits":145}],106:[function(require,module,exports){
+},{"./hash":100,"./sha512":107,"buffer":3,"inherits":145}],107:[function(require,module,exports){
 (function (Buffer){
 var inherits = require('inherits')
 var Hash = require('./hash')
@@ -13655,7 +13860,7 @@ module.exports = Sha512
 
 }).call(this,require("buffer").Buffer)
 
-},{"./hash":99,"buffer":3,"inherits":145}],107:[function(require,module,exports){
+},{"./hash":100,"buffer":3,"inherits":145}],108:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 var createHash = require('create-hash/browser');
@@ -13728,7 +13933,7 @@ module.exports = function createHmac(alg, key) {
 
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":3,"create-hash/browser":95,"inherits":145,"stream":159}],108:[function(require,module,exports){
+},{"buffer":3,"create-hash/browser":96,"inherits":145,"stream":159}],109:[function(require,module,exports){
 (function (Buffer){
 var generatePrime = require('./lib/generatePrime');
 var primes = require('./lib/primes');
@@ -13773,7 +13978,7 @@ exports.createDiffieHellman = exports.DiffieHellman = createDiffieHellman;
 
 }).call(this,require("buffer").Buffer)
 
-},{"./lib/dh":109,"./lib/generatePrime":110,"./lib/primes":111,"buffer":3}],109:[function(require,module,exports){
+},{"./lib/dh":110,"./lib/generatePrime":111,"./lib/primes":112,"buffer":3}],110:[function(require,module,exports){
 (function (Buffer){
 var BN = require('bn.js');
 var MillerRabin = require('miller-rabin');
@@ -13944,7 +14149,7 @@ function formatReturnValue(bn, enc) {
 }
 }).call(this,require("buffer").Buffer)
 
-},{"./generatePrime":110,"bn.js":112,"buffer":3,"miller-rabin":113,"randombytes":143}],110:[function(require,module,exports){
+},{"./generatePrime":111,"bn.js":113,"buffer":3,"miller-rabin":114,"randombytes":143}],111:[function(require,module,exports){
 var randomBytes = require('randombytes');
 module.exports = findPrime;
 findPrime.simpleSieve = simpleSieve;
@@ -14077,7 +14282,7 @@ function findPrime(bits, gen) {
   }
 
 }
-},{"bn.js":112,"miller-rabin":113,"randombytes":143}],111:[function(require,module,exports){
+},{"bn.js":113,"miller-rabin":114,"randombytes":143}],112:[function(require,module,exports){
 module.exports={
     "modp1": {
         "gen": "02",
@@ -14112,9 +14317,9 @@ module.exports={
         "prime": "ffffffffffffffffc90fdaa22168c234c4c6628b80dc1cd129024e088a67cc74020bbea63b139b22514a08798e3404ddef9519b3cd3a431b302b0a6df25f14374fe1356d6d51c245e485b576625e7ec6f44c42e9a637ed6b0bff5cb6f406b7edee386bfb5a899fa5ae9f24117c4b1fe649286651ece45b3dc2007cb8a163bf0598da48361c55d39a69163fa8fd24cf5f83655d23dca3ad961c62f356208552bb9ed529077096966d670c354e4abc9804f1746c08ca18217c32905e462e36ce3be39e772c180e86039b2783a2ec07a28fb5c55df06f4c52c9de2bcbf6955817183995497cea956ae515d2261898fa051015728e5a8aaac42dad33170d04507a33a85521abdf1cba64ecfb850458dbef0a8aea71575d060c7db3970f85a6e1e4c7abf5ae8cdb0933d71e8c94e04a25619dcee3d2261ad2ee6bf12ffa06d98a0864d87602733ec86a64521f2b18177b200cbbe117577a615d6c770988c0bad946e208e24fa074e5ab3143db5bfce0fd108e4b82d120a92108011a723c12a787e6d788719a10bdba5b2699c327186af4e23c1a946834b6150bda2583e9ca2ad44ce8dbbbc2db04de8ef92e8efc141fbecaa6287c59474e6bc05d99b2964fa090c3a2233ba186515be7ed1f612970cee2d7afb81bdd762170481cd0069127d5b05aa993b4ea988d8fddc186ffb7dc90a6c08f4df435c93402849236c3fab4d27c7026c1d4dcb2602646dec9751e763dba37bdf8ff9406ad9e530ee5db382f413001aeb06a53ed9027d831179727b0865a8918da3edbebcf9b14ed44ce6cbaced4bb1bdb7f1447e6cc254b332051512bd7af426fb8f401378cd2bf5983ca01c64b92ecf032ea15d1721d03f482d7ce6e74fef6d55e702f46980c82b5a84031900b1c9e59e7c97fbec7e8f323a97a7e36cc88be0f1d45b7ff585ac54bd407b22b4154aacc8f6d7ebf48e1d814cc5ed20f8037e0a79715eef29be32806a1d58bb7c5da76f550aa3d8a1fbff0eb19ccb1a313d55cda56c9ec2ef29632387fe8d76e3c0468043e8f663f4860ee12bf2d5b0b7474d6e694f91e6dbe115974a3926f12fee5e438777cb6a932df8cd8bec4d073b931ba3bc832b68d9dd300741fa7bf8afc47ed2576f6936ba424663aab639c5ae4f5683423b4742bf1c978238f16cbe39d652de3fdb8befc848ad922222e04a4037c0713eb57a81a23f0c73473fc646cea306b4bcbc8862f8385ddfa9d4b7fa2c087e879683303ed5bdd3a062b3cf5b3a278a66d2a13f83f44f82ddf310ee074ab6a364597e899a0255dc164f31cc50846851df9ab48195ded7ea1b1d510bd7ee74d73faf36bc31ecfa268359046f4eb879f924009438b481c6cd7889a002ed5ee382bc9190da6fc026e479558e4475677e9aa9e3050e2765694dfc81f56e880b96e7160c980dd98edd3dfffffffffffffffff"
     }
 }
-},{}],112:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 arguments[4][29][0].apply(exports,arguments)
-},{"dup":29}],113:[function(require,module,exports){
+},{"dup":29}],114:[function(require,module,exports){
 var bn = require('bn.js');
 var brorand = require('brorand');
 
@@ -14200,7 +14405,6 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
 
   var rn1 = n1.toRed(red);
 
-  var prime = true;
   for (; k > 0; k--) {
     var a = this._rand(n2);
 
@@ -14227,12 +14431,12 @@ MillerRabin.prototype.getDivisor = function getDivisor(n, k) {
     }
   }
 
-  return prime;
+  return false;
 };
 
-},{"bn.js":112,"brorand":114}],114:[function(require,module,exports){
-arguments[4][43][0].apply(exports,arguments)
-},{"dup":43}],115:[function(require,module,exports){
+},{"bn.js":113,"brorand":115}],115:[function(require,module,exports){
+arguments[4][44][0].apply(exports,arguments)
+},{"dup":44}],116:[function(require,module,exports){
 (function (Buffer){
 var createHmac = require('create-hmac')
 var MAX_ALLOC = Math.pow(2, 30) - 1 // default in iojs
@@ -14317,7 +14521,7 @@ function pbkdf2Sync (password, salt, iterations, keylen, digest) {
 
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":3,"create-hmac":107}],116:[function(require,module,exports){
+},{"buffer":3,"create-hmac":108}],117:[function(require,module,exports){
 exports.publicEncrypt = require('./publicEncrypt');
 exports.privateDecrypt = require('./privateDecrypt');
 
@@ -14328,7 +14532,7 @@ exports.privateEncrypt = function privateEncrypt(key, buf) {
 exports.publicDecrypt = function publicDecrypt(key, buf) {
   return exports.privateDecrypt(key, buf, true);
 };
-},{"./privateDecrypt":139,"./publicEncrypt":140}],117:[function(require,module,exports){
+},{"./privateDecrypt":139,"./publicEncrypt":140}],118:[function(require,module,exports){
 (function (Buffer){
 var createHash = require('create-hash');
 module.exports = function (seed, len) {
@@ -14348,9 +14552,9 @@ function i2ops(c) {
 }
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":3,"create-hash":95}],118:[function(require,module,exports){
+},{"buffer":3,"create-hash":96}],119:[function(require,module,exports){
 arguments[4][29][0].apply(exports,arguments)
-},{"dup":29}],119:[function(require,module,exports){
+},{"dup":29}],120:[function(require,module,exports){
 (function (Buffer){
 var bn = require('bn.js');
 var randomBytes = require('randombytes');
@@ -14400,7 +14604,7 @@ function getr(priv) {
 }
 }).call(this,require("buffer").Buffer)
 
-},{"bn.js":118,"buffer":3,"randombytes":143}],120:[function(require,module,exports){
+},{"bn.js":119,"buffer":3,"randombytes":143}],121:[function(require,module,exports){
 (function (Buffer){
 var createHash = require('create-hash');
 module.exports = function evp(password, salt, keyLen) {
@@ -14443,16 +14647,16 @@ module.exports = function evp(password, salt, keyLen) {
 };
 }).call(this,require("buffer").Buffer)
 
-},{"buffer":3,"create-hash":95}],121:[function(require,module,exports){
-arguments[4][52][0].apply(exports,arguments)
-},{"dup":52}],122:[function(require,module,exports){
+},{"buffer":3,"create-hash":96}],122:[function(require,module,exports){
 arguments[4][53][0].apply(exports,arguments)
-},{"asn1.js":125,"dup":53}],123:[function(require,module,exports){
+},{"dup":53}],123:[function(require,module,exports){
+arguments[4][54][0].apply(exports,arguments)
+},{"asn1.js":126,"dup":54}],124:[function(require,module,exports){
 (function (Buffer){
 // adapted from https://github.com/apatil/pemstrip
-var findProc = /Proc-Type: 4,ENCRYPTED\n\r?DEK-Info: AES-((?:128)|(?:192)|(?:256))-CBC,([0-9A-H]+)\n\r?\n\r?([0-9A-z\n\r\+\/\=]+)\n\r?/m;
-var startRegex =/^-----BEGIN (.*) KEY-----\n/m;
-var fullRegex = /^-----BEGIN (.*) KEY-----\n\r?([0-9A-z\n\r\+\/\=]+)\n\r?-----END \1 KEY-----$/m;
+var findProc = /Proc-Type: 4,ENCRYPTED\r?\nDEK-Info: AES-((?:128)|(?:192)|(?:256))-CBC,([0-9A-H]+)\r?\n\r?\n([0-9A-z\n\r\+\/\=]+)\r?\n/m;
+var startRegex =/^-----BEGIN (.*) KEY-----\r?\n/m;
+var fullRegex = /^-----BEGIN (.*) KEY-----\r?\n([0-9A-z\n\r\+\/\=]+)\r?\n-----END \1 KEY-----$/m;
 var evp = require('./EVP_BytesToKey');
 var ciphers = require('browserify-aes');
 module.exports = function (okey, password) {
@@ -14461,11 +14665,11 @@ module.exports = function (okey, password) {
   var decrypted;
   if (!match) {
     var match2 = key.match(fullRegex);
-    decrypted = new Buffer(match2[2].replace(/\n\r?/g, ''), 'base64');
+    decrypted = new Buffer(match2[2].replace(/\r?\n/g, ''), 'base64');
   } else {
     var suite = 'aes' + match[1];
     var iv = new Buffer(match[2], 'hex');
-    var cipherText = new Buffer(match[3].replace(/\n\r?/g, ''), 'base64');
+    var cipherText = new Buffer(match[3].replace(/\r?\n/g, ''), 'base64');
     var cipherKey = evp(password, iv.slice(0,8), parseInt(match[1]));
     var out = [];
     var cipher = ciphers.createDecipheriv(suite, cipherKey, iv);
@@ -14479,30 +14683,26 @@ module.exports = function (okey, password) {
     data: decrypted
   };
 };
+
 // http://stackoverflow.com/a/7033705
-function wrap(str) {
-  var chunks = [];
-  while (str) {
-    if (str.length < 64) {
-      chunks.push(str);
-      break;
-    }
-    else {
-      chunks.push(str.slice(0, 64));
-      str = str.slice(64);
-    }
+function wrap (str) {
+  var chunks = []
+
+  for (var i = 0; i < str.length; i += 64) {
+    chunks.push(str.slice(i, i + 64))
   }
-  return chunks.join("\n");
+  return chunks.join("\n")
 }
+
 }).call(this,require("buffer").Buffer)
 
-},{"./EVP_BytesToKey":120,"browserify-aes":11,"buffer":3}],124:[function(require,module,exports){
+},{"./EVP_BytesToKey":121,"browserify-aes":11,"buffer":3}],125:[function(require,module,exports){
 (function (Buffer){
 var asn1 = require('./asn1');
 var aesid = require('./aesid.json');
 var fixProc = require('./fixProc');
 var ciphers = require('browserify-aes');
-var compat = require('pbkdf2-compat');
+var compat = require('pbkdf2');
 module.exports = parseKeys;
 
 function parseKeys(buffer) {
@@ -14587,7 +14787,7 @@ function parseKeys(buffer) {
 parseKeys.signature = asn1.signature;
 function decrypt(data, password) {
   var salt = data.algorithm.decrypt.kde.kdeparams.salt;
-  var iters = data.algorithm.decrypt.kde.kdeparams.iters;
+  var iters = parseInt(data.algorithm.decrypt.kde.kdeparams.iters.toString(), 10);
   var algo = aesid[data.algorithm.decrypt.cipher.algo.join('.')];
   var iv = data.algorithm.decrypt.cipher.iv;
   var cipherText = data.subjectPrivateKey;
@@ -14599,118 +14799,36 @@ function decrypt(data, password) {
   out.push(cipher.final());
   return Buffer.concat(out);
 }
+
 }).call(this,require("buffer").Buffer)
 
-},{"./aesid.json":121,"./asn1":122,"./fixProc":123,"browserify-aes":11,"buffer":3,"pbkdf2-compat":138}],125:[function(require,module,exports){
-arguments[4][56][0].apply(exports,arguments)
-},{"./asn1/api":126,"./asn1/base":128,"./asn1/constants":132,"./asn1/decoders":134,"./asn1/encoders":136,"bn.js":118,"dup":56}],126:[function(require,module,exports){
+},{"./aesid.json":122,"./asn1":123,"./fixProc":124,"browserify-aes":11,"buffer":3,"pbkdf2":116}],126:[function(require,module,exports){
 arguments[4][57][0].apply(exports,arguments)
-},{"../asn1":125,"dup":57,"inherits":145,"vm":161}],127:[function(require,module,exports){
+},{"./asn1/api":127,"./asn1/base":129,"./asn1/constants":133,"./asn1/decoders":135,"./asn1/encoders":137,"bn.js":119,"dup":57}],127:[function(require,module,exports){
 arguments[4][58][0].apply(exports,arguments)
-},{"../base":128,"buffer":3,"dup":58,"inherits":145}],128:[function(require,module,exports){
+},{"../asn1":126,"dup":58,"inherits":145,"vm":161}],128:[function(require,module,exports){
 arguments[4][59][0].apply(exports,arguments)
-},{"./buffer":127,"./node":129,"./reporter":130,"dup":59}],129:[function(require,module,exports){
+},{"../base":129,"buffer":3,"dup":59,"inherits":145}],129:[function(require,module,exports){
 arguments[4][60][0].apply(exports,arguments)
-},{"../base":128,"dup":60,"minimalistic-assert":137}],130:[function(require,module,exports){
+},{"./buffer":128,"./node":130,"./reporter":131,"dup":60}],130:[function(require,module,exports){
 arguments[4][61][0].apply(exports,arguments)
-},{"dup":61,"inherits":145}],131:[function(require,module,exports){
+},{"../base":129,"dup":61,"minimalistic-assert":138}],131:[function(require,module,exports){
 arguments[4][62][0].apply(exports,arguments)
-},{"../constants":132,"dup":62}],132:[function(require,module,exports){
+},{"dup":62,"inherits":145}],132:[function(require,module,exports){
 arguments[4][63][0].apply(exports,arguments)
-},{"./der":131,"dup":63}],133:[function(require,module,exports){
+},{"../constants":133,"dup":63}],133:[function(require,module,exports){
 arguments[4][64][0].apply(exports,arguments)
-},{"../../asn1":125,"dup":64,"inherits":145}],134:[function(require,module,exports){
+},{"./der":132,"dup":64}],134:[function(require,module,exports){
 arguments[4][65][0].apply(exports,arguments)
-},{"./der":133,"dup":65}],135:[function(require,module,exports){
+},{"../../asn1":126,"dup":65,"inherits":145}],135:[function(require,module,exports){
 arguments[4][66][0].apply(exports,arguments)
-},{"../../asn1":125,"buffer":3,"dup":66,"inherits":145}],136:[function(require,module,exports){
+},{"./der":134,"dup":66}],136:[function(require,module,exports){
 arguments[4][67][0].apply(exports,arguments)
-},{"./der":135,"dup":67}],137:[function(require,module,exports){
+},{"../../asn1":126,"buffer":3,"dup":67,"inherits":145}],137:[function(require,module,exports){
 arguments[4][68][0].apply(exports,arguments)
-},{"dup":68}],138:[function(require,module,exports){
-(function (Buffer){
-var createHmac = require('create-hmac')
-
-exports.pbkdf2 = pbkdf2
-function pbkdf2 (password, salt, iterations, keylen, digest, callback) {
-  if (typeof digest === 'function') {
-    callback = digest
-    digest = undefined
-  }
-
-  if (typeof callback !== 'function') {
-    throw new Error('No callback provided to pbkdf2')
-  }
-
-  var result = pbkdf2Sync(password, salt, iterations, keylen, digest)
-  setTimeout(function () {
-    callback(undefined, result)
-  })
-}
-
-exports.pbkdf2Sync = pbkdf2Sync
-function pbkdf2Sync (password, salt, iterations, keylen, digest) {
-  if (typeof iterations !== 'number')
-    throw new TypeError('Iterations not a number')
-
-  if (iterations < 0)
-    throw new TypeError('Bad iterations')
-
-  if (typeof keylen !== 'number')
-    throw new TypeError('Key length not a number')
-
-  if (keylen < 0)
-    throw new TypeError('Bad key length')
-
-  digest = digest || 'sha1'
-
-  if (!Buffer.isBuffer(password)) password = new Buffer(password)
-  if (!Buffer.isBuffer(salt)) salt = new Buffer(salt)
-
-  var hLen
-  var l = 1
-  var DK = new Buffer(keylen)
-  var block1 = new Buffer(salt.length + 4)
-  salt.copy(block1, 0, 0, salt.length)
-
-  var r
-  var T
-
-  for (var i = 1; i <= l; i++) {
-    block1.writeUInt32BE(i, salt.length)
-    var U = createHmac(digest, password).update(block1).digest()
-
-    if (!hLen) {
-      hLen = U.length
-      T = new Buffer(hLen)
-      l = Math.ceil(keylen / hLen)
-      r = keylen - (l - 1) * hLen
-
-      if (keylen > (Math.pow(2, 32) - 1) * hLen)
-        throw new TypeError('keylen exceeds maximum length')
-    }
-
-    U.copy(T, 0, 0, hLen)
-
-    for (var j = 1; j < iterations; j++) {
-      U = createHmac(digest, password).update(U).digest()
-
-      for (var k = 0; k < hLen; k++) {
-        T[k] ^= U[k]
-      }
-    }
-
-    var destPos = (i - 1) * hLen
-    var len = (i === l ? r : hLen)
-    T.copy(DK, destPos, 0, len)
-  }
-
-  return DK
-}
-
-}).call(this,require("buffer").Buffer)
-
-},{"buffer":3,"create-hmac":107}],139:[function(require,module,exports){
+},{"./der":136,"dup":68}],138:[function(require,module,exports){
+arguments[4][69][0].apply(exports,arguments)
+},{"dup":69}],139:[function(require,module,exports){
 (function (Buffer){
 var parseKeys = require('parse-asn1');
 var mgf = require('./mgf');
@@ -14822,7 +14940,7 @@ function compare(a, b){
 }
 }).call(this,require("buffer").Buffer)
 
-},{"./mgf":117,"./withPublic":141,"./xor":142,"bn.js":118,"browserify-rsa":119,"buffer":3,"create-hash":95,"parse-asn1":124}],140:[function(require,module,exports){
+},{"./mgf":118,"./withPublic":141,"./xor":142,"bn.js":119,"browserify-rsa":120,"buffer":3,"create-hash":96,"parse-asn1":125}],140:[function(require,module,exports){
 (function (Buffer){
 var parseKeys = require('parse-asn1');
 var randomBytes = require('randombytes');
@@ -14921,7 +15039,7 @@ function nonZero(len, crypto) {
 }
 }).call(this,require("buffer").Buffer)
 
-},{"./mgf":117,"./withPublic":141,"./xor":142,"bn.js":118,"browserify-rsa":119,"buffer":3,"create-hash":95,"parse-asn1":124,"randombytes":143}],141:[function(require,module,exports){
+},{"./mgf":118,"./withPublic":141,"./xor":142,"bn.js":119,"browserify-rsa":120,"buffer":3,"create-hash":96,"parse-asn1":125,"randombytes":143}],141:[function(require,module,exports){
 (function (Buffer){
 var bn = require('bn.js');
 function withPublic(paddedMsg, key) {
@@ -14935,7 +15053,7 @@ function withPublic(paddedMsg, key) {
 module.exports = withPublic;
 }).call(this,require("buffer").Buffer)
 
-},{"bn.js":118,"buffer":3}],142:[function(require,module,exports){
+},{"bn.js":119,"buffer":3}],142:[function(require,module,exports){
 module.exports = function xor(a, b) {
   var len = a.length;
   var i = -1;
@@ -17803,28 +17921,32 @@ module.exports = function(arr, obj){
   http://jedwatson.github.io/classnames
 */
 
-function classNames() {
+function classNames () {
+	'use strict';
+
 	var classes = '';
-	var arg;
 
 	for (var i = 0; i < arguments.length; i++) {
-		arg = arguments[i];
-		if (!arg) {
-			continue;
-		}
-		if ('string' === typeof arg || 'number' === typeof arg) {
+		var arg = arguments[i];
+		if (!arg) continue;
+
+		var argType = typeof arg;
+
+		if ('string' === argType || 'number' === argType) {
 			classes += ' ' + arg;
+
 		} else if (Array.isArray(arg)) {
 			classes += ' ' + classNames.apply(null, arg);
-		} else if ('object' === typeof arg) {
+
+		} else if ('object' === argType) {
 			for (var key in arg) {
-				if (!arg.hasOwnProperty(key) || !arg[key]) {
-					continue;
+				if (arg.hasOwnProperty(key) && arg[key]) {
+					classes += ' ' + key;
 				}
-				classes += ' ' + key;
 			}
 		}
 	}
+
 	return classes.substr(1);
 }
 
@@ -17833,6 +17955,7 @@ if (typeof module !== 'undefined' && module.exports) {
 	module.exports = classNames;
 }
 
+/* global define */
 // safely export classNames for RequireJS
 if (typeof define !== 'undefined' && define.amd) {
 	define('classnames', [], function() {
@@ -27346,12216 +27469,9 @@ if (typeof define !== 'undefined' && define.amd) {
   this.d3 = d3;
 }();
 },{}],165:[function(require,module,exports){
-(function (global){
-/**
- * @license
- * lodash 3.8.0 (Custom Build) <https://lodash.com/>
- * Build: `lodash modern -d -o ./index.js`
- * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- * Available under MIT license <https://lodash.com/license>
- */
-;(function() {
-
-  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
-  var undefined;
-
-  /** Used as the semantic version number. */
-  var VERSION = '3.8.0';
-
-  /** Used to compose bitmasks for wrapper metadata. */
-  var BIND_FLAG = 1,
-      BIND_KEY_FLAG = 2,
-      CURRY_BOUND_FLAG = 4,
-      CURRY_FLAG = 8,
-      CURRY_RIGHT_FLAG = 16,
-      PARTIAL_FLAG = 32,
-      PARTIAL_RIGHT_FLAG = 64,
-      ARY_FLAG = 128,
-      REARG_FLAG = 256;
-
-  /** Used as default options for `_.trunc`. */
-  var DEFAULT_TRUNC_LENGTH = 30,
-      DEFAULT_TRUNC_OMISSION = '...';
-
-  /** Used to detect when a function becomes hot. */
-  var HOT_COUNT = 150,
-      HOT_SPAN = 16;
-
-  /** Used to indicate the type of lazy iteratees. */
-  var LAZY_DROP_WHILE_FLAG = 0,
-      LAZY_FILTER_FLAG = 1,
-      LAZY_MAP_FLAG = 2;
-
-  /** Used as the `TypeError` message for "Functions" methods. */
-  var FUNC_ERROR_TEXT = 'Expected a function';
-
-  /** Used as the internal argument placeholder. */
-  var PLACEHOLDER = '__lodash_placeholder__';
-
-  /** `Object#toString` result references. */
-  var argsTag = '[object Arguments]',
-      arrayTag = '[object Array]',
-      boolTag = '[object Boolean]',
-      dateTag = '[object Date]',
-      errorTag = '[object Error]',
-      funcTag = '[object Function]',
-      mapTag = '[object Map]',
-      numberTag = '[object Number]',
-      objectTag = '[object Object]',
-      regexpTag = '[object RegExp]',
-      setTag = '[object Set]',
-      stringTag = '[object String]',
-      weakMapTag = '[object WeakMap]';
-
-  var arrayBufferTag = '[object ArrayBuffer]',
-      float32Tag = '[object Float32Array]',
-      float64Tag = '[object Float64Array]',
-      int8Tag = '[object Int8Array]',
-      int16Tag = '[object Int16Array]',
-      int32Tag = '[object Int32Array]',
-      uint8Tag = '[object Uint8Array]',
-      uint8ClampedTag = '[object Uint8ClampedArray]',
-      uint16Tag = '[object Uint16Array]',
-      uint32Tag = '[object Uint32Array]';
-
-  /** Used to match empty string literals in compiled template source. */
-  var reEmptyStringLeading = /\b__p \+= '';/g,
-      reEmptyStringMiddle = /\b(__p \+=) '' \+/g,
-      reEmptyStringTrailing = /(__e\(.*?\)|\b__t\)) \+\n'';/g;
-
-  /** Used to match HTML entities and HTML characters. */
-  var reEscapedHtml = /&(?:amp|lt|gt|quot|#39|#96);/g,
-      reUnescapedHtml = /[&<>"'`]/g,
-      reHasEscapedHtml = RegExp(reEscapedHtml.source),
-      reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
-
-  /** Used to match template delimiters. */
-  var reEscape = /<%-([\s\S]+?)%>/g,
-      reEvaluate = /<%([\s\S]+?)%>/g,
-      reInterpolate = /<%=([\s\S]+?)%>/g;
-
-  /** Used to match property names within property paths. */
-  var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\n\\]|\\.)*?\1)\]/,
-      reIsPlainProp = /^\w*$/,
-      rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\n\\]|\\.)*?)\2)\]/g;
-
-  /**
-   * Used to match `RegExp` [special characters](http://www.regular-expressions.info/characters.html#special).
-   * In addition to special characters the forward slash is escaped to allow for
-   * easier `eval` use and `Function` compilation.
-   */
-  var reRegExpChars = /[.*+?^${}()|[\]\/\\]/g,
-      reHasRegExpChars = RegExp(reRegExpChars.source);
-
-  /** Used to match [combining diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks). */
-  var reComboMark = /[\u0300-\u036f\ufe20-\ufe23]/g;
-
-  /** Used to match backslashes in property paths. */
-  var reEscapeChar = /\\(\\)?/g;
-
-  /** Used to match [ES template delimiters](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-template-literal-lexical-components). */
-  var reEsTemplate = /\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g;
-
-  /** Used to match `RegExp` flags from their coerced string values. */
-  var reFlags = /\w*$/;
-
-  /** Used to detect hexadecimal string values. */
-  var reHasHexPrefix = /^0[xX]/;
-
-  /** Used to detect host constructors (Safari > 5). */
-  var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-  /** Used to match latin-1 supplementary letters (excluding mathematical operators). */
-  var reLatin1 = /[\xc0-\xd6\xd8-\xde\xdf-\xf6\xf8-\xff]/g;
-
-  /** Used to ensure capturing order of template delimiters. */
-  var reNoMatch = /($^)/;
-
-  /** Used to match unescaped characters in compiled string literals. */
-  var reUnescapedString = /['\n\r\u2028\u2029\\]/g;
-
-  /** Used to match words to create compound words. */
-  var reWords = (function() {
-    var upper = '[A-Z\\xc0-\\xd6\\xd8-\\xde]',
-        lower = '[a-z\\xdf-\\xf6\\xf8-\\xff]+';
-
-    return RegExp(upper + '+(?=' + upper + lower + ')|' + upper + '?' + lower + '|' + upper + '+|[0-9]+', 'g');
-  }());
-
-  /** Used to detect and test for whitespace. */
-  var whitespace = (
-    // Basic whitespace characters.
-    ' \t\x0b\f\xa0\ufeff' +
-
-    // Line terminators.
-    '\n\r\u2028\u2029' +
-
-    // Unicode category "Zs" space separators.
-    '\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000'
-  );
-
-  /** Used to assign default `context` object properties. */
-  var contextProps = [
-    'Array', 'ArrayBuffer', 'Date', 'Error', 'Float32Array', 'Float64Array',
-    'Function', 'Int8Array', 'Int16Array', 'Int32Array', 'Math', 'Number',
-    'Object', 'RegExp', 'Set', 'String', '_', 'clearTimeout', 'document',
-    'isFinite', 'parseInt', 'setTimeout', 'TypeError', 'Uint8Array',
-    'Uint8ClampedArray', 'Uint16Array', 'Uint32Array', 'WeakMap',
-    'window'
-  ];
-
-  /** Used to make template sourceURLs easier to identify. */
-  var templateCounter = -1;
-
-  /** Used to identify `toStringTag` values of typed arrays. */
-  var typedArrayTags = {};
-  typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
-  typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
-  typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
-  typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
-  typedArrayTags[uint32Tag] = true;
-  typedArrayTags[argsTag] = typedArrayTags[arrayTag] =
-  typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
-  typedArrayTags[dateTag] = typedArrayTags[errorTag] =
-  typedArrayTags[funcTag] = typedArrayTags[mapTag] =
-  typedArrayTags[numberTag] = typedArrayTags[objectTag] =
-  typedArrayTags[regexpTag] = typedArrayTags[setTag] =
-  typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
-
-  /** Used to identify `toStringTag` values supported by `_.clone`. */
-  var cloneableTags = {};
-  cloneableTags[argsTag] = cloneableTags[arrayTag] =
-  cloneableTags[arrayBufferTag] = cloneableTags[boolTag] =
-  cloneableTags[dateTag] = cloneableTags[float32Tag] =
-  cloneableTags[float64Tag] = cloneableTags[int8Tag] =
-  cloneableTags[int16Tag] = cloneableTags[int32Tag] =
-  cloneableTags[numberTag] = cloneableTags[objectTag] =
-  cloneableTags[regexpTag] = cloneableTags[stringTag] =
-  cloneableTags[uint8Tag] = cloneableTags[uint8ClampedTag] =
-  cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
-  cloneableTags[errorTag] = cloneableTags[funcTag] =
-  cloneableTags[mapTag] = cloneableTags[setTag] =
-  cloneableTags[weakMapTag] = false;
-
-  /** Used as an internal `_.debounce` options object by `_.throttle`. */
-  var debounceOptions = {
-    'leading': false,
-    'maxWait': 0,
-    'trailing': false
-  };
-
-  /** Used to map latin-1 supplementary letters to basic latin letters. */
-  var deburredLetters = {
-    '\xc0': 'A',  '\xc1': 'A', '\xc2': 'A', '\xc3': 'A', '\xc4': 'A', '\xc5': 'A',
-    '\xe0': 'a',  '\xe1': 'a', '\xe2': 'a', '\xe3': 'a', '\xe4': 'a', '\xe5': 'a',
-    '\xc7': 'C',  '\xe7': 'c',
-    '\xd0': 'D',  '\xf0': 'd',
-    '\xc8': 'E',  '\xc9': 'E', '\xca': 'E', '\xcb': 'E',
-    '\xe8': 'e',  '\xe9': 'e', '\xea': 'e', '\xeb': 'e',
-    '\xcC': 'I',  '\xcd': 'I', '\xce': 'I', '\xcf': 'I',
-    '\xeC': 'i',  '\xed': 'i', '\xee': 'i', '\xef': 'i',
-    '\xd1': 'N',  '\xf1': 'n',
-    '\xd2': 'O',  '\xd3': 'O', '\xd4': 'O', '\xd5': 'O', '\xd6': 'O', '\xd8': 'O',
-    '\xf2': 'o',  '\xf3': 'o', '\xf4': 'o', '\xf5': 'o', '\xf6': 'o', '\xf8': 'o',
-    '\xd9': 'U',  '\xda': 'U', '\xdb': 'U', '\xdc': 'U',
-    '\xf9': 'u',  '\xfa': 'u', '\xfb': 'u', '\xfc': 'u',
-    '\xdd': 'Y',  '\xfd': 'y', '\xff': 'y',
-    '\xc6': 'Ae', '\xe6': 'ae',
-    '\xde': 'Th', '\xfe': 'th',
-    '\xdf': 'ss'
-  };
-
-  /** Used to map characters to HTML entities. */
-  var htmlEscapes = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-    '`': '&#96;'
-  };
-
-  /** Used to map HTML entities to characters. */
-  var htmlUnescapes = {
-    '&amp;': '&',
-    '&lt;': '<',
-    '&gt;': '>',
-    '&quot;': '"',
-    '&#39;': "'",
-    '&#96;': '`'
-  };
-
-  /** Used to determine if values are of the language type `Object`. */
-  var objectTypes = {
-    'function': true,
-    'object': true
-  };
-
-  /** Used to escape characters for inclusion in compiled string literals. */
-  var stringEscapes = {
-    '\\': '\\',
-    "'": "'",
-    '\n': 'n',
-    '\r': 'r',
-    '\u2028': 'u2028',
-    '\u2029': 'u2029'
-  };
-
-  /** Detect free variable `exports`. */
-  var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
-
-  /** Detect free variable `module`. */
-  var freeModule = objectTypes[typeof module] && module && !module.nodeType && module;
-
-  /** Detect free variable `global` from Node.js. */
-  var freeGlobal = freeExports && freeModule && typeof global == 'object' && global && global.Object && global;
-
-  /** Detect free variable `self`. */
-  var freeSelf = objectTypes[typeof self] && self && self.Object && self;
-
-  /** Detect free variable `window`. */
-  var freeWindow = objectTypes[typeof window] && window && window.Object && window;
-
-  /** Detect the popular CommonJS extension `module.exports`. */
-  var moduleExports = freeModule && freeModule.exports === freeExports && freeExports;
-
-  /**
-   * Used as a reference to the global object.
-   *
-   * The `this` value is used if it is the global object to avoid Greasemonkey's
-   * restricted `window` object, otherwise the `window` object is used.
-   */
-  var root = freeGlobal || ((freeWindow !== (this && this.window)) && freeWindow) || freeSelf || this;
-
-  /**
-   * The base implementation of `compareAscending` which compares values and
-   * sorts them in ascending order without guaranteeing a stable sort.
-   *
-   * @private
-   * @param {*} value The value to compare to `other`.
-   * @param {*} other The value to compare to `value`.
-   * @returns {number} Returns the sort order indicator for `value`.
-   */
-  function baseCompareAscending(value, other) {
-    if (value !== other) {
-      var valIsReflexive = value === value,
-          othIsReflexive = other === other;
-
-      if (value > other || !valIsReflexive || (value === undefined && othIsReflexive)) {
-        return 1;
-      }
-      if (value < other || !othIsReflexive || (other === undefined && valIsReflexive)) {
-        return -1;
-      }
-    }
-    return 0;
-  }
-
-  /**
-   * The base implementation of `_.findIndex` and `_.findLastIndex` without
-   * support for callback shorthands and `this` binding.
-   *
-   * @private
-   * @param {Array} array The array to search.
-   * @param {Function} predicate The function invoked per iteration.
-   * @param {boolean} [fromRight] Specify iterating from right to left.
-   * @returns {number} Returns the index of the matched value, else `-1`.
-   */
-  function baseFindIndex(array, predicate, fromRight) {
-    var length = array.length,
-        index = fromRight ? length : -1;
-
-    while ((fromRight ? index-- : ++index < length)) {
-      if (predicate(array[index], index, array)) {
-        return index;
-      }
-    }
-    return -1;
-  }
-
-  /**
-   * The base implementation of `_.indexOf` without support for binary searches.
-   *
-   * @private
-   * @param {Array} array The array to search.
-   * @param {*} value The value to search for.
-   * @param {number} fromIndex The index to search from.
-   * @returns {number} Returns the index of the matched value, else `-1`.
-   */
-  function baseIndexOf(array, value, fromIndex) {
-    if (value !== value) {
-      return indexOfNaN(array, fromIndex);
-    }
-    var index = fromIndex - 1,
-        length = array.length;
-
-    while (++index < length) {
-      if (array[index] === value) {
-        return index;
-      }
-    }
-    return -1;
-  }
-
-  /**
-   * The base implementation of `_.isFunction` without support for environments
-   * with incorrect `typeof` results.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-   */
-  function baseIsFunction(value) {
-    // Avoid a Chakra JIT bug in compatibility modes of IE 11.
-    // See https://github.com/jashkenas/underscore/issues/1621 for more details.
-    return typeof value == 'function' || false;
-  }
-
-  /**
-   * Converts `value` to a string if it is not one. An empty string is returned
-   * for `null` or `undefined` values.
-   *
-   * @private
-   * @param {*} value The value to process.
-   * @returns {string} Returns the string.
-   */
-  function baseToString(value) {
-    if (typeof value == 'string') {
-      return value;
-    }
-    return value == null ? '' : (value + '');
-  }
-
-  /**
-   * Used by `_.max` and `_.min` as the default callback for string values.
-   *
-   * @private
-   * @param {string} string The string to inspect.
-   * @returns {number} Returns the code unit of the first character of the string.
-   */
-  function charAtCallback(string) {
-    return string.charCodeAt(0);
-  }
-
-  /**
-   * Used by `_.trim` and `_.trimLeft` to get the index of the first character
-   * of `string` that is not found in `chars`.
-   *
-   * @private
-   * @param {string} string The string to inspect.
-   * @param {string} chars The characters to find.
-   * @returns {number} Returns the index of the first character not found in `chars`.
-   */
-  function charsLeftIndex(string, chars) {
-    var index = -1,
-        length = string.length;
-
-    while (++index < length && chars.indexOf(string.charAt(index)) > -1) {}
-    return index;
-  }
-
-  /**
-   * Used by `_.trim` and `_.trimRight` to get the index of the last character
-   * of `string` that is not found in `chars`.
-   *
-   * @private
-   * @param {string} string The string to inspect.
-   * @param {string} chars The characters to find.
-   * @returns {number} Returns the index of the last character not found in `chars`.
-   */
-  function charsRightIndex(string, chars) {
-    var index = string.length;
-
-    while (index-- && chars.indexOf(string.charAt(index)) > -1) {}
-    return index;
-  }
-
-  /**
-   * Used by `_.sortBy` to compare transformed elements of a collection and stable
-   * sort them in ascending order.
-   *
-   * @private
-   * @param {Object} object The object to compare to `other`.
-   * @param {Object} other The object to compare to `object`.
-   * @returns {number} Returns the sort order indicator for `object`.
-   */
-  function compareAscending(object, other) {
-    return baseCompareAscending(object.criteria, other.criteria) || (object.index - other.index);
-  }
-
-  /**
-   * Used by `_.sortByOrder` to compare multiple properties of each element
-   * in a collection and stable sort them in the following order:
-   *
-   * If `orders` is unspecified, sort in ascending order for all properties.
-   * Otherwise, for each property, sort in ascending order if its corresponding value in
-   * orders is true, and descending order if false.
-   *
-   * @private
-   * @param {Object} object The object to compare to `other`.
-   * @param {Object} other The object to compare to `object`.
-   * @param {boolean[]} orders The order to sort by for each property.
-   * @returns {number} Returns the sort order indicator for `object`.
-   */
-  function compareMultiple(object, other, orders) {
-    var index = -1,
-        objCriteria = object.criteria,
-        othCriteria = other.criteria,
-        length = objCriteria.length,
-        ordersLength = orders.length;
-
-    while (++index < length) {
-      var result = baseCompareAscending(objCriteria[index], othCriteria[index]);
-      if (result) {
-        if (index >= ordersLength) {
-          return result;
-        }
-        return result * (orders[index] ? 1 : -1);
-      }
-    }
-    // Fixes an `Array#sort` bug in the JS engine embedded in Adobe applications
-    // that causes it, under certain circumstances, to provide the same value for
-    // `object` and `other`. See https://github.com/jashkenas/underscore/pull/1247
-    // for more details.
-    //
-    // This also ensures a stable sort in V8 and other engines.
-    // See https://code.google.com/p/v8/issues/detail?id=90 for more details.
-    return object.index - other.index;
-  }
-
-  /**
-   * Used by `_.deburr` to convert latin-1 supplementary letters to basic latin letters.
-   *
-   * @private
-   * @param {string} letter The matched letter to deburr.
-   * @returns {string} Returns the deburred letter.
-   */
-  function deburrLetter(letter) {
-    return deburredLetters[letter];
-  }
-
-  /**
-   * Used by `_.escape` to convert characters to HTML entities.
-   *
-   * @private
-   * @param {string} chr The matched character to escape.
-   * @returns {string} Returns the escaped character.
-   */
-  function escapeHtmlChar(chr) {
-    return htmlEscapes[chr];
-  }
-
-  /**
-   * Used by `_.template` to escape characters for inclusion in compiled
-   * string literals.
-   *
-   * @private
-   * @param {string} chr The matched character to escape.
-   * @returns {string} Returns the escaped character.
-   */
-  function escapeStringChar(chr) {
-    return '\\' + stringEscapes[chr];
-  }
-
-  /**
-   * Gets the index at which the first occurrence of `NaN` is found in `array`.
-   *
-   * @private
-   * @param {Array} array The array to search.
-   * @param {number} fromIndex The index to search from.
-   * @param {boolean} [fromRight] Specify iterating from right to left.
-   * @returns {number} Returns the index of the matched `NaN`, else `-1`.
-   */
-  function indexOfNaN(array, fromIndex, fromRight) {
-    var length = array.length,
-        index = fromIndex + (fromRight ? 0 : -1);
-
-    while ((fromRight ? index-- : ++index < length)) {
-      var other = array[index];
-      if (other !== other) {
-        return index;
-      }
-    }
-    return -1;
-  }
-
-  /**
-   * Checks if `value` is object-like.
-   *
-   * @private
-   * @param {*} value The value to check.
-   * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
-   */
-  function isObjectLike(value) {
-    return !!value && typeof value == 'object';
-  }
-
-  /**
-   * Used by `trimmedLeftIndex` and `trimmedRightIndex` to determine if a
-   * character code is whitespace.
-   *
-   * @private
-   * @param {number} charCode The character code to inspect.
-   * @returns {boolean} Returns `true` if `charCode` is whitespace, else `false`.
-   */
-  function isSpace(charCode) {
-    return ((charCode <= 160 && (charCode >= 9 && charCode <= 13) || charCode == 32 || charCode == 160) || charCode == 5760 || charCode == 6158 ||
-      (charCode >= 8192 && (charCode <= 8202 || charCode == 8232 || charCode == 8233 || charCode == 8239 || charCode == 8287 || charCode == 12288 || charCode == 65279)));
-  }
-
-  /**
-   * Replaces all `placeholder` elements in `array` with an internal placeholder
-   * and returns an array of their indexes.
-   *
-   * @private
-   * @param {Array} array The array to modify.
-   * @param {*} placeholder The placeholder to replace.
-   * @returns {Array} Returns the new array of placeholder indexes.
-   */
-  function replaceHolders(array, placeholder) {
-    var index = -1,
-        length = array.length,
-        resIndex = -1,
-        result = [];
-
-    while (++index < length) {
-      if (array[index] === placeholder) {
-        array[index] = PLACEHOLDER;
-        result[++resIndex] = index;
-      }
-    }
-    return result;
-  }
-
-  /**
-   * An implementation of `_.uniq` optimized for sorted arrays without support
-   * for callback shorthands and `this` binding.
-   *
-   * @private
-   * @param {Array} array The array to inspect.
-   * @param {Function} [iteratee] The function invoked per iteration.
-   * @returns {Array} Returns the new duplicate-value-free array.
-   */
-  function sortedUniq(array, iteratee) {
-    var seen,
-        index = -1,
-        length = array.length,
-        resIndex = -1,
-        result = [];
-
-    while (++index < length) {
-      var value = array[index],
-          computed = iteratee ? iteratee(value, index, array) : value;
-
-      if (!index || seen !== computed) {
-        seen = computed;
-        result[++resIndex] = value;
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Used by `_.trim` and `_.trimLeft` to get the index of the first non-whitespace
-   * character of `string`.
-   *
-   * @private
-   * @param {string} string The string to inspect.
-   * @returns {number} Returns the index of the first non-whitespace character.
-   */
-  function trimmedLeftIndex(string) {
-    var index = -1,
-        length = string.length;
-
-    while (++index < length && isSpace(string.charCodeAt(index))) {}
-    return index;
-  }
-
-  /**
-   * Used by `_.trim` and `_.trimRight` to get the index of the last non-whitespace
-   * character of `string`.
-   *
-   * @private
-   * @param {string} string The string to inspect.
-   * @returns {number} Returns the index of the last non-whitespace character.
-   */
-  function trimmedRightIndex(string) {
-    var index = string.length;
-
-    while (index-- && isSpace(string.charCodeAt(index))) {}
-    return index;
-  }
-
-  /**
-   * Used by `_.unescape` to convert HTML entities to characters.
-   *
-   * @private
-   * @param {string} chr The matched character to unescape.
-   * @returns {string} Returns the unescaped character.
-   */
-  function unescapeHtmlChar(chr) {
-    return htmlUnescapes[chr];
-  }
-
-  /**
-   * Create a new pristine `lodash` function using the given `context` object.
-   *
-   * @static
-   * @memberOf _
-   * @category Utility
-   * @param {Object} [context=root] The context object.
-   * @returns {Function} Returns a new `lodash` function.
-   * @example
-   *
-   * _.mixin({ 'foo': _.constant('foo') });
-   *
-   * var lodash = _.runInContext();
-   * lodash.mixin({ 'bar': lodash.constant('bar') });
-   *
-   * _.isFunction(_.foo);
-   * // => true
-   * _.isFunction(_.bar);
-   * // => false
-   *
-   * lodash.isFunction(lodash.foo);
-   * // => false
-   * lodash.isFunction(lodash.bar);
-   * // => true
-   *
-   * // using `context` to mock `Date#getTime` use in `_.now`
-   * var mock = _.runInContext({
-   *   'Date': function() {
-   *     return { 'getTime': getTimeMock };
-   *   }
-   * });
-   *
-   * // or creating a suped-up `defer` in Node.js
-   * var defer = _.runInContext({ 'setTimeout': setImmediate }).defer;
-   */
-  function runInContext(context) {
-    // Avoid issues with some ES3 environments that attempt to use values, named
-    // after built-in constructors like `Object`, for the creation of literals.
-    // ES5 clears this up by stating that literals must use built-in constructors.
-    // See https://es5.github.io/#x11.1.5 for more details.
-    context = context ? _.defaults(root.Object(), context, _.pick(root, contextProps)) : root;
-
-    /** Native constructor references. */
-    var Array = context.Array,
-        Date = context.Date,
-        Error = context.Error,
-        Function = context.Function,
-        Math = context.Math,
-        Number = context.Number,
-        Object = context.Object,
-        RegExp = context.RegExp,
-        String = context.String,
-        TypeError = context.TypeError;
-
-    /** Used for native method references. */
-    var arrayProto = Array.prototype,
-        objectProto = Object.prototype,
-        stringProto = String.prototype;
-
-    /** Used to detect DOM support. */
-    var document = (document = context.window) && document.document;
-
-    /** Used to resolve the decompiled source of functions. */
-    var fnToString = Function.prototype.toString;
-
-    /** Used to check objects for own properties. */
-    var hasOwnProperty = objectProto.hasOwnProperty;
-
-    /** Used to generate unique IDs. */
-    var idCounter = 0;
-
-    /**
-     * Used to resolve the [`toStringTag`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.prototype.tostring)
-     * of values.
-     */
-    var objToString = objectProto.toString;
-
-    /** Used to restore the original `_` reference in `_.noConflict`. */
-    var oldDash = context._;
-
-    /** Used to detect if a method is native. */
-    var reIsNative = RegExp('^' +
-      escapeRegExp(objToString)
-      .replace(/toString|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-    );
-
-    /** Native method references. */
-    var ArrayBuffer = isNative(ArrayBuffer = context.ArrayBuffer) && ArrayBuffer,
-        bufferSlice = isNative(bufferSlice = ArrayBuffer && new ArrayBuffer(0).slice) && bufferSlice,
-        ceil = Math.ceil,
-        clearTimeout = context.clearTimeout,
-        floor = Math.floor,
-        getOwnPropertySymbols = isNative(getOwnPropertySymbols = Object.getOwnPropertySymbols) && getOwnPropertySymbols,
-        getPrototypeOf = isNative(getPrototypeOf = Object.getPrototypeOf) && getPrototypeOf,
-        push = arrayProto.push,
-        preventExtensions = isNative(preventExtensions = Object.preventExtensions) && preventExtensions,
-        propertyIsEnumerable = objectProto.propertyIsEnumerable,
-        Set = isNative(Set = context.Set) && Set,
-        setTimeout = context.setTimeout,
-        splice = arrayProto.splice,
-        Uint8Array = isNative(Uint8Array = context.Uint8Array) && Uint8Array,
-        WeakMap = isNative(WeakMap = context.WeakMap) && WeakMap;
-
-    /** Used to clone array buffers. */
-    var Float64Array = (function() {
-      // Safari 5 errors when using an array buffer to initialize a typed array
-      // where the array buffer's `byteLength` is not a multiple of the typed
-      // array's `BYTES_PER_ELEMENT`.
-      try {
-        var func = isNative(func = context.Float64Array) && func,
-            result = new func(new ArrayBuffer(10), 0, 1) && func;
-      } catch(e) {}
-      return result;
-    }());
-
-    /** Used as `baseAssign`. */
-    var nativeAssign = (function() {
-      // Avoid `Object.assign` in Firefox 34-37 which have an early implementation
-      // with a now defunct try/catch behavior. See https://bugzilla.mozilla.org/show_bug.cgi?id=1103344
-      // for more details.
-      //
-      // Use `Object.preventExtensions` on a plain object instead of simply using
-      // `Object('x')` because Chrome and IE fail to throw an error when attempting
-      // to assign values to readonly indexes of strings.
-      var func = preventExtensions && isNative(func = Object.assign) && func;
-      try {
-        if (func) {
-          var object = preventExtensions({ '1': 0 });
-          object[0] = 1;
-        }
-      } catch(e) {
-        // Only attempt in strict mode.
-        try { func(object, 'xo'); } catch(e) {}
-        return !object[1] && func;
-      }
-      return false;
-    }());
-
-    /* Native method references for those with the same name as other `lodash` methods. */
-    var nativeIsArray = isNative(nativeIsArray = Array.isArray) && nativeIsArray,
-        nativeCreate = isNative(nativeCreate = Object.create) && nativeCreate,
-        nativeIsFinite = context.isFinite,
-        nativeKeys = isNative(nativeKeys = Object.keys) && nativeKeys,
-        nativeMax = Math.max,
-        nativeMin = Math.min,
-        nativeNow = isNative(nativeNow = Date.now) && nativeNow,
-        nativeNumIsFinite = isNative(nativeNumIsFinite = Number.isFinite) && nativeNumIsFinite,
-        nativeParseInt = context.parseInt,
-        nativeRandom = Math.random;
-
-    /** Used as references for `-Infinity` and `Infinity`. */
-    var NEGATIVE_INFINITY = Number.NEGATIVE_INFINITY,
-        POSITIVE_INFINITY = Number.POSITIVE_INFINITY;
-
-    /** Used as references for the maximum length and index of an array. */
-    var MAX_ARRAY_LENGTH = Math.pow(2, 32) - 1,
-        MAX_ARRAY_INDEX = MAX_ARRAY_LENGTH - 1,
-        HALF_MAX_ARRAY_LENGTH = MAX_ARRAY_LENGTH >>> 1;
-
-    /** Used as the size, in bytes, of each `Float64Array` element. */
-    var FLOAT64_BYTES_PER_ELEMENT = Float64Array ? Float64Array.BYTES_PER_ELEMENT : 0;
-
-    /**
-     * Used as the [maximum length](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.max_safe_integer)
-     * of an array-like value.
-     */
-    var MAX_SAFE_INTEGER = Math.pow(2, 53) - 1;
-
-    /** Used to store function metadata. */
-    var metaMap = WeakMap && new WeakMap;
-
-    /** Used to lookup unminified function names. */
-    var realNames = {};
-
-    /**
-     * Creates a `lodash` object which wraps `value` to enable implicit chaining.
-     * Methods that operate on and return arrays, collections, and functions can
-     * be chained together. Methods that return a boolean or single value will
-     * automatically end the chain returning the unwrapped value. Explicit chaining
-     * may be enabled using `_.chain`. The execution of chained methods is lazy,
-     * that is, execution is deferred until `_#value` is implicitly or explicitly
-     * called.
-     *
-     * Lazy evaluation allows several methods to support shortcut fusion. Shortcut
-     * fusion is an optimization that merges iteratees to avoid creating intermediate
-     * arrays and reduce the number of iteratee executions.
-     *
-     * Chaining is supported in custom builds as long as the `_#value` method is
-     * directly or indirectly included in the build.
-     *
-     * In addition to lodash methods, wrappers have `Array` and `String` methods.
-     *
-     * The wrapper `Array` methods are:
-     * `concat`, `join`, `pop`, `push`, `reverse`, `shift`, `slice`, `sort`,
-     * `splice`, and `unshift`
-     *
-     * The wrapper `String` methods are:
-     * `replace` and `split`
-     *
-     * The wrapper methods that support shortcut fusion are:
-     * `compact`, `drop`, `dropRight`, `dropRightWhile`, `dropWhile`, `filter`,
-     * `first`, `initial`, `last`, `map`, `pluck`, `reject`, `rest`, `reverse`,
-     * `slice`, `take`, `takeRight`, `takeRightWhile`, `takeWhile`, `toArray`,
-     * and `where`
-     *
-     * The chainable wrapper methods are:
-     * `after`, `ary`, `assign`, `at`, `before`, `bind`, `bindAll`, `bindKey`,
-     * `callback`, `chain`, `chunk`, `commit`, `compact`, `concat`, `constant`,
-     * `countBy`, `create`, `curry`, `debounce`, `defaults`, `defer`, `delay`,
-     * `difference`, `drop`, `dropRight`, `dropRightWhile`, `dropWhile`, `fill`,
-     * `filter`, `flatten`, `flattenDeep`, `flow`, `flowRight`, `forEach`,
-     * `forEachRight`, `forIn`, `forInRight`, `forOwn`, `forOwnRight`, `functions`,
-     * `groupBy`, `indexBy`, `initial`, `intersection`, `invert`, `invoke`, `keys`,
-     * `keysIn`, `map`, `mapValues`, `matches`, `matchesProperty`, `memoize`,
-     * `merge`, `mixin`, `negate`, `omit`, `once`, `pairs`, `partial`, `partialRight`,
-     * `partition`, `pick`, `plant`, `pluck`, `property`, `propertyOf`, `pull`,
-     * `pullAt`, `push`, `range`, `rearg`, `reject`, `remove`, `rest`, `reverse`,
-     * `shuffle`, `slice`, `sort`, `sortBy`, `sortByAll`, `sortByOrder`, `splice`,
-     * `spread`, `take`, `takeRight`, `takeRightWhile`, `takeWhile`, `tap`,
-     * `throttle`, `thru`, `times`, `toArray`, `toPlainObject`, `transform`,
-     * `union`, `uniq`, `unshift`, `unzip`, `values`, `valuesIn`, `where`,
-     * `without`, `wrap`, `xor`, `zip`, and `zipObject`
-     *
-     * The wrapper methods that are **not** chainable by default are:
-     * `add`, `attempt`, `camelCase`, `capitalize`, `clone`, `cloneDeep`, `deburr`,
-     * `endsWith`, `escape`, `escapeRegExp`, `every`, `find`, `findIndex`, `findKey`,
-     * `findLast`, `findLastIndex`, `findLastKey`, `findWhere`, `first`, `has`,
-     * `identity`, `includes`, `indexOf`, `inRange`, `isArguments`, `isArray`,
-     * `isBoolean`, `isDate`, `isElement`, `isEmpty`, `isEqual`, `isError`, `isFinite`
-     * `isFunction`, `isMatch`, `isNative`, `isNaN`, `isNull`, `isNumber`, `isObject`,
-     * `isPlainObject`, `isRegExp`, `isString`, `isUndefined`, `isTypedArray`,
-     * `join`, `kebabCase`, `last`, `lastIndexOf`, `max`, `min`, `noConflict`,
-     * `noop`, `now`, `pad`, `padLeft`, `padRight`, `parseInt`, `pop`, `random`,
-     * `reduce`, `reduceRight`, `repeat`, `result`, `runInContext`, `shift`, `size`,
-     * `snakeCase`, `some`, `sortedIndex`, `sortedLastIndex`, `startCase`, `startsWith`,
-     * `sum`, `template`, `trim`, `trimLeft`, `trimRight`, `trunc`, `unescape`,
-     * `uniqueId`, `value`, and `words`
-     *
-     * The wrapper method `sample` will return a wrapped value when `n` is provided,
-     * otherwise an unwrapped value is returned.
-     *
-     * @name _
-     * @constructor
-     * @category Chain
-     * @param {*} value The value to wrap in a `lodash` instance.
-     * @returns {Object} Returns the new `lodash` wrapper instance.
-     * @example
-     *
-     * var wrapped = _([1, 2, 3]);
-     *
-     * // returns an unwrapped value
-     * wrapped.reduce(function(total, n) {
-     *   return total + n;
-     * });
-     * // => 6
-     *
-     * // returns a wrapped value
-     * var squares = wrapped.map(function(n) {
-     *   return n * n;
-     * });
-     *
-     * _.isArray(squares);
-     * // => false
-     *
-     * _.isArray(squares.value());
-     * // => true
-     */
-    function lodash(value) {
-      if (isObjectLike(value) && !isArray(value) && !(value instanceof LazyWrapper)) {
-        if (value instanceof LodashWrapper) {
-          return value;
-        }
-        if (hasOwnProperty.call(value, '__chain__') && hasOwnProperty.call(value, '__wrapped__')) {
-          return wrapperClone(value);
-        }
-      }
-      return new LodashWrapper(value);
-    }
-
-    /**
-     * The function whose prototype all chaining wrappers inherit from.
-     *
-     * @private
-     */
-    function baseLodash() {
-      // No operation performed.
-    }
-
-    /**
-     * The base constructor for creating `lodash` wrapper objects.
-     *
-     * @private
-     * @param {*} value The value to wrap.
-     * @param {boolean} [chainAll] Enable chaining for all wrapper methods.
-     * @param {Array} [actions=[]] Actions to peform to resolve the unwrapped value.
-     */
-    function LodashWrapper(value, chainAll, actions) {
-      this.__wrapped__ = value;
-      this.__actions__ = actions || [];
-      this.__chain__ = !!chainAll;
-    }
-
-    /**
-     * An object environment feature flags.
-     *
-     * @static
-     * @memberOf _
-     * @type Object
-     */
-    var support = lodash.support = {};
-
-    (function(x) {
-      var Ctor = function() { this.x = x; },
-          args = arguments,
-          object = { '0': x, 'length': x },
-          props = [];
-
-      Ctor.prototype = { 'valueOf': x, 'y': x };
-      for (var key in new Ctor) { props.push(key); }
-
-      /**
-       * Detect if functions can be decompiled by `Function#toString`
-       * (all but Firefox OS certified apps, older Opera mobile browsers, and
-       * the PlayStation 3; forced `false` for Windows 8 apps).
-       *
-       * @memberOf _.support
-       * @type boolean
-       */
-      support.funcDecomp = /\bthis\b/.test(function() { return this; });
-
-      /**
-       * Detect if `Function#name` is supported (all but IE).
-       *
-       * @memberOf _.support
-       * @type boolean
-       */
-      support.funcNames = typeof Function.name == 'string';
-
-      /**
-       * Detect if the DOM is supported.
-       *
-       * @memberOf _.support
-       * @type boolean
-       */
-      try {
-        support.dom = document.createDocumentFragment().nodeType === 11;
-      } catch(e) {
-        support.dom = false;
-      }
-
-      /**
-       * Detect if `arguments` object indexes are non-enumerable.
-       *
-       * In Firefox < 4, IE < 9, PhantomJS, and Safari < 5.1 `arguments` object
-       * indexes are non-enumerable. Chrome < 25 and Node.js < 0.11.0 treat
-       * `arguments` object indexes as non-enumerable and fail `hasOwnProperty`
-       * checks for indexes that exceed the number of function parameters and
-       * whose associated argument values are `0`.
-       *
-       * @memberOf _.support
-       * @type boolean
-       */
-      try {
-        support.nonEnumArgs = !propertyIsEnumerable.call(args, 1);
-      } catch(e) {
-        support.nonEnumArgs = true;
-      }
-    }(1, 0));
-
-    /**
-     * By default, the template delimiters used by lodash are like those in
-     * embedded Ruby (ERB). Change the following template settings to use
-     * alternative delimiters.
-     *
-     * @static
-     * @memberOf _
-     * @type Object
-     */
-    lodash.templateSettings = {
-
-      /**
-       * Used to detect `data` property values to be HTML-escaped.
-       *
-       * @memberOf _.templateSettings
-       * @type RegExp
-       */
-      'escape': reEscape,
-
-      /**
-       * Used to detect code to be evaluated.
-       *
-       * @memberOf _.templateSettings
-       * @type RegExp
-       */
-      'evaluate': reEvaluate,
-
-      /**
-       * Used to detect `data` property values to inject.
-       *
-       * @memberOf _.templateSettings
-       * @type RegExp
-       */
-      'interpolate': reInterpolate,
-
-      /**
-       * Used to reference the data object in the template text.
-       *
-       * @memberOf _.templateSettings
-       * @type string
-       */
-      'variable': '',
-
-      /**
-       * Used to import variables into the compiled template.
-       *
-       * @memberOf _.templateSettings
-       * @type Object
-       */
-      'imports': {
-
-        /**
-         * A reference to the `lodash` function.
-         *
-         * @memberOf _.templateSettings.imports
-         * @type Function
-         */
-        '_': lodash
-      }
-    };
-
-    /**
-     * Creates a lazy wrapper object which wraps `value` to enable lazy evaluation.
-     *
-     * @private
-     * @param {*} value The value to wrap.
-     */
-    function LazyWrapper(value) {
-      this.__wrapped__ = value;
-      this.__actions__ = null;
-      this.__dir__ = 1;
-      this.__dropCount__ = 0;
-      this.__filtered__ = false;
-      this.__iteratees__ = null;
-      this.__takeCount__ = POSITIVE_INFINITY;
-      this.__views__ = null;
-    }
-
-    /**
-     * Creates a clone of the lazy wrapper object.
-     *
-     * @private
-     * @name clone
-     * @memberOf LazyWrapper
-     * @returns {Object} Returns the cloned `LazyWrapper` object.
-     */
-    function lazyClone() {
-      var actions = this.__actions__,
-          iteratees = this.__iteratees__,
-          views = this.__views__,
-          result = new LazyWrapper(this.__wrapped__);
-
-      result.__actions__ = actions ? arrayCopy(actions) : null;
-      result.__dir__ = this.__dir__;
-      result.__filtered__ = this.__filtered__;
-      result.__iteratees__ = iteratees ? arrayCopy(iteratees) : null;
-      result.__takeCount__ = this.__takeCount__;
-      result.__views__ = views ? arrayCopy(views) : null;
-      return result;
-    }
-
-    /**
-     * Reverses the direction of lazy iteration.
-     *
-     * @private
-     * @name reverse
-     * @memberOf LazyWrapper
-     * @returns {Object} Returns the new reversed `LazyWrapper` object.
-     */
-    function lazyReverse() {
-      if (this.__filtered__) {
-        var result = new LazyWrapper(this);
-        result.__dir__ = -1;
-        result.__filtered__ = true;
-      } else {
-        result = this.clone();
-        result.__dir__ *= -1;
-      }
-      return result;
-    }
-
-    /**
-     * Extracts the unwrapped value from its lazy wrapper.
-     *
-     * @private
-     * @name value
-     * @memberOf LazyWrapper
-     * @returns {*} Returns the unwrapped value.
-     */
-    function lazyValue() {
-      var array = this.__wrapped__.value();
-      if (!isArray(array)) {
-        return baseWrapperValue(array, this.__actions__);
-      }
-      var dir = this.__dir__,
-          isRight = dir < 0,
-          view = getView(0, array.length, this.__views__),
-          start = view.start,
-          end = view.end,
-          length = end - start,
-          index = isRight ? end : (start - 1),
-          takeCount = nativeMin(length, this.__takeCount__),
-          iteratees = this.__iteratees__,
-          iterLength = iteratees ? iteratees.length : 0,
-          resIndex = 0,
-          result = [];
-
-      outer:
-      while (length-- && resIndex < takeCount) {
-        index += dir;
-
-        var iterIndex = -1,
-            value = array[index];
-
-        while (++iterIndex < iterLength) {
-          var data = iteratees[iterIndex],
-              iteratee = data.iteratee,
-              type = data.type;
-
-          if (type == LAZY_DROP_WHILE_FLAG) {
-            if (data.done && (isRight ? (index > data.index) : (index < data.index))) {
-              data.count = 0;
-              data.done = false;
-            }
-            data.index = index;
-            if (!data.done) {
-              var limit = data.limit;
-              if (!(data.done = limit > -1 ? (data.count++ >= limit) : !iteratee(value))) {
-                continue outer;
-              }
-            }
-          } else {
-            var computed = iteratee(value);
-            if (type == LAZY_MAP_FLAG) {
-              value = computed;
-            } else if (!computed) {
-              if (type == LAZY_FILTER_FLAG) {
-                continue outer;
-              } else {
-                break outer;
-              }
-            }
-          }
-        }
-        result[resIndex++] = value;
-      }
-      return result;
-    }
-
-    /**
-     * Creates a cache object to store key/value pairs.
-     *
-     * @private
-     * @static
-     * @name Cache
-     * @memberOf _.memoize
-     */
-    function MapCache() {
-      this.__data__ = {};
-    }
-
-    /**
-     * Removes `key` and its value from the cache.
-     *
-     * @private
-     * @name delete
-     * @memberOf _.memoize.Cache
-     * @param {string} key The key of the value to remove.
-     * @returns {boolean} Returns `true` if the entry was removed successfully, else `false`.
-     */
-    function mapDelete(key) {
-      return this.has(key) && delete this.__data__[key];
-    }
-
-    /**
-     * Gets the cached value for `key`.
-     *
-     * @private
-     * @name get
-     * @memberOf _.memoize.Cache
-     * @param {string} key The key of the value to get.
-     * @returns {*} Returns the cached value.
-     */
-    function mapGet(key) {
-      return key == '__proto__' ? undefined : this.__data__[key];
-    }
-
-    /**
-     * Checks if a cached value for `key` exists.
-     *
-     * @private
-     * @name has
-     * @memberOf _.memoize.Cache
-     * @param {string} key The key of the entry to check.
-     * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
-     */
-    function mapHas(key) {
-      return key != '__proto__' && hasOwnProperty.call(this.__data__, key);
-    }
-
-    /**
-     * Sets `value` to `key` of the cache.
-     *
-     * @private
-     * @name set
-     * @memberOf _.memoize.Cache
-     * @param {string} key The key of the value to cache.
-     * @param {*} value The value to cache.
-     * @returns {Object} Returns the cache object.
-     */
-    function mapSet(key, value) {
-      if (key != '__proto__') {
-        this.__data__[key] = value;
-      }
-      return this;
-    }
-
-    /**
-     *
-     * Creates a cache object to store unique values.
-     *
-     * @private
-     * @param {Array} [values] The values to cache.
-     */
-    function SetCache(values) {
-      var length = values ? values.length : 0;
-
-      this.data = { 'hash': nativeCreate(null), 'set': new Set };
-      while (length--) {
-        this.push(values[length]);
-      }
-    }
-
-    /**
-     * Checks if `value` is in `cache` mimicking the return signature of
-     * `_.indexOf` by returning `0` if the value is found, else `-1`.
-     *
-     * @private
-     * @param {Object} cache The cache to search.
-     * @param {*} value The value to search for.
-     * @returns {number} Returns `0` if `value` is found, else `-1`.
-     */
-    function cacheIndexOf(cache, value) {
-      var data = cache.data,
-          result = (typeof value == 'string' || isObject(value)) ? data.set.has(value) : data.hash[value];
-
-      return result ? 0 : -1;
-    }
-
-    /**
-     * Adds `value` to the cache.
-     *
-     * @private
-     * @name push
-     * @memberOf SetCache
-     * @param {*} value The value to cache.
-     */
-    function cachePush(value) {
-      var data = this.data;
-      if (typeof value == 'string' || isObject(value)) {
-        data.set.add(value);
-      } else {
-        data.hash[value] = true;
-      }
-    }
-
-    /**
-     * Copies the values of `source` to `array`.
-     *
-     * @private
-     * @param {Array} source The array to copy values from.
-     * @param {Array} [array=[]] The array to copy values to.
-     * @returns {Array} Returns `array`.
-     */
-    function arrayCopy(source, array) {
-      var index = -1,
-          length = source.length;
-
-      array || (array = Array(length));
-      while (++index < length) {
-        array[index] = source[index];
-      }
-      return array;
-    }
-
-    /**
-     * A specialized version of `_.forEach` for arrays without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array} array The array to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @returns {Array} Returns `array`.
-     */
-    function arrayEach(array, iteratee) {
-      var index = -1,
-          length = array.length;
-
-      while (++index < length) {
-        if (iteratee(array[index], index, array) === false) {
-          break;
-        }
-      }
-      return array;
-    }
-
-    /**
-     * A specialized version of `_.forEachRight` for arrays without support for
-     * callback shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array} array The array to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @returns {Array} Returns `array`.
-     */
-    function arrayEachRight(array, iteratee) {
-      var length = array.length;
-
-      while (length--) {
-        if (iteratee(array[length], length, array) === false) {
-          break;
-        }
-      }
-      return array;
-    }
-
-    /**
-     * A specialized version of `_.every` for arrays without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array} array The array to iterate over.
-     * @param {Function} predicate The function invoked per iteration.
-     * @returns {boolean} Returns `true` if all elements pass the predicate check,
-     *  else `false`.
-     */
-    function arrayEvery(array, predicate) {
-      var index = -1,
-          length = array.length;
-
-      while (++index < length) {
-        if (!predicate(array[index], index, array)) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    /**
-     * A specialized version of `_.filter` for arrays without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array} array The array to iterate over.
-     * @param {Function} predicate The function invoked per iteration.
-     * @returns {Array} Returns the new filtered array.
-     */
-    function arrayFilter(array, predicate) {
-      var index = -1,
-          length = array.length,
-          resIndex = -1,
-          result = [];
-
-      while (++index < length) {
-        var value = array[index];
-        if (predicate(value, index, array)) {
-          result[++resIndex] = value;
-        }
-      }
-      return result;
-    }
-
-    /**
-     * A specialized version of `_.map` for arrays without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array} array The array to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @returns {Array} Returns the new mapped array.
-     */
-    function arrayMap(array, iteratee) {
-      var index = -1,
-          length = array.length,
-          result = Array(length);
-
-      while (++index < length) {
-        result[index] = iteratee(array[index], index, array);
-      }
-      return result;
-    }
-
-    /**
-     * A specialized version of `_.max` for arrays without support for iteratees.
-     *
-     * @private
-     * @param {Array} array The array to iterate over.
-     * @returns {*} Returns the maximum value.
-     */
-    function arrayMax(array) {
-      var index = -1,
-          length = array.length,
-          result = NEGATIVE_INFINITY;
-
-      while (++index < length) {
-        var value = array[index];
-        if (value > result) {
-          result = value;
-        }
-      }
-      return result;
-    }
-
-    /**
-     * A specialized version of `_.min` for arrays without support for iteratees.
-     *
-     * @private
-     * @param {Array} array The array to iterate over.
-     * @returns {*} Returns the minimum value.
-     */
-    function arrayMin(array) {
-      var index = -1,
-          length = array.length,
-          result = POSITIVE_INFINITY;
-
-      while (++index < length) {
-        var value = array[index];
-        if (value < result) {
-          result = value;
-        }
-      }
-      return result;
-    }
-
-    /**
-     * A specialized version of `_.reduce` for arrays without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array} array The array to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @param {*} [accumulator] The initial value.
-     * @param {boolean} [initFromArray] Specify using the first element of `array`
-     *  as the initial value.
-     * @returns {*} Returns the accumulated value.
-     */
-    function arrayReduce(array, iteratee, accumulator, initFromArray) {
-      var index = -1,
-          length = array.length;
-
-      if (initFromArray && length) {
-        accumulator = array[++index];
-      }
-      while (++index < length) {
-        accumulator = iteratee(accumulator, array[index], index, array);
-      }
-      return accumulator;
-    }
-
-    /**
-     * A specialized version of `_.reduceRight` for arrays without support for
-     * callback shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array} array The array to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @param {*} [accumulator] The initial value.
-     * @param {boolean} [initFromArray] Specify using the last element of `array`
-     *  as the initial value.
-     * @returns {*} Returns the accumulated value.
-     */
-    function arrayReduceRight(array, iteratee, accumulator, initFromArray) {
-      var length = array.length;
-      if (initFromArray && length) {
-        accumulator = array[--length];
-      }
-      while (length--) {
-        accumulator = iteratee(accumulator, array[length], length, array);
-      }
-      return accumulator;
-    }
-
-    /**
-     * A specialized version of `_.some` for arrays without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array} array The array to iterate over.
-     * @param {Function} predicate The function invoked per iteration.
-     * @returns {boolean} Returns `true` if any element passes the predicate check,
-     *  else `false`.
-     */
-    function arraySome(array, predicate) {
-      var index = -1,
-          length = array.length;
-
-      while (++index < length) {
-        if (predicate(array[index], index, array)) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    /**
-     * A specialized version of `_.sum` for arrays without support for iteratees.
-     *
-     * @private
-     * @param {Array} array The array to iterate over.
-     * @returns {number} Returns the sum.
-     */
-    function arraySum(array) {
-      var length = array.length,
-          result = 0;
-
-      while (length--) {
-        result += +array[length] || 0;
-      }
-      return result;
-    }
-
-    /**
-     * Used by `_.defaults` to customize its `_.assign` use.
-     *
-     * @private
-     * @param {*} objectValue The destination object property value.
-     * @param {*} sourceValue The source object property value.
-     * @returns {*} Returns the value to assign to the destination object.
-     */
-    function assignDefaults(objectValue, sourceValue) {
-      return objectValue === undefined ? sourceValue : objectValue;
-    }
-
-    /**
-     * Used by `_.template` to customize its `_.assign` use.
-     *
-     * **Note:** This function is like `assignDefaults` except that it ignores
-     * inherited property values when checking if a property is `undefined`.
-     *
-     * @private
-     * @param {*} objectValue The destination object property value.
-     * @param {*} sourceValue The source object property value.
-     * @param {string} key The key associated with the object and source values.
-     * @param {Object} object The destination object.
-     * @returns {*} Returns the value to assign to the destination object.
-     */
-    function assignOwnDefaults(objectValue, sourceValue, key, object) {
-      return (objectValue === undefined || !hasOwnProperty.call(object, key))
-        ? sourceValue
-        : objectValue;
-    }
-
-    /**
-     * A specialized version of `_.assign` for customizing assigned values without
-     * support for argument juggling, multiple sources, and `this` binding `customizer`
-     * functions.
-     *
-     * @private
-     * @param {Object} object The destination object.
-     * @param {Object} source The source object.
-     * @param {Function} customizer The function to customize assigned values.
-     * @returns {Object} Returns `object`.
-     */
-    function assignWith(object, source, customizer) {
-      var props = keys(source);
-      push.apply(props, getSymbols(source));
-
-      var index = -1,
-          length = props.length;
-
-      while (++index < length) {
-        var key = props[index],
-            value = object[key],
-            result = customizer(value, source[key], key, object, source);
-
-        if ((result === result ? (result !== value) : (value === value)) ||
-            (value === undefined && !(key in object))) {
-          object[key] = result;
-        }
-      }
-      return object;
-    }
-
-    /**
-     * The base implementation of `_.assign` without support for argument juggling,
-     * multiple sources, and `customizer` functions.
-     *
-     * @private
-     * @param {Object} object The destination object.
-     * @param {Object} source The source object.
-     * @returns {Object} Returns `object`.
-     */
-    var baseAssign = nativeAssign || function(object, source) {
-      return source == null
-        ? object
-        : baseCopy(source, getSymbols(source), baseCopy(source, keys(source), object));
-    };
-
-    /**
-     * The base implementation of `_.at` without support for string collections
-     * and individual key arguments.
-     *
-     * @private
-     * @param {Array|Object} collection The collection to iterate over.
-     * @param {number[]|string[]} props The property names or indexes of elements to pick.
-     * @returns {Array} Returns the new array of picked elements.
-     */
-    function baseAt(collection, props) {
-      var index = -1,
-          isNil = collection == null,
-          isArr = !isNil && isArrayLike(collection),
-          length = isArr && collection.length,
-          propsLength = props.length,
-          result = Array(propsLength);
-
-      while(++index < propsLength) {
-        var key = props[index];
-        if (isArr) {
-          result[index] = isIndex(key, length) ? collection[key] : undefined;
-        } else {
-          result[index] = isNil ? undefined : collection[key];
-        }
-      }
-      return result;
-    }
-
-    /**
-     * Copies properties of `source` to `object`.
-     *
-     * @private
-     * @param {Object} source The object to copy properties from.
-     * @param {Array} props The property names to copy.
-     * @param {Object} [object={}] The object to copy properties to.
-     * @returns {Object} Returns `object`.
-     */
-    function baseCopy(source, props, object) {
-      object || (object = {});
-
-      var index = -1,
-          length = props.length;
-
-      while (++index < length) {
-        var key = props[index];
-        object[key] = source[key];
-      }
-      return object;
-    }
-
-    /**
-     * The base implementation of `_.callback` which supports specifying the
-     * number of arguments to provide to `func`.
-     *
-     * @private
-     * @param {*} [func=_.identity] The value to convert to a callback.
-     * @param {*} [thisArg] The `this` binding of `func`.
-     * @param {number} [argCount] The number of arguments to provide to `func`.
-     * @returns {Function} Returns the callback.
-     */
-    function baseCallback(func, thisArg, argCount) {
-      var type = typeof func;
-      if (type == 'function') {
-        return thisArg === undefined
-          ? func
-          : bindCallback(func, thisArg, argCount);
-      }
-      if (func == null) {
-        return identity;
-      }
-      if (type == 'object') {
-        return baseMatches(func);
-      }
-      return thisArg === undefined
-        ? property(func)
-        : baseMatchesProperty(func, thisArg);
-    }
-
-    /**
-     * The base implementation of `_.clone` without support for argument juggling
-     * and `this` binding `customizer` functions.
-     *
-     * @private
-     * @param {*} value The value to clone.
-     * @param {boolean} [isDeep] Specify a deep clone.
-     * @param {Function} [customizer] The function to customize cloning values.
-     * @param {string} [key] The key of `value`.
-     * @param {Object} [object] The object `value` belongs to.
-     * @param {Array} [stackA=[]] Tracks traversed source objects.
-     * @param {Array} [stackB=[]] Associates clones with source counterparts.
-     * @returns {*} Returns the cloned value.
-     */
-    function baseClone(value, isDeep, customizer, key, object, stackA, stackB) {
-      var result;
-      if (customizer) {
-        result = object ? customizer(value, key, object) : customizer(value);
-      }
-      if (result !== undefined) {
-        return result;
-      }
-      if (!isObject(value)) {
-        return value;
-      }
-      var isArr = isArray(value);
-      if (isArr) {
-        result = initCloneArray(value);
-        if (!isDeep) {
-          return arrayCopy(value, result);
-        }
-      } else {
-        var tag = objToString.call(value),
-            isFunc = tag == funcTag;
-
-        if (tag == objectTag || tag == argsTag || (isFunc && !object)) {
-          result = initCloneObject(isFunc ? {} : value);
-          if (!isDeep) {
-            return baseAssign(result, value);
-          }
-        } else {
-          return cloneableTags[tag]
-            ? initCloneByTag(value, tag, isDeep)
-            : (object ? value : {});
-        }
-      }
-      // Check for circular references and return corresponding clone.
-      stackA || (stackA = []);
-      stackB || (stackB = []);
-
-      var length = stackA.length;
-      while (length--) {
-        if (stackA[length] == value) {
-          return stackB[length];
-        }
-      }
-      // Add the source value to the stack of traversed objects and associate it with its clone.
-      stackA.push(value);
-      stackB.push(result);
-
-      // Recursively populate clone (susceptible to call stack limits).
-      (isArr ? arrayEach : baseForOwn)(value, function(subValue, key) {
-        result[key] = baseClone(subValue, isDeep, customizer, key, value, stackA, stackB);
-      });
-      return result;
-    }
-
-    /**
-     * The base implementation of `_.create` without support for assigning
-     * properties to the created object.
-     *
-     * @private
-     * @param {Object} prototype The object to inherit from.
-     * @returns {Object} Returns the new object.
-     */
-    var baseCreate = (function() {
-      function Object() {}
-      return function(prototype) {
-        if (isObject(prototype)) {
-          Object.prototype = prototype;
-          var result = new Object;
-          Object.prototype = null;
-        }
-        return result || context.Object();
-      };
-    }());
-
-    /**
-     * The base implementation of `_.delay` and `_.defer` which accepts an index
-     * of where to slice the arguments to provide to `func`.
-     *
-     * @private
-     * @param {Function} func The function to delay.
-     * @param {number} wait The number of milliseconds to delay invocation.
-     * @param {Object} args The arguments provide to `func`.
-     * @returns {number} Returns the timer id.
-     */
-    function baseDelay(func, wait, args) {
-      if (typeof func != 'function') {
-        throw new TypeError(FUNC_ERROR_TEXT);
-      }
-      return setTimeout(function() { func.apply(undefined, args); }, wait);
-    }
-
-    /**
-     * The base implementation of `_.difference` which accepts a single array
-     * of values to exclude.
-     *
-     * @private
-     * @param {Array} array The array to inspect.
-     * @param {Array} values The values to exclude.
-     * @returns {Array} Returns the new array of filtered values.
-     */
-    function baseDifference(array, values) {
-      var length = array ? array.length : 0,
-          result = [];
-
-      if (!length) {
-        return result;
-      }
-      var index = -1,
-          indexOf = getIndexOf(),
-          isCommon = indexOf == baseIndexOf,
-          cache = (isCommon && values.length >= 200) ? createCache(values) : null,
-          valuesLength = values.length;
-
-      if (cache) {
-        indexOf = cacheIndexOf;
-        isCommon = false;
-        values = cache;
-      }
-      outer:
-      while (++index < length) {
-        var value = array[index];
-
-        if (isCommon && value === value) {
-          var valuesIndex = valuesLength;
-          while (valuesIndex--) {
-            if (values[valuesIndex] === value) {
-              continue outer;
-            }
-          }
-          result.push(value);
-        }
-        else if (indexOf(values, value, 0) < 0) {
-          result.push(value);
-        }
-      }
-      return result;
-    }
-
-    /**
-     * The base implementation of `_.forEach` without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @returns {Array|Object|string} Returns `collection`.
-     */
-    var baseEach = createBaseEach(baseForOwn);
-
-    /**
-     * The base implementation of `_.forEachRight` without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @returns {Array|Object|string} Returns `collection`.
-     */
-    var baseEachRight = createBaseEach(baseForOwnRight, true);
-
-    /**
-     * The base implementation of `_.every` without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} predicate The function invoked per iteration.
-     * @returns {boolean} Returns `true` if all elements pass the predicate check,
-     *  else `false`
-     */
-    function baseEvery(collection, predicate) {
-      var result = true;
-      baseEach(collection, function(value, index, collection) {
-        result = !!predicate(value, index, collection);
-        return result;
-      });
-      return result;
-    }
-
-    /**
-     * The base implementation of `_.fill` without an iteratee call guard.
-     *
-     * @private
-     * @param {Array} array The array to fill.
-     * @param {*} value The value to fill `array` with.
-     * @param {number} [start=0] The start position.
-     * @param {number} [end=array.length] The end position.
-     * @returns {Array} Returns `array`.
-     */
-    function baseFill(array, value, start, end) {
-      var length = array.length;
-
-      start = start == null ? 0 : (+start || 0);
-      if (start < 0) {
-        start = -start > length ? 0 : (length + start);
-      }
-      end = (end === undefined || end > length) ? length : (+end || 0);
-      if (end < 0) {
-        end += length;
-      }
-      length = start > end ? 0 : (end >>> 0);
-      start >>>= 0;
-
-      while (start < length) {
-        array[start++] = value;
-      }
-      return array;
-    }
-
-    /**
-     * The base implementation of `_.filter` without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} predicate The function invoked per iteration.
-     * @returns {Array} Returns the new filtered array.
-     */
-    function baseFilter(collection, predicate) {
-      var result = [];
-      baseEach(collection, function(value, index, collection) {
-        if (predicate(value, index, collection)) {
-          result.push(value);
-        }
-      });
-      return result;
-    }
-
-    /**
-     * The base implementation of `_.find`, `_.findLast`, `_.findKey`, and `_.findLastKey`,
-     * without support for callback shorthands and `this` binding, which iterates
-     * over `collection` using the provided `eachFunc`.
-     *
-     * @private
-     * @param {Array|Object|string} collection The collection to search.
-     * @param {Function} predicate The function invoked per iteration.
-     * @param {Function} eachFunc The function to iterate over `collection`.
-     * @param {boolean} [retKey] Specify returning the key of the found element
-     *  instead of the element itself.
-     * @returns {*} Returns the found element or its key, else `undefined`.
-     */
-    function baseFind(collection, predicate, eachFunc, retKey) {
-      var result;
-      eachFunc(collection, function(value, key, collection) {
-        if (predicate(value, key, collection)) {
-          result = retKey ? key : value;
-          return false;
-        }
-      });
-      return result;
-    }
-
-    /**
-     * The base implementation of `_.flatten` with added support for restricting
-     * flattening and specifying the start index.
-     *
-     * @private
-     * @param {Array} array The array to flatten.
-     * @param {boolean} [isDeep] Specify a deep flatten.
-     * @param {boolean} [isStrict] Restrict flattening to arrays-like objects.
-     * @returns {Array} Returns the new flattened array.
-     */
-    function baseFlatten(array, isDeep, isStrict) {
-      var index = -1,
-          length = array.length,
-          resIndex = -1,
-          result = [];
-
-      while (++index < length) {
-        var value = array[index];
-        if (isObjectLike(value) && isArrayLike(value) &&
-            (isStrict || isArray(value) || isArguments(value))) {
-          if (isDeep) {
-            // Recursively flatten arrays (susceptible to call stack limits).
-            value = baseFlatten(value, isDeep, isStrict);
-          }
-          var valIndex = -1,
-              valLength = value.length;
-
-          while (++valIndex < valLength) {
-            result[++resIndex] = value[valIndex];
-          }
-        } else if (!isStrict) {
-          result[++resIndex] = value;
-        }
-      }
-      return result;
-    }
-
-    /**
-     * The base implementation of `baseForIn` and `baseForOwn` which iterates
-     * over `object` properties returned by `keysFunc` invoking `iteratee` for
-     * each property. Iteratee functions may exit iteration early by explicitly
-     * returning `false`.
-     *
-     * @private
-     * @param {Object} object The object to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @param {Function} keysFunc The function to get the keys of `object`.
-     * @returns {Object} Returns `object`.
-     */
-    var baseFor = createBaseFor();
-
-    /**
-     * This function is like `baseFor` except that it iterates over properties
-     * in the opposite order.
-     *
-     * @private
-     * @param {Object} object The object to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @param {Function} keysFunc The function to get the keys of `object`.
-     * @returns {Object} Returns `object`.
-     */
-    var baseForRight = createBaseFor(true);
-
-    /**
-     * The base implementation of `_.forIn` without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Object} object The object to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @returns {Object} Returns `object`.
-     */
-    function baseForIn(object, iteratee) {
-      return baseFor(object, iteratee, keysIn);
-    }
-
-    /**
-     * The base implementation of `_.forOwn` without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Object} object The object to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @returns {Object} Returns `object`.
-     */
-    function baseForOwn(object, iteratee) {
-      return baseFor(object, iteratee, keys);
-    }
-
-    /**
-     * The base implementation of `_.forOwnRight` without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Object} object The object to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @returns {Object} Returns `object`.
-     */
-    function baseForOwnRight(object, iteratee) {
-      return baseForRight(object, iteratee, keys);
-    }
-
-    /**
-     * The base implementation of `_.functions` which creates an array of
-     * `object` function property names filtered from those provided.
-     *
-     * @private
-     * @param {Object} object The object to inspect.
-     * @param {Array} props The property names to filter.
-     * @returns {Array} Returns the new array of filtered property names.
-     */
-    function baseFunctions(object, props) {
-      var index = -1,
-          length = props.length,
-          resIndex = -1,
-          result = [];
-
-      while (++index < length) {
-        var key = props[index];
-        if (isFunction(object[key])) {
-          result[++resIndex] = key;
-        }
-      }
-      return result;
-    }
-
-    /**
-     * The base implementation of `get` without support for string paths
-     * and default values.
-     *
-     * @private
-     * @param {Object} object The object to query.
-     * @param {Array} path The path of the property to get.
-     * @param {string} [pathKey] The key representation of path.
-     * @returns {*} Returns the resolved value.
-     */
-    function baseGet(object, path, pathKey) {
-      if (object == null) {
-        return;
-      }
-      if (pathKey !== undefined && pathKey in toObject(object)) {
-        path = [pathKey];
-      }
-      var index = -1,
-          length = path.length;
-
-      while (object != null && ++index < length) {
-        object = object[path[index]];
-      }
-      return (index && index == length) ? object : undefined;
-    }
-
-    /**
-     * The base implementation of `_.isEqual` without support for `this` binding
-     * `customizer` functions.
-     *
-     * @private
-     * @param {*} value The value to compare.
-     * @param {*} other The other value to compare.
-     * @param {Function} [customizer] The function to customize comparing values.
-     * @param {boolean} [isLoose] Specify performing partial comparisons.
-     * @param {Array} [stackA] Tracks traversed `value` objects.
-     * @param {Array} [stackB] Tracks traversed `other` objects.
-     * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
-     */
-    function baseIsEqual(value, other, customizer, isLoose, stackA, stackB) {
-      // Exit early for identical values.
-      if (value === other) {
-        return true;
-      }
-      var valType = typeof value,
-          othType = typeof other;
-
-      // Exit early for unlike primitive values.
-      if ((valType != 'function' && valType != 'object' && othType != 'function' && othType != 'object') ||
-          value == null || other == null) {
-        // Return `false` unless both values are `NaN`.
-        return value !== value && other !== other;
-      }
-      return baseIsEqualDeep(value, other, baseIsEqual, customizer, isLoose, stackA, stackB);
-    }
-
-    /**
-     * A specialized version of `baseIsEqual` for arrays and objects which performs
-     * deep comparisons and tracks traversed objects enabling objects with circular
-     * references to be compared.
-     *
-     * @private
-     * @param {Object} object The object to compare.
-     * @param {Object} other The other object to compare.
-     * @param {Function} equalFunc The function to determine equivalents of values.
-     * @param {Function} [customizer] The function to customize comparing objects.
-     * @param {boolean} [isLoose] Specify performing partial comparisons.
-     * @param {Array} [stackA=[]] Tracks traversed `value` objects.
-     * @param {Array} [stackB=[]] Tracks traversed `other` objects.
-     * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
-     */
-    function baseIsEqualDeep(object, other, equalFunc, customizer, isLoose, stackA, stackB) {
-      var objIsArr = isArray(object),
-          othIsArr = isArray(other),
-          objTag = arrayTag,
-          othTag = arrayTag;
-
-      if (!objIsArr) {
-        objTag = objToString.call(object);
-        if (objTag == argsTag) {
-          objTag = objectTag;
-        } else if (objTag != objectTag) {
-          objIsArr = isTypedArray(object);
-        }
-      }
-      if (!othIsArr) {
-        othTag = objToString.call(other);
-        if (othTag == argsTag) {
-          othTag = objectTag;
-        } else if (othTag != objectTag) {
-          othIsArr = isTypedArray(other);
-        }
-      }
-      var objIsObj = objTag == objectTag,
-          othIsObj = othTag == objectTag,
-          isSameTag = objTag == othTag;
-
-      if (isSameTag && !(objIsArr || objIsObj)) {
-        return equalByTag(object, other, objTag);
-      }
-      if (!isLoose) {
-        var valWrapped = objIsObj && hasOwnProperty.call(object, '__wrapped__'),
-            othWrapped = othIsObj && hasOwnProperty.call(other, '__wrapped__');
-
-        if (valWrapped || othWrapped) {
-          return equalFunc(valWrapped ? object.value() : object, othWrapped ? other.value() : other, customizer, isLoose, stackA, stackB);
-        }
-      }
-      if (!isSameTag) {
-        return false;
-      }
-      // Assume cyclic values are equal.
-      // For more information on detecting circular references see https://es5.github.io/#JO.
-      stackA || (stackA = []);
-      stackB || (stackB = []);
-
-      var length = stackA.length;
-      while (length--) {
-        if (stackA[length] == object) {
-          return stackB[length] == other;
-        }
-      }
-      // Add `object` and `other` to the stack of traversed objects.
-      stackA.push(object);
-      stackB.push(other);
-
-      var result = (objIsArr ? equalArrays : equalObjects)(object, other, equalFunc, customizer, isLoose, stackA, stackB);
-
-      stackA.pop();
-      stackB.pop();
-
-      return result;
-    }
-
-    /**
-     * The base implementation of `_.isMatch` without support for callback
-     * shorthands and `this` binding.
-     *
-     * @private
-     * @param {Object} object The object to inspect.
-     * @param {Array} props The source property names to match.
-     * @param {Array} values The source values to match.
-     * @param {Array} strictCompareFlags Strict comparison flags for source values.
-     * @param {Function} [customizer] The function to customize comparing objects.
-     * @returns {boolean} Returns `true` if `object` is a match, else `false`.
-     */
-    function baseIsMatch(object, props, values, strictCompareFlags, customizer) {
-      var index = -1,
-          length = props.length,
-          noCustomizer = !customizer;
-
-      while (++index < length) {
-        if ((noCustomizer && strictCompareFlags[index])
-              ? values[index] !== object[props[index]]
-              : !(props[index] in object)
-            ) {
-          return false;
-        }
-      }
-      index = -1;
-      while (++index < length) {
-        var key = props[index],
-            objValue = object[key],
-            srcValue = values[index];
-
-        if (noCustomizer && strictCompareFlags[index]) {
-          var result = objValue !== undefined || (key in object);
-        } else {
-          result = customizer ? customizer(objValue, srcValue, key) : undefined;
-          if (result === undefined) {
-            result = baseIsEqual(srcValue, objValue, customizer, true);
-          }
-        }
-        if (!result) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    /**
-     * The base implementation of `_.map` without support for callback shorthands
-     * and `this` binding.
-     *
-     * @private
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @returns {Array} Returns the new mapped array.
-     */
-    function baseMap(collection, iteratee) {
-      var index = -1,
-          result = isArrayLike(collection) ? Array(collection.length) : [];
-
-      baseEach(collection, function(value, key, collection) {
-        result[++index] = iteratee(value, key, collection);
-      });
-      return result;
-    }
-
-    /**
-     * The base implementation of `_.matches` which does not clone `source`.
-     *
-     * @private
-     * @param {Object} source The object of property values to match.
-     * @returns {Function} Returns the new function.
-     */
-    function baseMatches(source) {
-      var props = keys(source),
-          length = props.length;
-
-      if (!length) {
-        return constant(true);
-      }
-      if (length == 1) {
-        var key = props[0],
-            value = source[key];
-
-        if (isStrictComparable(value)) {
-          return function(object) {
-            if (object == null) {
-              return false;
-            }
-            return object[key] === value && (value !== undefined || (key in toObject(object)));
-          };
-        }
-      }
-      var values = Array(length),
-          strictCompareFlags = Array(length);
-
-      while (length--) {
-        value = source[props[length]];
-        values[length] = value;
-        strictCompareFlags[length] = isStrictComparable(value);
-      }
-      return function(object) {
-        return object != null && baseIsMatch(toObject(object), props, values, strictCompareFlags);
-      };
-    }
-
-    /**
-     * The base implementation of `_.matchesProperty` which does not which does
-     * not clone `value`.
-     *
-     * @private
-     * @param {string} path The path of the property to get.
-     * @param {*} value The value to compare.
-     * @returns {Function} Returns the new function.
-     */
-    function baseMatchesProperty(path, value) {
-      var isArr = isArray(path),
-          isCommon = isKey(path) && isStrictComparable(value),
-          pathKey = (path + '');
-
-      path = toPath(path);
-      return function(object) {
-        if (object == null) {
-          return false;
-        }
-        var key = pathKey;
-        object = toObject(object);
-        if ((isArr || !isCommon) && !(key in object)) {
-          object = path.length == 1 ? object : baseGet(object, baseSlice(path, 0, -1));
-          if (object == null) {
-            return false;
-          }
-          key = last(path);
-          object = toObject(object);
-        }
-        return object[key] === value
-          ? (value !== undefined || (key in object))
-          : baseIsEqual(value, object[key], null, true);
-      };
-    }
-
-    /**
-     * The base implementation of `_.merge` without support for argument juggling,
-     * multiple sources, and `this` binding `customizer` functions.
-     *
-     * @private
-     * @param {Object} object The destination object.
-     * @param {Object} source The source object.
-     * @param {Function} [customizer] The function to customize merging properties.
-     * @param {Array} [stackA=[]] Tracks traversed source objects.
-     * @param {Array} [stackB=[]] Associates values with source counterparts.
-     * @returns {Object} Returns `object`.
-     */
-    function baseMerge(object, source, customizer, stackA, stackB) {
-      if (!isObject(object)) {
-        return object;
-      }
-      var isSrcArr = isArrayLike(source) && (isArray(source) || isTypedArray(source));
-      if (!isSrcArr) {
-        var props = keys(source);
-        push.apply(props, getSymbols(source));
-      }
-      arrayEach(props || source, function(srcValue, key) {
-        if (props) {
-          key = srcValue;
-          srcValue = source[key];
-        }
-        if (isObjectLike(srcValue)) {
-          stackA || (stackA = []);
-          stackB || (stackB = []);
-          baseMergeDeep(object, source, key, baseMerge, customizer, stackA, stackB);
-        }
-        else {
-          var value = object[key],
-              result = customizer ? customizer(value, srcValue, key, object, source) : undefined,
-              isCommon = result === undefined;
-
-          if (isCommon) {
-            result = srcValue;
-          }
-          if ((isSrcArr || result !== undefined) &&
-              (isCommon || (result === result ? (result !== value) : (value === value)))) {
-            object[key] = result;
-          }
-        }
-      });
-      return object;
-    }
-
-    /**
-     * A specialized version of `baseMerge` for arrays and objects which performs
-     * deep merges and tracks traversed objects enabling objects with circular
-     * references to be merged.
-     *
-     * @private
-     * @param {Object} object The destination object.
-     * @param {Object} source The source object.
-     * @param {string} key The key of the value to merge.
-     * @param {Function} mergeFunc The function to merge values.
-     * @param {Function} [customizer] The function to customize merging properties.
-     * @param {Array} [stackA=[]] Tracks traversed source objects.
-     * @param {Array} [stackB=[]] Associates values with source counterparts.
-     * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
-     */
-    function baseMergeDeep(object, source, key, mergeFunc, customizer, stackA, stackB) {
-      var length = stackA.length,
-          srcValue = source[key];
-
-      while (length--) {
-        if (stackA[length] == srcValue) {
-          object[key] = stackB[length];
-          return;
-        }
-      }
-      var value = object[key],
-          result = customizer ? customizer(value, srcValue, key, object, source) : undefined,
-          isCommon = result === undefined;
-
-      if (isCommon) {
-        result = srcValue;
-        if (isArrayLike(srcValue) && (isArray(srcValue) || isTypedArray(srcValue))) {
-          result = isArray(value)
-            ? value
-            : (isArrayLike(value) ? arrayCopy(value) : []);
-        }
-        else if (isPlainObject(srcValue) || isArguments(srcValue)) {
-          result = isArguments(value)
-            ? toPlainObject(value)
-            : (isPlainObject(value) ? value : {});
-        }
-        else {
-          isCommon = false;
-        }
-      }
-      // Add the source value to the stack of traversed objects and associate
-      // it with its merged value.
-      stackA.push(srcValue);
-      stackB.push(result);
-
-      if (isCommon) {
-        // Recursively merge objects and arrays (susceptible to call stack limits).
-        object[key] = mergeFunc(result, srcValue, customizer, stackA, stackB);
-      } else if (result === result ? (result !== value) : (value === value)) {
-        object[key] = result;
-      }
-    }
-
-    /**
-     * The base implementation of `_.property` without support for deep paths.
-     *
-     * @private
-     * @param {string} key The key of the property to get.
-     * @returns {Function} Returns the new function.
-     */
-    function baseProperty(key) {
-      return function(object) {
-        return object == null ? undefined : object[key];
-      };
-    }
-
-    /**
-     * A specialized version of `baseProperty` which supports deep paths.
-     *
-     * @private
-     * @param {Array|string} path The path of the property to get.
-     * @returns {Function} Returns the new function.
-     */
-    function basePropertyDeep(path) {
-      var pathKey = (path + '');
-      path = toPath(path);
-      return function(object) {
-        return baseGet(object, path, pathKey);
-      };
-    }
-
-    /**
-     * The base implementation of `_.pullAt` without support for individual
-     * index arguments and capturing the removed elements.
-     *
-     * @private
-     * @param {Array} array The array to modify.
-     * @param {number[]} indexes The indexes of elements to remove.
-     * @returns {Array} Returns `array`.
-     */
-    function basePullAt(array, indexes) {
-      var length = array ? indexes.length : 0;
-      while (length--) {
-        var index = parseFloat(indexes[length]);
-        if (index != previous && isIndex(index)) {
-          var previous = index;
-          splice.call(array, index, 1);
-        }
-      }
-      return array;
-    }
-
-    /**
-     * The base implementation of `_.random` without support for argument juggling
-     * and returning floating-point numbers.
-     *
-     * @private
-     * @param {number} min The minimum possible value.
-     * @param {number} max The maximum possible value.
-     * @returns {number} Returns the random number.
-     */
-    function baseRandom(min, max) {
-      return min + floor(nativeRandom() * (max - min + 1));
-    }
-
-    /**
-     * The base implementation of `_.reduce` and `_.reduceRight` without support
-     * for callback shorthands and `this` binding, which iterates over `collection`
-     * using the provided `eachFunc`.
-     *
-     * @private
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @param {*} accumulator The initial value.
-     * @param {boolean} initFromCollection Specify using the first or last element
-     *  of `collection` as the initial value.
-     * @param {Function} eachFunc The function to iterate over `collection`.
-     * @returns {*} Returns the accumulated value.
-     */
-    function baseReduce(collection, iteratee, accumulator, initFromCollection, eachFunc) {
-      eachFunc(collection, function(value, index, collection) {
-        accumulator = initFromCollection
-          ? (initFromCollection = false, value)
-          : iteratee(accumulator, value, index, collection);
-      });
-      return accumulator;
-    }
-
-    /**
-     * The base implementation of `setData` without support for hot loop detection.
-     *
-     * @private
-     * @param {Function} func The function to associate metadata with.
-     * @param {*} data The metadata.
-     * @returns {Function} Returns `func`.
-     */
-    var baseSetData = !metaMap ? identity : function(func, data) {
-      metaMap.set(func, data);
-      return func;
-    };
-
-    /**
-     * The base implementation of `_.slice` without an iteratee call guard.
-     *
-     * @private
-     * @param {Array} array The array to slice.
-     * @param {number} [start=0] The start position.
-     * @param {number} [end=array.length] The end position.
-     * @returns {Array} Returns the slice of `array`.
-     */
-    function baseSlice(array, start, end) {
-      var index = -1,
-          length = array.length;
-
-      start = start == null ? 0 : (+start || 0);
-      if (start < 0) {
-        start = -start > length ? 0 : (length + start);
-      }
-      end = (end === undefined || end > length) ? length : (+end || 0);
-      if (end < 0) {
-        end += length;
-      }
-      length = start > end ? 0 : ((end - start) >>> 0);
-      start >>>= 0;
-
-      var result = Array(length);
-      while (++index < length) {
-        result[index] = array[index + start];
-      }
-      return result;
-    }
-
-    /**
-     * The base implementation of `_.some` without support for callback shorthands
-     * and `this` binding.
-     *
-     * @private
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} predicate The function invoked per iteration.
-     * @returns {boolean} Returns `true` if any element passes the predicate check,
-     *  else `false`.
-     */
-    function baseSome(collection, predicate) {
-      var result;
-
-      baseEach(collection, function(value, index, collection) {
-        result = predicate(value, index, collection);
-        return !result;
-      });
-      return !!result;
-    }
-
-    /**
-     * The base implementation of `_.sortBy` which uses `comparer` to define
-     * the sort order of `array` and replaces criteria objects with their
-     * corresponding values.
-     *
-     * @private
-     * @param {Array} array The array to sort.
-     * @param {Function} comparer The function to define sort order.
-     * @returns {Array} Returns `array`.
-     */
-    function baseSortBy(array, comparer) {
-      var length = array.length;
-
-      array.sort(comparer);
-      while (length--) {
-        array[length] = array[length].value;
-      }
-      return array;
-    }
-
-    /**
-     * The base implementation of `_.sortByOrder` without param guards.
-     *
-     * @private
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function[]|Object[]|string[]} iteratees The iteratees to sort by.
-     * @param {boolean[]} orders The sort orders of `iteratees`.
-     * @returns {Array} Returns the new sorted array.
-     */
-    function baseSortByOrder(collection, iteratees, orders) {
-      var callback = getCallback(),
-          index = -1;
-
-      iteratees = arrayMap(iteratees, function(iteratee) { return callback(iteratee); });
-
-      var result = baseMap(collection, function(value) {
-        var criteria = arrayMap(iteratees, function(iteratee) { return iteratee(value); });
-        return { 'criteria': criteria, 'index': ++index, 'value': value };
-      });
-
-      return baseSortBy(result, function(object, other) {
-        return compareMultiple(object, other, orders);
-      });
-    }
-
-    /**
-     * The base implementation of `_.sum` without support for callback shorthands
-     * and `this` binding.
-     *
-     * @private
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @returns {number} Returns the sum.
-     */
-    function baseSum(collection, iteratee) {
-      var result = 0;
-      baseEach(collection, function(value, index, collection) {
-        result += +iteratee(value, index, collection) || 0;
-      });
-      return result;
-    }
-
-    /**
-     * The base implementation of `_.uniq` without support for callback shorthands
-     * and `this` binding.
-     *
-     * @private
-     * @param {Array} array The array to inspect.
-     * @param {Function} [iteratee] The function invoked per iteration.
-     * @returns {Array} Returns the new duplicate-value-free array.
-     */
-    function baseUniq(array, iteratee) {
-      var index = -1,
-          indexOf = getIndexOf(),
-          length = array.length,
-          isCommon = indexOf == baseIndexOf,
-          isLarge = isCommon && length >= 200,
-          seen = isLarge ? createCache() : null,
-          result = [];
-
-      if (seen) {
-        indexOf = cacheIndexOf;
-        isCommon = false;
-      } else {
-        isLarge = false;
-        seen = iteratee ? [] : result;
-      }
-      outer:
-      while (++index < length) {
-        var value = array[index],
-            computed = iteratee ? iteratee(value, index, array) : value;
-
-        if (isCommon && value === value) {
-          var seenIndex = seen.length;
-          while (seenIndex--) {
-            if (seen[seenIndex] === computed) {
-              continue outer;
-            }
-          }
-          if (iteratee) {
-            seen.push(computed);
-          }
-          result.push(value);
-        }
-        else if (indexOf(seen, computed, 0) < 0) {
-          if (iteratee || isLarge) {
-            seen.push(computed);
-          }
-          result.push(value);
-        }
-      }
-      return result;
-    }
-
-    /**
-     * The base implementation of `_.values` and `_.valuesIn` which creates an
-     * array of `object` property values corresponding to the property names
-     * of `props`.
-     *
-     * @private
-     * @param {Object} object The object to query.
-     * @param {Array} props The property names to get values for.
-     * @returns {Object} Returns the array of property values.
-     */
-    function baseValues(object, props) {
-      var index = -1,
-          length = props.length,
-          result = Array(length);
-
-      while (++index < length) {
-        result[index] = object[props[index]];
-      }
-      return result;
-    }
-
-    /**
-     * The base implementation of `_.dropRightWhile`, `_.dropWhile`, `_.takeRightWhile`,
-     * and `_.takeWhile` without support for callback shorthands and `this` binding.
-     *
-     * @private
-     * @param {Array} array The array to query.
-     * @param {Function} predicate The function invoked per iteration.
-     * @param {boolean} [isDrop] Specify dropping elements instead of taking them.
-     * @param {boolean} [fromRight] Specify iterating from right to left.
-     * @returns {Array} Returns the slice of `array`.
-     */
-    function baseWhile(array, predicate, isDrop, fromRight) {
-      var length = array.length,
-          index = fromRight ? length : -1;
-
-      while ((fromRight ? index-- : ++index < length) && predicate(array[index], index, array)) {}
-      return isDrop
-        ? baseSlice(array, (fromRight ? 0 : index), (fromRight ? index + 1 : length))
-        : baseSlice(array, (fromRight ? index + 1 : 0), (fromRight ? length : index));
-    }
-
-    /**
-     * The base implementation of `wrapperValue` which returns the result of
-     * performing a sequence of actions on the unwrapped `value`, where each
-     * successive action is supplied the return value of the previous.
-     *
-     * @private
-     * @param {*} value The unwrapped value.
-     * @param {Array} actions Actions to peform to resolve the unwrapped value.
-     * @returns {*} Returns the resolved value.
-     */
-    function baseWrapperValue(value, actions) {
-      var result = value;
-      if (result instanceof LazyWrapper) {
-        result = result.value();
-      }
-      var index = -1,
-          length = actions.length;
-
-      while (++index < length) {
-        var args = [result],
-            action = actions[index];
-
-        push.apply(args, action.args);
-        result = action.func.apply(action.thisArg, args);
-      }
-      return result;
-    }
-
-    /**
-     * Performs a binary search of `array` to determine the index at which `value`
-     * should be inserted into `array` in order to maintain its sort order.
-     *
-     * @private
-     * @param {Array} array The sorted array to inspect.
-     * @param {*} value The value to evaluate.
-     * @param {boolean} [retHighest] Specify returning the highest qualified index.
-     * @returns {number} Returns the index at which `value` should be inserted
-     *  into `array`.
-     */
-    function binaryIndex(array, value, retHighest) {
-      var low = 0,
-          high = array ? array.length : low;
-
-      if (typeof value == 'number' && value === value && high <= HALF_MAX_ARRAY_LENGTH) {
-        while (low < high) {
-          var mid = (low + high) >>> 1,
-              computed = array[mid];
-
-          if (retHighest ? (computed <= value) : (computed < value)) {
-            low = mid + 1;
-          } else {
-            high = mid;
-          }
-        }
-        return high;
-      }
-      return binaryIndexBy(array, value, identity, retHighest);
-    }
-
-    /**
-     * This function is like `binaryIndex` except that it invokes `iteratee` for
-     * `value` and each element of `array` to compute their sort ranking. The
-     * iteratee is invoked with one argument; (value).
-     *
-     * @private
-     * @param {Array} array The sorted array to inspect.
-     * @param {*} value The value to evaluate.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @param {boolean} [retHighest] Specify returning the highest qualified index.
-     * @returns {number} Returns the index at which `value` should be inserted
-     *  into `array`.
-     */
-    function binaryIndexBy(array, value, iteratee, retHighest) {
-      value = iteratee(value);
-
-      var low = 0,
-          high = array ? array.length : 0,
-          valIsNaN = value !== value,
-          valIsUndef = value === undefined;
-
-      while (low < high) {
-        var mid = floor((low + high) / 2),
-            computed = iteratee(array[mid]),
-            isReflexive = computed === computed;
-
-        if (valIsNaN) {
-          var setLow = isReflexive || retHighest;
-        } else if (valIsUndef) {
-          setLow = isReflexive && (retHighest || computed !== undefined);
-        } else {
-          setLow = retHighest ? (computed <= value) : (computed < value);
-        }
-        if (setLow) {
-          low = mid + 1;
-        } else {
-          high = mid;
-        }
-      }
-      return nativeMin(high, MAX_ARRAY_INDEX);
-    }
-
-    /**
-     * A specialized version of `baseCallback` which only supports `this` binding
-     * and specifying the number of arguments to provide to `func`.
-     *
-     * @private
-     * @param {Function} func The function to bind.
-     * @param {*} thisArg The `this` binding of `func`.
-     * @param {number} [argCount] The number of arguments to provide to `func`.
-     * @returns {Function} Returns the callback.
-     */
-    function bindCallback(func, thisArg, argCount) {
-      if (typeof func != 'function') {
-        return identity;
-      }
-      if (thisArg === undefined) {
-        return func;
-      }
-      switch (argCount) {
-        case 1: return function(value) {
-          return func.call(thisArg, value);
-        };
-        case 3: return function(value, index, collection) {
-          return func.call(thisArg, value, index, collection);
-        };
-        case 4: return function(accumulator, value, index, collection) {
-          return func.call(thisArg, accumulator, value, index, collection);
-        };
-        case 5: return function(value, other, key, object, source) {
-          return func.call(thisArg, value, other, key, object, source);
-        };
-      }
-      return function() {
-        return func.apply(thisArg, arguments);
-      };
-    }
-
-    /**
-     * Creates a clone of the given array buffer.
-     *
-     * @private
-     * @param {ArrayBuffer} buffer The array buffer to clone.
-     * @returns {ArrayBuffer} Returns the cloned array buffer.
-     */
-    function bufferClone(buffer) {
-      return bufferSlice.call(buffer, 0);
-    }
-    if (!bufferSlice) {
-      // PhantomJS has `ArrayBuffer` and `Uint8Array` but not `Float64Array`.
-      bufferClone = !(ArrayBuffer && Uint8Array) ? constant(null) : function(buffer) {
-        var byteLength = buffer.byteLength,
-            floatLength = Float64Array ? floor(byteLength / FLOAT64_BYTES_PER_ELEMENT) : 0,
-            offset = floatLength * FLOAT64_BYTES_PER_ELEMENT,
-            result = new ArrayBuffer(byteLength);
-
-        if (floatLength) {
-          var view = new Float64Array(result, 0, floatLength);
-          view.set(new Float64Array(buffer, 0, floatLength));
-        }
-        if (byteLength != offset) {
-          view = new Uint8Array(result, offset);
-          view.set(new Uint8Array(buffer, offset));
-        }
-        return result;
-      };
-    }
-
-    /**
-     * Creates an array that is the composition of partially applied arguments,
-     * placeholders, and provided arguments into a single array of arguments.
-     *
-     * @private
-     * @param {Array|Object} args The provided arguments.
-     * @param {Array} partials The arguments to prepend to those provided.
-     * @param {Array} holders The `partials` placeholder indexes.
-     * @returns {Array} Returns the new array of composed arguments.
-     */
-    function composeArgs(args, partials, holders) {
-      var holdersLength = holders.length,
-          argsIndex = -1,
-          argsLength = nativeMax(args.length - holdersLength, 0),
-          leftIndex = -1,
-          leftLength = partials.length,
-          result = Array(argsLength + leftLength);
-
-      while (++leftIndex < leftLength) {
-        result[leftIndex] = partials[leftIndex];
-      }
-      while (++argsIndex < holdersLength) {
-        result[holders[argsIndex]] = args[argsIndex];
-      }
-      while (argsLength--) {
-        result[leftIndex++] = args[argsIndex++];
-      }
-      return result;
-    }
-
-    /**
-     * This function is like `composeArgs` except that the arguments composition
-     * is tailored for `_.partialRight`.
-     *
-     * @private
-     * @param {Array|Object} args The provided arguments.
-     * @param {Array} partials The arguments to append to those provided.
-     * @param {Array} holders The `partials` placeholder indexes.
-     * @returns {Array} Returns the new array of composed arguments.
-     */
-    function composeArgsRight(args, partials, holders) {
-      var holdersIndex = -1,
-          holdersLength = holders.length,
-          argsIndex = -1,
-          argsLength = nativeMax(args.length - holdersLength, 0),
-          rightIndex = -1,
-          rightLength = partials.length,
-          result = Array(argsLength + rightLength);
-
-      while (++argsIndex < argsLength) {
-        result[argsIndex] = args[argsIndex];
-      }
-      var offset = argsIndex;
-      while (++rightIndex < rightLength) {
-        result[offset + rightIndex] = partials[rightIndex];
-      }
-      while (++holdersIndex < holdersLength) {
-        result[offset + holders[holdersIndex]] = args[argsIndex++];
-      }
-      return result;
-    }
-
-    /**
-     * Creates a function that aggregates a collection, creating an accumulator
-     * object composed from the results of running each element in the collection
-     * through an iteratee.
-     *
-     * **Note:** This function is used to create `_.countBy`, `_.groupBy`, `_.indexBy`,
-     * and `_.partition`.
-     *
-     * @private
-     * @param {Function} setter The function to set keys and values of the accumulator object.
-     * @param {Function} [initializer] The function to initialize the accumulator object.
-     * @returns {Function} Returns the new aggregator function.
-     */
-    function createAggregator(setter, initializer) {
-      return function(collection, iteratee, thisArg) {
-        var result = initializer ? initializer() : {};
-        iteratee = getCallback(iteratee, thisArg, 3);
-
-        if (isArray(collection)) {
-          var index = -1,
-              length = collection.length;
-
-          while (++index < length) {
-            var value = collection[index];
-            setter(result, value, iteratee(value, index, collection), collection);
-          }
-        } else {
-          baseEach(collection, function(value, key, collection) {
-            setter(result, value, iteratee(value, key, collection), collection);
-          });
-        }
-        return result;
-      };
-    }
-
-    /**
-     * Creates a function that assigns properties of source object(s) to a given
-     * destination object.
-     *
-     * **Note:** This function is used to create `_.assign`, `_.defaults`, and `_.merge`.
-     *
-     * @private
-     * @param {Function} assigner The function to assign values.
-     * @returns {Function} Returns the new assigner function.
-     */
-    function createAssigner(assigner) {
-      return restParam(function(object, sources) {
-        var index = -1,
-            length = object == null ? 0 : sources.length,
-            customizer = length > 2 && sources[length - 2],
-            guard = length > 2 && sources[2],
-            thisArg = length > 1 && sources[length - 1];
-
-        if (typeof customizer == 'function') {
-          customizer = bindCallback(customizer, thisArg, 5);
-          length -= 2;
-        } else {
-          customizer = typeof thisArg == 'function' ? thisArg : null;
-          length -= (customizer ? 1 : 0);
-        }
-        if (guard && isIterateeCall(sources[0], sources[1], guard)) {
-          customizer = length < 3 ? null : customizer;
-          length = 1;
-        }
-        while (++index < length) {
-          var source = sources[index];
-          if (source) {
-            assigner(object, source, customizer);
-          }
-        }
-        return object;
-      });
-    }
-
-    /**
-     * Creates a `baseEach` or `baseEachRight` function.
-     *
-     * @private
-     * @param {Function} eachFunc The function to iterate over a collection.
-     * @param {boolean} [fromRight] Specify iterating from right to left.
-     * @returns {Function} Returns the new base function.
-     */
-    function createBaseEach(eachFunc, fromRight) {
-      return function(collection, iteratee) {
-        var length = collection ? getLength(collection) : 0;
-        if (!isLength(length)) {
-          return eachFunc(collection, iteratee);
-        }
-        var index = fromRight ? length : -1,
-            iterable = toObject(collection);
-
-        while ((fromRight ? index-- : ++index < length)) {
-          if (iteratee(iterable[index], index, iterable) === false) {
-            break;
-          }
-        }
-        return collection;
-      };
-    }
-
-    /**
-     * Creates a base function for `_.forIn` or `_.forInRight`.
-     *
-     * @private
-     * @param {boolean} [fromRight] Specify iterating from right to left.
-     * @returns {Function} Returns the new base function.
-     */
-    function createBaseFor(fromRight) {
-      return function(object, iteratee, keysFunc) {
-        var iterable = toObject(object),
-            props = keysFunc(object),
-            length = props.length,
-            index = fromRight ? length : -1;
-
-        while ((fromRight ? index-- : ++index < length)) {
-          var key = props[index];
-          if (iteratee(iterable[key], key, iterable) === false) {
-            break;
-          }
-        }
-        return object;
-      };
-    }
-
-    /**
-     * Creates a function that wraps `func` and invokes it with the `this`
-     * binding of `thisArg`.
-     *
-     * @private
-     * @param {Function} func The function to bind.
-     * @param {*} [thisArg] The `this` binding of `func`.
-     * @returns {Function} Returns the new bound function.
-     */
-    function createBindWrapper(func, thisArg) {
-      var Ctor = createCtorWrapper(func);
-
-      function wrapper() {
-        var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
-        return fn.apply(thisArg, arguments);
-      }
-      return wrapper;
-    }
-
-    /**
-     * Creates a `Set` cache object to optimize linear searches of large arrays.
-     *
-     * @private
-     * @param {Array} [values] The values to cache.
-     * @returns {null|Object} Returns the new cache object if `Set` is supported, else `null`.
-     */
-    var createCache = !(nativeCreate && Set) ? constant(null) : function(values) {
-      return new SetCache(values);
-    };
-
-    /**
-     * Creates a function that produces compound words out of the words in a
-     * given string.
-     *
-     * @private
-     * @param {Function} callback The function to combine each word.
-     * @returns {Function} Returns the new compounder function.
-     */
-    function createCompounder(callback) {
-      return function(string) {
-        var index = -1,
-            array = words(deburr(string)),
-            length = array.length,
-            result = '';
-
-        while (++index < length) {
-          result = callback(result, array[index], index);
-        }
-        return result;
-      };
-    }
-
-    /**
-     * Creates a function that produces an instance of `Ctor` regardless of
-     * whether it was invoked as part of a `new` expression or by `call` or `apply`.
-     *
-     * @private
-     * @param {Function} Ctor The constructor to wrap.
-     * @returns {Function} Returns the new wrapped function.
-     */
-    function createCtorWrapper(Ctor) {
-      return function() {
-        var thisBinding = baseCreate(Ctor.prototype),
-            result = Ctor.apply(thisBinding, arguments);
-
-        // Mimic the constructor's `return` behavior.
-        // See https://es5.github.io/#x13.2.2 for more details.
-        return isObject(result) ? result : thisBinding;
-      };
-    }
-
-    /**
-     * Creates a `_.curry` or `_.curryRight` function.
-     *
-     * @private
-     * @param {boolean} flag The curry bit flag.
-     * @returns {Function} Returns the new curry function.
-     */
-    function createCurry(flag) {
-      function curryFunc(func, arity, guard) {
-        if (guard && isIterateeCall(func, arity, guard)) {
-          arity = null;
-        }
-        var result = createWrapper(func, flag, null, null, null, null, null, arity);
-        result.placeholder = curryFunc.placeholder;
-        return result;
-      }
-      return curryFunc;
-    }
-
-    /**
-     * Creates a `_.max` or `_.min` function.
-     *
-     * @private
-     * @param {Function} arrayFunc The function to get the extremum value from an array.
-     * @param {boolean} [isMin] Specify returning the minimum, instead of the maximum,
-     *  extremum value.
-     * @returns {Function} Returns the new extremum function.
-     */
-    function createExtremum(arrayFunc, isMin) {
-      return function(collection, iteratee, thisArg) {
-        if (thisArg && isIterateeCall(collection, iteratee, thisArg)) {
-          iteratee = null;
-        }
-        var func = getCallback(),
-            noIteratee = iteratee == null;
-
-        if (!(func === baseCallback && noIteratee)) {
-          noIteratee = false;
-          iteratee = func(iteratee, thisArg, 3);
-        }
-        if (noIteratee) {
-          var isArr = isArray(collection);
-          if (!isArr && isString(collection)) {
-            iteratee = charAtCallback;
-          } else {
-            return arrayFunc(isArr ? collection : toIterable(collection));
-          }
-        }
-        return extremumBy(collection, iteratee, isMin);
-      };
-    }
-
-    /**
-     * Creates a `_.find` or `_.findLast` function.
-     *
-     * @private
-     * @param {Function} eachFunc The function to iterate over a collection.
-     * @param {boolean} [fromRight] Specify iterating from right to left.
-     * @returns {Function} Returns the new find function.
-     */
-    function createFind(eachFunc, fromRight) {
-      return function(collection, predicate, thisArg) {
-        predicate = getCallback(predicate, thisArg, 3);
-        if (isArray(collection)) {
-          var index = baseFindIndex(collection, predicate, fromRight);
-          return index > -1 ? collection[index] : undefined;
-        }
-        return baseFind(collection, predicate, eachFunc);
-      };
-    }
-
-    /**
-     * Creates a `_.findIndex` or `_.findLastIndex` function.
-     *
-     * @private
-     * @param {boolean} [fromRight] Specify iterating from right to left.
-     * @returns {Function} Returns the new find function.
-     */
-    function createFindIndex(fromRight) {
-      return function(array, predicate, thisArg) {
-        if (!(array && array.length)) {
-          return -1;
-        }
-        predicate = getCallback(predicate, thisArg, 3);
-        return baseFindIndex(array, predicate, fromRight);
-      };
-    }
-
-    /**
-     * Creates a `_.findKey` or `_.findLastKey` function.
-     *
-     * @private
-     * @param {Function} objectFunc The function to iterate over an object.
-     * @returns {Function} Returns the new find function.
-     */
-    function createFindKey(objectFunc) {
-      return function(object, predicate, thisArg) {
-        predicate = getCallback(predicate, thisArg, 3);
-        return baseFind(object, predicate, objectFunc, true);
-      };
-    }
-
-    /**
-     * Creates a `_.flow` or `_.flowRight` function.
-     *
-     * @private
-     * @param {boolean} [fromRight] Specify iterating from right to left.
-     * @returns {Function} Returns the new flow function.
-     */
-    function createFlow(fromRight) {
-      return function() {
-        var length = arguments.length;
-        if (!length) {
-          return function() { return arguments[0]; };
-        }
-        var wrapper,
-            index = fromRight ? length : -1,
-            leftIndex = 0,
-            funcs = Array(length);
-
-        while ((fromRight ? index-- : ++index < length)) {
-          var func = funcs[leftIndex++] = arguments[index];
-          if (typeof func != 'function') {
-            throw new TypeError(FUNC_ERROR_TEXT);
-          }
-          var funcName = wrapper ? '' : getFuncName(func);
-          wrapper = funcName == 'wrapper' ? new LodashWrapper([]) : wrapper;
-        }
-        index = wrapper ? -1 : length;
-        while (++index < length) {
-          func = funcs[index];
-          funcName = getFuncName(func);
-
-          var data = funcName == 'wrapper' ? getData(func) : null;
-          if (data && isLaziable(data[0]) && data[1] == (ARY_FLAG | CURRY_FLAG | PARTIAL_FLAG | REARG_FLAG) && !data[4].length && data[9] == 1) {
-            wrapper = wrapper[getFuncName(data[0])].apply(wrapper, data[3]);
-          } else {
-            wrapper = (func.length == 1 && isLaziable(func)) ? wrapper[funcName]() : wrapper.thru(func);
-          }
-        }
-        return function() {
-          var args = arguments;
-          if (wrapper && args.length == 1 && isArray(args[0])) {
-            return wrapper.plant(args[0]).value();
-          }
-          var index = 0,
-              result = funcs[index].apply(this, args);
-
-          while (++index < length) {
-            result = funcs[index].call(this, result);
-          }
-          return result;
-        };
-      };
-    }
-
-    /**
-     * Creates a function for `_.forEach` or `_.forEachRight`.
-     *
-     * @private
-     * @param {Function} arrayFunc The function to iterate over an array.
-     * @param {Function} eachFunc The function to iterate over a collection.
-     * @returns {Function} Returns the new each function.
-     */
-    function createForEach(arrayFunc, eachFunc) {
-      return function(collection, iteratee, thisArg) {
-        return (typeof iteratee == 'function' && thisArg === undefined && isArray(collection))
-          ? arrayFunc(collection, iteratee)
-          : eachFunc(collection, bindCallback(iteratee, thisArg, 3));
-      };
-    }
-
-    /**
-     * Creates a function for `_.forIn` or `_.forInRight`.
-     *
-     * @private
-     * @param {Function} objectFunc The function to iterate over an object.
-     * @returns {Function} Returns the new each function.
-     */
-    function createForIn(objectFunc) {
-      return function(object, iteratee, thisArg) {
-        if (typeof iteratee != 'function' || thisArg !== undefined) {
-          iteratee = bindCallback(iteratee, thisArg, 3);
-        }
-        return objectFunc(object, iteratee, keysIn);
-      };
-    }
-
-    /**
-     * Creates a function for `_.forOwn` or `_.forOwnRight`.
-     *
-     * @private
-     * @param {Function} objectFunc The function to iterate over an object.
-     * @returns {Function} Returns the new each function.
-     */
-    function createForOwn(objectFunc) {
-      return function(object, iteratee, thisArg) {
-        if (typeof iteratee != 'function' || thisArg !== undefined) {
-          iteratee = bindCallback(iteratee, thisArg, 3);
-        }
-        return objectFunc(object, iteratee);
-      };
-    }
-
-    /**
-     * Creates a function for `_.mapKeys` or `_.mapValues`.
-     *
-     * @private
-     * @param {boolean} [isMapKeys] Specify mapping keys instead of values.
-     * @returns {Function} Returns the new map function.
-     */
-    function createObjectMapper(isMapKeys) {
-      return function(object, iteratee, thisArg) {
-        var result = {};
-        iteratee = getCallback(iteratee, thisArg, 3);
-
-        baseForOwn(object, function(value, key, object) {
-          var mapped = iteratee(value, key, object);
-          key = isMapKeys ? mapped : key;
-          value = isMapKeys ? value : mapped;
-          result[key] = value;
-        });
-        return result;
-      };
-    }
-
-    /**
-     * Creates a function for `_.padLeft` or `_.padRight`.
-     *
-     * @private
-     * @param {boolean} [fromRight] Specify padding from the right.
-     * @returns {Function} Returns the new pad function.
-     */
-    function createPadDir(fromRight) {
-      return function(string, length, chars) {
-        string = baseToString(string);
-        return (fromRight ? string : '') + createPadding(string, length, chars) + (fromRight ? '' : string);
-      };
-    }
-
-    /**
-     * Creates a `_.partial` or `_.partialRight` function.
-     *
-     * @private
-     * @param {boolean} flag The partial bit flag.
-     * @returns {Function} Returns the new partial function.
-     */
-    function createPartial(flag) {
-      var partialFunc = restParam(function(func, partials) {
-        var holders = replaceHolders(partials, partialFunc.placeholder);
-        return createWrapper(func, flag, null, partials, holders);
-      });
-      return partialFunc;
-    }
-
-    /**
-     * Creates a function for `_.reduce` or `_.reduceRight`.
-     *
-     * @private
-     * @param {Function} arrayFunc The function to iterate over an array.
-     * @param {Function} eachFunc The function to iterate over a collection.
-     * @returns {Function} Returns the new each function.
-     */
-    function createReduce(arrayFunc, eachFunc) {
-      return function(collection, iteratee, accumulator, thisArg) {
-        var initFromArray = arguments.length < 3;
-        return (typeof iteratee == 'function' && thisArg === undefined && isArray(collection))
-          ? arrayFunc(collection, iteratee, accumulator, initFromArray)
-          : baseReduce(collection, getCallback(iteratee, thisArg, 4), accumulator, initFromArray, eachFunc);
-      };
-    }
-
-    /**
-     * Creates a function that wraps `func` and invokes it with optional `this`
-     * binding of, partial application, and currying.
-     *
-     * @private
-     * @param {Function|string} func The function or method name to reference.
-     * @param {number} bitmask The bitmask of flags. See `createWrapper` for more details.
-     * @param {*} [thisArg] The `this` binding of `func`.
-     * @param {Array} [partials] The arguments to prepend to those provided to the new function.
-     * @param {Array} [holders] The `partials` placeholder indexes.
-     * @param {Array} [partialsRight] The arguments to append to those provided to the new function.
-     * @param {Array} [holdersRight] The `partialsRight` placeholder indexes.
-     * @param {Array} [argPos] The argument positions of the new function.
-     * @param {number} [ary] The arity cap of `func`.
-     * @param {number} [arity] The arity of `func`.
-     * @returns {Function} Returns the new wrapped function.
-     */
-    function createHybridWrapper(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity) {
-      var isAry = bitmask & ARY_FLAG,
-          isBind = bitmask & BIND_FLAG,
-          isBindKey = bitmask & BIND_KEY_FLAG,
-          isCurry = bitmask & CURRY_FLAG,
-          isCurryBound = bitmask & CURRY_BOUND_FLAG,
-          isCurryRight = bitmask & CURRY_RIGHT_FLAG;
-
-      var Ctor = !isBindKey && createCtorWrapper(func),
-          key = func;
-
-      function wrapper() {
-        // Avoid `arguments` object use disqualifying optimizations by
-        // converting it to an array before providing it to other functions.
-        var length = arguments.length,
-            index = length,
-            args = Array(length);
-
-        while (index--) {
-          args[index] = arguments[index];
-        }
-        if (partials) {
-          args = composeArgs(args, partials, holders);
-        }
-        if (partialsRight) {
-          args = composeArgsRight(args, partialsRight, holdersRight);
-        }
-        if (isCurry || isCurryRight) {
-          var placeholder = wrapper.placeholder,
-              argsHolders = replaceHolders(args, placeholder);
-
-          length -= argsHolders.length;
-          if (length < arity) {
-            var newArgPos = argPos ? arrayCopy(argPos) : null,
-                newArity = nativeMax(arity - length, 0),
-                newsHolders = isCurry ? argsHolders : null,
-                newHoldersRight = isCurry ? null : argsHolders,
-                newPartials = isCurry ? args : null,
-                newPartialsRight = isCurry ? null : args;
-
-            bitmask |= (isCurry ? PARTIAL_FLAG : PARTIAL_RIGHT_FLAG);
-            bitmask &= ~(isCurry ? PARTIAL_RIGHT_FLAG : PARTIAL_FLAG);
-
-            if (!isCurryBound) {
-              bitmask &= ~(BIND_FLAG | BIND_KEY_FLAG);
-            }
-            var newData = [func, bitmask, thisArg, newPartials, newsHolders, newPartialsRight, newHoldersRight, newArgPos, ary, newArity],
-                result = createHybridWrapper.apply(undefined, newData);
-
-            if (isLaziable(func)) {
-              setData(result, newData);
-            }
-            result.placeholder = placeholder;
-            return result;
-          }
-        }
-        var thisBinding = isBind ? thisArg : this;
-        if (isBindKey) {
-          func = thisBinding[key];
-        }
-        if (argPos) {
-          args = reorder(args, argPos);
-        }
-        if (isAry && ary < args.length) {
-          args.length = ary;
-        }
-        var fn = (this && this !== root && this instanceof wrapper) ? (Ctor || createCtorWrapper(func)) : func;
-        return fn.apply(thisBinding, args);
-      }
-      return wrapper;
-    }
-
-    /**
-     * Creates the padding required for `string` based on the given `length`.
-     * The `chars` string is truncated if the number of characters exceeds `length`.
-     *
-     * @private
-     * @param {string} string The string to create padding for.
-     * @param {number} [length=0] The padding length.
-     * @param {string} [chars=' '] The string used as padding.
-     * @returns {string} Returns the pad for `string`.
-     */
-    function createPadding(string, length, chars) {
-      var strLength = string.length;
-      length = +length;
-
-      if (strLength >= length || !nativeIsFinite(length)) {
-        return '';
-      }
-      var padLength = length - strLength;
-      chars = chars == null ? ' ' : (chars + '');
-      return repeat(chars, ceil(padLength / chars.length)).slice(0, padLength);
-    }
-
-    /**
-     * Creates a function that wraps `func` and invokes it with the optional `this`
-     * binding of `thisArg` and the `partials` prepended to those provided to
-     * the wrapper.
-     *
-     * @private
-     * @param {Function} func The function to partially apply arguments to.
-     * @param {number} bitmask The bitmask of flags. See `createWrapper` for more details.
-     * @param {*} thisArg The `this` binding of `func`.
-     * @param {Array} partials The arguments to prepend to those provided to the new function.
-     * @returns {Function} Returns the new bound function.
-     */
-    function createPartialWrapper(func, bitmask, thisArg, partials) {
-      var isBind = bitmask & BIND_FLAG,
-          Ctor = createCtorWrapper(func);
-
-      function wrapper() {
-        // Avoid `arguments` object use disqualifying optimizations by
-        // converting it to an array before providing it `func`.
-        var argsIndex = -1,
-            argsLength = arguments.length,
-            leftIndex = -1,
-            leftLength = partials.length,
-            args = Array(argsLength + leftLength);
-
-        while (++leftIndex < leftLength) {
-          args[leftIndex] = partials[leftIndex];
-        }
-        while (argsLength--) {
-          args[leftIndex++] = arguments[++argsIndex];
-        }
-        var fn = (this && this !== root && this instanceof wrapper) ? Ctor : func;
-        return fn.apply(isBind ? thisArg : this, args);
-      }
-      return wrapper;
-    }
-
-    /**
-     * Creates a `_.sortedIndex` or `_.sortedLastIndex` function.
-     *
-     * @private
-     * @param {boolean} [retHighest] Specify returning the highest qualified index.
-     * @returns {Function} Returns the new index function.
-     */
-    function createSortedIndex(retHighest) {
-      return function(array, value, iteratee, thisArg) {
-        var func = getCallback(iteratee);
-        return (func === baseCallback && iteratee == null)
-          ? binaryIndex(array, value, retHighest)
-          : binaryIndexBy(array, value, func(iteratee, thisArg, 1), retHighest);
-      };
-    }
-
-    /**
-     * Creates a function that either curries or invokes `func` with optional
-     * `this` binding and partially applied arguments.
-     *
-     * @private
-     * @param {Function|string} func The function or method name to reference.
-     * @param {number} bitmask The bitmask of flags.
-     *  The bitmask may be composed of the following flags:
-     *     1 - `_.bind`
-     *     2 - `_.bindKey`
-     *     4 - `_.curry` or `_.curryRight` of a bound function
-     *     8 - `_.curry`
-     *    16 - `_.curryRight`
-     *    32 - `_.partial`
-     *    64 - `_.partialRight`
-     *   128 - `_.rearg`
-     *   256 - `_.ary`
-     * @param {*} [thisArg] The `this` binding of `func`.
-     * @param {Array} [partials] The arguments to be partially applied.
-     * @param {Array} [holders] The `partials` placeholder indexes.
-     * @param {Array} [argPos] The argument positions of the new function.
-     * @param {number} [ary] The arity cap of `func`.
-     * @param {number} [arity] The arity of `func`.
-     * @returns {Function} Returns the new wrapped function.
-     */
-    function createWrapper(func, bitmask, thisArg, partials, holders, argPos, ary, arity) {
-      var isBindKey = bitmask & BIND_KEY_FLAG;
-      if (!isBindKey && typeof func != 'function') {
-        throw new TypeError(FUNC_ERROR_TEXT);
-      }
-      var length = partials ? partials.length : 0;
-      if (!length) {
-        bitmask &= ~(PARTIAL_FLAG | PARTIAL_RIGHT_FLAG);
-        partials = holders = null;
-      }
-      length -= (holders ? holders.length : 0);
-      if (bitmask & PARTIAL_RIGHT_FLAG) {
-        var partialsRight = partials,
-            holdersRight = holders;
-
-        partials = holders = null;
-      }
-      var data = isBindKey ? null : getData(func),
-          newData = [func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity];
-
-      if (data) {
-        mergeData(newData, data);
-        bitmask = newData[1];
-        arity = newData[9];
-      }
-      newData[9] = arity == null
-        ? (isBindKey ? 0 : func.length)
-        : (nativeMax(arity - length, 0) || 0);
-
-      if (bitmask == BIND_FLAG) {
-        var result = createBindWrapper(newData[0], newData[2]);
-      } else if ((bitmask == PARTIAL_FLAG || bitmask == (BIND_FLAG | PARTIAL_FLAG)) && !newData[4].length) {
-        result = createPartialWrapper.apply(undefined, newData);
-      } else {
-        result = createHybridWrapper.apply(undefined, newData);
-      }
-      var setter = data ? baseSetData : setData;
-      return setter(result, newData);
-    }
-
-    /**
-     * A specialized version of `baseIsEqualDeep` for arrays with support for
-     * partial deep comparisons.
-     *
-     * @private
-     * @param {Array} array The array to compare.
-     * @param {Array} other The other array to compare.
-     * @param {Function} equalFunc The function to determine equivalents of values.
-     * @param {Function} [customizer] The function to customize comparing arrays.
-     * @param {boolean} [isLoose] Specify performing partial comparisons.
-     * @param {Array} [stackA] Tracks traversed `value` objects.
-     * @param {Array} [stackB] Tracks traversed `other` objects.
-     * @returns {boolean} Returns `true` if the arrays are equivalent, else `false`.
-     */
-    function equalArrays(array, other, equalFunc, customizer, isLoose, stackA, stackB) {
-      var index = -1,
-          arrLength = array.length,
-          othLength = other.length,
-          result = true;
-
-      if (arrLength != othLength && !(isLoose && othLength > arrLength)) {
-        return false;
-      }
-      // Deep compare the contents, ignoring non-numeric properties.
-      while (result && ++index < arrLength) {
-        var arrValue = array[index],
-            othValue = other[index];
-
-        result = undefined;
-        if (customizer) {
-          result = isLoose
-            ? customizer(othValue, arrValue, index)
-            : customizer(arrValue, othValue, index);
-        }
-        if (result === undefined) {
-          // Recursively compare arrays (susceptible to call stack limits).
-          if (isLoose) {
-            var othIndex = othLength;
-            while (othIndex--) {
-              othValue = other[othIndex];
-              result = (arrValue && arrValue === othValue) || equalFunc(arrValue, othValue, customizer, isLoose, stackA, stackB);
-              if (result) {
-                break;
-              }
-            }
-          } else {
-            result = (arrValue && arrValue === othValue) || equalFunc(arrValue, othValue, customizer, isLoose, stackA, stackB);
-          }
-        }
-      }
-      return !!result;
-    }
-
-    /**
-     * A specialized version of `baseIsEqualDeep` for comparing objects of
-     * the same `toStringTag`.
-     *
-     * **Note:** This function only supports comparing values with tags of
-     * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
-     *
-     * @private
-     * @param {Object} value The object to compare.
-     * @param {Object} other The other object to compare.
-     * @param {string} tag The `toStringTag` of the objects to compare.
-     * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
-     */
-    function equalByTag(object, other, tag) {
-      switch (tag) {
-        case boolTag:
-        case dateTag:
-          // Coerce dates and booleans to numbers, dates to milliseconds and booleans
-          // to `1` or `0` treating invalid dates coerced to `NaN` as not equal.
-          return +object == +other;
-
-        case errorTag:
-          return object.name == other.name && object.message == other.message;
-
-        case numberTag:
-          // Treat `NaN` vs. `NaN` as equal.
-          return (object != +object)
-            ? other != +other
-            : object == +other;
-
-        case regexpTag:
-        case stringTag:
-          // Coerce regexes to strings and treat strings primitives and string
-          // objects as equal. See https://es5.github.io/#x15.10.6.4 for more details.
-          return object == (other + '');
-      }
-      return false;
-    }
-
-    /**
-     * A specialized version of `baseIsEqualDeep` for objects with support for
-     * partial deep comparisons.
-     *
-     * @private
-     * @param {Object} object The object to compare.
-     * @param {Object} other The other object to compare.
-     * @param {Function} equalFunc The function to determine equivalents of values.
-     * @param {Function} [customizer] The function to customize comparing values.
-     * @param {boolean} [isLoose] Specify performing partial comparisons.
-     * @param {Array} [stackA] Tracks traversed `value` objects.
-     * @param {Array} [stackB] Tracks traversed `other` objects.
-     * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
-     */
-    function equalObjects(object, other, equalFunc, customizer, isLoose, stackA, stackB) {
-      var objProps = keys(object),
-          objLength = objProps.length,
-          othProps = keys(other),
-          othLength = othProps.length;
-
-      if (objLength != othLength && !isLoose) {
-        return false;
-      }
-      var skipCtor = isLoose,
-          index = -1;
-
-      while (++index < objLength) {
-        var key = objProps[index],
-            result = isLoose ? key in other : hasOwnProperty.call(other, key);
-
-        if (result) {
-          var objValue = object[key],
-              othValue = other[key];
-
-          result = undefined;
-          if (customizer) {
-            result = isLoose
-              ? customizer(othValue, objValue, key)
-              : customizer(objValue, othValue, key);
-          }
-          if (result === undefined) {
-            // Recursively compare objects (susceptible to call stack limits).
-            result = (objValue && objValue === othValue) || equalFunc(objValue, othValue, customizer, isLoose, stackA, stackB);
-          }
-        }
-        if (!result) {
-          return false;
-        }
-        skipCtor || (skipCtor = key == 'constructor');
-      }
-      if (!skipCtor) {
-        var objCtor = object.constructor,
-            othCtor = other.constructor;
-
-        // Non `Object` object instances with different constructors are not equal.
-        if (objCtor != othCtor &&
-            ('constructor' in object && 'constructor' in other) &&
-            !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
-              typeof othCtor == 'function' && othCtor instanceof othCtor)) {
-          return false;
-        }
-      }
-      return true;
-    }
-
-    /**
-     * Gets the extremum value of `collection` invoking `iteratee` for each value
-     * in `collection` to generate the criterion by which the value is ranked.
-     * The `iteratee` is invoked with three arguments: (value, index, collection).
-     *
-     * @private
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} iteratee The function invoked per iteration.
-     * @param {boolean} [isMin] Specify returning the minimum, instead of the
-     *  maximum, extremum value.
-     * @returns {*} Returns the extremum value.
-     */
-    function extremumBy(collection, iteratee, isMin) {
-      var exValue = isMin ? POSITIVE_INFINITY : NEGATIVE_INFINITY,
-          computed = exValue,
-          result = computed;
-
-      baseEach(collection, function(value, index, collection) {
-        var current = iteratee(value, index, collection);
-        if ((isMin ? (current < computed) : (current > computed)) ||
-            (current === exValue && current === result)) {
-          computed = current;
-          result = value;
-        }
-      });
-      return result;
-    }
-
-    /**
-     * Gets the appropriate "callback" function. If the `_.callback` method is
-     * customized this function returns the custom method, otherwise it returns
-     * the `baseCallback` function. If arguments are provided the chosen function
-     * is invoked with them and its result is returned.
-     *
-     * @private
-     * @returns {Function} Returns the chosen function or its result.
-     */
-    function getCallback(func, thisArg, argCount) {
-      var result = lodash.callback || callback;
-      result = result === callback ? baseCallback : result;
-      return argCount ? result(func, thisArg, argCount) : result;
-    }
-
-    /**
-     * Gets metadata for `func`.
-     *
-     * @private
-     * @param {Function} func The function to query.
-     * @returns {*} Returns the metadata for `func`.
-     */
-    var getData = !metaMap ? noop : function(func) {
-      return metaMap.get(func);
-    };
-
-    /**
-     * Gets the name of `func`.
-     *
-     * @private
-     * @param {Function} func The function to query.
-     * @returns {string} Returns the function name.
-     */
-    var getFuncName = (function() {
-      if (!support.funcNames) {
-        return constant('');
-      }
-      if (constant.name == 'constant') {
-        return baseProperty('name');
-      }
-      return function(func) {
-        var result = func.name,
-            array = realNames[result],
-            length = array ? array.length : 0;
-
-        while (length--) {
-          var data = array[length],
-              otherFunc = data.func;
-
-          if (otherFunc == null || otherFunc == func) {
-            return data.name;
-          }
-        }
-        return result;
-      };
-    }());
-
-    /**
-     * Gets the appropriate "indexOf" function. If the `_.indexOf` method is
-     * customized this function returns the custom method, otherwise it returns
-     * the `baseIndexOf` function. If arguments are provided the chosen function
-     * is invoked with them and its result is returned.
-     *
-     * @private
-     * @returns {Function|number} Returns the chosen function or its result.
-     */
-    function getIndexOf(collection, target, fromIndex) {
-      var result = lodash.indexOf || indexOf;
-      result = result === indexOf ? baseIndexOf : result;
-      return collection ? result(collection, target, fromIndex) : result;
-    }
-
-    /**
-     * Gets the "length" property value of `object`.
-     *
-     * **Note:** This function is used to avoid a [JIT bug](https://bugs.webkit.org/show_bug.cgi?id=142792)
-     * that affects Safari on at least iOS 8.1-8.3 ARM64.
-     *
-     * @private
-     * @param {Object} object The object to query.
-     * @returns {*} Returns the "length" value.
-     */
-    var getLength = baseProperty('length');
-
-    /**
-     * Creates an array of the own symbols of `object`.
-     *
-     * @private
-     * @param {Object} object The object to query.
-     * @returns {Array} Returns the array of symbols.
-     */
-    var getSymbols = !getOwnPropertySymbols ? constant([]) : function(object) {
-      return getOwnPropertySymbols(toObject(object));
-    };
-
-    /**
-     * Gets the view, applying any `transforms` to the `start` and `end` positions.
-     *
-     * @private
-     * @param {number} start The start of the view.
-     * @param {number} end The end of the view.
-     * @param {Array} [transforms] The transformations to apply to the view.
-     * @returns {Object} Returns an object containing the `start` and `end`
-     *  positions of the view.
-     */
-    function getView(start, end, transforms) {
-      var index = -1,
-          length = transforms ? transforms.length : 0;
-
-      while (++index < length) {
-        var data = transforms[index],
-            size = data.size;
-
-        switch (data.type) {
-          case 'drop':      start += size; break;
-          case 'dropRight': end -= size; break;
-          case 'take':      end = nativeMin(end, start + size); break;
-          case 'takeRight': start = nativeMax(start, end - size); break;
-        }
-      }
-      return { 'start': start, 'end': end };
-    }
-
-    /**
-     * Initializes an array clone.
-     *
-     * @private
-     * @param {Array} array The array to clone.
-     * @returns {Array} Returns the initialized clone.
-     */
-    function initCloneArray(array) {
-      var length = array.length,
-          result = new array.constructor(length);
-
-      // Add array properties assigned by `RegExp#exec`.
-      if (length && typeof array[0] == 'string' && hasOwnProperty.call(array, 'index')) {
-        result.index = array.index;
-        result.input = array.input;
-      }
-      return result;
-    }
-
-    /**
-     * Initializes an object clone.
-     *
-     * @private
-     * @param {Object} object The object to clone.
-     * @returns {Object} Returns the initialized clone.
-     */
-    function initCloneObject(object) {
-      var Ctor = object.constructor;
-      if (!(typeof Ctor == 'function' && Ctor instanceof Ctor)) {
-        Ctor = Object;
-      }
-      return new Ctor;
-    }
-
-    /**
-     * Initializes an object clone based on its `toStringTag`.
-     *
-     * **Note:** This function only supports cloning values with tags of
-     * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
-     *
-     * @private
-     * @param {Object} object The object to clone.
-     * @param {string} tag The `toStringTag` of the object to clone.
-     * @param {boolean} [isDeep] Specify a deep clone.
-     * @returns {Object} Returns the initialized clone.
-     */
-    function initCloneByTag(object, tag, isDeep) {
-      var Ctor = object.constructor;
-      switch (tag) {
-        case arrayBufferTag:
-          return bufferClone(object);
-
-        case boolTag:
-        case dateTag:
-          return new Ctor(+object);
-
-        case float32Tag: case float64Tag:
-        case int8Tag: case int16Tag: case int32Tag:
-        case uint8Tag: case uint8ClampedTag: case uint16Tag: case uint32Tag:
-          var buffer = object.buffer;
-          return new Ctor(isDeep ? bufferClone(buffer) : buffer, object.byteOffset, object.length);
-
-        case numberTag:
-        case stringTag:
-          return new Ctor(object);
-
-        case regexpTag:
-          var result = new Ctor(object.source, reFlags.exec(object));
-          result.lastIndex = object.lastIndex;
-      }
-      return result;
-    }
-
-    /**
-     * Invokes the method at `path` on `object`.
-     *
-     * @private
-     * @param {Object} object The object to query.
-     * @param {Array|string} path The path of the method to invoke.
-     * @param {Array} args The arguments to invoke the method with.
-     * @returns {*} Returns the result of the invoked method.
-     */
-    function invokePath(object, path, args) {
-      if (object != null && !isKey(path, object)) {
-        path = toPath(path);
-        object = path.length == 1 ? object : baseGet(object, baseSlice(path, 0, -1));
-        path = last(path);
-      }
-      var func = object == null ? object : object[path];
-      return func == null ? undefined : func.apply(object, args);
-    }
-
-    /**
-     * Checks if `value` is array-like.
-     *
-     * @private
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
-     */
-    function isArrayLike(value) {
-      return value != null && isLength(getLength(value));
-    }
-
-    /**
-     * Checks if `value` is a valid array-like index.
-     *
-     * @private
-     * @param {*} value The value to check.
-     * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
-     * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
-     */
-    function isIndex(value, length) {
-      value = +value;
-      length = length == null ? MAX_SAFE_INTEGER : length;
-      return value > -1 && value % 1 == 0 && value < length;
-    }
-
-    /**
-     * Checks if the provided arguments are from an iteratee call.
-     *
-     * @private
-     * @param {*} value The potential iteratee value argument.
-     * @param {*} index The potential iteratee index or key argument.
-     * @param {*} object The potential iteratee object argument.
-     * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
-     */
-    function isIterateeCall(value, index, object) {
-      if (!isObject(object)) {
-        return false;
-      }
-      var type = typeof index;
-      if (type == 'number'
-          ? (isArrayLike(object) && isIndex(index, object.length))
-          : (type == 'string' && index in object)) {
-        var other = object[index];
-        return value === value ? (value === other) : (other !== other);
-      }
-      return false;
-    }
-
-    /**
-     * Checks if `value` is a property name and not a property path.
-     *
-     * @private
-     * @param {*} value The value to check.
-     * @param {Object} [object] The object to query keys on.
-     * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
-     */
-    function isKey(value, object) {
-      var type = typeof value;
-      if ((type == 'string' && reIsPlainProp.test(value)) || type == 'number') {
-        return true;
-      }
-      if (isArray(value)) {
-        return false;
-      }
-      var result = !reIsDeepProp.test(value);
-      return result || (object != null && value in toObject(object));
-    }
-
-    /**
-     * Checks if `func` has a lazy counterpart.
-     *
-     * @private
-     * @param {Function} func The function to check.
-     * @returns {boolean} Returns `true` if `func` has a lazy counterpart, else `false`.
-     */
-    function isLaziable(func) {
-      var funcName = getFuncName(func);
-      return !!funcName && func === lodash[funcName] && funcName in LazyWrapper.prototype;
-    }
-
-    /**
-     * Checks if `value` is a valid array-like length.
-     *
-     * **Note:** This function is based on [`ToLength`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-tolength).
-     *
-     * @private
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
-     */
-    function isLength(value) {
-      return typeof value == 'number' && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
-    }
-
-    /**
-     * Checks if `value` is suitable for strict equality comparisons, i.e. `===`.
-     *
-     * @private
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` if suitable for strict
-     *  equality comparisons, else `false`.
-     */
-    function isStrictComparable(value) {
-      return value === value && !isObject(value);
-    }
-
-    /**
-     * Merges the function metadata of `source` into `data`.
-     *
-     * Merging metadata reduces the number of wrappers required to invoke a function.
-     * This is possible because methods like `_.bind`, `_.curry`, and `_.partial`
-     * may be applied regardless of execution order. Methods like `_.ary` and `_.rearg`
-     * augment function arguments, making the order in which they are executed important,
-     * preventing the merging of metadata. However, we make an exception for a safe
-     * common case where curried functions have `_.ary` and or `_.rearg` applied.
-     *
-     * @private
-     * @param {Array} data The destination metadata.
-     * @param {Array} source The source metadata.
-     * @returns {Array} Returns `data`.
-     */
-    function mergeData(data, source) {
-      var bitmask = data[1],
-          srcBitmask = source[1],
-          newBitmask = bitmask | srcBitmask,
-          isCommon = newBitmask < ARY_FLAG;
-
-      var isCombo =
-        (srcBitmask == ARY_FLAG && bitmask == CURRY_FLAG) ||
-        (srcBitmask == ARY_FLAG && bitmask == REARG_FLAG && data[7].length <= source[8]) ||
-        (srcBitmask == (ARY_FLAG | REARG_FLAG) && bitmask == CURRY_FLAG);
-
-      // Exit early if metadata can't be merged.
-      if (!(isCommon || isCombo)) {
-        return data;
-      }
-      // Use source `thisArg` if available.
-      if (srcBitmask & BIND_FLAG) {
-        data[2] = source[2];
-        // Set when currying a bound function.
-        newBitmask |= (bitmask & BIND_FLAG) ? 0 : CURRY_BOUND_FLAG;
-      }
-      // Compose partial arguments.
-      var value = source[3];
-      if (value) {
-        var partials = data[3];
-        data[3] = partials ? composeArgs(partials, value, source[4]) : arrayCopy(value);
-        data[4] = partials ? replaceHolders(data[3], PLACEHOLDER) : arrayCopy(source[4]);
-      }
-      // Compose partial right arguments.
-      value = source[5];
-      if (value) {
-        partials = data[5];
-        data[5] = partials ? composeArgsRight(partials, value, source[6]) : arrayCopy(value);
-        data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : arrayCopy(source[6]);
-      }
-      // Use source `argPos` if available.
-      value = source[7];
-      if (value) {
-        data[7] = arrayCopy(value);
-      }
-      // Use source `ary` if it's smaller.
-      if (srcBitmask & ARY_FLAG) {
-        data[8] = data[8] == null ? source[8] : nativeMin(data[8], source[8]);
-      }
-      // Use source `arity` if one is not provided.
-      if (data[9] == null) {
-        data[9] = source[9];
-      }
-      // Use source `func` and merge bitmasks.
-      data[0] = source[0];
-      data[1] = newBitmask;
-
-      return data;
-    }
-
-    /**
-     * A specialized version of `_.pick` which picks `object` properties specified
-     * by `props`.
-     *
-     * @private
-     * @param {Object} object The source object.
-     * @param {string[]} props The property names to pick.
-     * @returns {Object} Returns the new object.
-     */
-    function pickByArray(object, props) {
-      object = toObject(object);
-
-      var index = -1,
-          length = props.length,
-          result = {};
-
-      while (++index < length) {
-        var key = props[index];
-        if (key in object) {
-          result[key] = object[key];
-        }
-      }
-      return result;
-    }
-
-    /**
-     * A specialized version of `_.pick` which picks `object` properties `predicate`
-     * returns truthy for.
-     *
-     * @private
-     * @param {Object} object The source object.
-     * @param {Function} predicate The function invoked per iteration.
-     * @returns {Object} Returns the new object.
-     */
-    function pickByCallback(object, predicate) {
-      var result = {};
-      baseForIn(object, function(value, key, object) {
-        if (predicate(value, key, object)) {
-          result[key] = value;
-        }
-      });
-      return result;
-    }
-
-    /**
-     * Reorder `array` according to the specified indexes where the element at
-     * the first index is assigned as the first element, the element at
-     * the second index is assigned as the second element, and so on.
-     *
-     * @private
-     * @param {Array} array The array to reorder.
-     * @param {Array} indexes The arranged array indexes.
-     * @returns {Array} Returns `array`.
-     */
-    function reorder(array, indexes) {
-      var arrLength = array.length,
-          length = nativeMin(indexes.length, arrLength),
-          oldArray = arrayCopy(array);
-
-      while (length--) {
-        var index = indexes[length];
-        array[length] = isIndex(index, arrLength) ? oldArray[index] : undefined;
-      }
-      return array;
-    }
-
-    /**
-     * Sets metadata for `func`.
-     *
-     * **Note:** If this function becomes hot, i.e. is invoked a lot in a short
-     * period of time, it will trip its breaker and transition to an identity function
-     * to avoid garbage collection pauses in V8. See [V8 issue 2070](https://code.google.com/p/v8/issues/detail?id=2070)
-     * for more details.
-     *
-     * @private
-     * @param {Function} func The function to associate metadata with.
-     * @param {*} data The metadata.
-     * @returns {Function} Returns `func`.
-     */
-    var setData = (function() {
-      var count = 0,
-          lastCalled = 0;
-
-      return function(key, value) {
-        var stamp = now(),
-            remaining = HOT_SPAN - (stamp - lastCalled);
-
-        lastCalled = stamp;
-        if (remaining > 0) {
-          if (++count >= HOT_COUNT) {
-            return key;
-          }
-        } else {
-          count = 0;
-        }
-        return baseSetData(key, value);
-      };
-    }());
-
-    /**
-     * A fallback implementation of `_.isPlainObject` which checks if `value`
-     * is an object created by the `Object` constructor or has a `[[Prototype]]`
-     * of `null`.
-     *
-     * @private
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
-     */
-    function shimIsPlainObject(value) {
-      var Ctor,
-          support = lodash.support;
-
-      // Exit early for non `Object` objects.
-      if (!(isObjectLike(value) && objToString.call(value) == objectTag) ||
-          (!hasOwnProperty.call(value, 'constructor') &&
-            (Ctor = value.constructor, typeof Ctor == 'function' && !(Ctor instanceof Ctor)))) {
-        return false;
-      }
-      // IE < 9 iterates inherited properties before own properties. If the first
-      // iterated property is an object's own property then there are no inherited
-      // enumerable properties.
-      var result;
-      // In most environments an object's own properties are iterated before
-      // its inherited properties. If the last iterated property is an object's
-      // own property then there are no inherited enumerable properties.
-      baseForIn(value, function(subValue, key) {
-        result = key;
-      });
-      return result === undefined || hasOwnProperty.call(value, result);
-    }
-
-    /**
-     * A fallback implementation of `Object.keys` which creates an array of the
-     * own enumerable property names of `object`.
-     *
-     * @private
-     * @param {Object} object The object to query.
-     * @returns {Array} Returns the array of property names.
-     */
-    function shimKeys(object) {
-      var props = keysIn(object),
-          propsLength = props.length,
-          length = propsLength && object.length,
-          support = lodash.support;
-
-      var allowIndexes = length && isLength(length) &&
-        (isArray(object) || (support.nonEnumArgs && isArguments(object)));
-
-      var index = -1,
-          result = [];
-
-      while (++index < propsLength) {
-        var key = props[index];
-        if ((allowIndexes && isIndex(key, length)) || hasOwnProperty.call(object, key)) {
-          result.push(key);
-        }
-      }
-      return result;
-    }
-
-    /**
-     * Converts `value` to an array-like object if it is not one.
-     *
-     * @private
-     * @param {*} value The value to process.
-     * @returns {Array|Object} Returns the array-like object.
-     */
-    function toIterable(value) {
-      if (value == null) {
-        return [];
-      }
-      if (!isArrayLike(value)) {
-        return values(value);
-      }
-      return isObject(value) ? value : Object(value);
-    }
-
-    /**
-     * Converts `value` to an object if it is not one.
-     *
-     * @private
-     * @param {*} value The value to process.
-     * @returns {Object} Returns the object.
-     */
-    function toObject(value) {
-      return isObject(value) ? value : Object(value);
-    }
-
-    /**
-     * Converts `value` to property path array if it is not one.
-     *
-     * @private
-     * @param {*} value The value to process.
-     * @returns {Array} Returns the property path array.
-     */
-    function toPath(value) {
-      if (isArray(value)) {
-        return value;
-      }
-      var result = [];
-      baseToString(value).replace(rePropName, function(match, number, quote, string) {
-        result.push(quote ? string.replace(reEscapeChar, '$1') : (number || match));
-      });
-      return result;
-    }
-
-    /**
-     * Creates a clone of `wrapper`.
-     *
-     * @private
-     * @param {Object} wrapper The wrapper to clone.
-     * @returns {Object} Returns the cloned wrapper.
-     */
-    function wrapperClone(wrapper) {
-      return wrapper instanceof LazyWrapper
-        ? wrapper.clone()
-        : new LodashWrapper(wrapper.__wrapped__, wrapper.__chain__, arrayCopy(wrapper.__actions__));
-    }
-
-    /**
-     * Creates an array of elements split into groups the length of `size`.
-     * If `collection` can't be split evenly, the final chunk will be the remaining
-     * elements.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to process.
-     * @param {number} [size=1] The length of each chunk.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Array} Returns the new array containing chunks.
-     * @example
-     *
-     * _.chunk(['a', 'b', 'c', 'd'], 2);
-     * // => [['a', 'b'], ['c', 'd']]
-     *
-     * _.chunk(['a', 'b', 'c', 'd'], 3);
-     * // => [['a', 'b', 'c'], ['d']]
-     */
-    function chunk(array, size, guard) {
-      if (guard ? isIterateeCall(array, size, guard) : size == null) {
-        size = 1;
-      } else {
-        size = nativeMax(+size || 1, 1);
-      }
-      var index = 0,
-          length = array ? array.length : 0,
-          resIndex = -1,
-          result = Array(ceil(length / size));
-
-      while (index < length) {
-        result[++resIndex] = baseSlice(array, index, (index += size));
-      }
-      return result;
-    }
-
-    /**
-     * Creates an array with all falsey values removed. The values `false`, `null`,
-     * `0`, `""`, `undefined`, and `NaN` are falsey.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to compact.
-     * @returns {Array} Returns the new array of filtered values.
-     * @example
-     *
-     * _.compact([0, 1, false, 2, '', 3]);
-     * // => [1, 2, 3]
-     */
-    function compact(array) {
-      var index = -1,
-          length = array ? array.length : 0,
-          resIndex = -1,
-          result = [];
-
-      while (++index < length) {
-        var value = array[index];
-        if (value) {
-          result[++resIndex] = value;
-        }
-      }
-      return result;
-    }
-
-    /**
-     * Creates an array excluding all values of the provided arrays using
-     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
-     * for equality comparisons.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to inspect.
-     * @param {...Array} [values] The arrays of values to exclude.
-     * @returns {Array} Returns the new array of filtered values.
-     * @example
-     *
-     * _.difference([1, 2, 3], [4, 2]);
-     * // => [1, 3]
-     */
-    var difference = restParam(function(array, values) {
-      return isArrayLike(array)
-        ? baseDifference(array, baseFlatten(values, false, true))
-        : [];
-    });
-
-    /**
-     * Creates a slice of `array` with `n` elements dropped from the beginning.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to query.
-     * @param {number} [n=1] The number of elements to drop.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Array} Returns the slice of `array`.
-     * @example
-     *
-     * _.drop([1, 2, 3]);
-     * // => [2, 3]
-     *
-     * _.drop([1, 2, 3], 2);
-     * // => [3]
-     *
-     * _.drop([1, 2, 3], 5);
-     * // => []
-     *
-     * _.drop([1, 2, 3], 0);
-     * // => [1, 2, 3]
-     */
-    function drop(array, n, guard) {
-      var length = array ? array.length : 0;
-      if (!length) {
-        return [];
-      }
-      if (guard ? isIterateeCall(array, n, guard) : n == null) {
-        n = 1;
-      }
-      return baseSlice(array, n < 0 ? 0 : n);
-    }
-
-    /**
-     * Creates a slice of `array` with `n` elements dropped from the end.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to query.
-     * @param {number} [n=1] The number of elements to drop.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Array} Returns the slice of `array`.
-     * @example
-     *
-     * _.dropRight([1, 2, 3]);
-     * // => [1, 2]
-     *
-     * _.dropRight([1, 2, 3], 2);
-     * // => [1]
-     *
-     * _.dropRight([1, 2, 3], 5);
-     * // => []
-     *
-     * _.dropRight([1, 2, 3], 0);
-     * // => [1, 2, 3]
-     */
-    function dropRight(array, n, guard) {
-      var length = array ? array.length : 0;
-      if (!length) {
-        return [];
-      }
-      if (guard ? isIterateeCall(array, n, guard) : n == null) {
-        n = 1;
-      }
-      n = length - (+n || 0);
-      return baseSlice(array, 0, n < 0 ? 0 : n);
-    }
-
-    /**
-     * Creates a slice of `array` excluding elements dropped from the end.
-     * Elements are dropped until `predicate` returns falsey. The predicate is
-     * bound to `thisArg` and invoked with three arguments: (value, index, array).
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that match the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to query.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {Array} Returns the slice of `array`.
-     * @example
-     *
-     * _.dropRightWhile([1, 2, 3], function(n) {
-     *   return n > 1;
-     * });
-     * // => [1]
-     *
-     * var users = [
-     *   { 'user': 'barney',  'active': true },
-     *   { 'user': 'fred',    'active': false },
-     *   { 'user': 'pebbles', 'active': false }
-     * ];
-     *
-     * // using the `_.matches` callback shorthand
-     * _.pluck(_.dropRightWhile(users, { 'user': 'pebbles', 'active': false }), 'user');
-     * // => ['barney', 'fred']
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.pluck(_.dropRightWhile(users, 'active', false), 'user');
-     * // => ['barney']
-     *
-     * // using the `_.property` callback shorthand
-     * _.pluck(_.dropRightWhile(users, 'active'), 'user');
-     * // => ['barney', 'fred', 'pebbles']
-     */
-    function dropRightWhile(array, predicate, thisArg) {
-      return (array && array.length)
-        ? baseWhile(array, getCallback(predicate, thisArg, 3), true, true)
-        : [];
-    }
-
-    /**
-     * Creates a slice of `array` excluding elements dropped from the beginning.
-     * Elements are dropped until `predicate` returns falsey. The predicate is
-     * bound to `thisArg` and invoked with three arguments: (value, index, array).
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to query.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {Array} Returns the slice of `array`.
-     * @example
-     *
-     * _.dropWhile([1, 2, 3], function(n) {
-     *   return n < 3;
-     * });
-     * // => [3]
-     *
-     * var users = [
-     *   { 'user': 'barney',  'active': false },
-     *   { 'user': 'fred',    'active': false },
-     *   { 'user': 'pebbles', 'active': true }
-     * ];
-     *
-     * // using the `_.matches` callback shorthand
-     * _.pluck(_.dropWhile(users, { 'user': 'barney', 'active': false }), 'user');
-     * // => ['fred', 'pebbles']
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.pluck(_.dropWhile(users, 'active', false), 'user');
-     * // => ['pebbles']
-     *
-     * // using the `_.property` callback shorthand
-     * _.pluck(_.dropWhile(users, 'active'), 'user');
-     * // => ['barney', 'fred', 'pebbles']
-     */
-    function dropWhile(array, predicate, thisArg) {
-      return (array && array.length)
-        ? baseWhile(array, getCallback(predicate, thisArg, 3), true)
-        : [];
-    }
-
-    /**
-     * Fills elements of `array` with `value` from `start` up to, but not
-     * including, `end`.
-     *
-     * **Note:** This method mutates `array`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to fill.
-     * @param {*} value The value to fill `array` with.
-     * @param {number} [start=0] The start position.
-     * @param {number} [end=array.length] The end position.
-     * @returns {Array} Returns `array`.
-     * @example
-     *
-     * var array = [1, 2, 3];
-     *
-     * _.fill(array, 'a');
-     * console.log(array);
-     * // => ['a', 'a', 'a']
-     *
-     * _.fill(Array(3), 2);
-     * // => [2, 2, 2]
-     *
-     * _.fill([4, 6, 8], '*', 1, 2);
-     * // => [4, '*', 8]
-     */
-    function fill(array, value, start, end) {
-      var length = array ? array.length : 0;
-      if (!length) {
-        return [];
-      }
-      if (start && typeof start != 'number' && isIterateeCall(array, value, start)) {
-        start = 0;
-        end = length;
-      }
-      return baseFill(array, value, start, end);
-    }
-
-    /**
-     * This method is like `_.find` except that it returns the index of the first
-     * element `predicate` returns truthy for instead of the element itself.
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to search.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {number} Returns the index of the found element, else `-1`.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney',  'active': false },
-     *   { 'user': 'fred',    'active': false },
-     *   { 'user': 'pebbles', 'active': true }
-     * ];
-     *
-     * _.findIndex(users, function(chr) {
-     *   return chr.user == 'barney';
-     * });
-     * // => 0
-     *
-     * // using the `_.matches` callback shorthand
-     * _.findIndex(users, { 'user': 'fred', 'active': false });
-     * // => 1
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.findIndex(users, 'active', false);
-     * // => 0
-     *
-     * // using the `_.property` callback shorthand
-     * _.findIndex(users, 'active');
-     * // => 2
-     */
-    var findIndex = createFindIndex();
-
-    /**
-     * This method is like `_.findIndex` except that it iterates over elements
-     * of `collection` from right to left.
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to search.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {number} Returns the index of the found element, else `-1`.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney',  'active': true },
-     *   { 'user': 'fred',    'active': false },
-     *   { 'user': 'pebbles', 'active': false }
-     * ];
-     *
-     * _.findLastIndex(users, function(chr) {
-     *   return chr.user == 'pebbles';
-     * });
-     * // => 2
-     *
-     * // using the `_.matches` callback shorthand
-     * _.findLastIndex(users, { 'user': 'barney', 'active': true });
-     * // => 0
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.findLastIndex(users, 'active', false);
-     * // => 2
-     *
-     * // using the `_.property` callback shorthand
-     * _.findLastIndex(users, 'active');
-     * // => 0
-     */
-    var findLastIndex = createFindIndex(true);
-
-    /**
-     * Gets the first element of `array`.
-     *
-     * @static
-     * @memberOf _
-     * @alias head
-     * @category Array
-     * @param {Array} array The array to query.
-     * @returns {*} Returns the first element of `array`.
-     * @example
-     *
-     * _.first([1, 2, 3]);
-     * // => 1
-     *
-     * _.first([]);
-     * // => undefined
-     */
-    function first(array) {
-      return array ? array[0] : undefined;
-    }
-
-    /**
-     * Flattens a nested array. If `isDeep` is `true` the array is recursively
-     * flattened, otherwise it is only flattened a single level.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to flatten.
-     * @param {boolean} [isDeep] Specify a deep flatten.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Array} Returns the new flattened array.
-     * @example
-     *
-     * _.flatten([1, [2, 3, [4]]]);
-     * // => [1, 2, 3, [4]]
-     *
-     * // using `isDeep`
-     * _.flatten([1, [2, 3, [4]]], true);
-     * // => [1, 2, 3, 4]
-     */
-    function flatten(array, isDeep, guard) {
-      var length = array ? array.length : 0;
-      if (guard && isIterateeCall(array, isDeep, guard)) {
-        isDeep = false;
-      }
-      return length ? baseFlatten(array, isDeep) : [];
-    }
-
-    /**
-     * Recursively flattens a nested array.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to recursively flatten.
-     * @returns {Array} Returns the new flattened array.
-     * @example
-     *
-     * _.flattenDeep([1, [2, 3, [4]]]);
-     * // => [1, 2, 3, 4]
-     */
-    function flattenDeep(array) {
-      var length = array ? array.length : 0;
-      return length ? baseFlatten(array, true) : [];
-    }
-
-    /**
-     * Gets the index at which the first occurrence of `value` is found in `array`
-     * using [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
-     * for equality comparisons. If `fromIndex` is negative, it is used as the offset
-     * from the end of `array`. If `array` is sorted providing `true` for `fromIndex`
-     * performs a faster binary search.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to search.
-     * @param {*} value The value to search for.
-     * @param {boolean|number} [fromIndex=0] The index to search from or `true`
-     *  to perform a binary search on a sorted array.
-     * @returns {number} Returns the index of the matched value, else `-1`.
-     * @example
-     *
-     * _.indexOf([1, 2, 1, 2], 2);
-     * // => 1
-     *
-     * // using `fromIndex`
-     * _.indexOf([1, 2, 1, 2], 2, 2);
-     * // => 3
-     *
-     * // performing a binary search
-     * _.indexOf([1, 1, 2, 2], 2, true);
-     * // => 2
-     */
-    function indexOf(array, value, fromIndex) {
-      var length = array ? array.length : 0;
-      if (!length) {
-        return -1;
-      }
-      if (typeof fromIndex == 'number') {
-        fromIndex = fromIndex < 0 ? nativeMax(length + fromIndex, 0) : fromIndex;
-      } else if (fromIndex) {
-        var index = binaryIndex(array, value),
-            other = array[index];
-
-        if (value === value ? (value === other) : (other !== other)) {
-          return index;
-        }
-        return -1;
-      }
-      return baseIndexOf(array, value, fromIndex || 0);
-    }
-
-    /**
-     * Gets all but the last element of `array`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to query.
-     * @returns {Array} Returns the slice of `array`.
-     * @example
-     *
-     * _.initial([1, 2, 3]);
-     * // => [1, 2]
-     */
-    function initial(array) {
-      return dropRight(array, 1);
-    }
-
-    /**
-     * Creates an array of unique values in all provided arrays using
-     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
-     * for equality comparisons.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {...Array} [arrays] The arrays to inspect.
-     * @returns {Array} Returns the new array of shared values.
-     * @example
-     * _.intersection([1, 2], [4, 2], [2, 1]);
-     * // => [2]
-     */
-    function intersection() {
-      var args = [],
-          argsIndex = -1,
-          argsLength = arguments.length,
-          caches = [],
-          indexOf = getIndexOf(),
-          isCommon = indexOf == baseIndexOf,
-          result = [];
-
-      while (++argsIndex < argsLength) {
-        var value = arguments[argsIndex];
-        if (isArrayLike(value)) {
-          args.push(value);
-          caches.push((isCommon && value.length >= 120) ? createCache(argsIndex && value) : null);
-        }
-      }
-      argsLength = args.length;
-      if (argsLength < 2) {
-        return result;
-      }
-      var array = args[0],
-          index = -1,
-          length = array ? array.length : 0,
-          seen = caches[0];
-
-      outer:
-      while (++index < length) {
-        value = array[index];
-        if ((seen ? cacheIndexOf(seen, value) : indexOf(result, value, 0)) < 0) {
-          argsIndex = argsLength;
-          while (--argsIndex) {
-            var cache = caches[argsIndex];
-            if ((cache ? cacheIndexOf(cache, value) : indexOf(args[argsIndex], value, 0)) < 0) {
-              continue outer;
-            }
-          }
-          if (seen) {
-            seen.push(value);
-          }
-          result.push(value);
-        }
-      }
-      return result;
-    }
-
-    /**
-     * Gets the last element of `array`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to query.
-     * @returns {*} Returns the last element of `array`.
-     * @example
-     *
-     * _.last([1, 2, 3]);
-     * // => 3
-     */
-    function last(array) {
-      var length = array ? array.length : 0;
-      return length ? array[length - 1] : undefined;
-    }
-
-    /**
-     * This method is like `_.indexOf` except that it iterates over elements of
-     * `array` from right to left.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to search.
-     * @param {*} value The value to search for.
-     * @param {boolean|number} [fromIndex=array.length-1] The index to search from
-     *  or `true` to perform a binary search on a sorted array.
-     * @returns {number} Returns the index of the matched value, else `-1`.
-     * @example
-     *
-     * _.lastIndexOf([1, 2, 1, 2], 2);
-     * // => 3
-     *
-     * // using `fromIndex`
-     * _.lastIndexOf([1, 2, 1, 2], 2, 2);
-     * // => 1
-     *
-     * // performing a binary search
-     * _.lastIndexOf([1, 1, 2, 2], 2, true);
-     * // => 3
-     */
-    function lastIndexOf(array, value, fromIndex) {
-      var length = array ? array.length : 0;
-      if (!length) {
-        return -1;
-      }
-      var index = length;
-      if (typeof fromIndex == 'number') {
-        index = (fromIndex < 0 ? nativeMax(length + fromIndex, 0) : nativeMin(fromIndex || 0, length - 1)) + 1;
-      } else if (fromIndex) {
-        index = binaryIndex(array, value, true) - 1;
-        var other = array[index];
-        if (value === value ? (value === other) : (other !== other)) {
-          return index;
-        }
-        return -1;
-      }
-      if (value !== value) {
-        return indexOfNaN(array, index, true);
-      }
-      while (index--) {
-        if (array[index] === value) {
-          return index;
-        }
-      }
-      return -1;
-    }
-
-    /**
-     * Removes all provided values from `array` using
-     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
-     * for equality comparisons.
-     *
-     * **Note:** Unlike `_.without`, this method mutates `array`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to modify.
-     * @param {...*} [values] The values to remove.
-     * @returns {Array} Returns `array`.
-     * @example
-     *
-     * var array = [1, 2, 3, 1, 2, 3];
-     *
-     * _.pull(array, 2, 3);
-     * console.log(array);
-     * // => [1, 1]
-     */
-    function pull() {
-      var args = arguments,
-          array = args[0];
-
-      if (!(array && array.length)) {
-        return array;
-      }
-      var index = 0,
-          indexOf = getIndexOf(),
-          length = args.length;
-
-      while (++index < length) {
-        var fromIndex = 0,
-            value = args[index];
-
-        while ((fromIndex = indexOf(array, value, fromIndex)) > -1) {
-          splice.call(array, fromIndex, 1);
-        }
-      }
-      return array;
-    }
-
-    /**
-     * Removes elements from `array` corresponding to the given indexes and returns
-     * an array of the removed elements. Indexes may be specified as an array of
-     * indexes or as individual arguments.
-     *
-     * **Note:** Unlike `_.at`, this method mutates `array`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to modify.
-     * @param {...(number|number[])} [indexes] The indexes of elements to remove,
-     *  specified as individual indexes or arrays of indexes.
-     * @returns {Array} Returns the new array of removed elements.
-     * @example
-     *
-     * var array = [5, 10, 15, 20];
-     * var evens = _.pullAt(array, 1, 3);
-     *
-     * console.log(array);
-     * // => [5, 15]
-     *
-     * console.log(evens);
-     * // => [10, 20]
-     */
-    var pullAt = restParam(function(array, indexes) {
-      indexes = baseFlatten(indexes);
-
-      var result = baseAt(array, indexes);
-      basePullAt(array, indexes.sort(baseCompareAscending));
-      return result;
-    });
-
-    /**
-     * Removes all elements from `array` that `predicate` returns truthy for
-     * and returns an array of the removed elements. The predicate is bound to
-     * `thisArg` and invoked with three arguments: (value, index, array).
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * **Note:** Unlike `_.filter`, this method mutates `array`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to modify.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {Array} Returns the new array of removed elements.
-     * @example
-     *
-     * var array = [1, 2, 3, 4];
-     * var evens = _.remove(array, function(n) {
-     *   return n % 2 == 0;
-     * });
-     *
-     * console.log(array);
-     * // => [1, 3]
-     *
-     * console.log(evens);
-     * // => [2, 4]
-     */
-    function remove(array, predicate, thisArg) {
-      var result = [];
-      if (!(array && array.length)) {
-        return result;
-      }
-      var index = -1,
-          indexes = [],
-          length = array.length;
-
-      predicate = getCallback(predicate, thisArg, 3);
-      while (++index < length) {
-        var value = array[index];
-        if (predicate(value, index, array)) {
-          result.push(value);
-          indexes.push(index);
-        }
-      }
-      basePullAt(array, indexes);
-      return result;
-    }
-
-    /**
-     * Gets all but the first element of `array`.
-     *
-     * @static
-     * @memberOf _
-     * @alias tail
-     * @category Array
-     * @param {Array} array The array to query.
-     * @returns {Array} Returns the slice of `array`.
-     * @example
-     *
-     * _.rest([1, 2, 3]);
-     * // => [2, 3]
-     */
-    function rest(array) {
-      return drop(array, 1);
-    }
-
-    /**
-     * Creates a slice of `array` from `start` up to, but not including, `end`.
-     *
-     * **Note:** This method is used instead of `Array#slice` to support node
-     * lists in IE < 9 and to ensure dense arrays are returned.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to slice.
-     * @param {number} [start=0] The start position.
-     * @param {number} [end=array.length] The end position.
-     * @returns {Array} Returns the slice of `array`.
-     */
-    function slice(array, start, end) {
-      var length = array ? array.length : 0;
-      if (!length) {
-        return [];
-      }
-      if (end && typeof end != 'number' && isIterateeCall(array, start, end)) {
-        start = 0;
-        end = length;
-      }
-      return baseSlice(array, start, end);
-    }
-
-    /**
-     * Uses a binary search to determine the lowest index at which `value` should
-     * be inserted into `array` in order to maintain its sort order. If an iteratee
-     * function is provided it is invoked for `value` and each element of `array`
-     * to compute their sort ranking. The iteratee is bound to `thisArg` and
-     * invoked with one argument; (value).
-     *
-     * If a property name is provided for `iteratee` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `iteratee` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The sorted array to inspect.
-     * @param {*} value The value to evaluate.
-     * @param {Function|Object|string} [iteratee=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {number} Returns the index at which `value` should be inserted
-     *  into `array`.
-     * @example
-     *
-     * _.sortedIndex([30, 50], 40);
-     * // => 1
-     *
-     * _.sortedIndex([4, 4, 5, 5], 5);
-     * // => 2
-     *
-     * var dict = { 'data': { 'thirty': 30, 'forty': 40, 'fifty': 50 } };
-     *
-     * // using an iteratee function
-     * _.sortedIndex(['thirty', 'fifty'], 'forty', function(word) {
-     *   return this.data[word];
-     * }, dict);
-     * // => 1
-     *
-     * // using the `_.property` callback shorthand
-     * _.sortedIndex([{ 'x': 30 }, { 'x': 50 }], { 'x': 40 }, 'x');
-     * // => 1
-     */
-    var sortedIndex = createSortedIndex();
-
-    /**
-     * This method is like `_.sortedIndex` except that it returns the highest
-     * index at which `value` should be inserted into `array` in order to
-     * maintain its sort order.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The sorted array to inspect.
-     * @param {*} value The value to evaluate.
-     * @param {Function|Object|string} [iteratee=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {number} Returns the index at which `value` should be inserted
-     *  into `array`.
-     * @example
-     *
-     * _.sortedLastIndex([4, 4, 5, 5], 5);
-     * // => 4
-     */
-    var sortedLastIndex = createSortedIndex(true);
-
-    /**
-     * Creates a slice of `array` with `n` elements taken from the beginning.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to query.
-     * @param {number} [n=1] The number of elements to take.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Array} Returns the slice of `array`.
-     * @example
-     *
-     * _.take([1, 2, 3]);
-     * // => [1]
-     *
-     * _.take([1, 2, 3], 2);
-     * // => [1, 2]
-     *
-     * _.take([1, 2, 3], 5);
-     * // => [1, 2, 3]
-     *
-     * _.take([1, 2, 3], 0);
-     * // => []
-     */
-    function take(array, n, guard) {
-      var length = array ? array.length : 0;
-      if (!length) {
-        return [];
-      }
-      if (guard ? isIterateeCall(array, n, guard) : n == null) {
-        n = 1;
-      }
-      return baseSlice(array, 0, n < 0 ? 0 : n);
-    }
-
-    /**
-     * Creates a slice of `array` with `n` elements taken from the end.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to query.
-     * @param {number} [n=1] The number of elements to take.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Array} Returns the slice of `array`.
-     * @example
-     *
-     * _.takeRight([1, 2, 3]);
-     * // => [3]
-     *
-     * _.takeRight([1, 2, 3], 2);
-     * // => [2, 3]
-     *
-     * _.takeRight([1, 2, 3], 5);
-     * // => [1, 2, 3]
-     *
-     * _.takeRight([1, 2, 3], 0);
-     * // => []
-     */
-    function takeRight(array, n, guard) {
-      var length = array ? array.length : 0;
-      if (!length) {
-        return [];
-      }
-      if (guard ? isIterateeCall(array, n, guard) : n == null) {
-        n = 1;
-      }
-      n = length - (+n || 0);
-      return baseSlice(array, n < 0 ? 0 : n);
-    }
-
-    /**
-     * Creates a slice of `array` with elements taken from the end. Elements are
-     * taken until `predicate` returns falsey. The predicate is bound to `thisArg`
-     * and invoked with three arguments: (value, index, array).
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to query.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {Array} Returns the slice of `array`.
-     * @example
-     *
-     * _.takeRightWhile([1, 2, 3], function(n) {
-     *   return n > 1;
-     * });
-     * // => [2, 3]
-     *
-     * var users = [
-     *   { 'user': 'barney',  'active': true },
-     *   { 'user': 'fred',    'active': false },
-     *   { 'user': 'pebbles', 'active': false }
-     * ];
-     *
-     * // using the `_.matches` callback shorthand
-     * _.pluck(_.takeRightWhile(users, { 'user': 'pebbles', 'active': false }), 'user');
-     * // => ['pebbles']
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.pluck(_.takeRightWhile(users, 'active', false), 'user');
-     * // => ['fred', 'pebbles']
-     *
-     * // using the `_.property` callback shorthand
-     * _.pluck(_.takeRightWhile(users, 'active'), 'user');
-     * // => []
-     */
-    function takeRightWhile(array, predicate, thisArg) {
-      return (array && array.length)
-        ? baseWhile(array, getCallback(predicate, thisArg, 3), false, true)
-        : [];
-    }
-
-    /**
-     * Creates a slice of `array` with elements taken from the beginning. Elements
-     * are taken until `predicate` returns falsey. The predicate is bound to
-     * `thisArg` and invoked with three arguments: (value, index, array).
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to query.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {Array} Returns the slice of `array`.
-     * @example
-     *
-     * _.takeWhile([1, 2, 3], function(n) {
-     *   return n < 3;
-     * });
-     * // => [1, 2]
-     *
-     * var users = [
-     *   { 'user': 'barney',  'active': false },
-     *   { 'user': 'fred',    'active': false},
-     *   { 'user': 'pebbles', 'active': true }
-     * ];
-     *
-     * // using the `_.matches` callback shorthand
-     * _.pluck(_.takeWhile(users, { 'user': 'barney', 'active': false }), 'user');
-     * // => ['barney']
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.pluck(_.takeWhile(users, 'active', false), 'user');
-     * // => ['barney', 'fred']
-     *
-     * // using the `_.property` callback shorthand
-     * _.pluck(_.takeWhile(users, 'active'), 'user');
-     * // => []
-     */
-    function takeWhile(array, predicate, thisArg) {
-      return (array && array.length)
-        ? baseWhile(array, getCallback(predicate, thisArg, 3))
-        : [];
-    }
-
-    /**
-     * Creates an array of unique values, in order, of the provided arrays using
-     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
-     * for equality comparisons.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {...Array} [arrays] The arrays to inspect.
-     * @returns {Array} Returns the new array of combined values.
-     * @example
-     *
-     * _.union([1, 2], [4, 2], [2, 1]);
-     * // => [1, 2, 4]
-     */
-    var union = restParam(function(arrays) {
-      return baseUniq(baseFlatten(arrays, false, true));
-    });
-
-    /**
-     * Creates a duplicate-free version of an array, using
-     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
-     * for equality comparisons, in which only the first occurence of each element
-     * is kept. Providing `true` for `isSorted` performs a faster search algorithm
-     * for sorted arrays. If an iteratee function is provided it is invoked for
-     * each element in the array to generate the criterion by which uniqueness
-     * is computed. The `iteratee` is bound to `thisArg` and invoked with three
-     * arguments: (value, index, array).
-     *
-     * If a property name is provided for `iteratee` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `iteratee` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @alias unique
-     * @category Array
-     * @param {Array} array The array to inspect.
-     * @param {boolean} [isSorted] Specify the array is sorted.
-     * @param {Function|Object|string} [iteratee] The function invoked per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Array} Returns the new duplicate-value-free array.
-     * @example
-     *
-     * _.uniq([2, 1, 2]);
-     * // => [2, 1]
-     *
-     * // using `isSorted`
-     * _.uniq([1, 1, 2], true);
-     * // => [1, 2]
-     *
-     * // using an iteratee function
-     * _.uniq([1, 2.5, 1.5, 2], function(n) {
-     *   return this.floor(n);
-     * }, Math);
-     * // => [1, 2.5]
-     *
-     * // using the `_.property` callback shorthand
-     * _.uniq([{ 'x': 1 }, { 'x': 2 }, { 'x': 1 }], 'x');
-     * // => [{ 'x': 1 }, { 'x': 2 }]
-     */
-    function uniq(array, isSorted, iteratee, thisArg) {
-      var length = array ? array.length : 0;
-      if (!length) {
-        return [];
-      }
-      if (isSorted != null && typeof isSorted != 'boolean') {
-        thisArg = iteratee;
-        iteratee = isIterateeCall(array, isSorted, thisArg) ? null : isSorted;
-        isSorted = false;
-      }
-      var func = getCallback();
-      if (!(func === baseCallback && iteratee == null)) {
-        iteratee = func(iteratee, thisArg, 3);
-      }
-      return (isSorted && getIndexOf() == baseIndexOf)
-        ? sortedUniq(array, iteratee)
-        : baseUniq(array, iteratee);
-    }
-
-    /**
-     * This method is like `_.zip` except that it accepts an array of grouped
-     * elements and creates an array regrouping the elements to their pre-zip
-     * configuration.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array of grouped elements to process.
-     * @returns {Array} Returns the new array of regrouped elements.
-     * @example
-     *
-     * var zipped = _.zip(['fred', 'barney'], [30, 40], [true, false]);
-     * // => [['fred', 30, true], ['barney', 40, false]]
-     *
-     * _.unzip(zipped);
-     * // => [['fred', 'barney'], [30, 40], [true, false]]
-     */
-    function unzip(array) {
-      if (!(array && array.length)) {
-        return [];
-      }
-      var index = -1,
-          length = 0;
-
-      array = arrayFilter(array, function(group) {
-        if (isArrayLike(group)) {
-          length = nativeMax(group.length, length);
-          return true;
-        }
-      });
-      var result = Array(length);
-      while (++index < length) {
-        result[index] = arrayMap(array, baseProperty(index));
-      }
-      return result;
-    }
-
-    /**
-     * This method is like `_.unzip` except that it accepts an iteratee to specify
-     * how regrouped values should be combined. The `iteratee` is bound to `thisArg`
-     * and invoked with four arguments: (accumulator, value, index, group).
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array of grouped elements to process.
-     * @param {Function} [iteratee] The function to combine regrouped values.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Array} Returns the new array of regrouped elements.
-     * @example
-     *
-     * var zipped = _.zip([1, 2], [10, 20], [100, 200]);
-     * // => [[1, 10, 100], [2, 20, 200]]
-     *
-     * _.unzipWith(zipped, _.add);
-     * // => [3, 30, 300]
-     */
-    function unzipWith(array, iteratee, thisArg) {
-      var length = array ? array.length : 0;
-      if (!length) {
-        return [];
-      }
-      var result = unzip(array);
-      if (iteratee == null) {
-        return result;
-      }
-      iteratee = bindCallback(iteratee, thisArg, 4);
-      return arrayMap(result, function(group) {
-        return arrayReduce(group, iteratee, undefined, true);
-      });
-    }
-
-    /**
-     * Creates an array excluding all provided values using
-     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
-     * for equality comparisons.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {Array} array The array to filter.
-     * @param {...*} [values] The values to exclude.
-     * @returns {Array} Returns the new array of filtered values.
-     * @example
-     *
-     * _.without([1, 2, 1, 3], 1, 2);
-     * // => [3]
-     */
-    var without = restParam(function(array, values) {
-      return isArrayLike(array)
-        ? baseDifference(array, values)
-        : [];
-    });
-
-    /**
-     * Creates an array that is the [symmetric difference](https://en.wikipedia.org/wiki/Symmetric_difference)
-     * of the provided arrays.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {...Array} [arrays] The arrays to inspect.
-     * @returns {Array} Returns the new array of values.
-     * @example
-     *
-     * _.xor([1, 2], [4, 2]);
-     * // => [1, 4]
-     */
-    function xor() {
-      var index = -1,
-          length = arguments.length;
-
-      while (++index < length) {
-        var array = arguments[index];
-        if (isArrayLike(array)) {
-          var result = result
-            ? baseDifference(result, array).concat(baseDifference(array, result))
-            : array;
-        }
-      }
-      return result ? baseUniq(result) : [];
-    }
-
-    /**
-     * Creates an array of grouped elements, the first of which contains the first
-     * elements of the given arrays, the second of which contains the second elements
-     * of the given arrays, and so on.
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {...Array} [arrays] The arrays to process.
-     * @returns {Array} Returns the new array of grouped elements.
-     * @example
-     *
-     * _.zip(['fred', 'barney'], [30, 40], [true, false]);
-     * // => [['fred', 30, true], ['barney', 40, false]]
-     */
-    var zip = restParam(unzip);
-
-    /**
-     * The inverse of `_.pairs`; this method returns an object composed from arrays
-     * of property names and values. Provide either a single two dimensional array,
-     * e.g. `[[key1, value1], [key2, value2]]` or two arrays, one of property names
-     * and one of corresponding values.
-     *
-     * @static
-     * @memberOf _
-     * @alias object
-     * @category Array
-     * @param {Array} props The property names.
-     * @param {Array} [values=[]] The property values.
-     * @returns {Object} Returns the new object.
-     * @example
-     *
-     * _.zipObject([['fred', 30], ['barney', 40]]);
-     * // => { 'fred': 30, 'barney': 40 }
-     *
-     * _.zipObject(['fred', 'barney'], [30, 40]);
-     * // => { 'fred': 30, 'barney': 40 }
-     */
-    function zipObject(props, values) {
-      var index = -1,
-          length = props ? props.length : 0,
-          result = {};
-
-      if (length && !values && !isArray(props[0])) {
-        values = [];
-      }
-      while (++index < length) {
-        var key = props[index];
-        if (values) {
-          result[key] = values[index];
-        } else if (key) {
-          result[key[0]] = key[1];
-        }
-      }
-      return result;
-    }
-
-    /**
-     * This method is like `_.zip` except that it accepts an iteratee to specify
-     * how grouped values should be combined. The `iteratee` is bound to `thisArg`
-     * and invoked with four arguments: (accumulator, value, index, group).
-     *
-     * @static
-     * @memberOf _
-     * @category Array
-     * @param {...Array} [arrays] The arrays to process.
-     * @param {Function} [iteratee] The function to combine grouped values.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Array} Returns the new array of grouped elements.
-     * @example
-     *
-     * _.zipWith([1, 2], [10, 20], [100, 200], _.add);
-     * // => [111, 222]
-     */
-    var zipWith = restParam(function(arrays) {
-      var length = arrays.length,
-          iteratee = arrays[length - 2],
-          thisArg = arrays[length - 1];
-
-      if (length > 2 && typeof iteratee == 'function') {
-        length -= 2;
-      } else {
-        iteratee = (length > 1 && typeof thisArg == 'function') ? (--length, thisArg) : undefined;
-        thisArg = undefined;
-      }
-      arrays.length = length;
-      return unzipWith(arrays, iteratee, thisArg);
-    });
-
-    /**
-     * Creates a `lodash` object that wraps `value` with explicit method
-     * chaining enabled.
-     *
-     * @static
-     * @memberOf _
-     * @category Chain
-     * @param {*} value The value to wrap.
-     * @returns {Object} Returns the new `lodash` wrapper instance.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney',  'age': 36 },
-     *   { 'user': 'fred',    'age': 40 },
-     *   { 'user': 'pebbles', 'age': 1 }
-     * ];
-     *
-     * var youngest = _.chain(users)
-     *   .sortBy('age')
-     *   .map(function(chr) {
-     *     return chr.user + ' is ' + chr.age;
-     *   })
-     *   .first()
-     *   .value();
-     * // => 'pebbles is 1'
-     */
-    function chain(value) {
-      var result = lodash(value);
-      result.__chain__ = true;
-      return result;
-    }
-
-    /**
-     * This method invokes `interceptor` and returns `value`. The interceptor is
-     * bound to `thisArg` and invoked with one argument; (value). The purpose of
-     * this method is to "tap into" a method chain in order to perform operations
-     * on intermediate results within the chain.
-     *
-     * @static
-     * @memberOf _
-     * @category Chain
-     * @param {*} value The value to provide to `interceptor`.
-     * @param {Function} interceptor The function to invoke.
-     * @param {*} [thisArg] The `this` binding of `interceptor`.
-     * @returns {*} Returns `value`.
-     * @example
-     *
-     * _([1, 2, 3])
-     *  .tap(function(array) {
-     *    array.pop();
-     *  })
-     *  .reverse()
-     *  .value();
-     * // => [2, 1]
-     */
-    function tap(value, interceptor, thisArg) {
-      interceptor.call(thisArg, value);
-      return value;
-    }
-
-    /**
-     * This method is like `_.tap` except that it returns the result of `interceptor`.
-     *
-     * @static
-     * @memberOf _
-     * @category Chain
-     * @param {*} value The value to provide to `interceptor`.
-     * @param {Function} interceptor The function to invoke.
-     * @param {*} [thisArg] The `this` binding of `interceptor`.
-     * @returns {*} Returns the result of `interceptor`.
-     * @example
-     *
-     * _('  abc  ')
-     *  .chain()
-     *  .trim()
-     *  .thru(function(value) {
-     *    return [value];
-     *  })
-     *  .value();
-     * // => ['abc']
-     */
-    function thru(value, interceptor, thisArg) {
-      return interceptor.call(thisArg, value);
-    }
-
-    /**
-     * Enables explicit method chaining on the wrapper object.
-     *
-     * @name chain
-     * @memberOf _
-     * @category Chain
-     * @returns {Object} Returns the new `lodash` wrapper instance.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney', 'age': 36 },
-     *   { 'user': 'fred',   'age': 40 }
-     * ];
-     *
-     * // without explicit chaining
-     * _(users).first();
-     * // => { 'user': 'barney', 'age': 36 }
-     *
-     * // with explicit chaining
-     * _(users).chain()
-     *   .first()
-     *   .pick('user')
-     *   .value();
-     * // => { 'user': 'barney' }
-     */
-    function wrapperChain() {
-      return chain(this);
-    }
-
-    /**
-     * Executes the chained sequence and returns the wrapped result.
-     *
-     * @name commit
-     * @memberOf _
-     * @category Chain
-     * @returns {Object} Returns the new `lodash` wrapper instance.
-     * @example
-     *
-     * var array = [1, 2];
-     * var wrapper = _(array).push(3);
-     *
-     * console.log(array);
-     * // => [1, 2]
-     *
-     * wrapper = wrapper.commit();
-     * console.log(array);
-     * // => [1, 2, 3]
-     *
-     * wrapper.last();
-     * // => 3
-     *
-     * console.log(array);
-     * // => [1, 2, 3]
-     */
-    function wrapperCommit() {
-      return new LodashWrapper(this.value(), this.__chain__);
-    }
-
-    /**
-     * Creates a clone of the chained sequence planting `value` as the wrapped value.
-     *
-     * @name plant
-     * @memberOf _
-     * @category Chain
-     * @returns {Object} Returns the new `lodash` wrapper instance.
-     * @example
-     *
-     * var array = [1, 2];
-     * var wrapper = _(array).map(function(value) {
-     *   return Math.pow(value, 2);
-     * });
-     *
-     * var other = [3, 4];
-     * var otherWrapper = wrapper.plant(other);
-     *
-     * otherWrapper.value();
-     * // => [9, 16]
-     *
-     * wrapper.value();
-     * // => [1, 4]
-     */
-    function wrapperPlant(value) {
-      var result,
-          parent = this;
-
-      while (parent instanceof baseLodash) {
-        var clone = wrapperClone(parent);
-        if (result) {
-          previous.__wrapped__ = clone;
-        } else {
-          result = clone;
-        }
-        var previous = clone;
-        parent = parent.__wrapped__;
-      }
-      previous.__wrapped__ = value;
-      return result;
-    }
-
-    /**
-     * Reverses the wrapped array so the first element becomes the last, the
-     * second element becomes the second to last, and so on.
-     *
-     * **Note:** This method mutates the wrapped array.
-     *
-     * @name reverse
-     * @memberOf _
-     * @category Chain
-     * @returns {Object} Returns the new reversed `lodash` wrapper instance.
-     * @example
-     *
-     * var array = [1, 2, 3];
-     *
-     * _(array).reverse().value()
-     * // => [3, 2, 1]
-     *
-     * console.log(array);
-     * // => [3, 2, 1]
-     */
-    function wrapperReverse() {
-      var value = this.__wrapped__;
-      if (value instanceof LazyWrapper) {
-        if (this.__actions__.length) {
-          value = new LazyWrapper(this);
-        }
-        return new LodashWrapper(value.reverse(), this.__chain__);
-      }
-      return this.thru(function(value) {
-        return value.reverse();
-      });
-    }
-
-    /**
-     * Produces the result of coercing the unwrapped value to a string.
-     *
-     * @name toString
-     * @memberOf _
-     * @category Chain
-     * @returns {string} Returns the coerced string value.
-     * @example
-     *
-     * _([1, 2, 3]).toString();
-     * // => '1,2,3'
-     */
-    function wrapperToString() {
-      return (this.value() + '');
-    }
-
-    /**
-     * Executes the chained sequence to extract the unwrapped value.
-     *
-     * @name value
-     * @memberOf _
-     * @alias run, toJSON, valueOf
-     * @category Chain
-     * @returns {*} Returns the resolved unwrapped value.
-     * @example
-     *
-     * _([1, 2, 3]).value();
-     * // => [1, 2, 3]
-     */
-    function wrapperValue() {
-      return baseWrapperValue(this.__wrapped__, this.__actions__);
-    }
-
-    /**
-     * Creates an array of elements corresponding to the given keys, or indexes,
-     * of `collection`. Keys may be specified as individual arguments or as arrays
-     * of keys.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {...(number|number[]|string|string[])} [props] The property names
-     *  or indexes of elements to pick, specified individually or in arrays.
-     * @returns {Array} Returns the new array of picked elements.
-     * @example
-     *
-     * _.at(['a', 'b', 'c'], [0, 2]);
-     * // => ['a', 'c']
-     *
-     * _.at(['barney', 'fred', 'pebbles'], 0, 2);
-     * // => ['barney', 'pebbles']
-     */
-    var at = restParam(function(collection, props) {
-      return baseAt(collection, baseFlatten(props));
-    });
-
-    /**
-     * Creates an object composed of keys generated from the results of running
-     * each element of `collection` through `iteratee`. The corresponding value
-     * of each key is the number of times the key was returned by `iteratee`.
-     * The `iteratee` is bound to `thisArg` and invoked with three arguments:
-     * (value, index|key, collection).
-     *
-     * If a property name is provided for `iteratee` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `iteratee` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [iteratee=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Object} Returns the composed aggregate object.
-     * @example
-     *
-     * _.countBy([4.3, 6.1, 6.4], function(n) {
-     *   return Math.floor(n);
-     * });
-     * // => { '4': 1, '6': 2 }
-     *
-     * _.countBy([4.3, 6.1, 6.4], function(n) {
-     *   return this.floor(n);
-     * }, Math);
-     * // => { '4': 1, '6': 2 }
-     *
-     * _.countBy(['one', 'two', 'three'], 'length');
-     * // => { '3': 2, '5': 1 }
-     */
-    var countBy = createAggregator(function(result, value, key) {
-      hasOwnProperty.call(result, key) ? ++result[key] : (result[key] = 1);
-    });
-
-    /**
-     * Checks if `predicate` returns truthy for **all** elements of `collection`.
-     * The predicate is bound to `thisArg` and invoked with three arguments:
-     * (value, index|key, collection).
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @alias all
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {boolean} Returns `true` if all elements pass the predicate check,
-     *  else `false`.
-     * @example
-     *
-     * _.every([true, 1, null, 'yes'], Boolean);
-     * // => false
-     *
-     * var users = [
-     *   { 'user': 'barney', 'active': false },
-     *   { 'user': 'fred',   'active': false }
-     * ];
-     *
-     * // using the `_.matches` callback shorthand
-     * _.every(users, { 'user': 'barney', 'active': false });
-     * // => false
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.every(users, 'active', false);
-     * // => true
-     *
-     * // using the `_.property` callback shorthand
-     * _.every(users, 'active');
-     * // => false
-     */
-    function every(collection, predicate, thisArg) {
-      var func = isArray(collection) ? arrayEvery : baseEvery;
-      if (thisArg && isIterateeCall(collection, predicate, thisArg)) {
-        predicate = null;
-      }
-      if (typeof predicate != 'function' || thisArg !== undefined) {
-        predicate = getCallback(predicate, thisArg, 3);
-      }
-      return func(collection, predicate);
-    }
-
-    /**
-     * Iterates over elements of `collection`, returning an array of all elements
-     * `predicate` returns truthy for. The predicate is bound to `thisArg` and
-     * invoked with three arguments: (value, index|key, collection).
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @alias select
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {Array} Returns the new filtered array.
-     * @example
-     *
-     * _.filter([4, 5, 6], function(n) {
-     *   return n % 2 == 0;
-     * });
-     * // => [4, 6]
-     *
-     * var users = [
-     *   { 'user': 'barney', 'age': 36, 'active': true },
-     *   { 'user': 'fred',   'age': 40, 'active': false }
-     * ];
-     *
-     * // using the `_.matches` callback shorthand
-     * _.pluck(_.filter(users, { 'age': 36, 'active': true }), 'user');
-     * // => ['barney']
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.pluck(_.filter(users, 'active', false), 'user');
-     * // => ['fred']
-     *
-     * // using the `_.property` callback shorthand
-     * _.pluck(_.filter(users, 'active'), 'user');
-     * // => ['barney']
-     */
-    function filter(collection, predicate, thisArg) {
-      var func = isArray(collection) ? arrayFilter : baseFilter;
-      predicate = getCallback(predicate, thisArg, 3);
-      return func(collection, predicate);
-    }
-
-    /**
-     * Iterates over elements of `collection`, returning the first element
-     * `predicate` returns truthy for. The predicate is bound to `thisArg` and
-     * invoked with three arguments: (value, index|key, collection).
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @alias detect
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to search.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {*} Returns the matched element, else `undefined`.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney',  'age': 36, 'active': true },
-     *   { 'user': 'fred',    'age': 40, 'active': false },
-     *   { 'user': 'pebbles', 'age': 1,  'active': true }
-     * ];
-     *
-     * _.result(_.find(users, function(chr) {
-     *   return chr.age < 40;
-     * }), 'user');
-     * // => 'barney'
-     *
-     * // using the `_.matches` callback shorthand
-     * _.result(_.find(users, { 'age': 1, 'active': true }), 'user');
-     * // => 'pebbles'
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.result(_.find(users, 'active', false), 'user');
-     * // => 'fred'
-     *
-     * // using the `_.property` callback shorthand
-     * _.result(_.find(users, 'active'), 'user');
-     * // => 'barney'
-     */
-    var find = createFind(baseEach);
-
-    /**
-     * This method is like `_.find` except that it iterates over elements of
-     * `collection` from right to left.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to search.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {*} Returns the matched element, else `undefined`.
-     * @example
-     *
-     * _.findLast([1, 2, 3, 4], function(n) {
-     *   return n % 2 == 1;
-     * });
-     * // => 3
-     */
-    var findLast = createFind(baseEachRight, true);
-
-    /**
-     * Performs a deep comparison between each element in `collection` and the
-     * source object, returning the first element that has equivalent property
-     * values.
-     *
-     * **Note:** This method supports comparing arrays, booleans, `Date` objects,
-     * numbers, `Object` objects, regexes, and strings. Objects are compared by
-     * their own, not inherited, enumerable properties. For comparing a single
-     * own or inherited property value see `_.matchesProperty`.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to search.
-     * @param {Object} source The object of property values to match.
-     * @returns {*} Returns the matched element, else `undefined`.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney', 'age': 36, 'active': true },
-     *   { 'user': 'fred',   'age': 40, 'active': false }
-     * ];
-     *
-     * _.result(_.findWhere(users, { 'age': 36, 'active': true }), 'user');
-     * // => 'barney'
-     *
-     * _.result(_.findWhere(users, { 'age': 40, 'active': false }), 'user');
-     * // => 'fred'
-     */
-    function findWhere(collection, source) {
-      return find(collection, baseMatches(source));
-    }
-
-    /**
-     * Iterates over elements of `collection` invoking `iteratee` for each element.
-     * The `iteratee` is bound to `thisArg` and invoked with three arguments:
-     * (value, index|key, collection). Iteratee functions may exit iteration early
-     * by explicitly returning `false`.
-     *
-     * **Note:** As with other "Collections" methods, objects with a "length" property
-     * are iterated like arrays. To avoid this behavior `_.forIn` or `_.forOwn`
-     * may be used for object iteration.
-     *
-     * @static
-     * @memberOf _
-     * @alias each
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Array|Object|string} Returns `collection`.
-     * @example
-     *
-     * _([1, 2]).forEach(function(n) {
-     *   console.log(n);
-     * }).value();
-     * // => logs each value from left to right and returns the array
-     *
-     * _.forEach({ 'a': 1, 'b': 2 }, function(n, key) {
-     *   console.log(n, key);
-     * });
-     * // => logs each value-key pair and returns the object (iteration order is not guaranteed)
-     */
-    var forEach = createForEach(arrayEach, baseEach);
-
-    /**
-     * This method is like `_.forEach` except that it iterates over elements of
-     * `collection` from right to left.
-     *
-     * @static
-     * @memberOf _
-     * @alias eachRight
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Array|Object|string} Returns `collection`.
-     * @example
-     *
-     * _([1, 2]).forEachRight(function(n) {
-     *   console.log(n);
-     * }).value();
-     * // => logs each value from right to left and returns the array
-     */
-    var forEachRight = createForEach(arrayEachRight, baseEachRight);
-
-    /**
-     * Creates an object composed of keys generated from the results of running
-     * each element of `collection` through `iteratee`. The corresponding value
-     * of each key is an array of the elements responsible for generating the key.
-     * The `iteratee` is bound to `thisArg` and invoked with three arguments:
-     * (value, index|key, collection).
-     *
-     * If a property name is provided for `iteratee` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `iteratee` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [iteratee=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Object} Returns the composed aggregate object.
-     * @example
-     *
-     * _.groupBy([4.2, 6.1, 6.4], function(n) {
-     *   return Math.floor(n);
-     * });
-     * // => { '4': [4.2], '6': [6.1, 6.4] }
-     *
-     * _.groupBy([4.2, 6.1, 6.4], function(n) {
-     *   return this.floor(n);
-     * }, Math);
-     * // => { '4': [4.2], '6': [6.1, 6.4] }
-     *
-     * // using the `_.property` callback shorthand
-     * _.groupBy(['one', 'two', 'three'], 'length');
-     * // => { '3': ['one', 'two'], '5': ['three'] }
-     */
-    var groupBy = createAggregator(function(result, value, key) {
-      if (hasOwnProperty.call(result, key)) {
-        result[key].push(value);
-      } else {
-        result[key] = [value];
-      }
-    });
-
-    /**
-     * Checks if `value` is in `collection` using
-     * [`SameValueZero`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-samevaluezero)
-     * for equality comparisons. If `fromIndex` is negative, it is used as the offset
-     * from the end of `collection`.
-     *
-     * @static
-     * @memberOf _
-     * @alias contains, include
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to search.
-     * @param {*} target The value to search for.
-     * @param {number} [fromIndex=0] The index to search from.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.reduce`.
-     * @returns {boolean} Returns `true` if a matching element is found, else `false`.
-     * @example
-     *
-     * _.includes([1, 2, 3], 1);
-     * // => true
-     *
-     * _.includes([1, 2, 3], 1, 2);
-     * // => false
-     *
-     * _.includes({ 'user': 'fred', 'age': 40 }, 'fred');
-     * // => true
-     *
-     * _.includes('pebbles', 'eb');
-     * // => true
-     */
-    function includes(collection, target, fromIndex, guard) {
-      var length = collection ? getLength(collection) : 0;
-      if (!isLength(length)) {
-        collection = values(collection);
-        length = collection.length;
-      }
-      if (!length) {
-        return false;
-      }
-      if (typeof fromIndex != 'number' || (guard && isIterateeCall(target, fromIndex, guard))) {
-        fromIndex = 0;
-      } else {
-        fromIndex = fromIndex < 0 ? nativeMax(length + fromIndex, 0) : (fromIndex || 0);
-      }
-      return (typeof collection == 'string' || !isArray(collection) && isString(collection))
-        ? (fromIndex < length && collection.indexOf(target, fromIndex) > -1)
-        : (getIndexOf(collection, target, fromIndex) > -1);
-    }
-
-    /**
-     * Creates an object composed of keys generated from the results of running
-     * each element of `collection` through `iteratee`. The corresponding value
-     * of each key is the last element responsible for generating the key. The
-     * iteratee function is bound to `thisArg` and invoked with three arguments:
-     * (value, index|key, collection).
-     *
-     * If a property name is provided for `iteratee` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `iteratee` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [iteratee=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Object} Returns the composed aggregate object.
-     * @example
-     *
-     * var keyData = [
-     *   { 'dir': 'left', 'code': 97 },
-     *   { 'dir': 'right', 'code': 100 }
-     * ];
-     *
-     * _.indexBy(keyData, 'dir');
-     * // => { 'left': { 'dir': 'left', 'code': 97 }, 'right': { 'dir': 'right', 'code': 100 } }
-     *
-     * _.indexBy(keyData, function(object) {
-     *   return String.fromCharCode(object.code);
-     * });
-     * // => { 'a': { 'dir': 'left', 'code': 97 }, 'd': { 'dir': 'right', 'code': 100 } }
-     *
-     * _.indexBy(keyData, function(object) {
-     *   return this.fromCharCode(object.code);
-     * }, String);
-     * // => { 'a': { 'dir': 'left', 'code': 97 }, 'd': { 'dir': 'right', 'code': 100 } }
-     */
-    var indexBy = createAggregator(function(result, value, key) {
-      result[key] = value;
-    });
-
-    /**
-     * Invokes the method at `path` on each element in `collection`, returning
-     * an array of the results of each invoked method. Any additional arguments
-     * are provided to each invoked method. If `methodName` is a function it is
-     * invoked for, and `this` bound to, each element in `collection`.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Array|Function|string} path The path of the method to invoke or
-     *  the function invoked per iteration.
-     * @param {...*} [args] The arguments to invoke the method with.
-     * @returns {Array} Returns the array of results.
-     * @example
-     *
-     * _.invoke([[5, 1, 7], [3, 2, 1]], 'sort');
-     * // => [[1, 5, 7], [1, 2, 3]]
-     *
-     * _.invoke([123, 456], String.prototype.split, '');
-     * // => [['1', '2', '3'], ['4', '5', '6']]
-     */
-    var invoke = restParam(function(collection, path, args) {
-      var index = -1,
-          isFunc = typeof path == 'function',
-          isProp = isKey(path),
-          result = isArrayLike(collection) ? Array(collection.length) : [];
-
-      baseEach(collection, function(value) {
-        var func = isFunc ? path : (isProp && value != null && value[path]);
-        result[++index] = func ? func.apply(value, args) : invokePath(value, path, args);
-      });
-      return result;
-    });
-
-    /**
-     * Creates an array of values by running each element in `collection` through
-     * `iteratee`. The `iteratee` is bound to `thisArg` and invoked with three
-     * arguments: (value, index|key, collection).
-     *
-     * If a property name is provided for `iteratee` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `iteratee` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * Many lodash methods are guarded to work as interatees for methods like
-     * `_.every`, `_.filter`, `_.map`, `_.mapValues`, `_.reject`, and `_.some`.
-     *
-     * The guarded methods are:
-     * `ary`, `callback`, `chunk`, `clone`, `create`, `curry`, `curryRight`,
-     * `drop`, `dropRight`, `every`, `fill`, `flatten`, `invert`, `max`, `min`,
-     * `parseInt`, `slice`, `sortBy`, `take`, `takeRight`, `template`, `trim`,
-     * `trimLeft`, `trimRight`, `trunc`, `random`, `range`, `sample`, `some`,
-     * `sum`, `uniq`, and `words`
-     *
-     * @static
-     * @memberOf _
-     * @alias collect
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [iteratee=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Array} Returns the new mapped array.
-     * @example
-     *
-     * function timesThree(n) {
-     *   return n * 3;
-     * }
-     *
-     * _.map([1, 2], timesThree);
-     * // => [3, 6]
-     *
-     * _.map({ 'a': 1, 'b': 2 }, timesThree);
-     * // => [3, 6] (iteration order is not guaranteed)
-     *
-     * var users = [
-     *   { 'user': 'barney' },
-     *   { 'user': 'fred' }
-     * ];
-     *
-     * // using the `_.property` callback shorthand
-     * _.map(users, 'user');
-     * // => ['barney', 'fred']
-     */
-    function map(collection, iteratee, thisArg) {
-      var func = isArray(collection) ? arrayMap : baseMap;
-      iteratee = getCallback(iteratee, thisArg, 3);
-      return func(collection, iteratee);
-    }
-
-    /**
-     * Creates an array of elements split into two groups, the first of which
-     * contains elements `predicate` returns truthy for, while the second of which
-     * contains elements `predicate` returns falsey for. The predicate is bound
-     * to `thisArg` and invoked with three arguments: (value, index|key, collection).
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {Array} Returns the array of grouped elements.
-     * @example
-     *
-     * _.partition([1, 2, 3], function(n) {
-     *   return n % 2;
-     * });
-     * // => [[1, 3], [2]]
-     *
-     * _.partition([1.2, 2.3, 3.4], function(n) {
-     *   return this.floor(n) % 2;
-     * }, Math);
-     * // => [[1.2, 3.4], [2.3]]
-     *
-     * var users = [
-     *   { 'user': 'barney',  'age': 36, 'active': false },
-     *   { 'user': 'fred',    'age': 40, 'active': true },
-     *   { 'user': 'pebbles', 'age': 1,  'active': false }
-     * ];
-     *
-     * var mapper = function(array) {
-     *   return _.pluck(array, 'user');
-     * };
-     *
-     * // using the `_.matches` callback shorthand
-     * _.map(_.partition(users, { 'age': 1, 'active': false }), mapper);
-     * // => [['pebbles'], ['barney', 'fred']]
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.map(_.partition(users, 'active', false), mapper);
-     * // => [['barney', 'pebbles'], ['fred']]
-     *
-     * // using the `_.property` callback shorthand
-     * _.map(_.partition(users, 'active'), mapper);
-     * // => [['fred'], ['barney', 'pebbles']]
-     */
-    var partition = createAggregator(function(result, value, key) {
-      result[key ? 0 : 1].push(value);
-    }, function() { return [[], []]; });
-
-    /**
-     * Gets the property value of `path` from all elements in `collection`.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Array|string} path The path of the property to pluck.
-     * @returns {Array} Returns the property values.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney', 'age': 36 },
-     *   { 'user': 'fred',   'age': 40 }
-     * ];
-     *
-     * _.pluck(users, 'user');
-     * // => ['barney', 'fred']
-     *
-     * var userIndex = _.indexBy(users, 'user');
-     * _.pluck(userIndex, 'age');
-     * // => [36, 40] (iteration order is not guaranteed)
-     */
-    function pluck(collection, path) {
-      return map(collection, property(path));
-    }
-
-    /**
-     * Reduces `collection` to a value which is the accumulated result of running
-     * each element in `collection` through `iteratee`, where each successive
-     * invocation is supplied the return value of the previous. If `accumulator`
-     * is not provided the first element of `collection` is used as the initial
-     * value. The `iteratee` is bound to `thisArg` and invoked with four arguments:
-     * (accumulator, value, index|key, collection).
-     *
-     * Many lodash methods are guarded to work as interatees for methods like
-     * `_.reduce`, `_.reduceRight`, and `_.transform`.
-     *
-     * The guarded methods are:
-     * `assign`, `defaults`, `includes`, `merge`, `sortByAll`, and `sortByOrder`
-     *
-     * @static
-     * @memberOf _
-     * @alias foldl, inject
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-     * @param {*} [accumulator] The initial value.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {*} Returns the accumulated value.
-     * @example
-     *
-     * _.reduce([1, 2], function(total, n) {
-     *   return total + n;
-     * });
-     * // => 3
-     *
-     * _.reduce({ 'a': 1, 'b': 2 }, function(result, n, key) {
-     *   result[key] = n * 3;
-     *   return result;
-     * }, {});
-     * // => { 'a': 3, 'b': 6 } (iteration order is not guaranteed)
-     */
-    var reduce = createReduce(arrayReduce, baseEach);
-
-    /**
-     * This method is like `_.reduce` except that it iterates over elements of
-     * `collection` from right to left.
-     *
-     * @static
-     * @memberOf _
-     * @alias foldr
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-     * @param {*} [accumulator] The initial value.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {*} Returns the accumulated value.
-     * @example
-     *
-     * var array = [[0, 1], [2, 3], [4, 5]];
-     *
-     * _.reduceRight(array, function(flattened, other) {
-     *   return flattened.concat(other);
-     * }, []);
-     * // => [4, 5, 2, 3, 0, 1]
-     */
-    var reduceRight = createReduce(arrayReduceRight, baseEachRight);
-
-    /**
-     * The opposite of `_.filter`; this method returns the elements of `collection`
-     * that `predicate` does **not** return truthy for.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {Array} Returns the new filtered array.
-     * @example
-     *
-     * _.reject([1, 2, 3, 4], function(n) {
-     *   return n % 2 == 0;
-     * });
-     * // => [1, 3]
-     *
-     * var users = [
-     *   { 'user': 'barney', 'age': 36, 'active': false },
-     *   { 'user': 'fred',   'age': 40, 'active': true }
-     * ];
-     *
-     * // using the `_.matches` callback shorthand
-     * _.pluck(_.reject(users, { 'age': 40, 'active': true }), 'user');
-     * // => ['barney']
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.pluck(_.reject(users, 'active', false), 'user');
-     * // => ['fred']
-     *
-     * // using the `_.property` callback shorthand
-     * _.pluck(_.reject(users, 'active'), 'user');
-     * // => ['barney']
-     */
-    function reject(collection, predicate, thisArg) {
-      var func = isArray(collection) ? arrayFilter : baseFilter;
-      predicate = getCallback(predicate, thisArg, 3);
-      return func(collection, function(value, index, collection) {
-        return !predicate(value, index, collection);
-      });
-    }
-
-    /**
-     * Gets a random element or `n` random elements from a collection.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to sample.
-     * @param {number} [n] The number of elements to sample.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {*} Returns the random sample(s).
-     * @example
-     *
-     * _.sample([1, 2, 3, 4]);
-     * // => 2
-     *
-     * _.sample([1, 2, 3, 4], 2);
-     * // => [3, 1]
-     */
-    function sample(collection, n, guard) {
-      if (guard ? isIterateeCall(collection, n, guard) : n == null) {
-        collection = toIterable(collection);
-        var length = collection.length;
-        return length > 0 ? collection[baseRandom(0, length - 1)] : undefined;
-      }
-      var result = shuffle(collection);
-      result.length = nativeMin(n < 0 ? 0 : (+n || 0), result.length);
-      return result;
-    }
-
-    /**
-     * Creates an array of shuffled values, using a version of the
-     * [Fisher-Yates shuffle](https://en.wikipedia.org/wiki/Fisher-Yates_shuffle).
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to shuffle.
-     * @returns {Array} Returns the new shuffled array.
-     * @example
-     *
-     * _.shuffle([1, 2, 3, 4]);
-     * // => [4, 1, 3, 2]
-     */
-    function shuffle(collection) {
-      collection = toIterable(collection);
-
-      var index = -1,
-          length = collection.length,
-          result = Array(length);
-
-      while (++index < length) {
-        var rand = baseRandom(0, index);
-        if (index != rand) {
-          result[index] = result[rand];
-        }
-        result[rand] = collection[index];
-      }
-      return result;
-    }
-
-    /**
-     * Gets the size of `collection` by returning its length for array-like
-     * values or the number of own enumerable properties for objects.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to inspect.
-     * @returns {number} Returns the size of `collection`.
-     * @example
-     *
-     * _.size([1, 2, 3]);
-     * // => 3
-     *
-     * _.size({ 'a': 1, 'b': 2 });
-     * // => 2
-     *
-     * _.size('pebbles');
-     * // => 7
-     */
-    function size(collection) {
-      var length = collection ? getLength(collection) : 0;
-      return isLength(length) ? length : keys(collection).length;
-    }
-
-    /**
-     * Checks if `predicate` returns truthy for **any** element of `collection`.
-     * The function returns as soon as it finds a passing value and does not iterate
-     * over the entire collection. The predicate is bound to `thisArg` and invoked
-     * with three arguments: (value, index|key, collection).
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @alias any
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {boolean} Returns `true` if any element passes the predicate check,
-     *  else `false`.
-     * @example
-     *
-     * _.some([null, 0, 'yes', false], Boolean);
-     * // => true
-     *
-     * var users = [
-     *   { 'user': 'barney', 'active': true },
-     *   { 'user': 'fred',   'active': false }
-     * ];
-     *
-     * // using the `_.matches` callback shorthand
-     * _.some(users, { 'user': 'barney', 'active': false });
-     * // => false
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.some(users, 'active', false);
-     * // => true
-     *
-     * // using the `_.property` callback shorthand
-     * _.some(users, 'active');
-     * // => true
-     */
-    function some(collection, predicate, thisArg) {
-      var func = isArray(collection) ? arraySome : baseSome;
-      if (thisArg && isIterateeCall(collection, predicate, thisArg)) {
-        predicate = null;
-      }
-      if (typeof predicate != 'function' || thisArg !== undefined) {
-        predicate = getCallback(predicate, thisArg, 3);
-      }
-      return func(collection, predicate);
-    }
-
-    /**
-     * Creates an array of elements, sorted in ascending order by the results of
-     * running each element in a collection through `iteratee`. This method performs
-     * a stable sort, that is, it preserves the original sort order of equal elements.
-     * The `iteratee` is bound to `thisArg` and invoked with three arguments:
-     * (value, index|key, collection).
-     *
-     * If a property name is provided for `iteratee` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `iteratee` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [iteratee=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Array} Returns the new sorted array.
-     * @example
-     *
-     * _.sortBy([1, 2, 3], function(n) {
-     *   return Math.sin(n);
-     * });
-     * // => [3, 1, 2]
-     *
-     * _.sortBy([1, 2, 3], function(n) {
-     *   return this.sin(n);
-     * }, Math);
-     * // => [3, 1, 2]
-     *
-     * var users = [
-     *   { 'user': 'fred' },
-     *   { 'user': 'pebbles' },
-     *   { 'user': 'barney' }
-     * ];
-     *
-     * // using the `_.property` callback shorthand
-     * _.pluck(_.sortBy(users, 'user'), 'user');
-     * // => ['barney', 'fred', 'pebbles']
-     */
-    function sortBy(collection, iteratee, thisArg) {
-      if (collection == null) {
-        return [];
-      }
-      if (thisArg && isIterateeCall(collection, iteratee, thisArg)) {
-        iteratee = null;
-      }
-      var index = -1;
-      iteratee = getCallback(iteratee, thisArg, 3);
-
-      var result = baseMap(collection, function(value, key, collection) {
-        return { 'criteria': iteratee(value, key, collection), 'index': ++index, 'value': value };
-      });
-      return baseSortBy(result, compareAscending);
-    }
-
-    /**
-     * This method is like `_.sortBy` except that it can sort by multiple iteratees
-     * or property names.
-     *
-     * If a property name is provided for an iteratee the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If an object is provided for an iteratee the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {...(Function|Function[]|Object|Object[]|string|string[])} iteratees
-     *  The iteratees to sort by, specified as individual values or arrays of values.
-     * @returns {Array} Returns the new sorted array.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'fred',   'age': 48 },
-     *   { 'user': 'barney', 'age': 36 },
-     *   { 'user': 'fred',   'age': 42 },
-     *   { 'user': 'barney', 'age': 34 }
-     * ];
-     *
-     * _.map(_.sortByAll(users, ['user', 'age']), _.values);
-     * // => [['barney', 34], ['barney', 36], ['fred', 42], ['fred', 48]]
-     *
-     * _.map(_.sortByAll(users, 'user', function(chr) {
-     *   return Math.floor(chr.age / 10);
-     * }), _.values);
-     * // => [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 42]]
-     */
-    var sortByAll = restParam(function(collection, iteratees) {
-      if (collection == null) {
-        return [];
-      }
-      var guard = iteratees[2];
-      if (guard && isIterateeCall(iteratees[0], iteratees[1], guard)) {
-        iteratees.length = 1;
-      }
-      return baseSortByOrder(collection, baseFlatten(iteratees), []);
-    });
-
-    /**
-     * This method is like `_.sortByAll` except that it allows specifying the
-     * sort orders of the iteratees to sort by. A truthy value in `orders` will
-     * sort the corresponding property name in ascending order while a falsey
-     * value will sort it in descending order.
-     *
-     * If a property name is provided for an iteratee the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If an object is provided for an iteratee the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function[]|Object[]|string[]} iteratees The iteratees to sort by.
-     * @param {boolean[]} orders The sort orders of `iteratees`.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.reduce`.
-     * @returns {Array} Returns the new sorted array.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'fred',   'age': 48 },
-     *   { 'user': 'barney', 'age': 34 },
-     *   { 'user': 'fred',   'age': 42 },
-     *   { 'user': 'barney', 'age': 36 }
-     * ];
-     *
-     * // sort by `user` in ascending order and by `age` in descending order
-     * _.map(_.sortByOrder(users, ['user', 'age'], [true, false]), _.values);
-     * // => [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 42]]
-     */
-    function sortByOrder(collection, iteratees, orders, guard) {
-      if (collection == null) {
-        return [];
-      }
-      if (guard && isIterateeCall(iteratees, orders, guard)) {
-        orders = null;
-      }
-      if (!isArray(iteratees)) {
-        iteratees = iteratees == null ? [] : [iteratees];
-      }
-      if (!isArray(orders)) {
-        orders = orders == null ? [] : [orders];
-      }
-      return baseSortByOrder(collection, iteratees, orders);
-    }
-
-    /**
-     * Performs a deep comparison between each element in `collection` and the
-     * source object, returning an array of all elements that have equivalent
-     * property values.
-     *
-     * **Note:** This method supports comparing arrays, booleans, `Date` objects,
-     * numbers, `Object` objects, regexes, and strings. Objects are compared by
-     * their own, not inherited, enumerable properties. For comparing a single
-     * own or inherited property value see `_.matchesProperty`.
-     *
-     * @static
-     * @memberOf _
-     * @category Collection
-     * @param {Array|Object|string} collection The collection to search.
-     * @param {Object} source The object of property values to match.
-     * @returns {Array} Returns the new filtered array.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney', 'age': 36, 'active': false, 'pets': ['hoppy'] },
-     *   { 'user': 'fred',   'age': 40, 'active': true, 'pets': ['baby puss', 'dino'] }
-     * ];
-     *
-     * _.pluck(_.where(users, { 'age': 36, 'active': false }), 'user');
-     * // => ['barney']
-     *
-     * _.pluck(_.where(users, { 'pets': ['dino'] }), 'user');
-     * // => ['fred']
-     */
-    function where(collection, source) {
-      return filter(collection, baseMatches(source));
-    }
-
-    /**
-     * Gets the number of milliseconds that have elapsed since the Unix epoch
-     * (1 January 1970 00:00:00 UTC).
-     *
-     * @static
-     * @memberOf _
-     * @category Date
-     * @example
-     *
-     * _.defer(function(stamp) {
-     *   console.log(_.now() - stamp);
-     * }, _.now());
-     * // => logs the number of milliseconds it took for the deferred function to be invoked
-     */
-    var now = nativeNow || function() {
-      return new Date().getTime();
-    };
-
-    /**
-     * The opposite of `_.before`; this method creates a function that invokes
-     * `func` once it is called `n` or more times.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {number} n The number of calls before `func` is invoked.
-     * @param {Function} func The function to restrict.
-     * @returns {Function} Returns the new restricted function.
-     * @example
-     *
-     * var saves = ['profile', 'settings'];
-     *
-     * var done = _.after(saves.length, function() {
-     *   console.log('done saving!');
-     * });
-     *
-     * _.forEach(saves, function(type) {
-     *   asyncSave({ 'type': type, 'complete': done });
-     * });
-     * // => logs 'done saving!' after the two async saves have completed
-     */
-    function after(n, func) {
-      if (typeof func != 'function') {
-        if (typeof n == 'function') {
-          var temp = n;
-          n = func;
-          func = temp;
-        } else {
-          throw new TypeError(FUNC_ERROR_TEXT);
-        }
-      }
-      n = nativeIsFinite(n = +n) ? n : 0;
-      return function() {
-        if (--n < 1) {
-          return func.apply(this, arguments);
-        }
-      };
-    }
-
-    /**
-     * Creates a function that accepts up to `n` arguments ignoring any
-     * additional arguments.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to cap arguments for.
-     * @param {number} [n=func.length] The arity cap.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * _.map(['6', '8', '10'], _.ary(parseInt, 1));
-     * // => [6, 8, 10]
-     */
-    function ary(func, n, guard) {
-      if (guard && isIterateeCall(func, n, guard)) {
-        n = null;
-      }
-      n = (func && n == null) ? func.length : nativeMax(+n || 0, 0);
-      return createWrapper(func, ARY_FLAG, null, null, null, null, n);
-    }
-
-    /**
-     * Creates a function that invokes `func`, with the `this` binding and arguments
-     * of the created function, while it is called less than `n` times. Subsequent
-     * calls to the created function return the result of the last `func` invocation.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {number} n The number of calls at which `func` is no longer invoked.
-     * @param {Function} func The function to restrict.
-     * @returns {Function} Returns the new restricted function.
-     * @example
-     *
-     * jQuery('#add').on('click', _.before(5, addContactToList));
-     * // => allows adding up to 4 contacts to the list
-     */
-    function before(n, func) {
-      var result;
-      if (typeof func != 'function') {
-        if (typeof n == 'function') {
-          var temp = n;
-          n = func;
-          func = temp;
-        } else {
-          throw new TypeError(FUNC_ERROR_TEXT);
-        }
-      }
-      return function() {
-        if (--n > 0) {
-          result = func.apply(this, arguments);
-        }
-        if (n <= 1) {
-          func = null;
-        }
-        return result;
-      };
-    }
-
-    /**
-     * Creates a function that invokes `func` with the `this` binding of `thisArg`
-     * and prepends any additional `_.bind` arguments to those provided to the
-     * bound function.
-     *
-     * The `_.bind.placeholder` value, which defaults to `_` in monolithic builds,
-     * may be used as a placeholder for partially applied arguments.
-     *
-     * **Note:** Unlike native `Function#bind` this method does not set the "length"
-     * property of bound functions.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to bind.
-     * @param {*} thisArg The `this` binding of `func`.
-     * @param {...*} [partials] The arguments to be partially applied.
-     * @returns {Function} Returns the new bound function.
-     * @example
-     *
-     * var greet = function(greeting, punctuation) {
-     *   return greeting + ' ' + this.user + punctuation;
-     * };
-     *
-     * var object = { 'user': 'fred' };
-     *
-     * var bound = _.bind(greet, object, 'hi');
-     * bound('!');
-     * // => 'hi fred!'
-     *
-     * // using placeholders
-     * var bound = _.bind(greet, object, _, '!');
-     * bound('hi');
-     * // => 'hi fred!'
-     */
-    var bind = restParam(function(func, thisArg, partials) {
-      var bitmask = BIND_FLAG;
-      if (partials.length) {
-        var holders = replaceHolders(partials, bind.placeholder);
-        bitmask |= PARTIAL_FLAG;
-      }
-      return createWrapper(func, bitmask, thisArg, partials, holders);
-    });
-
-    /**
-     * Binds methods of an object to the object itself, overwriting the existing
-     * method. Method names may be specified as individual arguments or as arrays
-     * of method names. If no method names are provided all enumerable function
-     * properties, own and inherited, of `object` are bound.
-     *
-     * **Note:** This method does not set the "length" property of bound functions.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Object} object The object to bind and assign the bound methods to.
-     * @param {...(string|string[])} [methodNames] The object method names to bind,
-     *  specified as individual method names or arrays of method names.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * var view = {
-     *   'label': 'docs',
-     *   'onClick': function() {
-     *     console.log('clicked ' + this.label);
-     *   }
-     * };
-     *
-     * _.bindAll(view);
-     * jQuery('#docs').on('click', view.onClick);
-     * // => logs 'clicked docs' when the element is clicked
-     */
-    var bindAll = restParam(function(object, methodNames) {
-      methodNames = methodNames.length ? baseFlatten(methodNames) : functions(object);
-
-      var index = -1,
-          length = methodNames.length;
-
-      while (++index < length) {
-        var key = methodNames[index];
-        object[key] = createWrapper(object[key], BIND_FLAG, object);
-      }
-      return object;
-    });
-
-    /**
-     * Creates a function that invokes the method at `object[key]` and prepends
-     * any additional `_.bindKey` arguments to those provided to the bound function.
-     *
-     * This method differs from `_.bind` by allowing bound functions to reference
-     * methods that may be redefined or don't yet exist.
-     * See [Peter Michaux's article](http://peter.michaux.ca/articles/lazy-function-definition-pattern)
-     * for more details.
-     *
-     * The `_.bindKey.placeholder` value, which defaults to `_` in monolithic
-     * builds, may be used as a placeholder for partially applied arguments.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Object} object The object the method belongs to.
-     * @param {string} key The key of the method.
-     * @param {...*} [partials] The arguments to be partially applied.
-     * @returns {Function} Returns the new bound function.
-     * @example
-     *
-     * var object = {
-     *   'user': 'fred',
-     *   'greet': function(greeting, punctuation) {
-     *     return greeting + ' ' + this.user + punctuation;
-     *   }
-     * };
-     *
-     * var bound = _.bindKey(object, 'greet', 'hi');
-     * bound('!');
-     * // => 'hi fred!'
-     *
-     * object.greet = function(greeting, punctuation) {
-     *   return greeting + 'ya ' + this.user + punctuation;
-     * };
-     *
-     * bound('!');
-     * // => 'hiya fred!'
-     *
-     * // using placeholders
-     * var bound = _.bindKey(object, 'greet', _, '!');
-     * bound('hi');
-     * // => 'hiya fred!'
-     */
-    var bindKey = restParam(function(object, key, partials) {
-      var bitmask = BIND_FLAG | BIND_KEY_FLAG;
-      if (partials.length) {
-        var holders = replaceHolders(partials, bindKey.placeholder);
-        bitmask |= PARTIAL_FLAG;
-      }
-      return createWrapper(key, bitmask, object, partials, holders);
-    });
-
-    /**
-     * Creates a function that accepts one or more arguments of `func` that when
-     * called either invokes `func` returning its result, if all `func` arguments
-     * have been provided, or returns a function that accepts one or more of the
-     * remaining `func` arguments, and so on. The arity of `func` may be specified
-     * if `func.length` is not sufficient.
-     *
-     * The `_.curry.placeholder` value, which defaults to `_` in monolithic builds,
-     * may be used as a placeholder for provided arguments.
-     *
-     * **Note:** This method does not set the "length" property of curried functions.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to curry.
-     * @param {number} [arity=func.length] The arity of `func`.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Function} Returns the new curried function.
-     * @example
-     *
-     * var abc = function(a, b, c) {
-     *   return [a, b, c];
-     * };
-     *
-     * var curried = _.curry(abc);
-     *
-     * curried(1)(2)(3);
-     * // => [1, 2, 3]
-     *
-     * curried(1, 2)(3);
-     * // => [1, 2, 3]
-     *
-     * curried(1, 2, 3);
-     * // => [1, 2, 3]
-     *
-     * // using placeholders
-     * curried(1)(_, 3)(2);
-     * // => [1, 2, 3]
-     */
-    var curry = createCurry(CURRY_FLAG);
-
-    /**
-     * This method is like `_.curry` except that arguments are applied to `func`
-     * in the manner of `_.partialRight` instead of `_.partial`.
-     *
-     * The `_.curryRight.placeholder` value, which defaults to `_` in monolithic
-     * builds, may be used as a placeholder for provided arguments.
-     *
-     * **Note:** This method does not set the "length" property of curried functions.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to curry.
-     * @param {number} [arity=func.length] The arity of `func`.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Function} Returns the new curried function.
-     * @example
-     *
-     * var abc = function(a, b, c) {
-     *   return [a, b, c];
-     * };
-     *
-     * var curried = _.curryRight(abc);
-     *
-     * curried(3)(2)(1);
-     * // => [1, 2, 3]
-     *
-     * curried(2, 3)(1);
-     * // => [1, 2, 3]
-     *
-     * curried(1, 2, 3);
-     * // => [1, 2, 3]
-     *
-     * // using placeholders
-     * curried(3)(1, _)(2);
-     * // => [1, 2, 3]
-     */
-    var curryRight = createCurry(CURRY_RIGHT_FLAG);
-
-    /**
-     * Creates a function that delays invoking `func` until after `wait` milliseconds
-     * have elapsed since the last time it was invoked. The created function comes
-     * with a `cancel` method to cancel delayed invocations. Provide an options
-     * object to indicate that `func` should be invoked on the leading and/or
-     * trailing edge of the `wait` timeout. Subsequent calls to the debounced
-     * function return the result of the last `func` invocation.
-     *
-     * **Note:** If `leading` and `trailing` options are `true`, `func` is invoked
-     * on the trailing edge of the timeout only if the the debounced function is
-     * invoked more than once during the `wait` timeout.
-     *
-     * See [David Corbacho's article](http://drupalmotion.com/article/debounce-and-throttle-visual-explanation)
-     * for details over the differences between `_.debounce` and `_.throttle`.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to debounce.
-     * @param {number} [wait=0] The number of milliseconds to delay.
-     * @param {Object} [options] The options object.
-     * @param {boolean} [options.leading=false] Specify invoking on the leading
-     *  edge of the timeout.
-     * @param {number} [options.maxWait] The maximum time `func` is allowed to be
-     *  delayed before it is invoked.
-     * @param {boolean} [options.trailing=true] Specify invoking on the trailing
-     *  edge of the timeout.
-     * @returns {Function} Returns the new debounced function.
-     * @example
-     *
-     * // avoid costly calculations while the window size is in flux
-     * jQuery(window).on('resize', _.debounce(calculateLayout, 150));
-     *
-     * // invoke `sendMail` when the click event is fired, debouncing subsequent calls
-     * jQuery('#postbox').on('click', _.debounce(sendMail, 300, {
-     *   'leading': true,
-     *   'trailing': false
-     * }));
-     *
-     * // ensure `batchLog` is invoked once after 1 second of debounced calls
-     * var source = new EventSource('/stream');
-     * jQuery(source).on('message', _.debounce(batchLog, 250, {
-     *   'maxWait': 1000
-     * }));
-     *
-     * // cancel a debounced call
-     * var todoChanges = _.debounce(batchLog, 1000);
-     * Object.observe(models.todo, todoChanges);
-     *
-     * Object.observe(models, function(changes) {
-     *   if (_.find(changes, { 'user': 'todo', 'type': 'delete'})) {
-     *     todoChanges.cancel();
-     *   }
-     * }, ['delete']);
-     *
-     * // ...at some point `models.todo` is changed
-     * models.todo.completed = true;
-     *
-     * // ...before 1 second has passed `models.todo` is deleted
-     * // which cancels the debounced `todoChanges` call
-     * delete models.todo;
-     */
-    function debounce(func, wait, options) {
-      var args,
-          maxTimeoutId,
-          result,
-          stamp,
-          thisArg,
-          timeoutId,
-          trailingCall,
-          lastCalled = 0,
-          maxWait = false,
-          trailing = true;
-
-      if (typeof func != 'function') {
-        throw new TypeError(FUNC_ERROR_TEXT);
-      }
-      wait = wait < 0 ? 0 : (+wait || 0);
-      if (options === true) {
-        var leading = true;
-        trailing = false;
-      } else if (isObject(options)) {
-        leading = options.leading;
-        maxWait = 'maxWait' in options && nativeMax(+options.maxWait || 0, wait);
-        trailing = 'trailing' in options ? options.trailing : trailing;
-      }
-
-      function cancel() {
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-        }
-        if (maxTimeoutId) {
-          clearTimeout(maxTimeoutId);
-        }
-        maxTimeoutId = timeoutId = trailingCall = undefined;
-      }
-
-      function delayed() {
-        var remaining = wait - (now() - stamp);
-        if (remaining <= 0 || remaining > wait) {
-          if (maxTimeoutId) {
-            clearTimeout(maxTimeoutId);
-          }
-          var isCalled = trailingCall;
-          maxTimeoutId = timeoutId = trailingCall = undefined;
-          if (isCalled) {
-            lastCalled = now();
-            result = func.apply(thisArg, args);
-            if (!timeoutId && !maxTimeoutId) {
-              args = thisArg = null;
-            }
-          }
-        } else {
-          timeoutId = setTimeout(delayed, remaining);
-        }
-      }
-
-      function maxDelayed() {
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-        }
-        maxTimeoutId = timeoutId = trailingCall = undefined;
-        if (trailing || (maxWait !== wait)) {
-          lastCalled = now();
-          result = func.apply(thisArg, args);
-          if (!timeoutId && !maxTimeoutId) {
-            args = thisArg = null;
-          }
-        }
-      }
-
-      function debounced() {
-        args = arguments;
-        stamp = now();
-        thisArg = this;
-        trailingCall = trailing && (timeoutId || !leading);
-
-        if (maxWait === false) {
-          var leadingCall = leading && !timeoutId;
-        } else {
-          if (!maxTimeoutId && !leading) {
-            lastCalled = stamp;
-          }
-          var remaining = maxWait - (stamp - lastCalled),
-              isCalled = remaining <= 0 || remaining > maxWait;
-
-          if (isCalled) {
-            if (maxTimeoutId) {
-              maxTimeoutId = clearTimeout(maxTimeoutId);
-            }
-            lastCalled = stamp;
-            result = func.apply(thisArg, args);
-          }
-          else if (!maxTimeoutId) {
-            maxTimeoutId = setTimeout(maxDelayed, remaining);
-          }
-        }
-        if (isCalled && timeoutId) {
-          timeoutId = clearTimeout(timeoutId);
-        }
-        else if (!timeoutId && wait !== maxWait) {
-          timeoutId = setTimeout(delayed, wait);
-        }
-        if (leadingCall) {
-          isCalled = true;
-          result = func.apply(thisArg, args);
-        }
-        if (isCalled && !timeoutId && !maxTimeoutId) {
-          args = thisArg = null;
-        }
-        return result;
-      }
-      debounced.cancel = cancel;
-      return debounced;
-    }
-
-    /**
-     * Defers invoking the `func` until the current call stack has cleared. Any
-     * additional arguments are provided to `func` when it is invoked.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to defer.
-     * @param {...*} [args] The arguments to invoke the function with.
-     * @returns {number} Returns the timer id.
-     * @example
-     *
-     * _.defer(function(text) {
-     *   console.log(text);
-     * }, 'deferred');
-     * // logs 'deferred' after one or more milliseconds
-     */
-    var defer = restParam(function(func, args) {
-      return baseDelay(func, 1, args);
-    });
-
-    /**
-     * Invokes `func` after `wait` milliseconds. Any additional arguments are
-     * provided to `func` when it is invoked.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to delay.
-     * @param {number} wait The number of milliseconds to delay invocation.
-     * @param {...*} [args] The arguments to invoke the function with.
-     * @returns {number} Returns the timer id.
-     * @example
-     *
-     * _.delay(function(text) {
-     *   console.log(text);
-     * }, 1000, 'later');
-     * // => logs 'later' after one second
-     */
-    var delay = restParam(function(func, wait, args) {
-      return baseDelay(func, wait, args);
-    });
-
-    /**
-     * Creates a function that returns the result of invoking the provided
-     * functions with the `this` binding of the created function, where each
-     * successive invocation is supplied the return value of the previous.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {...Function} [funcs] Functions to invoke.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * function square(n) {
-     *   return n * n;
-     * }
-     *
-     * var addSquare = _.flow(_.add, square);
-     * addSquare(1, 2);
-     * // => 9
-     */
-    var flow = createFlow();
-
-    /**
-     * This method is like `_.flow` except that it creates a function that
-     * invokes the provided functions from right to left.
-     *
-     * @static
-     * @memberOf _
-     * @alias backflow, compose
-     * @category Function
-     * @param {...Function} [funcs] Functions to invoke.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * function square(n) {
-     *   return n * n;
-     * }
-     *
-     * var addSquare = _.flowRight(square, _.add);
-     * addSquare(1, 2);
-     * // => 9
-     */
-    var flowRight = createFlow(true);
-
-    /**
-     * Creates a function that memoizes the result of `func`. If `resolver` is
-     * provided it determines the cache key for storing the result based on the
-     * arguments provided to the memoized function. By default, the first argument
-     * provided to the memoized function is coerced to a string and used as the
-     * cache key. The `func` is invoked with the `this` binding of the memoized
-     * function.
-     *
-     * **Note:** The cache is exposed as the `cache` property on the memoized
-     * function. Its creation may be customized by replacing the `_.memoize.Cache`
-     * constructor with one whose instances implement the [`Map`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-properties-of-the-map-prototype-object)
-     * method interface of `get`, `has`, and `set`.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to have its output memoized.
-     * @param {Function} [resolver] The function to resolve the cache key.
-     * @returns {Function} Returns the new memoizing function.
-     * @example
-     *
-     * var upperCase = _.memoize(function(string) {
-     *   return string.toUpperCase();
-     * });
-     *
-     * upperCase('fred');
-     * // => 'FRED'
-     *
-     * // modifying the result cache
-     * upperCase.cache.set('fred', 'BARNEY');
-     * upperCase('fred');
-     * // => 'BARNEY'
-     *
-     * // replacing `_.memoize.Cache`
-     * var object = { 'user': 'fred' };
-     * var other = { 'user': 'barney' };
-     * var identity = _.memoize(_.identity);
-     *
-     * identity(object);
-     * // => { 'user': 'fred' }
-     * identity(other);
-     * // => { 'user': 'fred' }
-     *
-     * _.memoize.Cache = WeakMap;
-     * var identity = _.memoize(_.identity);
-     *
-     * identity(object);
-     * // => { 'user': 'fred' }
-     * identity(other);
-     * // => { 'user': 'barney' }
-     */
-    function memoize(func, resolver) {
-      if (typeof func != 'function' || (resolver && typeof resolver != 'function')) {
-        throw new TypeError(FUNC_ERROR_TEXT);
-      }
-      var memoized = function() {
-        var args = arguments,
-            cache = memoized.cache,
-            key = resolver ? resolver.apply(this, args) : args[0];
-
-        if (cache.has(key)) {
-          return cache.get(key);
-        }
-        var result = func.apply(this, args);
-        cache.set(key, result);
-        return result;
-      };
-      memoized.cache = new memoize.Cache;
-      return memoized;
-    }
-
-    /**
-     * Creates a function that negates the result of the predicate `func`. The
-     * `func` predicate is invoked with the `this` binding and arguments of the
-     * created function.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} predicate The predicate to negate.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * function isEven(n) {
-     *   return n % 2 == 0;
-     * }
-     *
-     * _.filter([1, 2, 3, 4, 5, 6], _.negate(isEven));
-     * // => [1, 3, 5]
-     */
-    function negate(predicate) {
-      if (typeof predicate != 'function') {
-        throw new TypeError(FUNC_ERROR_TEXT);
-      }
-      return function() {
-        return !predicate.apply(this, arguments);
-      };
-    }
-
-    /**
-     * Creates a function that is restricted to invoking `func` once. Repeat calls
-     * to the function return the value of the first call. The `func` is invoked
-     * with the `this` binding and arguments of the created function.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to restrict.
-     * @returns {Function} Returns the new restricted function.
-     * @example
-     *
-     * var initialize = _.once(createApplication);
-     * initialize();
-     * initialize();
-     * // `initialize` invokes `createApplication` once
-     */
-    function once(func) {
-      return before(2, func);
-    }
-
-    /**
-     * Creates a function that invokes `func` with `partial` arguments prepended
-     * to those provided to the new function. This method is like `_.bind` except
-     * it does **not** alter the `this` binding.
-     *
-     * The `_.partial.placeholder` value, which defaults to `_` in monolithic
-     * builds, may be used as a placeholder for partially applied arguments.
-     *
-     * **Note:** This method does not set the "length" property of partially
-     * applied functions.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to partially apply arguments to.
-     * @param {...*} [partials] The arguments to be partially applied.
-     * @returns {Function} Returns the new partially applied function.
-     * @example
-     *
-     * var greet = function(greeting, name) {
-     *   return greeting + ' ' + name;
-     * };
-     *
-     * var sayHelloTo = _.partial(greet, 'hello');
-     * sayHelloTo('fred');
-     * // => 'hello fred'
-     *
-     * // using placeholders
-     * var greetFred = _.partial(greet, _, 'fred');
-     * greetFred('hi');
-     * // => 'hi fred'
-     */
-    var partial = createPartial(PARTIAL_FLAG);
-
-    /**
-     * This method is like `_.partial` except that partially applied arguments
-     * are appended to those provided to the new function.
-     *
-     * The `_.partialRight.placeholder` value, which defaults to `_` in monolithic
-     * builds, may be used as a placeholder for partially applied arguments.
-     *
-     * **Note:** This method does not set the "length" property of partially
-     * applied functions.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to partially apply arguments to.
-     * @param {...*} [partials] The arguments to be partially applied.
-     * @returns {Function} Returns the new partially applied function.
-     * @example
-     *
-     * var greet = function(greeting, name) {
-     *   return greeting + ' ' + name;
-     * };
-     *
-     * var greetFred = _.partialRight(greet, 'fred');
-     * greetFred('hi');
-     * // => 'hi fred'
-     *
-     * // using placeholders
-     * var sayHelloTo = _.partialRight(greet, 'hello', _);
-     * sayHelloTo('fred');
-     * // => 'hello fred'
-     */
-    var partialRight = createPartial(PARTIAL_RIGHT_FLAG);
-
-    /**
-     * Creates a function that invokes `func` with arguments arranged according
-     * to the specified indexes where the argument value at the first index is
-     * provided as the first argument, the argument value at the second index is
-     * provided as the second argument, and so on.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to rearrange arguments for.
-     * @param {...(number|number[])} indexes The arranged argument indexes,
-     *  specified as individual indexes or arrays of indexes.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * var rearged = _.rearg(function(a, b, c) {
-     *   return [a, b, c];
-     * }, 2, 0, 1);
-     *
-     * rearged('b', 'c', 'a')
-     * // => ['a', 'b', 'c']
-     *
-     * var map = _.rearg(_.map, [1, 0]);
-     * map(function(n) {
-     *   return n * 3;
-     * }, [1, 2, 3]);
-     * // => [3, 6, 9]
-     */
-    var rearg = restParam(function(func, indexes) {
-      return createWrapper(func, REARG_FLAG, null, null, null, baseFlatten(indexes));
-    });
-
-    /**
-     * Creates a function that invokes `func` with the `this` binding of the
-     * created function and arguments from `start` and beyond provided as an array.
-     *
-     * **Note:** This method is based on the [rest parameter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters).
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to apply a rest parameter to.
-     * @param {number} [start=func.length-1] The start position of the rest parameter.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * var say = _.restParam(function(what, names) {
-     *   return what + ' ' + _.initial(names).join(', ') +
-     *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
-     * });
-     *
-     * say('hello', 'fred', 'barney', 'pebbles');
-     * // => 'hello fred, barney, & pebbles'
-     */
-    function restParam(func, start) {
-      if (typeof func != 'function') {
-        throw new TypeError(FUNC_ERROR_TEXT);
-      }
-      start = nativeMax(start === undefined ? (func.length - 1) : (+start || 0), 0);
-      return function() {
-        var args = arguments,
-            index = -1,
-            length = nativeMax(args.length - start, 0),
-            rest = Array(length);
-
-        while (++index < length) {
-          rest[index] = args[start + index];
-        }
-        switch (start) {
-          case 0: return func.call(this, rest);
-          case 1: return func.call(this, args[0], rest);
-          case 2: return func.call(this, args[0], args[1], rest);
-        }
-        var otherArgs = Array(start + 1);
-        index = -1;
-        while (++index < start) {
-          otherArgs[index] = args[index];
-        }
-        otherArgs[start] = rest;
-        return func.apply(this, otherArgs);
-      };
-    }
-
-    /**
-     * Creates a function that invokes `func` with the `this` binding of the created
-     * function and an array of arguments much like [`Function#apply`](https://es5.github.io/#x15.3.4.3).
-     *
-     * **Note:** This method is based on the [spread operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator).
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to spread arguments over.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * var say = _.spread(function(who, what) {
-     *   return who + ' says ' + what;
-     * });
-     *
-     * say(['fred', 'hello']);
-     * // => 'fred says hello'
-     *
-     * // with a Promise
-     * var numbers = Promise.all([
-     *   Promise.resolve(40),
-     *   Promise.resolve(36)
-     * ]);
-     *
-     * numbers.then(_.spread(function(x, y) {
-     *   return x + y;
-     * }));
-     * // => a Promise of 76
-     */
-    function spread(func) {
-      if (typeof func != 'function') {
-        throw new TypeError(FUNC_ERROR_TEXT);
-      }
-      return function(array) {
-        return func.apply(this, array);
-      };
-    }
-
-    /**
-     * Creates a function that only invokes `func` at most once per every `wait`
-     * milliseconds. The created function comes with a `cancel` method to cancel
-     * delayed invocations. Provide an options object to indicate that `func`
-     * should be invoked on the leading and/or trailing edge of the `wait` timeout.
-     * Subsequent calls to the throttled function return the result of the last
-     * `func` call.
-     *
-     * **Note:** If `leading` and `trailing` options are `true`, `func` is invoked
-     * on the trailing edge of the timeout only if the the throttled function is
-     * invoked more than once during the `wait` timeout.
-     *
-     * See [David Corbacho's article](http://drupalmotion.com/article/debounce-and-throttle-visual-explanation)
-     * for details over the differences between `_.throttle` and `_.debounce`.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {Function} func The function to throttle.
-     * @param {number} [wait=0] The number of milliseconds to throttle invocations to.
-     * @param {Object} [options] The options object.
-     * @param {boolean} [options.leading=true] Specify invoking on the leading
-     *  edge of the timeout.
-     * @param {boolean} [options.trailing=true] Specify invoking on the trailing
-     *  edge of the timeout.
-     * @returns {Function} Returns the new throttled function.
-     * @example
-     *
-     * // avoid excessively updating the position while scrolling
-     * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
-     *
-     * // invoke `renewToken` when the click event is fired, but not more than once every 5 minutes
-     * jQuery('.interactive').on('click', _.throttle(renewToken, 300000, {
-     *   'trailing': false
-     * }));
-     *
-     * // cancel a trailing throttled call
-     * jQuery(window).on('popstate', throttled.cancel);
-     */
-    function throttle(func, wait, options) {
-      var leading = true,
-          trailing = true;
-
-      if (typeof func != 'function') {
-        throw new TypeError(FUNC_ERROR_TEXT);
-      }
-      if (options === false) {
-        leading = false;
-      } else if (isObject(options)) {
-        leading = 'leading' in options ? !!options.leading : leading;
-        trailing = 'trailing' in options ? !!options.trailing : trailing;
-      }
-      debounceOptions.leading = leading;
-      debounceOptions.maxWait = +wait;
-      debounceOptions.trailing = trailing;
-      return debounce(func, wait, debounceOptions);
-    }
-
-    /**
-     * Creates a function that provides `value` to the wrapper function as its
-     * first argument. Any additional arguments provided to the function are
-     * appended to those provided to the wrapper function. The wrapper is invoked
-     * with the `this` binding of the created function.
-     *
-     * @static
-     * @memberOf _
-     * @category Function
-     * @param {*} value The value to wrap.
-     * @param {Function} wrapper The wrapper function.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * var p = _.wrap(_.escape, function(func, text) {
-     *   return '<p>' + func(text) + '</p>';
-     * });
-     *
-     * p('fred, barney, & pebbles');
-     * // => '<p>fred, barney, &amp; pebbles</p>'
-     */
-    function wrap(value, wrapper) {
-      wrapper = wrapper == null ? identity : wrapper;
-      return createWrapper(wrapper, PARTIAL_FLAG, null, [value], []);
-    }
-
-    /**
-     * Creates a clone of `value`. If `isDeep` is `true` nested objects are cloned,
-     * otherwise they are assigned by reference. If `customizer` is provided it is
-     * invoked to produce the cloned values. If `customizer` returns `undefined`
-     * cloning is handled by the method instead. The `customizer` is bound to
-     * `thisArg` and invoked with two argument; (value [, index|key, object]).
-     *
-     * **Note:** This method is loosely based on the
-     * [structured clone algorithm](http://www.w3.org/TR/html5/infrastructure.html#internal-structured-cloning-algorithm).
-     * The enumerable properties of `arguments` objects and objects created by
-     * constructors other than `Object` are cloned to plain `Object` objects. An
-     * empty object is returned for uncloneable values such as functions, DOM nodes,
-     * Maps, Sets, and WeakMaps.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to clone.
-     * @param {boolean} [isDeep] Specify a deep clone.
-     * @param {Function} [customizer] The function to customize cloning values.
-     * @param {*} [thisArg] The `this` binding of `customizer`.
-     * @returns {*} Returns the cloned value.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney' },
-     *   { 'user': 'fred' }
-     * ];
-     *
-     * var shallow = _.clone(users);
-     * shallow[0] === users[0];
-     * // => true
-     *
-     * var deep = _.clone(users, true);
-     * deep[0] === users[0];
-     * // => false
-     *
-     * // using a customizer callback
-     * var el = _.clone(document.body, function(value) {
-     *   if (_.isElement(value)) {
-     *     return value.cloneNode(false);
-     *   }
-     * });
-     *
-     * el === document.body
-     * // => false
-     * el.nodeName
-     * // => BODY
-     * el.childNodes.length;
-     * // => 0
-     */
-    function clone(value, isDeep, customizer, thisArg) {
-      if (isDeep && typeof isDeep != 'boolean' && isIterateeCall(value, isDeep, customizer)) {
-        isDeep = false;
-      }
-      else if (typeof isDeep == 'function') {
-        thisArg = customizer;
-        customizer = isDeep;
-        isDeep = false;
-      }
-      customizer = typeof customizer == 'function' && bindCallback(customizer, thisArg, 1);
-      return baseClone(value, isDeep, customizer);
-    }
-
-    /**
-     * Creates a deep clone of `value`. If `customizer` is provided it is invoked
-     * to produce the cloned values. If `customizer` returns `undefined` cloning
-     * is handled by the method instead. The `customizer` is bound to `thisArg`
-     * and invoked with two argument; (value [, index|key, object]).
-     *
-     * **Note:** This method is loosely based on the
-     * [structured clone algorithm](http://www.w3.org/TR/html5/infrastructure.html#internal-structured-cloning-algorithm).
-     * The enumerable properties of `arguments` objects and objects created by
-     * constructors other than `Object` are cloned to plain `Object` objects. An
-     * empty object is returned for uncloneable values such as functions, DOM nodes,
-     * Maps, Sets, and WeakMaps.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to deep clone.
-     * @param {Function} [customizer] The function to customize cloning values.
-     * @param {*} [thisArg] The `this` binding of `customizer`.
-     * @returns {*} Returns the deep cloned value.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney' },
-     *   { 'user': 'fred' }
-     * ];
-     *
-     * var deep = _.cloneDeep(users);
-     * deep[0] === users[0];
-     * // => false
-     *
-     * // using a customizer callback
-     * var el = _.cloneDeep(document.body, function(value) {
-     *   if (_.isElement(value)) {
-     *     return value.cloneNode(true);
-     *   }
-     * });
-     *
-     * el === document.body
-     * // => false
-     * el.nodeName
-     * // => BODY
-     * el.childNodes.length;
-     * // => 20
-     */
-    function cloneDeep(value, customizer, thisArg) {
-      customizer = typeof customizer == 'function' && bindCallback(customizer, thisArg, 1);
-      return baseClone(value, true, customizer);
-    }
-
-    /**
-     * Checks if `value` is classified as an `arguments` object.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-     * @example
-     *
-     * _.isArguments(function() { return arguments; }());
-     * // => true
-     *
-     * _.isArguments([1, 2, 3]);
-     * // => false
-     */
-    function isArguments(value) {
-      return isObjectLike(value) && isArrayLike(value) && objToString.call(value) == argsTag;
-    }
-
-    /**
-     * Checks if `value` is classified as an `Array` object.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-     * @example
-     *
-     * _.isArray([1, 2, 3]);
-     * // => true
-     *
-     * _.isArray(function() { return arguments; }());
-     * // => false
-     */
-    var isArray = nativeIsArray || function(value) {
-      return isObjectLike(value) && isLength(value.length) && objToString.call(value) == arrayTag;
-    };
-
-    /**
-     * Checks if `value` is classified as a boolean primitive or object.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-     * @example
-     *
-     * _.isBoolean(false);
-     * // => true
-     *
-     * _.isBoolean(null);
-     * // => false
-     */
-    function isBoolean(value) {
-      return value === true || value === false || (isObjectLike(value) && objToString.call(value) == boolTag);
-    }
-
-    /**
-     * Checks if `value` is classified as a `Date` object.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-     * @example
-     *
-     * _.isDate(new Date);
-     * // => true
-     *
-     * _.isDate('Mon April 23 2012');
-     * // => false
-     */
-    function isDate(value) {
-      return isObjectLike(value) && objToString.call(value) == dateTag;
-    }
-
-    /**
-     * Checks if `value` is a DOM element.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is a DOM element, else `false`.
-     * @example
-     *
-     * _.isElement(document.body);
-     * // => true
-     *
-     * _.isElement('<body>');
-     * // => false
-     */
-    function isElement(value) {
-      return !!value && value.nodeType === 1 && isObjectLike(value) &&
-        (objToString.call(value).indexOf('Element') > -1);
-    }
-    // Fallback for environments without DOM support.
-    if (!support.dom) {
-      isElement = function(value) {
-        return !!value && value.nodeType === 1 && isObjectLike(value) && !isPlainObject(value);
-      };
-    }
-
-    /**
-     * Checks if `value` is empty. A value is considered empty unless it is an
-     * `arguments` object, array, string, or jQuery-like collection with a length
-     * greater than `0` or an object with own enumerable properties.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {Array|Object|string} value The value to inspect.
-     * @returns {boolean} Returns `true` if `value` is empty, else `false`.
-     * @example
-     *
-     * _.isEmpty(null);
-     * // => true
-     *
-     * _.isEmpty(true);
-     * // => true
-     *
-     * _.isEmpty(1);
-     * // => true
-     *
-     * _.isEmpty([1, 2, 3]);
-     * // => false
-     *
-     * _.isEmpty({ 'a': 1 });
-     * // => false
-     */
-    function isEmpty(value) {
-      if (value == null) {
-        return true;
-      }
-      if (isArrayLike(value) && (isArray(value) || isString(value) || isArguments(value) ||
-          (isObjectLike(value) && isFunction(value.splice)))) {
-        return !value.length;
-      }
-      return !keys(value).length;
-    }
-
-    /**
-     * Performs a deep comparison between two values to determine if they are
-     * equivalent. If `customizer` is provided it is invoked to compare values.
-     * If `customizer` returns `undefined` comparisons are handled by the method
-     * instead. The `customizer` is bound to `thisArg` and invoked with three
-     * arguments: (value, other [, index|key]).
-     *
-     * **Note:** This method supports comparing arrays, booleans, `Date` objects,
-     * numbers, `Object` objects, regexes, and strings. Objects are compared by
-     * their own, not inherited, enumerable properties. Functions and DOM nodes
-     * are **not** supported. Provide a customizer function to extend support
-     * for comparing other values.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to compare.
-     * @param {*} other The other value to compare.
-     * @param {Function} [customizer] The function to customize value comparisons.
-     * @param {*} [thisArg] The `this` binding of `customizer`.
-     * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
-     * @example
-     *
-     * var object = { 'user': 'fred' };
-     * var other = { 'user': 'fred' };
-     *
-     * object == other;
-     * // => false
-     *
-     * _.isEqual(object, other);
-     * // => true
-     *
-     * // using a customizer callback
-     * var array = ['hello', 'goodbye'];
-     * var other = ['hi', 'goodbye'];
-     *
-     * _.isEqual(array, other, function(value, other) {
-     *   if (_.every([value, other], RegExp.prototype.test, /^h(?:i|ello)$/)) {
-     *     return true;
-     *   }
-     * });
-     * // => true
-     */
-    function isEqual(value, other, customizer, thisArg) {
-      customizer = typeof customizer == 'function' && bindCallback(customizer, thisArg, 3);
-      if (!customizer && isStrictComparable(value) && isStrictComparable(other)) {
-        return value === other;
-      }
-      var result = customizer ? customizer(value, other) : undefined;
-      return result === undefined ? baseIsEqual(value, other, customizer) : !!result;
-    }
-
-    /**
-     * Checks if `value` is an `Error`, `EvalError`, `RangeError`, `ReferenceError`,
-     * `SyntaxError`, `TypeError`, or `URIError` object.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is an error object, else `false`.
-     * @example
-     *
-     * _.isError(new Error);
-     * // => true
-     *
-     * _.isError(Error);
-     * // => false
-     */
-    function isError(value) {
-      return isObjectLike(value) && typeof value.message == 'string' && objToString.call(value) == errorTag;
-    }
-
-    /**
-     * Checks if `value` is a finite primitive number.
-     *
-     * **Note:** This method is based on [`Number.isFinite`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-number.isfinite).
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is a finite number, else `false`.
-     * @example
-     *
-     * _.isFinite(10);
-     * // => true
-     *
-     * _.isFinite('10');
-     * // => false
-     *
-     * _.isFinite(true);
-     * // => false
-     *
-     * _.isFinite(Object(10));
-     * // => false
-     *
-     * _.isFinite(Infinity);
-     * // => false
-     */
-    var isFinite = nativeNumIsFinite || function(value) {
-      return typeof value == 'number' && nativeIsFinite(value);
-    };
-
-    /**
-     * Checks if `value` is classified as a `Function` object.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-     * @example
-     *
-     * _.isFunction(_);
-     * // => true
-     *
-     * _.isFunction(/abc/);
-     * // => false
-     */
-    var isFunction = !(baseIsFunction(/x/) || (Uint8Array && !baseIsFunction(Uint8Array))) ? baseIsFunction : function(value) {
-      // The use of `Object#toString` avoids issues with the `typeof` operator
-      // in older versions of Chrome and Safari which return 'function' for regexes
-      // and Safari 8 equivalents which return 'object' for typed array constructors.
-      return objToString.call(value) == funcTag;
-    };
-
-    /**
-     * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
-     * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-     * @example
-     *
-     * _.isObject({});
-     * // => true
-     *
-     * _.isObject([1, 2, 3]);
-     * // => true
-     *
-     * _.isObject(1);
-     * // => false
-     */
-    function isObject(value) {
-      // Avoid a V8 JIT bug in Chrome 19-20.
-      // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-      var type = typeof value;
-      return type == 'function' || (!!value && type == 'object');
-    }
-
-    /**
-     * Performs a deep comparison between `object` and `source` to determine if
-     * `object` contains equivalent property values. If `customizer` is provided
-     * it is invoked to compare values. If `customizer` returns `undefined`
-     * comparisons are handled by the method instead. The `customizer` is bound
-     * to `thisArg` and invoked with three arguments: (value, other, index|key).
-     *
-     * **Note:** This method supports comparing properties of arrays, booleans,
-     * `Date` objects, numbers, `Object` objects, regexes, and strings. Functions
-     * and DOM nodes are **not** supported. Provide a customizer function to extend
-     * support for comparing other values.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {Object} object The object to inspect.
-     * @param {Object} source The object of property values to match.
-     * @param {Function} [customizer] The function to customize value comparisons.
-     * @param {*} [thisArg] The `this` binding of `customizer`.
-     * @returns {boolean} Returns `true` if `object` is a match, else `false`.
-     * @example
-     *
-     * var object = { 'user': 'fred', 'age': 40 };
-     *
-     * _.isMatch(object, { 'age': 40 });
-     * // => true
-     *
-     * _.isMatch(object, { 'age': 36 });
-     * // => false
-     *
-     * // using a customizer callback
-     * var object = { 'greeting': 'hello' };
-     * var source = { 'greeting': 'hi' };
-     *
-     * _.isMatch(object, source, function(value, other) {
-     *   return _.every([value, other], RegExp.prototype.test, /^h(?:i|ello)$/) || undefined;
-     * });
-     * // => true
-     */
-    function isMatch(object, source, customizer, thisArg) {
-      var props = keys(source),
-          length = props.length;
-
-      if (!length) {
-        return true;
-      }
-      if (object == null) {
-        return false;
-      }
-      customizer = typeof customizer == 'function' && bindCallback(customizer, thisArg, 3);
-      object = toObject(object);
-      if (!customizer && length == 1) {
-        var key = props[0],
-            value = source[key];
-
-        if (isStrictComparable(value)) {
-          return value === object[key] && (value !== undefined || (key in object));
-        }
-      }
-      var values = Array(length),
-          strictCompareFlags = Array(length);
-
-      while (length--) {
-        value = values[length] = source[props[length]];
-        strictCompareFlags[length] = isStrictComparable(value);
-      }
-      return baseIsMatch(object, props, values, strictCompareFlags, customizer);
-    }
-
-    /**
-     * Checks if `value` is `NaN`.
-     *
-     * **Note:** This method is not the same as [`isNaN`](https://es5.github.io/#x15.1.2.4)
-     * which returns `true` for `undefined` and other non-numeric values.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
-     * @example
-     *
-     * _.isNaN(NaN);
-     * // => true
-     *
-     * _.isNaN(new Number(NaN));
-     * // => true
-     *
-     * isNaN(undefined);
-     * // => true
-     *
-     * _.isNaN(undefined);
-     * // => false
-     */
-    function isNaN(value) {
-      // An `NaN` primitive is the only value that is not equal to itself.
-      // Perform the `toStringTag` check first to avoid errors with some host objects in IE.
-      return isNumber(value) && value != +value;
-    }
-
-    /**
-     * Checks if `value` is a native function.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is a native function, else `false`.
-     * @example
-     *
-     * _.isNative(Array.prototype.push);
-     * // => true
-     *
-     * _.isNative(_);
-     * // => false
-     */
-    function isNative(value) {
-      if (value == null) {
-        return false;
-      }
-      if (objToString.call(value) == funcTag) {
-        return reIsNative.test(fnToString.call(value));
-      }
-      return isObjectLike(value) && reIsHostCtor.test(value);
-    }
-
-    /**
-     * Checks if `value` is `null`.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is `null`, else `false`.
-     * @example
-     *
-     * _.isNull(null);
-     * // => true
-     *
-     * _.isNull(void 0);
-     * // => false
-     */
-    function isNull(value) {
-      return value === null;
-    }
-
-    /**
-     * Checks if `value` is classified as a `Number` primitive or object.
-     *
-     * **Note:** To exclude `Infinity`, `-Infinity`, and `NaN`, which are classified
-     * as numbers, use the `_.isFinite` method.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-     * @example
-     *
-     * _.isNumber(8.4);
-     * // => true
-     *
-     * _.isNumber(NaN);
-     * // => true
-     *
-     * _.isNumber('8.4');
-     * // => false
-     */
-    function isNumber(value) {
-      return typeof value == 'number' || (isObjectLike(value) && objToString.call(value) == numberTag);
-    }
-
-    /**
-     * Checks if `value` is a plain object, that is, an object created by the
-     * `Object` constructor or one with a `[[Prototype]]` of `null`.
-     *
-     * **Note:** This method assumes objects created by the `Object` constructor
-     * have no inherited enumerable properties.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is a plain object, else `false`.
-     * @example
-     *
-     * function Foo() {
-     *   this.a = 1;
-     * }
-     *
-     * _.isPlainObject(new Foo);
-     * // => false
-     *
-     * _.isPlainObject([1, 2, 3]);
-     * // => false
-     *
-     * _.isPlainObject({ 'x': 0, 'y': 0 });
-     * // => true
-     *
-     * _.isPlainObject(Object.create(null));
-     * // => true
-     */
-    var isPlainObject = !getPrototypeOf ? shimIsPlainObject : function(value) {
-      if (!(value && objToString.call(value) == objectTag)) {
-        return false;
-      }
-      var valueOf = value.valueOf,
-          objProto = isNative(valueOf) && (objProto = getPrototypeOf(valueOf)) && getPrototypeOf(objProto);
-
-      return objProto
-        ? (value == objProto || getPrototypeOf(value) == objProto)
-        : shimIsPlainObject(value);
-    };
-
-    /**
-     * Checks if `value` is classified as a `RegExp` object.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-     * @example
-     *
-     * _.isRegExp(/abc/);
-     * // => true
-     *
-     * _.isRegExp('/abc/');
-     * // => false
-     */
-    function isRegExp(value) {
-      return isObjectLike(value) && objToString.call(value) == regexpTag;
-    }
-
-    /**
-     * Checks if `value` is classified as a `String` primitive or object.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-     * @example
-     *
-     * _.isString('abc');
-     * // => true
-     *
-     * _.isString(1);
-     * // => false
-     */
-    function isString(value) {
-      return typeof value == 'string' || (isObjectLike(value) && objToString.call(value) == stringTag);
-    }
-
-    /**
-     * Checks if `value` is classified as a typed array.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is correctly classified, else `false`.
-     * @example
-     *
-     * _.isTypedArray(new Uint8Array);
-     * // => true
-     *
-     * _.isTypedArray([]);
-     * // => false
-     */
-    function isTypedArray(value) {
-      return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[objToString.call(value)];
-    }
-
-    /**
-     * Checks if `value` is `undefined`.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to check.
-     * @returns {boolean} Returns `true` if `value` is `undefined`, else `false`.
-     * @example
-     *
-     * _.isUndefined(void 0);
-     * // => true
-     *
-     * _.isUndefined(null);
-     * // => false
-     */
-    function isUndefined(value) {
-      return value === undefined;
-    }
-
-    /**
-     * Converts `value` to an array.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to convert.
-     * @returns {Array} Returns the converted array.
-     * @example
-     *
-     * (function() {
-     *   return _.toArray(arguments).slice(1);
-     * }(1, 2, 3));
-     * // => [2, 3]
-     */
-    function toArray(value) {
-      var length = value ? getLength(value) : 0;
-      if (!isLength(length)) {
-        return values(value);
-      }
-      if (!length) {
-        return [];
-      }
-      return arrayCopy(value);
-    }
-
-    /**
-     * Converts `value` to a plain object flattening inherited enumerable
-     * properties of `value` to own properties of the plain object.
-     *
-     * @static
-     * @memberOf _
-     * @category Lang
-     * @param {*} value The value to convert.
-     * @returns {Object} Returns the converted plain object.
-     * @example
-     *
-     * function Foo() {
-     *   this.b = 2;
-     * }
-     *
-     * Foo.prototype.c = 3;
-     *
-     * _.assign({ 'a': 1 }, new Foo);
-     * // => { 'a': 1, 'b': 2 }
-     *
-     * _.assign({ 'a': 1 }, _.toPlainObject(new Foo));
-     * // => { 'a': 1, 'b': 2, 'c': 3 }
-     */
-    function toPlainObject(value) {
-      return baseCopy(value, keysIn(value));
-    }
-
-    /**
-     * Assigns own enumerable properties of source object(s) to the destination
-     * object. Subsequent sources overwrite property assignments of previous sources.
-     * If `customizer` is provided it is invoked to produce the assigned values.
-     * The `customizer` is bound to `thisArg` and invoked with five arguments:
-     * (objectValue, sourceValue, key, object, source).
-     *
-     * **Note:** This method mutates `object` and is based on
-     * [`Object.assign`](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.assign).
-     *
-     * @static
-     * @memberOf _
-     * @alias extend
-     * @category Object
-     * @param {Object} object The destination object.
-     * @param {...Object} [sources] The source objects.
-     * @param {Function} [customizer] The function to customize assigned values.
-     * @param {*} [thisArg] The `this` binding of `customizer`.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * _.assign({ 'user': 'barney' }, { 'age': 40 }, { 'user': 'fred' });
-     * // => { 'user': 'fred', 'age': 40 }
-     *
-     * // using a customizer callback
-     * var defaults = _.partialRight(_.assign, function(value, other) {
-     *   return _.isUndefined(value) ? other : value;
-     * });
-     *
-     * defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
-     * // => { 'user': 'barney', 'age': 36 }
-     */
-    var assign = createAssigner(function(object, source, customizer) {
-      return customizer
-        ? assignWith(object, source, customizer)
-        : baseAssign(object, source);
-    });
-
-    /**
-     * Creates an object that inherits from the given `prototype` object. If a
-     * `properties` object is provided its own enumerable properties are assigned
-     * to the created object.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} prototype The object to inherit from.
-     * @param {Object} [properties] The properties to assign to the object.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Object} Returns the new object.
-     * @example
-     *
-     * function Shape() {
-     *   this.x = 0;
-     *   this.y = 0;
-     * }
-     *
-     * function Circle() {
-     *   Shape.call(this);
-     * }
-     *
-     * Circle.prototype = _.create(Shape.prototype, {
-     *   'constructor': Circle
-     * });
-     *
-     * var circle = new Circle;
-     * circle instanceof Circle;
-     * // => true
-     *
-     * circle instanceof Shape;
-     * // => true
-     */
-    function create(prototype, properties, guard) {
-      var result = baseCreate(prototype);
-      if (guard && isIterateeCall(prototype, properties, guard)) {
-        properties = null;
-      }
-      return properties ? baseAssign(result, properties) : result;
-    }
-
-    /**
-     * Assigns own enumerable properties of source object(s) to the destination
-     * object for all destination properties that resolve to `undefined`. Once a
-     * property is set, additional values of the same property are ignored.
-     *
-     * **Note:** This method mutates `object`.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The destination object.
-     * @param {...Object} [sources] The source objects.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * _.defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
-     * // => { 'user': 'barney', 'age': 36 }
-     */
-    var defaults = restParam(function(args) {
-      var object = args[0];
-      if (object == null) {
-        return object;
-      }
-      args.push(assignDefaults);
-      return assign.apply(undefined, args);
-    });
-
-    /**
-     * This method is like `_.find` except that it returns the key of the first
-     * element `predicate` returns truthy for instead of the element itself.
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to search.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {string|undefined} Returns the key of the matched element, else `undefined`.
-     * @example
-     *
-     * var users = {
-     *   'barney':  { 'age': 36, 'active': true },
-     *   'fred':    { 'age': 40, 'active': false },
-     *   'pebbles': { 'age': 1,  'active': true }
-     * };
-     *
-     * _.findKey(users, function(chr) {
-     *   return chr.age < 40;
-     * });
-     * // => 'barney' (iteration order is not guaranteed)
-     *
-     * // using the `_.matches` callback shorthand
-     * _.findKey(users, { 'age': 1, 'active': true });
-     * // => 'pebbles'
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.findKey(users, 'active', false);
-     * // => 'fred'
-     *
-     * // using the `_.property` callback shorthand
-     * _.findKey(users, 'active');
-     * // => 'barney'
-     */
-    var findKey = createFindKey(baseForOwn);
-
-    /**
-     * This method is like `_.findKey` except that it iterates over elements of
-     * a collection in the opposite order.
-     *
-     * If a property name is provided for `predicate` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `predicate` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to search.
-     * @param {Function|Object|string} [predicate=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {string|undefined} Returns the key of the matched element, else `undefined`.
-     * @example
-     *
-     * var users = {
-     *   'barney':  { 'age': 36, 'active': true },
-     *   'fred':    { 'age': 40, 'active': false },
-     *   'pebbles': { 'age': 1,  'active': true }
-     * };
-     *
-     * _.findLastKey(users, function(chr) {
-     *   return chr.age < 40;
-     * });
-     * // => returns `pebbles` assuming `_.findKey` returns `barney`
-     *
-     * // using the `_.matches` callback shorthand
-     * _.findLastKey(users, { 'age': 36, 'active': true });
-     * // => 'barney'
-     *
-     * // using the `_.matchesProperty` callback shorthand
-     * _.findLastKey(users, 'active', false);
-     * // => 'fred'
-     *
-     * // using the `_.property` callback shorthand
-     * _.findLastKey(users, 'active');
-     * // => 'pebbles'
-     */
-    var findLastKey = createFindKey(baseForOwnRight);
-
-    /**
-     * Iterates over own and inherited enumerable properties of an object invoking
-     * `iteratee` for each property. The `iteratee` is bound to `thisArg` and invoked
-     * with three arguments: (value, key, object). Iteratee functions may exit
-     * iteration early by explicitly returning `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to iterate over.
-     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * function Foo() {
-     *   this.a = 1;
-     *   this.b = 2;
-     * }
-     *
-     * Foo.prototype.c = 3;
-     *
-     * _.forIn(new Foo, function(value, key) {
-     *   console.log(key);
-     * });
-     * // => logs 'a', 'b', and 'c' (iteration order is not guaranteed)
-     */
-    var forIn = createForIn(baseFor);
-
-    /**
-     * This method is like `_.forIn` except that it iterates over properties of
-     * `object` in the opposite order.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to iterate over.
-     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * function Foo() {
-     *   this.a = 1;
-     *   this.b = 2;
-     * }
-     *
-     * Foo.prototype.c = 3;
-     *
-     * _.forInRight(new Foo, function(value, key) {
-     *   console.log(key);
-     * });
-     * // => logs 'c', 'b', and 'a' assuming `_.forIn ` logs 'a', 'b', and 'c'
-     */
-    var forInRight = createForIn(baseForRight);
-
-    /**
-     * Iterates over own enumerable properties of an object invoking `iteratee`
-     * for each property. The `iteratee` is bound to `thisArg` and invoked with
-     * three arguments: (value, key, object). Iteratee functions may exit iteration
-     * early by explicitly returning `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to iterate over.
-     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * function Foo() {
-     *   this.a = 1;
-     *   this.b = 2;
-     * }
-     *
-     * Foo.prototype.c = 3;
-     *
-     * _.forOwn(new Foo, function(value, key) {
-     *   console.log(key);
-     * });
-     * // => logs 'a' and 'b' (iteration order is not guaranteed)
-     */
-    var forOwn = createForOwn(baseForOwn);
-
-    /**
-     * This method is like `_.forOwn` except that it iterates over properties of
-     * `object` in the opposite order.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to iterate over.
-     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * function Foo() {
-     *   this.a = 1;
-     *   this.b = 2;
-     * }
-     *
-     * Foo.prototype.c = 3;
-     *
-     * _.forOwnRight(new Foo, function(value, key) {
-     *   console.log(key);
-     * });
-     * // => logs 'b' and 'a' assuming `_.forOwn` logs 'a' and 'b'
-     */
-    var forOwnRight = createForOwn(baseForOwnRight);
-
-    /**
-     * Creates an array of function property names from all enumerable properties,
-     * own and inherited, of `object`.
-     *
-     * @static
-     * @memberOf _
-     * @alias methods
-     * @category Object
-     * @param {Object} object The object to inspect.
-     * @returns {Array} Returns the new array of property names.
-     * @example
-     *
-     * _.functions(_);
-     * // => ['after', 'ary', 'assign', ...]
-     */
-    function functions(object) {
-      return baseFunctions(object, keysIn(object));
-    }
-
-    /**
-     * Gets the property value of `path` on `object`. If the resolved value is
-     * `undefined` the `defaultValue` is used in its place.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to query.
-     * @param {Array|string} path The path of the property to get.
-     * @param {*} [defaultValue] The value returned if the resolved value is `undefined`.
-     * @returns {*} Returns the resolved value.
-     * @example
-     *
-     * var object = { 'a': [{ 'b': { 'c': 3 } }] };
-     *
-     * _.get(object, 'a[0].b.c');
-     * // => 3
-     *
-     * _.get(object, ['a', '0', 'b', 'c']);
-     * // => 3
-     *
-     * _.get(object, 'a.b.c', 'default');
-     * // => 'default'
-     */
-    function get(object, path, defaultValue) {
-      var result = object == null ? undefined : baseGet(object, toPath(path), path + '');
-      return result === undefined ? defaultValue : result;
-    }
-
-    /**
-     * Checks if `path` is a direct property.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to query.
-     * @param {Array|string} path The path to check.
-     * @returns {boolean} Returns `true` if `path` is a direct property, else `false`.
-     * @example
-     *
-     * var object = { 'a': { 'b': { 'c': 3 } } };
-     *
-     * _.has(object, 'a');
-     * // => true
-     *
-     * _.has(object, 'a.b.c');
-     * // => true
-     *
-     * _.has(object, ['a', 'b', 'c']);
-     * // => true
-     */
-    function has(object, path) {
-      if (object == null) {
-        return false;
-      }
-      var result = hasOwnProperty.call(object, path);
-      if (!result && !isKey(path)) {
-        path = toPath(path);
-        object = path.length == 1 ? object : baseGet(object, baseSlice(path, 0, -1));
-        path = last(path);
-        result = object != null && hasOwnProperty.call(object, path);
-      }
-      return result;
-    }
-
-    /**
-     * Creates an object composed of the inverted keys and values of `object`.
-     * If `object` contains duplicate values, subsequent values overwrite property
-     * assignments of previous values unless `multiValue` is `true`.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to invert.
-     * @param {boolean} [multiValue] Allow multiple values per key.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Object} Returns the new inverted object.
-     * @example
-     *
-     * var object = { 'a': 1, 'b': 2, 'c': 1 };
-     *
-     * _.invert(object);
-     * // => { '1': 'c', '2': 'b' }
-     *
-     * // with `multiValue`
-     * _.invert(object, true);
-     * // => { '1': ['a', 'c'], '2': ['b'] }
-     */
-    function invert(object, multiValue, guard) {
-      if (guard && isIterateeCall(object, multiValue, guard)) {
-        multiValue = null;
-      }
-      var index = -1,
-          props = keys(object),
-          length = props.length,
-          result = {};
-
-      while (++index < length) {
-        var key = props[index],
-            value = object[key];
-
-        if (multiValue) {
-          if (hasOwnProperty.call(result, value)) {
-            result[value].push(key);
-          } else {
-            result[value] = [key];
-          }
-        }
-        else {
-          result[value] = key;
-        }
-      }
-      return result;
-    }
-
-    /**
-     * Creates an array of the own enumerable property names of `object`.
-     *
-     * **Note:** Non-object values are coerced to objects. See the
-     * [ES spec](https://people.mozilla.org/~jorendorff/es6-draft.html#sec-object.keys)
-     * for more details.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to query.
-     * @returns {Array} Returns the array of property names.
-     * @example
-     *
-     * function Foo() {
-     *   this.a = 1;
-     *   this.b = 2;
-     * }
-     *
-     * Foo.prototype.c = 3;
-     *
-     * _.keys(new Foo);
-     * // => ['a', 'b'] (iteration order is not guaranteed)
-     *
-     * _.keys('hi');
-     * // => ['0', '1']
-     */
-    var keys = !nativeKeys ? shimKeys : function(object) {
-      var Ctor = object != null && object.constructor;
-      if ((typeof Ctor == 'function' && Ctor.prototype === object) ||
-          (typeof object != 'function' && isArrayLike(object))) {
-        return shimKeys(object);
-      }
-      return isObject(object) ? nativeKeys(object) : [];
-    };
-
-    /**
-     * Creates an array of the own and inherited enumerable property names of `object`.
-     *
-     * **Note:** Non-object values are coerced to objects.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to query.
-     * @returns {Array} Returns the array of property names.
-     * @example
-     *
-     * function Foo() {
-     *   this.a = 1;
-     *   this.b = 2;
-     * }
-     *
-     * Foo.prototype.c = 3;
-     *
-     * _.keysIn(new Foo);
-     * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
-     */
-    function keysIn(object) {
-      if (object == null) {
-        return [];
-      }
-      if (!isObject(object)) {
-        object = Object(object);
-      }
-      var length = object.length;
-      length = (length && isLength(length) &&
-        (isArray(object) || (support.nonEnumArgs && isArguments(object))) && length) || 0;
-
-      var Ctor = object.constructor,
-          index = -1,
-          isProto = typeof Ctor == 'function' && Ctor.prototype === object,
-          result = Array(length),
-          skipIndexes = length > 0;
-
-      while (++index < length) {
-        result[index] = (index + '');
-      }
-      for (var key in object) {
-        if (!(skipIndexes && isIndex(key, length)) &&
-            !(key == 'constructor' && (isProto || !hasOwnProperty.call(object, key)))) {
-          result.push(key);
-        }
-      }
-      return result;
-    }
-
-    /**
-     * The opposite of `_.mapValues`; this method creates an object with the
-     * same values as `object` and keys generated by running each own enumerable
-     * property of `object` through `iteratee`.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to iterate over.
-     * @param {Function|Object|string} [iteratee=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Object} Returns the new mapped object.
-     * @example
-     *
-     * _.mapKeys({ 'a': 1, 'b': 2 }, function(value, key) {
-     *   return key + value;
-     * });
-     * // => { 'a1': 1, 'b2': 2 }
-     */
-    var mapKeys = createObjectMapper(true);
-
-    /**
-     * Creates an object with the same keys as `object` and values generated by
-     * running each own enumerable property of `object` through `iteratee`. The
-     * iteratee function is bound to `thisArg` and invoked with three arguments:
-     * (value, key, object).
-     *
-     * If a property name is provided for `iteratee` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `iteratee` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to iterate over.
-     * @param {Function|Object|string} [iteratee=_.identity] The function invoked
-     *  per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Object} Returns the new mapped object.
-     * @example
-     *
-     * _.mapValues({ 'a': 1, 'b': 2 }, function(n) {
-     *   return n * 3;
-     * });
-     * // => { 'a': 3, 'b': 6 }
-     *
-     * var users = {
-     *   'fred':    { 'user': 'fred',    'age': 40 },
-     *   'pebbles': { 'user': 'pebbles', 'age': 1 }
-     * };
-     *
-     * // using the `_.property` callback shorthand
-     * _.mapValues(users, 'age');
-     * // => { 'fred': 40, 'pebbles': 1 } (iteration order is not guaranteed)
-     */
-    var mapValues = createObjectMapper();
-
-    /**
-     * Recursively merges own enumerable properties of the source object(s), that
-     * don't resolve to `undefined` into the destination object. Subsequent sources
-     * overwrite property assignments of previous sources. If `customizer` is
-     * provided it is invoked to produce the merged values of the destination and
-     * source properties. If `customizer` returns `undefined` merging is handled
-     * by the method instead. The `customizer` is bound to `thisArg` and invoked
-     * with five arguments: (objectValue, sourceValue, key, object, source).
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The destination object.
-     * @param {...Object} [sources] The source objects.
-     * @param {Function} [customizer] The function to customize assigned values.
-     * @param {*} [thisArg] The `this` binding of `customizer`.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * var users = {
-     *   'data': [{ 'user': 'barney' }, { 'user': 'fred' }]
-     * };
-     *
-     * var ages = {
-     *   'data': [{ 'age': 36 }, { 'age': 40 }]
-     * };
-     *
-     * _.merge(users, ages);
-     * // => { 'data': [{ 'user': 'barney', 'age': 36 }, { 'user': 'fred', 'age': 40 }] }
-     *
-     * // using a customizer callback
-     * var object = {
-     *   'fruits': ['apple'],
-     *   'vegetables': ['beet']
-     * };
-     *
-     * var other = {
-     *   'fruits': ['banana'],
-     *   'vegetables': ['carrot']
-     * };
-     *
-     * _.merge(object, other, function(a, b) {
-     *   if (_.isArray(a)) {
-     *     return a.concat(b);
-     *   }
-     * });
-     * // => { 'fruits': ['apple', 'banana'], 'vegetables': ['beet', 'carrot'] }
-     */
-    var merge = createAssigner(baseMerge);
-
-    /**
-     * The opposite of `_.pick`; this method creates an object composed of the
-     * own and inherited enumerable properties of `object` that are not omitted.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The source object.
-     * @param {Function|...(string|string[])} [predicate] The function invoked per
-     *  iteration or property names to omit, specified as individual property
-     *  names or arrays of property names.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {Object} Returns the new object.
-     * @example
-     *
-     * var object = { 'user': 'fred', 'age': 40 };
-     *
-     * _.omit(object, 'age');
-     * // => { 'user': 'fred' }
-     *
-     * _.omit(object, _.isNumber);
-     * // => { 'user': 'fred' }
-     */
-    var omit = restParam(function(object, props) {
-      if (object == null) {
-        return {};
-      }
-      if (typeof props[0] != 'function') {
-        var props = arrayMap(baseFlatten(props), String);
-        return pickByArray(object, baseDifference(keysIn(object), props));
-      }
-      var predicate = bindCallback(props[0], props[1], 3);
-      return pickByCallback(object, function(value, key, object) {
-        return !predicate(value, key, object);
-      });
-    });
-
-    /**
-     * Creates a two dimensional array of the key-value pairs for `object`,
-     * e.g. `[[key1, value1], [key2, value2]]`.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to query.
-     * @returns {Array} Returns the new array of key-value pairs.
-     * @example
-     *
-     * _.pairs({ 'barney': 36, 'fred': 40 });
-     * // => [['barney', 36], ['fred', 40]] (iteration order is not guaranteed)
-     */
-    function pairs(object) {
-      var index = -1,
-          props = keys(object),
-          length = props.length,
-          result = Array(length);
-
-      while (++index < length) {
-        var key = props[index];
-        result[index] = [key, object[key]];
-      }
-      return result;
-    }
-
-    /**
-     * Creates an object composed of the picked `object` properties. Property
-     * names may be specified as individual arguments or as arrays of property
-     * names. If `predicate` is provided it is invoked for each property of `object`
-     * picking the properties `predicate` returns truthy for. The predicate is
-     * bound to `thisArg` and invoked with three arguments: (value, key, object).
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The source object.
-     * @param {Function|...(string|string[])} [predicate] The function invoked per
-     *  iteration or property names to pick, specified as individual property
-     *  names or arrays of property names.
-     * @param {*} [thisArg] The `this` binding of `predicate`.
-     * @returns {Object} Returns the new object.
-     * @example
-     *
-     * var object = { 'user': 'fred', 'age': 40 };
-     *
-     * _.pick(object, 'user');
-     * // => { 'user': 'fred' }
-     *
-     * _.pick(object, _.isString);
-     * // => { 'user': 'fred' }
-     */
-    var pick = restParam(function(object, props) {
-      if (object == null) {
-        return {};
-      }
-      return typeof props[0] == 'function'
-        ? pickByCallback(object, bindCallback(props[0], props[1], 3))
-        : pickByArray(object, baseFlatten(props));
-    });
-
-    /**
-     * This method is like `_.get` except that if the resolved value is a function
-     * it is invoked with the `this` binding of its parent object and its result
-     * is returned.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to query.
-     * @param {Array|string} path The path of the property to resolve.
-     * @param {*} [defaultValue] The value returned if the resolved value is `undefined`.
-     * @returns {*} Returns the resolved value.
-     * @example
-     *
-     * var object = { 'a': [{ 'b': { 'c1': 3, 'c2': _.constant(4) } }] };
-     *
-     * _.result(object, 'a[0].b.c1');
-     * // => 3
-     *
-     * _.result(object, 'a[0].b.c2');
-     * // => 4
-     *
-     * _.result(object, 'a.b.c', 'default');
-     * // => 'default'
-     *
-     * _.result(object, 'a.b.c', _.constant('default'));
-     * // => 'default'
-     */
-    function result(object, path, defaultValue) {
-      var result = object == null ? undefined : object[path];
-      if (result === undefined) {
-        if (object != null && !isKey(path, object)) {
-          path = toPath(path);
-          object = path.length == 1 ? object : baseGet(object, baseSlice(path, 0, -1));
-          result = object == null ? undefined : object[last(path)];
-        }
-        result = result === undefined ? defaultValue : result;
-      }
-      return isFunction(result) ? result.call(object) : result;
-    }
-
-    /**
-     * Sets the property value of `path` on `object`. If a portion of `path`
-     * does not exist it is created.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to augment.
-     * @param {Array|string} path The path of the property to set.
-     * @param {*} value The value to set.
-     * @returns {Object} Returns `object`.
-     * @example
-     *
-     * var object = { 'a': [{ 'b': { 'c': 3 } }] };
-     *
-     * _.set(object, 'a[0].b.c', 4);
-     * console.log(object.a[0].b.c);
-     * // => 4
-     *
-     * _.set(object, 'x[0].y.z', 5);
-     * console.log(object.x[0].y.z);
-     * // => 5
-     */
-    function set(object, path, value) {
-      if (object == null) {
-        return object;
-      }
-      var pathKey = (path + '');
-      path = (object[pathKey] != null || isKey(path, object)) ? [pathKey] : toPath(path);
-
-      var index = -1,
-          length = path.length,
-          endIndex = length - 1,
-          nested = object;
-
-      while (nested != null && ++index < length) {
-        var key = path[index];
-        if (isObject(nested)) {
-          if (index == endIndex) {
-            nested[key] = value;
-          } else if (nested[key] == null) {
-            nested[key] = isIndex(path[index + 1]) ? [] : {};
-          }
-        }
-        nested = nested[key];
-      }
-      return object;
-    }
-
-    /**
-     * An alternative to `_.reduce`; this method transforms `object` to a new
-     * `accumulator` object which is the result of running each of its own enumerable
-     * properties through `iteratee`, with each invocation potentially mutating
-     * the `accumulator` object. The `iteratee` is bound to `thisArg` and invoked
-     * with four arguments: (accumulator, value, key, object). Iteratee functions
-     * may exit iteration early by explicitly returning `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Array|Object} object The object to iterate over.
-     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-     * @param {*} [accumulator] The custom accumulator value.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {*} Returns the accumulated value.
-     * @example
-     *
-     * _.transform([2, 3, 4], function(result, n) {
-     *   result.push(n *= n);
-     *   return n % 2 == 0;
-     * });
-     * // => [4, 9]
-     *
-     * _.transform({ 'a': 1, 'b': 2 }, function(result, n, key) {
-     *   result[key] = n * 3;
-     * });
-     * // => { 'a': 3, 'b': 6 }
-     */
-    function transform(object, iteratee, accumulator, thisArg) {
-      var isArr = isArray(object) || isTypedArray(object);
-      iteratee = getCallback(iteratee, thisArg, 4);
-
-      if (accumulator == null) {
-        if (isArr || isObject(object)) {
-          var Ctor = object.constructor;
-          if (isArr) {
-            accumulator = isArray(object) ? new Ctor : [];
-          } else {
-            accumulator = baseCreate(isFunction(Ctor) && Ctor.prototype);
-          }
-        } else {
-          accumulator = {};
-        }
-      }
-      (isArr ? arrayEach : baseForOwn)(object, function(value, index, object) {
-        return iteratee(accumulator, value, index, object);
-      });
-      return accumulator;
-    }
-
-    /**
-     * Creates an array of the own enumerable property values of `object`.
-     *
-     * **Note:** Non-object values are coerced to objects.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to query.
-     * @returns {Array} Returns the array of property values.
-     * @example
-     *
-     * function Foo() {
-     *   this.a = 1;
-     *   this.b = 2;
-     * }
-     *
-     * Foo.prototype.c = 3;
-     *
-     * _.values(new Foo);
-     * // => [1, 2] (iteration order is not guaranteed)
-     *
-     * _.values('hi');
-     * // => ['h', 'i']
-     */
-    function values(object) {
-      return baseValues(object, keys(object));
-    }
-
-    /**
-     * Creates an array of the own and inherited enumerable property values
-     * of `object`.
-     *
-     * **Note:** Non-object values are coerced to objects.
-     *
-     * @static
-     * @memberOf _
-     * @category Object
-     * @param {Object} object The object to query.
-     * @returns {Array} Returns the array of property values.
-     * @example
-     *
-     * function Foo() {
-     *   this.a = 1;
-     *   this.b = 2;
-     * }
-     *
-     * Foo.prototype.c = 3;
-     *
-     * _.valuesIn(new Foo);
-     * // => [1, 2, 3] (iteration order is not guaranteed)
-     */
-    function valuesIn(object) {
-      return baseValues(object, keysIn(object));
-    }
-
-    /**
-     * Checks if `n` is between `start` and up to but not including, `end`. If
-     * `end` is not specified it is set to `start` with `start` then set to `0`.
-     *
-     * @static
-     * @memberOf _
-     * @category Number
-     * @param {number} n The number to check.
-     * @param {number} [start=0] The start of the range.
-     * @param {number} end The end of the range.
-     * @returns {boolean} Returns `true` if `n` is in the range, else `false`.
-     * @example
-     *
-     * _.inRange(3, 2, 4);
-     * // => true
-     *
-     * _.inRange(4, 8);
-     * // => true
-     *
-     * _.inRange(4, 2);
-     * // => false
-     *
-     * _.inRange(2, 2);
-     * // => false
-     *
-     * _.inRange(1.2, 2);
-     * // => true
-     *
-     * _.inRange(5.2, 4);
-     * // => false
-     */
-    function inRange(value, start, end) {
-      start = +start || 0;
-      if (typeof end === 'undefined') {
-        end = start;
-        start = 0;
-      } else {
-        end = +end || 0;
-      }
-      return value >= nativeMin(start, end) && value < nativeMax(start, end);
-    }
-
-    /**
-     * Produces a random number between `min` and `max` (inclusive). If only one
-     * argument is provided a number between `0` and the given number is returned.
-     * If `floating` is `true`, or either `min` or `max` are floats, a floating-point
-     * number is returned instead of an integer.
-     *
-     * @static
-     * @memberOf _
-     * @category Number
-     * @param {number} [min=0] The minimum possible value.
-     * @param {number} [max=1] The maximum possible value.
-     * @param {boolean} [floating] Specify returning a floating-point number.
-     * @returns {number} Returns the random number.
-     * @example
-     *
-     * _.random(0, 5);
-     * // => an integer between 0 and 5
-     *
-     * _.random(5);
-     * // => also an integer between 0 and 5
-     *
-     * _.random(5, true);
-     * // => a floating-point number between 0 and 5
-     *
-     * _.random(1.2, 5.2);
-     * // => a floating-point number between 1.2 and 5.2
-     */
-    function random(min, max, floating) {
-      if (floating && isIterateeCall(min, max, floating)) {
-        max = floating = null;
-      }
-      var noMin = min == null,
-          noMax = max == null;
-
-      if (floating == null) {
-        if (noMax && typeof min == 'boolean') {
-          floating = min;
-          min = 1;
-        }
-        else if (typeof max == 'boolean') {
-          floating = max;
-          noMax = true;
-        }
-      }
-      if (noMin && noMax) {
-        max = 1;
-        noMax = false;
-      }
-      min = +min || 0;
-      if (noMax) {
-        max = min;
-        min = 0;
-      } else {
-        max = +max || 0;
-      }
-      if (floating || min % 1 || max % 1) {
-        var rand = nativeRandom();
-        return nativeMin(min + (rand * (max - min + parseFloat('1e-' + ((rand + '').length - 1)))), max);
-      }
-      return baseRandom(min, max);
-    }
-
-    /**
-     * Converts `string` to [camel case](https://en.wikipedia.org/wiki/CamelCase).
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to convert.
-     * @returns {string} Returns the camel cased string.
-     * @example
-     *
-     * _.camelCase('Foo Bar');
-     * // => 'fooBar'
-     *
-     * _.camelCase('--foo-bar');
-     * // => 'fooBar'
-     *
-     * _.camelCase('__foo_bar__');
-     * // => 'fooBar'
-     */
-    var camelCase = createCompounder(function(result, word, index) {
-      word = word.toLowerCase();
-      return result + (index ? (word.charAt(0).toUpperCase() + word.slice(1)) : word);
-    });
-
-    /**
-     * Capitalizes the first character of `string`.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to capitalize.
-     * @returns {string} Returns the capitalized string.
-     * @example
-     *
-     * _.capitalize('fred');
-     * // => 'Fred'
-     */
-    function capitalize(string) {
-      string = baseToString(string);
-      return string && (string.charAt(0).toUpperCase() + string.slice(1));
-    }
-
-    /**
-     * Deburrs `string` by converting [latin-1 supplementary letters](https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)#Character_table)
-     * to basic latin letters and removing [combining diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks).
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to deburr.
-     * @returns {string} Returns the deburred string.
-     * @example
-     *
-     * _.deburr('déjà vu');
-     * // => 'deja vu'
-     */
-    function deburr(string) {
-      string = baseToString(string);
-      return string && string.replace(reLatin1, deburrLetter).replace(reComboMark, '');
-    }
-
-    /**
-     * Checks if `string` ends with the given target string.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to search.
-     * @param {string} [target] The string to search for.
-     * @param {number} [position=string.length] The position to search from.
-     * @returns {boolean} Returns `true` if `string` ends with `target`, else `false`.
-     * @example
-     *
-     * _.endsWith('abc', 'c');
-     * // => true
-     *
-     * _.endsWith('abc', 'b');
-     * // => false
-     *
-     * _.endsWith('abc', 'b', 2);
-     * // => true
-     */
-    function endsWith(string, target, position) {
-      string = baseToString(string);
-      target = (target + '');
-
-      var length = string.length;
-      position = position === undefined
-        ? length
-        : nativeMin(position < 0 ? 0 : (+position || 0), length);
-
-      position -= target.length;
-      return position >= 0 && string.indexOf(target, position) == position;
-    }
-
-    /**
-     * Converts the characters "&", "<", ">", '"', "'", and "\`", in `string` to
-     * their corresponding HTML entities.
-     *
-     * **Note:** No other characters are escaped. To escape additional characters
-     * use a third-party library like [_he_](https://mths.be/he).
-     *
-     * Though the ">" character is escaped for symmetry, characters like
-     * ">" and "/" don't require escaping in HTML and have no special meaning
-     * unless they're part of a tag or unquoted attribute value.
-     * See [Mathias Bynens's article](https://mathiasbynens.be/notes/ambiguous-ampersands)
-     * (under "semi-related fun fact") for more details.
-     *
-     * Backticks are escaped because in Internet Explorer < 9, they can break out
-     * of attribute values or HTML comments. See [#59](https://html5sec.org/#59),
-     * [#102](https://html5sec.org/#102), [#108](https://html5sec.org/#108), and
-     * [#133](https://html5sec.org/#133) of the [HTML5 Security Cheatsheet](https://html5sec.org/)
-     * for more details.
-     *
-     * When working with HTML you should always [quote attribute values](http://wonko.com/post/html-escaping)
-     * to reduce XSS vectors.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to escape.
-     * @returns {string} Returns the escaped string.
-     * @example
-     *
-     * _.escape('fred, barney, & pebbles');
-     * // => 'fred, barney, &amp; pebbles'
-     */
-    function escape(string) {
-      // Reset `lastIndex` because in IE < 9 `String#replace` does not.
-      string = baseToString(string);
-      return (string && reHasUnescapedHtml.test(string))
-        ? string.replace(reUnescapedHtml, escapeHtmlChar)
-        : string;
-    }
-
-    /**
-     * Escapes the `RegExp` special characters "\", "/", "^", "$", ".", "|", "?",
-     * "*", "+", "(", ")", "[", "]", "{" and "}" in `string`.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to escape.
-     * @returns {string} Returns the escaped string.
-     * @example
-     *
-     * _.escapeRegExp('[lodash](https://lodash.com/)');
-     * // => '\[lodash\]\(https:\/\/lodash\.com\/\)'
-     */
-    function escapeRegExp(string) {
-      string = baseToString(string);
-      return (string && reHasRegExpChars.test(string))
-        ? string.replace(reRegExpChars, '\\$&')
-        : string;
-    }
-
-    /**
-     * Converts `string` to [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles).
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to convert.
-     * @returns {string} Returns the kebab cased string.
-     * @example
-     *
-     * _.kebabCase('Foo Bar');
-     * // => 'foo-bar'
-     *
-     * _.kebabCase('fooBar');
-     * // => 'foo-bar'
-     *
-     * _.kebabCase('__foo_bar__');
-     * // => 'foo-bar'
-     */
-    var kebabCase = createCompounder(function(result, word, index) {
-      return result + (index ? '-' : '') + word.toLowerCase();
-    });
-
-    /**
-     * Pads `string` on the left and right sides if it is shorter than `length`.
-     * Padding characters are truncated if they can't be evenly divided by `length`.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to pad.
-     * @param {number} [length=0] The padding length.
-     * @param {string} [chars=' '] The string used as padding.
-     * @returns {string} Returns the padded string.
-     * @example
-     *
-     * _.pad('abc', 8);
-     * // => '  abc   '
-     *
-     * _.pad('abc', 8, '_-');
-     * // => '_-abc_-_'
-     *
-     * _.pad('abc', 3);
-     * // => 'abc'
-     */
-    function pad(string, length, chars) {
-      string = baseToString(string);
-      length = +length;
-
-      var strLength = string.length;
-      if (strLength >= length || !nativeIsFinite(length)) {
-        return string;
-      }
-      var mid = (length - strLength) / 2,
-          leftLength = floor(mid),
-          rightLength = ceil(mid);
-
-      chars = createPadding('', rightLength, chars);
-      return chars.slice(0, leftLength) + string + chars;
-    }
-
-    /**
-     * Pads `string` on the left side if it is shorter than `length`. Padding
-     * characters are truncated if they exceed `length`.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to pad.
-     * @param {number} [length=0] The padding length.
-     * @param {string} [chars=' '] The string used as padding.
-     * @returns {string} Returns the padded string.
-     * @example
-     *
-     * _.padLeft('abc', 6);
-     * // => '   abc'
-     *
-     * _.padLeft('abc', 6, '_-');
-     * // => '_-_abc'
-     *
-     * _.padLeft('abc', 3);
-     * // => 'abc'
-     */
-    var padLeft = createPadDir();
-
-    /**
-     * Pads `string` on the right side if it is shorter than `length`. Padding
-     * characters are truncated if they exceed `length`.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to pad.
-     * @param {number} [length=0] The padding length.
-     * @param {string} [chars=' '] The string used as padding.
-     * @returns {string} Returns the padded string.
-     * @example
-     *
-     * _.padRight('abc', 6);
-     * // => 'abc   '
-     *
-     * _.padRight('abc', 6, '_-');
-     * // => 'abc_-_'
-     *
-     * _.padRight('abc', 3);
-     * // => 'abc'
-     */
-    var padRight = createPadDir(true);
-
-    /**
-     * Converts `string` to an integer of the specified radix. If `radix` is
-     * `undefined` or `0`, a `radix` of `10` is used unless `value` is a hexadecimal,
-     * in which case a `radix` of `16` is used.
-     *
-     * **Note:** This method aligns with the [ES5 implementation](https://es5.github.io/#E)
-     * of `parseInt`.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} string The string to convert.
-     * @param {number} [radix] The radix to interpret `value` by.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {number} Returns the converted integer.
-     * @example
-     *
-     * _.parseInt('08');
-     * // => 8
-     *
-     * _.map(['6', '08', '10'], _.parseInt);
-     * // => [6, 8, 10]
-     */
-    function parseInt(string, radix, guard) {
-      if (guard && isIterateeCall(string, radix, guard)) {
-        radix = 0;
-      }
-      return nativeParseInt(string, radix);
-    }
-    // Fallback for environments with pre-ES5 implementations.
-    if (nativeParseInt(whitespace + '08') != 8) {
-      parseInt = function(string, radix, guard) {
-        // Firefox < 21 and Opera < 15 follow ES3 for `parseInt`.
-        // Chrome fails to trim leading <BOM> whitespace characters.
-        // See https://code.google.com/p/v8/issues/detail?id=3109 for more details.
-        if (guard ? isIterateeCall(string, radix, guard) : radix == null) {
-          radix = 0;
-        } else if (radix) {
-          radix = +radix;
-        }
-        string = trim(string);
-        return nativeParseInt(string, radix || (reHasHexPrefix.test(string) ? 16 : 10));
-      };
-    }
-
-    /**
-     * Repeats the given string `n` times.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to repeat.
-     * @param {number} [n=0] The number of times to repeat the string.
-     * @returns {string} Returns the repeated string.
-     * @example
-     *
-     * _.repeat('*', 3);
-     * // => '***'
-     *
-     * _.repeat('abc', 2);
-     * // => 'abcabc'
-     *
-     * _.repeat('abc', 0);
-     * // => ''
-     */
-    function repeat(string, n) {
-      var result = '';
-      string = baseToString(string);
-      n = +n;
-      if (n < 1 || !string || !nativeIsFinite(n)) {
-        return result;
-      }
-      // Leverage the exponentiation by squaring algorithm for a faster repeat.
-      // See https://en.wikipedia.org/wiki/Exponentiation_by_squaring for more details.
-      do {
-        if (n % 2) {
-          result += string;
-        }
-        n = floor(n / 2);
-        string += string;
-      } while (n);
-
-      return result;
-    }
-
-    /**
-     * Converts `string` to [snake case](https://en.wikipedia.org/wiki/Snake_case).
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to convert.
-     * @returns {string} Returns the snake cased string.
-     * @example
-     *
-     * _.snakeCase('Foo Bar');
-     * // => 'foo_bar'
-     *
-     * _.snakeCase('fooBar');
-     * // => 'foo_bar'
-     *
-     * _.snakeCase('--foo-bar');
-     * // => 'foo_bar'
-     */
-    var snakeCase = createCompounder(function(result, word, index) {
-      return result + (index ? '_' : '') + word.toLowerCase();
-    });
-
-    /**
-     * Converts `string` to [start case](https://en.wikipedia.org/wiki/Letter_case#Stylistic_or_specialised_usage).
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to convert.
-     * @returns {string} Returns the start cased string.
-     * @example
-     *
-     * _.startCase('--foo-bar');
-     * // => 'Foo Bar'
-     *
-     * _.startCase('fooBar');
-     * // => 'Foo Bar'
-     *
-     * _.startCase('__foo_bar__');
-     * // => 'Foo Bar'
-     */
-    var startCase = createCompounder(function(result, word, index) {
-      return result + (index ? ' ' : '') + (word.charAt(0).toUpperCase() + word.slice(1));
-    });
-
-    /**
-     * Checks if `string` starts with the given target string.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to search.
-     * @param {string} [target] The string to search for.
-     * @param {number} [position=0] The position to search from.
-     * @returns {boolean} Returns `true` if `string` starts with `target`, else `false`.
-     * @example
-     *
-     * _.startsWith('abc', 'a');
-     * // => true
-     *
-     * _.startsWith('abc', 'b');
-     * // => false
-     *
-     * _.startsWith('abc', 'b', 1);
-     * // => true
-     */
-    function startsWith(string, target, position) {
-      string = baseToString(string);
-      position = position == null
-        ? 0
-        : nativeMin(position < 0 ? 0 : (+position || 0), string.length);
-
-      return string.lastIndexOf(target, position) == position;
-    }
-
-    /**
-     * Creates a compiled template function that can interpolate data properties
-     * in "interpolate" delimiters, HTML-escape interpolated data properties in
-     * "escape" delimiters, and execute JavaScript in "evaluate" delimiters. Data
-     * properties may be accessed as free variables in the template. If a setting
-     * object is provided it takes precedence over `_.templateSettings` values.
-     *
-     * **Note:** In the development build `_.template` utilizes
-     * [sourceURLs](http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/#toc-sourceurl)
-     * for easier debugging.
-     *
-     * For more information on precompiling templates see
-     * [lodash's custom builds documentation](https://lodash.com/custom-builds).
-     *
-     * For more information on Chrome extension sandboxes see
-     * [Chrome's extensions documentation](https://developer.chrome.com/extensions/sandboxingEval).
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The template string.
-     * @param {Object} [options] The options object.
-     * @param {RegExp} [options.escape] The HTML "escape" delimiter.
-     * @param {RegExp} [options.evaluate] The "evaluate" delimiter.
-     * @param {Object} [options.imports] An object to import into the template as free variables.
-     * @param {RegExp} [options.interpolate] The "interpolate" delimiter.
-     * @param {string} [options.sourceURL] The sourceURL of the template's compiled source.
-     * @param {string} [options.variable] The data object variable name.
-     * @param- {Object} [otherOptions] Enables the legacy `options` param signature.
-     * @returns {Function} Returns the compiled template function.
-     * @example
-     *
-     * // using the "interpolate" delimiter to create a compiled template
-     * var compiled = _.template('hello <%= user %>!');
-     * compiled({ 'user': 'fred' });
-     * // => 'hello fred!'
-     *
-     * // using the HTML "escape" delimiter to escape data property values
-     * var compiled = _.template('<b><%- value %></b>');
-     * compiled({ 'value': '<script>' });
-     * // => '<b>&lt;script&gt;</b>'
-     *
-     * // using the "evaluate" delimiter to execute JavaScript and generate HTML
-     * var compiled = _.template('<% _.forEach(users, function(user) { %><li><%- user %></li><% }); %>');
-     * compiled({ 'users': ['fred', 'barney'] });
-     * // => '<li>fred</li><li>barney</li>'
-     *
-     * // using the internal `print` function in "evaluate" delimiters
-     * var compiled = _.template('<% print("hello " + user); %>!');
-     * compiled({ 'user': 'barney' });
-     * // => 'hello barney!'
-     *
-     * // using the ES delimiter as an alternative to the default "interpolate" delimiter
-     * var compiled = _.template('hello ${ user }!');
-     * compiled({ 'user': 'pebbles' });
-     * // => 'hello pebbles!'
-     *
-     * // using custom template delimiters
-     * _.templateSettings.interpolate = /{{([\s\S]+?)}}/g;
-     * var compiled = _.template('hello {{ user }}!');
-     * compiled({ 'user': 'mustache' });
-     * // => 'hello mustache!'
-     *
-     * // using backslashes to treat delimiters as plain text
-     * var compiled = _.template('<%= "\\<%- value %\\>" %>');
-     * compiled({ 'value': 'ignored' });
-     * // => '<%- value %>'
-     *
-     * // using the `imports` option to import `jQuery` as `jq`
-     * var text = '<% jq.each(users, function(user) { %><li><%- user %></li><% }); %>';
-     * var compiled = _.template(text, { 'imports': { 'jq': jQuery } });
-     * compiled({ 'users': ['fred', 'barney'] });
-     * // => '<li>fred</li><li>barney</li>'
-     *
-     * // using the `sourceURL` option to specify a custom sourceURL for the template
-     * var compiled = _.template('hello <%= user %>!', { 'sourceURL': '/basic/greeting.jst' });
-     * compiled(data);
-     * // => find the source of "greeting.jst" under the Sources tab or Resources panel of the web inspector
-     *
-     * // using the `variable` option to ensure a with-statement isn't used in the compiled template
-     * var compiled = _.template('hi <%= data.user %>!', { 'variable': 'data' });
-     * compiled.source;
-     * // => function(data) {
-     * //   var __t, __p = '';
-     * //   __p += 'hi ' + ((__t = ( data.user )) == null ? '' : __t) + '!';
-     * //   return __p;
-     * // }
-     *
-     * // using the `source` property to inline compiled templates for meaningful
-     * // line numbers in error messages and a stack trace
-     * fs.writeFileSync(path.join(cwd, 'jst.js'), '\
-     *   var JST = {\
-     *     "main": ' + _.template(mainText).source + '\
-     *   };\
-     * ');
-     */
-    function template(string, options, otherOptions) {
-      // Based on John Resig's `tmpl` implementation (http://ejohn.org/blog/javascript-micro-templating/)
-      // and Laura Doktorova's doT.js (https://github.com/olado/doT).
-      var settings = lodash.templateSettings;
-
-      if (otherOptions && isIterateeCall(string, options, otherOptions)) {
-        options = otherOptions = null;
-      }
-      string = baseToString(string);
-      options = assignWith(baseAssign({}, otherOptions || options), settings, assignOwnDefaults);
-
-      var imports = assignWith(baseAssign({}, options.imports), settings.imports, assignOwnDefaults),
-          importsKeys = keys(imports),
-          importsValues = baseValues(imports, importsKeys);
-
-      var isEscaping,
-          isEvaluating,
-          index = 0,
-          interpolate = options.interpolate || reNoMatch,
-          source = "__p += '";
-
-      // Compile the regexp to match each delimiter.
-      var reDelimiters = RegExp(
-        (options.escape || reNoMatch).source + '|' +
-        interpolate.source + '|' +
-        (interpolate === reInterpolate ? reEsTemplate : reNoMatch).source + '|' +
-        (options.evaluate || reNoMatch).source + '|$'
-      , 'g');
-
-      // Use a sourceURL for easier debugging.
-      var sourceURL = '//# sourceURL=' +
-        ('sourceURL' in options
-          ? options.sourceURL
-          : ('lodash.templateSources[' + (++templateCounter) + ']')
-        ) + '\n';
-
-      string.replace(reDelimiters, function(match, escapeValue, interpolateValue, esTemplateValue, evaluateValue, offset) {
-        interpolateValue || (interpolateValue = esTemplateValue);
-
-        // Escape characters that can't be included in string literals.
-        source += string.slice(index, offset).replace(reUnescapedString, escapeStringChar);
-
-        // Replace delimiters with snippets.
-        if (escapeValue) {
-          isEscaping = true;
-          source += "' +\n__e(" + escapeValue + ") +\n'";
-        }
-        if (evaluateValue) {
-          isEvaluating = true;
-          source += "';\n" + evaluateValue + ";\n__p += '";
-        }
-        if (interpolateValue) {
-          source += "' +\n((__t = (" + interpolateValue + ")) == null ? '' : __t) +\n'";
-        }
-        index = offset + match.length;
-
-        // The JS engine embedded in Adobe products requires returning the `match`
-        // string in order to produce the correct `offset` value.
-        return match;
-      });
-
-      source += "';\n";
-
-      // If `variable` is not specified wrap a with-statement around the generated
-      // code to add the data object to the top of the scope chain.
-      var variable = options.variable;
-      if (!variable) {
-        source = 'with (obj) {\n' + source + '\n}\n';
-      }
-      // Cleanup code by stripping empty strings.
-      source = (isEvaluating ? source.replace(reEmptyStringLeading, '') : source)
-        .replace(reEmptyStringMiddle, '$1')
-        .replace(reEmptyStringTrailing, '$1;');
-
-      // Frame code as the function body.
-      source = 'function(' + (variable || 'obj') + ') {\n' +
-        (variable
-          ? ''
-          : 'obj || (obj = {});\n'
-        ) +
-        "var __t, __p = ''" +
-        (isEscaping
-           ? ', __e = _.escape'
-           : ''
-        ) +
-        (isEvaluating
-          ? ', __j = Array.prototype.join;\n' +
-            "function print() { __p += __j.call(arguments, '') }\n"
-          : ';\n'
-        ) +
-        source +
-        'return __p\n}';
-
-      var result = attempt(function() {
-        return Function(importsKeys, sourceURL + 'return ' + source).apply(undefined, importsValues);
-      });
-
-      // Provide the compiled function's source by its `toString` method or
-      // the `source` property as a convenience for inlining compiled templates.
-      result.source = source;
-      if (isError(result)) {
-        throw result;
-      }
-      return result;
-    }
-
-    /**
-     * Removes leading and trailing whitespace or specified characters from `string`.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to trim.
-     * @param {string} [chars=whitespace] The characters to trim.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {string} Returns the trimmed string.
-     * @example
-     *
-     * _.trim('  abc  ');
-     * // => 'abc'
-     *
-     * _.trim('-_-abc-_-', '_-');
-     * // => 'abc'
-     *
-     * _.map(['  foo  ', '  bar  '], _.trim);
-     * // => ['foo', 'bar']
-     */
-    function trim(string, chars, guard) {
-      var value = string;
-      string = baseToString(string);
-      if (!string) {
-        return string;
-      }
-      if (guard ? isIterateeCall(value, chars, guard) : chars == null) {
-        return string.slice(trimmedLeftIndex(string), trimmedRightIndex(string) + 1);
-      }
-      chars = (chars + '');
-      return string.slice(charsLeftIndex(string, chars), charsRightIndex(string, chars) + 1);
-    }
-
-    /**
-     * Removes leading whitespace or specified characters from `string`.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to trim.
-     * @param {string} [chars=whitespace] The characters to trim.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {string} Returns the trimmed string.
-     * @example
-     *
-     * _.trimLeft('  abc  ');
-     * // => 'abc  '
-     *
-     * _.trimLeft('-_-abc-_-', '_-');
-     * // => 'abc-_-'
-     */
-    function trimLeft(string, chars, guard) {
-      var value = string;
-      string = baseToString(string);
-      if (!string) {
-        return string;
-      }
-      if (guard ? isIterateeCall(value, chars, guard) : chars == null) {
-        return string.slice(trimmedLeftIndex(string));
-      }
-      return string.slice(charsLeftIndex(string, (chars + '')));
-    }
-
-    /**
-     * Removes trailing whitespace or specified characters from `string`.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to trim.
-     * @param {string} [chars=whitespace] The characters to trim.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {string} Returns the trimmed string.
-     * @example
-     *
-     * _.trimRight('  abc  ');
-     * // => '  abc'
-     *
-     * _.trimRight('-_-abc-_-', '_-');
-     * // => '-_-abc'
-     */
-    function trimRight(string, chars, guard) {
-      var value = string;
-      string = baseToString(string);
-      if (!string) {
-        return string;
-      }
-      if (guard ? isIterateeCall(value, chars, guard) : chars == null) {
-        return string.slice(0, trimmedRightIndex(string) + 1);
-      }
-      return string.slice(0, charsRightIndex(string, (chars + '')) + 1);
-    }
-
-    /**
-     * Truncates `string` if it is longer than the given maximum string length.
-     * The last characters of the truncated string are replaced with the omission
-     * string which defaults to "...".
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to truncate.
-     * @param {Object|number} [options] The options object or maximum string length.
-     * @param {number} [options.length=30] The maximum string length.
-     * @param {string} [options.omission='...'] The string to indicate text is omitted.
-     * @param {RegExp|string} [options.separator] The separator pattern to truncate to.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {string} Returns the truncated string.
-     * @example
-     *
-     * _.trunc('hi-diddly-ho there, neighborino');
-     * // => 'hi-diddly-ho there, neighbo...'
-     *
-     * _.trunc('hi-diddly-ho there, neighborino', 24);
-     * // => 'hi-diddly-ho there, n...'
-     *
-     * _.trunc('hi-diddly-ho there, neighborino', {
-     *   'length': 24,
-     *   'separator': ' '
-     * });
-     * // => 'hi-diddly-ho there,...'
-     *
-     * _.trunc('hi-diddly-ho there, neighborino', {
-     *   'length': 24,
-     *   'separator': /,? +/
-     * });
-     * // => 'hi-diddly-ho there...'
-     *
-     * _.trunc('hi-diddly-ho there, neighborino', {
-     *   'omission': ' [...]'
-     * });
-     * // => 'hi-diddly-ho there, neig [...]'
-     */
-    function trunc(string, options, guard) {
-      if (guard && isIterateeCall(string, options, guard)) {
-        options = null;
-      }
-      var length = DEFAULT_TRUNC_LENGTH,
-          omission = DEFAULT_TRUNC_OMISSION;
-
-      if (options != null) {
-        if (isObject(options)) {
-          var separator = 'separator' in options ? options.separator : separator;
-          length = 'length' in options ? (+options.length || 0) : length;
-          omission = 'omission' in options ? baseToString(options.omission) : omission;
-        } else {
-          length = +options || 0;
-        }
-      }
-      string = baseToString(string);
-      if (length >= string.length) {
-        return string;
-      }
-      var end = length - omission.length;
-      if (end < 1) {
-        return omission;
-      }
-      var result = string.slice(0, end);
-      if (separator == null) {
-        return result + omission;
-      }
-      if (isRegExp(separator)) {
-        if (string.slice(end).search(separator)) {
-          var match,
-              newEnd,
-              substring = string.slice(0, end);
-
-          if (!separator.global) {
-            separator = RegExp(separator.source, (reFlags.exec(separator) || '') + 'g');
-          }
-          separator.lastIndex = 0;
-          while ((match = separator.exec(substring))) {
-            newEnd = match.index;
-          }
-          result = result.slice(0, newEnd == null ? end : newEnd);
-        }
-      } else if (string.indexOf(separator, end) != end) {
-        var index = result.lastIndexOf(separator);
-        if (index > -1) {
-          result = result.slice(0, index);
-        }
-      }
-      return result + omission;
-    }
-
-    /**
-     * The inverse of `_.escape`; this method converts the HTML entities
-     * `&amp;`, `&lt;`, `&gt;`, `&quot;`, `&#39;`, and `&#96;` in `string` to their
-     * corresponding characters.
-     *
-     * **Note:** No other HTML entities are unescaped. To unescape additional HTML
-     * entities use a third-party library like [_he_](https://mths.be/he).
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to unescape.
-     * @returns {string} Returns the unescaped string.
-     * @example
-     *
-     * _.unescape('fred, barney, &amp; pebbles');
-     * // => 'fred, barney, & pebbles'
-     */
-    function unescape(string) {
-      string = baseToString(string);
-      return (string && reHasEscapedHtml.test(string))
-        ? string.replace(reEscapedHtml, unescapeHtmlChar)
-        : string;
-    }
-
-    /**
-     * Splits `string` into an array of its words.
-     *
-     * @static
-     * @memberOf _
-     * @category String
-     * @param {string} [string=''] The string to inspect.
-     * @param {RegExp|string} [pattern] The pattern to match words.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Array} Returns the words of `string`.
-     * @example
-     *
-     * _.words('fred, barney, & pebbles');
-     * // => ['fred', 'barney', 'pebbles']
-     *
-     * _.words('fred, barney, & pebbles', /[^, ]+/g);
-     * // => ['fred', 'barney', '&', 'pebbles']
-     */
-    function words(string, pattern, guard) {
-      if (guard && isIterateeCall(string, pattern, guard)) {
-        pattern = null;
-      }
-      string = baseToString(string);
-      return string.match(pattern || reWords) || [];
-    }
-
-    /**
-     * Attempts to invoke `func`, returning either the result or the caught error
-     * object. Any additional arguments are provided to `func` when it is invoked.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {Function} func The function to attempt.
-     * @returns {*} Returns the `func` result or error object.
-     * @example
-     *
-     * // avoid throwing errors for invalid selectors
-     * var elements = _.attempt(function(selector) {
-     *   return document.querySelectorAll(selector);
-     * }, '>_>');
-     *
-     * if (_.isError(elements)) {
-     *   elements = [];
-     * }
-     */
-    var attempt = restParam(function(func, args) {
-      try {
-        return func.apply(undefined, args);
-      } catch(e) {
-        return isError(e) ? e : new Error(e);
-      }
-    });
-
-    /**
-     * Creates a function that invokes `func` with the `this` binding of `thisArg`
-     * and arguments of the created function. If `func` is a property name the
-     * created callback returns the property value for a given element. If `func`
-     * is an object the created callback returns `true` for elements that contain
-     * the equivalent object properties, otherwise it returns `false`.
-     *
-     * @static
-     * @memberOf _
-     * @alias iteratee
-     * @category Utility
-     * @param {*} [func=_.identity] The value to convert to a callback.
-     * @param {*} [thisArg] The `this` binding of `func`.
-     * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
-     * @returns {Function} Returns the callback.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney', 'age': 36 },
-     *   { 'user': 'fred',   'age': 40 }
-     * ];
-     *
-     * // wrap to create custom callback shorthands
-     * _.callback = _.wrap(_.callback, function(callback, func, thisArg) {
-     *   var match = /^(.+?)__([gl]t)(.+)$/.exec(func);
-     *   if (!match) {
-     *     return callback(func, thisArg);
-     *   }
-     *   return function(object) {
-     *     return match[2] == 'gt'
-     *       ? object[match[1]] > match[3]
-     *       : object[match[1]] < match[3];
-     *   };
-     * });
-     *
-     * _.filter(users, 'age__gt36');
-     * // => [{ 'user': 'fred', 'age': 40 }]
-     */
-    function callback(func, thisArg, guard) {
-      if (guard && isIterateeCall(func, thisArg, guard)) {
-        thisArg = null;
-      }
-      return isObjectLike(func)
-        ? matches(func)
-        : baseCallback(func, thisArg);
-    }
-
-    /**
-     * Creates a function that returns `value`.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {*} value The value to return from the new function.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * var object = { 'user': 'fred' };
-     * var getter = _.constant(object);
-     *
-     * getter() === object;
-     * // => true
-     */
-    function constant(value) {
-      return function() {
-        return value;
-      };
-    }
-
-    /**
-     * This method returns the first argument provided to it.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {*} value Any value.
-     * @returns {*} Returns `value`.
-     * @example
-     *
-     * var object = { 'user': 'fred' };
-     *
-     * _.identity(object) === object;
-     * // => true
-     */
-    function identity(value) {
-      return value;
-    }
-
-    /**
-     * Creates a function which performs a deep comparison between a given object
-     * and `source`, returning `true` if the given object has equivalent property
-     * values, else `false`.
-     *
-     * **Note:** This method supports comparing arrays, booleans, `Date` objects,
-     * numbers, `Object` objects, regexes, and strings. Objects are compared by
-     * their own, not inherited, enumerable properties. For comparing a single
-     * own or inherited property value see `_.matchesProperty`.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {Object} source The object of property values to match.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney', 'age': 36, 'active': true },
-     *   { 'user': 'fred',   'age': 40, 'active': false }
-     * ];
-     *
-     * _.filter(users, _.matches({ 'age': 40, 'active': false }));
-     * // => [{ 'user': 'fred', 'age': 40, 'active': false }]
-     */
-    function matches(source) {
-      return baseMatches(baseClone(source, true));
-    }
-
-    /**
-     * Creates a function which compares the property value of `path` on a given
-     * object to `value`.
-     *
-     * **Note:** This method supports comparing arrays, booleans, `Date` objects,
-     * numbers, `Object` objects, regexes, and strings. Objects are compared by
-     * their own, not inherited, enumerable properties.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {Array|string} path The path of the property to get.
-     * @param {*} value The value to compare.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * var users = [
-     *   { 'user': 'barney' },
-     *   { 'user': 'fred' }
-     * ];
-     *
-     * _.find(users, _.matchesProperty('user', 'fred'));
-     * // => { 'user': 'fred' }
-     */
-    function matchesProperty(path, value) {
-      return baseMatchesProperty(path, baseClone(value, true));
-    }
-
-    /**
-     * Creates a function which invokes the method at `path` on a given object.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {Array|string} path The path of the method to invoke.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * var objects = [
-     *   { 'a': { 'b': { 'c': _.constant(2) } } },
-     *   { 'a': { 'b': { 'c': _.constant(1) } } }
-     * ];
-     *
-     * _.map(objects, _.method('a.b.c'));
-     * // => [2, 1]
-     *
-     * _.invoke(_.sortBy(objects, _.method(['a', 'b', 'c'])), 'a.b.c');
-     * // => [1, 2]
-     */
-    var method = restParam(function(path, args) {
-      return function(object) {
-        return invokePath(object, path, args);
-      };
-    });
-
-    /**
-     * The opposite of `_.method`; this method creates a function which invokes
-     * the method at a given path on `object`.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {Object} object The object to query.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * var array = _.times(3, _.constant),
-     *     object = { 'a': array, 'b': array, 'c': array };
-     *
-     * _.map(['a[2]', 'c[0]'], _.methodOf(object));
-     * // => [2, 0]
-     *
-     * _.map([['a', '2'], ['c', '0']], _.methodOf(object));
-     * // => [2, 0]
-     */
-    var methodOf = restParam(function(object, args) {
-      return function(path) {
-        return invokePath(object, path, args);
-      };
-    });
-
-    /**
-     * Adds all own enumerable function properties of a source object to the
-     * destination object. If `object` is a function then methods are added to
-     * its prototype as well.
-     *
-     * **Note:** Use `_.runInContext` to create a pristine `lodash` function to
-     * avoid conflicts caused by modifying the original.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {Function|Object} [object=lodash] The destination object.
-     * @param {Object} source The object of functions to add.
-     * @param {Object} [options] The options object.
-     * @param {boolean} [options.chain=true] Specify whether the functions added
-     *  are chainable.
-     * @returns {Function|Object} Returns `object`.
-     * @example
-     *
-     * function vowels(string) {
-     *   return _.filter(string, function(v) {
-     *     return /[aeiou]/i.test(v);
-     *   });
-     * }
-     *
-     * // use `_.runInContext` to avoid conflicts (esp. in Node.js)
-     * var _ = require('lodash').runInContext();
-     *
-     * _.mixin({ 'vowels': vowels });
-     * _.vowels('fred');
-     * // => ['e']
-     *
-     * _('fred').vowels().value();
-     * // => ['e']
-     *
-     * _.mixin({ 'vowels': vowels }, { 'chain': false });
-     * _('fred').vowels();
-     * // => ['e']
-     */
-    function mixin(object, source, options) {
-      if (options == null) {
-        var isObj = isObject(source),
-            props = isObj && keys(source),
-            methodNames = props && props.length && baseFunctions(source, props);
-
-        if (!(methodNames ? methodNames.length : isObj)) {
-          methodNames = false;
-          options = source;
-          source = object;
-          object = this;
-        }
-      }
-      if (!methodNames) {
-        methodNames = baseFunctions(source, keys(source));
-      }
-      var chain = true,
-          index = -1,
-          isFunc = isFunction(object),
-          length = methodNames.length;
-
-      if (options === false) {
-        chain = false;
-      } else if (isObject(options) && 'chain' in options) {
-        chain = options.chain;
-      }
-      while (++index < length) {
-        var methodName = methodNames[index],
-            func = source[methodName];
-
-        object[methodName] = func;
-        if (isFunc) {
-          object.prototype[methodName] = (function(func) {
-            return function() {
-              var chainAll = this.__chain__;
-              if (chain || chainAll) {
-                var result = object(this.__wrapped__),
-                    actions = result.__actions__ = arrayCopy(this.__actions__);
-
-                actions.push({ 'func': func, 'args': arguments, 'thisArg': object });
-                result.__chain__ = chainAll;
-                return result;
-              }
-              var args = [this.value()];
-              push.apply(args, arguments);
-              return func.apply(object, args);
-            };
-          }(func));
-        }
-      }
-      return object;
-    }
-
-    /**
-     * Reverts the `_` variable to its previous value and returns a reference to
-     * the `lodash` function.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @returns {Function} Returns the `lodash` function.
-     * @example
-     *
-     * var lodash = _.noConflict();
-     */
-    function noConflict() {
-      context._ = oldDash;
-      return this;
-    }
-
-    /**
-     * A no-operation function which returns `undefined` regardless of the
-     * arguments it receives.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @example
-     *
-     * var object = { 'user': 'fred' };
-     *
-     * _.noop(object) === undefined;
-     * // => true
-     */
-    function noop() {
-      // No operation performed.
-    }
-
-    /**
-     * Creates a function which returns the property value at `path` on a
-     * given object.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {Array|string} path The path of the property to get.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * var objects = [
-     *   { 'a': { 'b': { 'c': 2 } } },
-     *   { 'a': { 'b': { 'c': 1 } } }
-     * ];
-     *
-     * _.map(objects, _.property('a.b.c'));
-     * // => [2, 1]
-     *
-     * _.pluck(_.sortBy(objects, _.property(['a', 'b', 'c'])), 'a.b.c');
-     * // => [1, 2]
-     */
-    function property(path) {
-      return isKey(path) ? baseProperty(path) : basePropertyDeep(path);
-    }
-
-    /**
-     * The opposite of `_.property`; this method creates a function which returns
-     * the property value at a given path on `object`.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {Object} object The object to query.
-     * @returns {Function} Returns the new function.
-     * @example
-     *
-     * var array = [0, 1, 2],
-     *     object = { 'a': array, 'b': array, 'c': array };
-     *
-     * _.map(['a[2]', 'c[0]'], _.propertyOf(object));
-     * // => [2, 0]
-     *
-     * _.map([['a', '2'], ['c', '0']], _.propertyOf(object));
-     * // => [2, 0]
-     */
-    function propertyOf(object) {
-      return function(path) {
-        return baseGet(object, toPath(path), path + '');
-      };
-    }
-
-    /**
-     * Creates an array of numbers (positive and/or negative) progressing from
-     * `start` up to, but not including, `end`. If `end` is not specified it is
-     * set to `start` with `start` then set to `0`. If `end` is less than `start`
-     * a zero-length range is created unless a negative `step` is specified.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {number} [start=0] The start of the range.
-     * @param {number} end The end of the range.
-     * @param {number} [step=1] The value to increment or decrement by.
-     * @returns {Array} Returns the new array of numbers.
-     * @example
-     *
-     * _.range(4);
-     * // => [0, 1, 2, 3]
-     *
-     * _.range(1, 5);
-     * // => [1, 2, 3, 4]
-     *
-     * _.range(0, 20, 5);
-     * // => [0, 5, 10, 15]
-     *
-     * _.range(0, -4, -1);
-     * // => [0, -1, -2, -3]
-     *
-     * _.range(1, 4, 0);
-     * // => [1, 1, 1]
-     *
-     * _.range(0);
-     * // => []
-     */
-    function range(start, end, step) {
-      if (step && isIterateeCall(start, end, step)) {
-        end = step = null;
-      }
-      start = +start || 0;
-      step = step == null ? 1 : (+step || 0);
-
-      if (end == null) {
-        end = start;
-        start = 0;
-      } else {
-        end = +end || 0;
-      }
-      // Use `Array(length)` so engines like Chakra and V8 avoid slower modes.
-      // See https://youtu.be/XAqIpGU8ZZk#t=17m25s for more details.
-      var index = -1,
-          length = nativeMax(ceil((end - start) / (step || 1)), 0),
-          result = Array(length);
-
-      while (++index < length) {
-        result[index] = start;
-        start += step;
-      }
-      return result;
-    }
-
-    /**
-     * Invokes the iteratee function `n` times, returning an array of the results
-     * of each invocation. The `iteratee` is bound to `thisArg` and invoked with
-     * one argument; (index).
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {number} n The number of times to invoke `iteratee`.
-     * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {Array} Returns the array of results.
-     * @example
-     *
-     * var diceRolls = _.times(3, _.partial(_.random, 1, 6, false));
-     * // => [3, 6, 4]
-     *
-     * _.times(3, function(n) {
-     *   mage.castSpell(n);
-     * });
-     * // => invokes `mage.castSpell(n)` three times with `n` of `0`, `1`, and `2`
-     *
-     * _.times(3, function(n) {
-     *   this.cast(n);
-     * }, mage);
-     * // => also invokes `mage.castSpell(n)` three times
-     */
-    function times(n, iteratee, thisArg) {
-      n = floor(n);
-
-      // Exit early to avoid a JSC JIT bug in Safari 8
-      // where `Array(0)` is treated as `Array(1)`.
-      if (n < 1 || !nativeIsFinite(n)) {
-        return [];
-      }
-      var index = -1,
-          result = Array(nativeMin(n, MAX_ARRAY_LENGTH));
-
-      iteratee = bindCallback(iteratee, thisArg, 1);
-      while (++index < n) {
-        if (index < MAX_ARRAY_LENGTH) {
-          result[index] = iteratee(index);
-        } else {
-          iteratee(index);
-        }
-      }
-      return result;
-    }
-
-    /**
-     * Generates a unique ID. If `prefix` is provided the ID is appended to it.
-     *
-     * @static
-     * @memberOf _
-     * @category Utility
-     * @param {string} [prefix] The value to prefix the ID with.
-     * @returns {string} Returns the unique ID.
-     * @example
-     *
-     * _.uniqueId('contact_');
-     * // => 'contact_104'
-     *
-     * _.uniqueId();
-     * // => '105'
-     */
-    function uniqueId(prefix) {
-      var id = ++idCounter;
-      return baseToString(prefix) + id;
-    }
-
-    /**
-     * Adds two numbers.
-     *
-     * @static
-     * @memberOf _
-     * @category Math
-     * @param {number} augend The first number to add.
-     * @param {number} addend The second number to add.
-     * @returns {number} Returns the sum.
-     * @example
-     *
-     * _.add(6, 4);
-     * // => 10
-     */
-    function add(augend, addend) {
-      return (+augend || 0) + (+addend || 0);
-    }
-
-    /**
-     * Gets the maximum value of `collection`. If `collection` is empty or falsey
-     * `-Infinity` is returned. If an iteratee function is provided it is invoked
-     * for each value in `collection` to generate the criterion by which the value
-     * is ranked. The `iteratee` is bound to `thisArg` and invoked with three
-     * arguments: (value, index, collection).
-     *
-     * If a property name is provided for `iteratee` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `iteratee` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Math
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [iteratee] The function invoked per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {*} Returns the maximum value.
-     * @example
-     *
-     * _.max([4, 2, 8, 6]);
-     * // => 8
-     *
-     * _.max([]);
-     * // => -Infinity
-     *
-     * var users = [
-     *   { 'user': 'barney', 'age': 36 },
-     *   { 'user': 'fred',   'age': 40 }
-     * ];
-     *
-     * _.max(users, function(chr) {
-     *   return chr.age;
-     * });
-     * // => { 'user': 'fred', 'age': 40 }
-     *
-     * // using the `_.property` callback shorthand
-     * _.max(users, 'age');
-     * // => { 'user': 'fred', 'age': 40 }
-     */
-    var max = createExtremum(arrayMax);
-
-    /**
-     * Gets the minimum value of `collection`. If `collection` is empty or falsey
-     * `Infinity` is returned. If an iteratee function is provided it is invoked
-     * for each value in `collection` to generate the criterion by which the value
-     * is ranked. The `iteratee` is bound to `thisArg` and invoked with three
-     * arguments: (value, index, collection).
-     *
-     * If a property name is provided for `iteratee` the created `_.property`
-     * style callback returns the property value of the given element.
-     *
-     * If a value is also provided for `thisArg` the created `_.matchesProperty`
-     * style callback returns `true` for elements that have a matching property
-     * value, else `false`.
-     *
-     * If an object is provided for `iteratee` the created `_.matches` style
-     * callback returns `true` for elements that have the properties of the given
-     * object, else `false`.
-     *
-     * @static
-     * @memberOf _
-     * @category Math
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [iteratee] The function invoked per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {*} Returns the minimum value.
-     * @example
-     *
-     * _.min([4, 2, 8, 6]);
-     * // => 2
-     *
-     * _.min([]);
-     * // => Infinity
-     *
-     * var users = [
-     *   { 'user': 'barney', 'age': 36 },
-     *   { 'user': 'fred',   'age': 40 }
-     * ];
-     *
-     * _.min(users, function(chr) {
-     *   return chr.age;
-     * });
-     * // => { 'user': 'barney', 'age': 36 }
-     *
-     * // using the `_.property` callback shorthand
-     * _.min(users, 'age');
-     * // => { 'user': 'barney', 'age': 36 }
-     */
-    var min = createExtremum(arrayMin, true);
-
-    /**
-     * Gets the sum of the values in `collection`.
-     *
-     * @static
-     * @memberOf _
-     * @category Math
-     * @param {Array|Object|string} collection The collection to iterate over.
-     * @param {Function|Object|string} [iteratee] The function invoked per iteration.
-     * @param {*} [thisArg] The `this` binding of `iteratee`.
-     * @returns {number} Returns the sum.
-     * @example
-     *
-     * _.sum([4, 6]);
-     * // => 10
-     *
-     * _.sum({ 'a': 4, 'b': 6 });
-     * // => 10
-     *
-     * var objects = [
-     *   { 'n': 4 },
-     *   { 'n': 6 }
-     * ];
-     *
-     * _.sum(objects, function(object) {
-     *   return object.n;
-     * });
-     * // => 10
-     *
-     * // using the `_.property` callback shorthand
-     * _.sum(objects, 'n');
-     * // => 10
-     */
-    function sum(collection, iteratee, thisArg) {
-      if (thisArg && isIterateeCall(collection, iteratee, thisArg)) {
-        iteratee = null;
-      }
-      var func = getCallback(),
-          noIteratee = iteratee == null;
-
-      if (!(func === baseCallback && noIteratee)) {
-        noIteratee = false;
-        iteratee = func(iteratee, thisArg, 3);
-      }
-      return noIteratee
-        ? arraySum(isArray(collection) ? collection : toIterable(collection))
-        : baseSum(collection, iteratee);
-    }
-
-    // Ensure wrappers are instances of `baseLodash`.
-    lodash.prototype = baseLodash.prototype;
-
-    LodashWrapper.prototype = baseCreate(baseLodash.prototype);
-    LodashWrapper.prototype.constructor = LodashWrapper;
-
-    LazyWrapper.prototype = baseCreate(baseLodash.prototype);
-    LazyWrapper.prototype.constructor = LazyWrapper;
-
-    // Add functions to the `Map` cache.
-    MapCache.prototype['delete'] = mapDelete;
-    MapCache.prototype.get = mapGet;
-    MapCache.prototype.has = mapHas;
-    MapCache.prototype.set = mapSet;
-
-    // Add functions to the `Set` cache.
-    SetCache.prototype.push = cachePush;
-
-    // Assign cache to `_.memoize`.
-    memoize.Cache = MapCache;
-
-    // Add functions that return wrapped values when chaining.
-    lodash.after = after;
-    lodash.ary = ary;
-    lodash.assign = assign;
-    lodash.at = at;
-    lodash.before = before;
-    lodash.bind = bind;
-    lodash.bindAll = bindAll;
-    lodash.bindKey = bindKey;
-    lodash.callback = callback;
-    lodash.chain = chain;
-    lodash.chunk = chunk;
-    lodash.compact = compact;
-    lodash.constant = constant;
-    lodash.countBy = countBy;
-    lodash.create = create;
-    lodash.curry = curry;
-    lodash.curryRight = curryRight;
-    lodash.debounce = debounce;
-    lodash.defaults = defaults;
-    lodash.defer = defer;
-    lodash.delay = delay;
-    lodash.difference = difference;
-    lodash.drop = drop;
-    lodash.dropRight = dropRight;
-    lodash.dropRightWhile = dropRightWhile;
-    lodash.dropWhile = dropWhile;
-    lodash.fill = fill;
-    lodash.filter = filter;
-    lodash.flatten = flatten;
-    lodash.flattenDeep = flattenDeep;
-    lodash.flow = flow;
-    lodash.flowRight = flowRight;
-    lodash.forEach = forEach;
-    lodash.forEachRight = forEachRight;
-    lodash.forIn = forIn;
-    lodash.forInRight = forInRight;
-    lodash.forOwn = forOwn;
-    lodash.forOwnRight = forOwnRight;
-    lodash.functions = functions;
-    lodash.groupBy = groupBy;
-    lodash.indexBy = indexBy;
-    lodash.initial = initial;
-    lodash.intersection = intersection;
-    lodash.invert = invert;
-    lodash.invoke = invoke;
-    lodash.keys = keys;
-    lodash.keysIn = keysIn;
-    lodash.map = map;
-    lodash.mapKeys = mapKeys;
-    lodash.mapValues = mapValues;
-    lodash.matches = matches;
-    lodash.matchesProperty = matchesProperty;
-    lodash.memoize = memoize;
-    lodash.merge = merge;
-    lodash.method = method;
-    lodash.methodOf = methodOf;
-    lodash.mixin = mixin;
-    lodash.negate = negate;
-    lodash.omit = omit;
-    lodash.once = once;
-    lodash.pairs = pairs;
-    lodash.partial = partial;
-    lodash.partialRight = partialRight;
-    lodash.partition = partition;
-    lodash.pick = pick;
-    lodash.pluck = pluck;
-    lodash.property = property;
-    lodash.propertyOf = propertyOf;
-    lodash.pull = pull;
-    lodash.pullAt = pullAt;
-    lodash.range = range;
-    lodash.rearg = rearg;
-    lodash.reject = reject;
-    lodash.remove = remove;
-    lodash.rest = rest;
-    lodash.restParam = restParam;
-    lodash.set = set;
-    lodash.shuffle = shuffle;
-    lodash.slice = slice;
-    lodash.sortBy = sortBy;
-    lodash.sortByAll = sortByAll;
-    lodash.sortByOrder = sortByOrder;
-    lodash.spread = spread;
-    lodash.take = take;
-    lodash.takeRight = takeRight;
-    lodash.takeRightWhile = takeRightWhile;
-    lodash.takeWhile = takeWhile;
-    lodash.tap = tap;
-    lodash.throttle = throttle;
-    lodash.thru = thru;
-    lodash.times = times;
-    lodash.toArray = toArray;
-    lodash.toPlainObject = toPlainObject;
-    lodash.transform = transform;
-    lodash.union = union;
-    lodash.uniq = uniq;
-    lodash.unzip = unzip;
-    lodash.unzipWith = unzipWith;
-    lodash.values = values;
-    lodash.valuesIn = valuesIn;
-    lodash.where = where;
-    lodash.without = without;
-    lodash.wrap = wrap;
-    lodash.xor = xor;
-    lodash.zip = zip;
-    lodash.zipObject = zipObject;
-    lodash.zipWith = zipWith;
-
-    // Add aliases.
-    lodash.backflow = flowRight;
-    lodash.collect = map;
-    lodash.compose = flowRight;
-    lodash.each = forEach;
-    lodash.eachRight = forEachRight;
-    lodash.extend = assign;
-    lodash.iteratee = callback;
-    lodash.methods = functions;
-    lodash.object = zipObject;
-    lodash.select = filter;
-    lodash.tail = rest;
-    lodash.unique = uniq;
-
-    // Add functions to `lodash.prototype`.
-    mixin(lodash, lodash);
-
-    // Add functions that return unwrapped values when chaining.
-    lodash.add = add;
-    lodash.attempt = attempt;
-    lodash.camelCase = camelCase;
-    lodash.capitalize = capitalize;
-    lodash.clone = clone;
-    lodash.cloneDeep = cloneDeep;
-    lodash.deburr = deburr;
-    lodash.endsWith = endsWith;
-    lodash.escape = escape;
-    lodash.escapeRegExp = escapeRegExp;
-    lodash.every = every;
-    lodash.find = find;
-    lodash.findIndex = findIndex;
-    lodash.findKey = findKey;
-    lodash.findLast = findLast;
-    lodash.findLastIndex = findLastIndex;
-    lodash.findLastKey = findLastKey;
-    lodash.findWhere = findWhere;
-    lodash.first = first;
-    lodash.get = get;
-    lodash.has = has;
-    lodash.identity = identity;
-    lodash.includes = includes;
-    lodash.indexOf = indexOf;
-    lodash.inRange = inRange;
-    lodash.isArguments = isArguments;
-    lodash.isArray = isArray;
-    lodash.isBoolean = isBoolean;
-    lodash.isDate = isDate;
-    lodash.isElement = isElement;
-    lodash.isEmpty = isEmpty;
-    lodash.isEqual = isEqual;
-    lodash.isError = isError;
-    lodash.isFinite = isFinite;
-    lodash.isFunction = isFunction;
-    lodash.isMatch = isMatch;
-    lodash.isNaN = isNaN;
-    lodash.isNative = isNative;
-    lodash.isNull = isNull;
-    lodash.isNumber = isNumber;
-    lodash.isObject = isObject;
-    lodash.isPlainObject = isPlainObject;
-    lodash.isRegExp = isRegExp;
-    lodash.isString = isString;
-    lodash.isTypedArray = isTypedArray;
-    lodash.isUndefined = isUndefined;
-    lodash.kebabCase = kebabCase;
-    lodash.last = last;
-    lodash.lastIndexOf = lastIndexOf;
-    lodash.max = max;
-    lodash.min = min;
-    lodash.noConflict = noConflict;
-    lodash.noop = noop;
-    lodash.now = now;
-    lodash.pad = pad;
-    lodash.padLeft = padLeft;
-    lodash.padRight = padRight;
-    lodash.parseInt = parseInt;
-    lodash.random = random;
-    lodash.reduce = reduce;
-    lodash.reduceRight = reduceRight;
-    lodash.repeat = repeat;
-    lodash.result = result;
-    lodash.runInContext = runInContext;
-    lodash.size = size;
-    lodash.snakeCase = snakeCase;
-    lodash.some = some;
-    lodash.sortedIndex = sortedIndex;
-    lodash.sortedLastIndex = sortedLastIndex;
-    lodash.startCase = startCase;
-    lodash.startsWith = startsWith;
-    lodash.sum = sum;
-    lodash.template = template;
-    lodash.trim = trim;
-    lodash.trimLeft = trimLeft;
-    lodash.trimRight = trimRight;
-    lodash.trunc = trunc;
-    lodash.unescape = unescape;
-    lodash.uniqueId = uniqueId;
-    lodash.words = words;
-
-    // Add aliases.
-    lodash.all = every;
-    lodash.any = some;
-    lodash.contains = includes;
-    lodash.detect = find;
-    lodash.foldl = reduce;
-    lodash.foldr = reduceRight;
-    lodash.head = first;
-    lodash.include = includes;
-    lodash.inject = reduce;
-
-    mixin(lodash, (function() {
-      var source = {};
-      baseForOwn(lodash, function(func, methodName) {
-        if (!lodash.prototype[methodName]) {
-          source[methodName] = func;
-        }
-      });
-      return source;
-    }()), false);
-
-    // Add functions capable of returning wrapped and unwrapped values when chaining.
-    lodash.sample = sample;
-
-    lodash.prototype.sample = function(n) {
-      if (!this.__chain__ && n == null) {
-        return sample(this.value());
-      }
-      return this.thru(function(value) {
-        return sample(value, n);
-      });
-    };
-
-    /**
-     * The semantic version number.
-     *
-     * @static
-     * @memberOf _
-     * @type string
-     */
-    lodash.VERSION = VERSION;
-
-    // Assign default placeholders.
-    arrayEach(['bind', 'bindKey', 'curry', 'curryRight', 'partial', 'partialRight'], function(methodName) {
-      lodash[methodName].placeholder = lodash;
-    });
-
-    // Add `LazyWrapper` methods that accept an `iteratee` value.
-    arrayEach(['dropWhile', 'filter', 'map', 'takeWhile'], function(methodName, type) {
-      var isFilter = type != LAZY_MAP_FLAG,
-          isDropWhile = type == LAZY_DROP_WHILE_FLAG;
-
-      LazyWrapper.prototype[methodName] = function(iteratee, thisArg) {
-        var filtered = this.__filtered__,
-            result = (filtered && isDropWhile) ? new LazyWrapper(this) : this.clone(),
-            iteratees = result.__iteratees__ || (result.__iteratees__ = []);
-
-        iteratees.push({
-          'done': false,
-          'count': 0,
-          'index': 0,
-          'iteratee': getCallback(iteratee, thisArg, 1),
-          'limit': -1,
-          'type': type
-        });
-
-        result.__filtered__ = filtered || isFilter;
-        return result;
-      };
-    });
-
-    // Add `LazyWrapper` methods for `_.drop` and `_.take` variants.
-    arrayEach(['drop', 'take'], function(methodName, index) {
-      var whileName = methodName + 'While';
-
-      LazyWrapper.prototype[methodName] = function(n) {
-        var filtered = this.__filtered__,
-            result = (filtered && !index) ? this.dropWhile() : this.clone();
-
-        n = n == null ? 1 : nativeMax(floor(n) || 0, 0);
-        if (filtered) {
-          if (index) {
-            result.__takeCount__ = nativeMin(result.__takeCount__, n);
-          } else {
-            last(result.__iteratees__).limit = n;
-          }
-        } else {
-          var views = result.__views__ || (result.__views__ = []);
-          views.push({ 'size': n, 'type': methodName + (result.__dir__ < 0 ? 'Right' : '') });
-        }
-        return result;
-      };
-
-      LazyWrapper.prototype[methodName + 'Right'] = function(n) {
-        return this.reverse()[methodName](n).reverse();
-      };
-
-      LazyWrapper.prototype[methodName + 'RightWhile'] = function(predicate, thisArg) {
-        return this.reverse()[whileName](predicate, thisArg).reverse();
-      };
-    });
-
-    // Add `LazyWrapper` methods for `_.first` and `_.last`.
-    arrayEach(['first', 'last'], function(methodName, index) {
-      var takeName = 'take' + (index ? 'Right' : '');
-
-      LazyWrapper.prototype[methodName] = function() {
-        return this[takeName](1).value()[0];
-      };
-    });
-
-    // Add `LazyWrapper` methods for `_.initial` and `_.rest`.
-    arrayEach(['initial', 'rest'], function(methodName, index) {
-      var dropName = 'drop' + (index ? '' : 'Right');
-
-      LazyWrapper.prototype[methodName] = function() {
-        return this[dropName](1);
-      };
-    });
-
-    // Add `LazyWrapper` methods for `_.pluck` and `_.where`.
-    arrayEach(['pluck', 'where'], function(methodName, index) {
-      var operationName = index ? 'filter' : 'map',
-          createCallback = index ? baseMatches : property;
-
-      LazyWrapper.prototype[methodName] = function(value) {
-        return this[operationName](createCallback(value));
-      };
-    });
-
-    LazyWrapper.prototype.compact = function() {
-      return this.filter(identity);
-    };
-
-    LazyWrapper.prototype.reject = function(predicate, thisArg) {
-      predicate = getCallback(predicate, thisArg, 1);
-      return this.filter(function(value) {
-        return !predicate(value);
-      });
-    };
-
-    LazyWrapper.prototype.slice = function(start, end) {
-      start = start == null ? 0 : (+start || 0);
-
-      var result = this;
-      if (start < 0) {
-        result = this.takeRight(-start);
-      } else if (start) {
-        result = this.drop(start);
-      }
-      if (end !== undefined) {
-        end = (+end || 0);
-        result = end < 0 ? result.dropRight(-end) : result.take(end - start);
-      }
-      return result;
-    };
-
-    LazyWrapper.prototype.toArray = function() {
-      return this.drop(0);
-    };
-
-    // Add `LazyWrapper` methods to `lodash.prototype`.
-    baseForOwn(LazyWrapper.prototype, function(func, methodName) {
-      var lodashFunc = lodash[methodName];
-      if (!lodashFunc) {
-        return;
-      }
-      var checkIteratee = /^(?:filter|map|reject)|While$/.test(methodName),
-          retUnwrapped = /^(?:first|last)$/.test(methodName);
-
-      lodash.prototype[methodName] = function() {
-        var args = arguments,
-            chainAll = this.__chain__,
-            value = this.__wrapped__,
-            isHybrid = !!this.__actions__.length,
-            isLazy = value instanceof LazyWrapper,
-            iteratee = args[0],
-            useLazy = isLazy || isArray(value);
-
-        if (useLazy && checkIteratee && typeof iteratee == 'function' && iteratee.length != 1) {
-          // avoid lazy use if the iteratee has a "length" value other than `1`
-          isLazy = useLazy = false;
-        }
-        var onlyLazy = isLazy && !isHybrid;
-        if (retUnwrapped && !chainAll) {
-          return onlyLazy
-            ? func.call(value)
-            : lodashFunc.call(lodash, this.value());
-        }
-        var interceptor = function(value) {
-          var otherArgs = [value];
-          push.apply(otherArgs, args);
-          return lodashFunc.apply(lodash, otherArgs);
-        };
-        if (useLazy) {
-          var wrapper = onlyLazy ? value : new LazyWrapper(this),
-              result = func.apply(wrapper, args);
-
-          if (!retUnwrapped && (isHybrid || result.__actions__)) {
-            var actions = result.__actions__ || (result.__actions__ = []);
-            actions.push({ 'func': thru, 'args': [interceptor], 'thisArg': lodash });
-          }
-          return new LodashWrapper(result, chainAll);
-        }
-        return this.thru(interceptor);
-      };
-    });
-
-    // Add `Array` and `String` methods to `lodash.prototype`.
-    arrayEach(['concat', 'join', 'pop', 'push', 'replace', 'shift', 'sort', 'splice', 'split', 'unshift'], function(methodName) {
-      var func = (/^(?:replace|split)$/.test(methodName) ? stringProto : arrayProto)[methodName],
-          chainName = /^(?:push|sort|unshift)$/.test(methodName) ? 'tap' : 'thru',
-          retUnwrapped = /^(?:join|pop|replace|shift)$/.test(methodName);
-
-      lodash.prototype[methodName] = function() {
-        var args = arguments;
-        if (retUnwrapped && !this.__chain__) {
-          return func.apply(this.value(), args);
-        }
-        return this[chainName](function(value) {
-          return func.apply(value, args);
-        });
-      };
-    });
-
-    // Map minified function names to their real names.
-    baseForOwn(LazyWrapper.prototype, function(func, methodName) {
-      var lodashFunc = lodash[methodName];
-      if (lodashFunc) {
-        var key = lodashFunc.name,
-            names = realNames[key] || (realNames[key] = []);
-
-        names.push({ 'name': methodName, 'func': lodashFunc });
-      }
-    });
-
-    realNames[createHybridWrapper(null, BIND_KEY_FLAG).name] = [{ 'name': 'wrapper', 'func': null }];
-
-    // Add functions to the lazy wrapper.
-    LazyWrapper.prototype.clone = lazyClone;
-    LazyWrapper.prototype.reverse = lazyReverse;
-    LazyWrapper.prototype.value = lazyValue;
-
-    // Add chaining functions to the `lodash` wrapper.
-    lodash.prototype.chain = wrapperChain;
-    lodash.prototype.commit = wrapperCommit;
-    lodash.prototype.plant = wrapperPlant;
-    lodash.prototype.reverse = wrapperReverse;
-    lodash.prototype.toString = wrapperToString;
-    lodash.prototype.run = lodash.prototype.toJSON = lodash.prototype.valueOf = lodash.prototype.value = wrapperValue;
-
-    // Add function aliases to the `lodash` wrapper.
-    lodash.prototype.collect = lodash.prototype.map;
-    lodash.prototype.head = lodash.prototype.first;
-    lodash.prototype.select = lodash.prototype.filter;
-    lodash.prototype.tail = lodash.prototype.rest;
-
-    return lodash;
-  }
-
-  // Export lodash.
-  var _ = runInContext();
-
-  // Some AMD build optimizers like r.js check for condition patterns like the following:
-  if (typeof define == 'function' && typeof define.amd == 'object' && define.amd) {
-    // Expose lodash to the global object when an AMD loader is present to avoid
-    // errors in cases where lodash is loaded by a script tag and not intended
-    // as an AMD module. See http://requirejs.org/docs/errors.html#mismatch for
-    // more details.
-    root._ = _;
-
-    // Define as an anonymous module so, through path mapping, it can be
-    // referenced as the "underscore" module.
-    define(function() {
-      return _;
-    });
-  }
-  // Check for `exports` after `define` in case a build optimizer adds an `exports` object.
-  else if (freeExports && freeModule) {
-    // Export for Node.js or RingoJS.
-    if (moduleExports) {
-      (freeModule.exports = _)._ = _;
-    }
-    // Export for Narwhal or Rhino -require.
-    else {
-      freeExports._ = _;
-    }
-  }
-  else {
-    // Export for a browser or Rhino.
-    root._ = _;
-  }
-}.call(this));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
-},{}],166:[function(require,module,exports){
 module.exports = require('./lib/math.js');
 
-},{"./lib/math.js":483}],167:[function(require,module,exports){
+},{"./lib/math.js":482}],166:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -39652,7 +27568,7 @@ module.exports = function (math) {
   return Chain;
 };
 
-},{"../util/string":505}],168:[function(require,module,exports){
+},{"../util/string":504}],167:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -39712,7 +27628,7 @@ module.exports = function (math, config) {
   math.version = require('./version');
 };
 
-},{"./type/Complex":485,"./util/array":497,"./util/bignumber":498,"./util/object":504,"./version":507}],169:[function(require,module,exports){
+},{"./type/Complex":484,"./util/array":496,"./util/bignumber":497,"./util/object":503,"./version":506}],168:[function(require,module,exports){
 'use strict';
 
 /**
@@ -39747,7 +27663,7 @@ ArgumentsError.prototype.name = 'ArgumentsError';
 
 module.exports = ArgumentsError;
 
-},{}],170:[function(require,module,exports){
+},{}],169:[function(require,module,exports){
 'use strict';
 
 /**
@@ -39783,7 +27699,7 @@ DimensionError.prototype.name = 'DimensionError';
 
 module.exports = DimensionError;
 
-},{}],171:[function(require,module,exports){
+},{}],170:[function(require,module,exports){
 'use strict';
 
 /**
@@ -39830,7 +27746,7 @@ IndexError.prototype.name = 'IndexError';
 
 module.exports = IndexError;
 
-},{}],172:[function(require,module,exports){
+},{}],171:[function(require,module,exports){
 'use strict';
 
 /**
@@ -39869,7 +27785,7 @@ UnsupportedTypeError.prototype.name = 'UnsupportedTypeError';
 
 module.exports = UnsupportedTypeError;
 
-},{}],173:[function(require,module,exports){
+},{}],172:[function(require,module,exports){
 'use strict';
 
 exports.ArgumentsError = require('./ArgumentsError');
@@ -39879,7 +27795,7 @@ exports.UnsupportedTypeError = require('./UnsupportedTypeError');
 
 // TODO: implement an InvalidValueError?
 
-},{"./ArgumentsError":169,"./DimensionError":170,"./IndexError":171,"./UnsupportedTypeError":172}],174:[function(require,module,exports){
+},{"./ArgumentsError":168,"./DimensionError":169,"./IndexError":170,"./UnsupportedTypeError":171}],173:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -40020,7 +27936,7 @@ module.exports = function (math) {
 
   return Parser;
 };
-},{}],175:[function(require,module,exports){
+},{}],174:[function(require,module,exports){
 module.exports = {
   'name': 'Infinity',
   'category': 'Constants',
@@ -40035,7 +27951,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],176:[function(require,module,exports){
+},{}],175:[function(require,module,exports){
 module.exports = {
   'name': 'LN10',
   'category': 'Constants',
@@ -40050,7 +27966,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],177:[function(require,module,exports){
+},{}],176:[function(require,module,exports){
 module.exports = {
   'name': 'LN2',
   'category': 'Constants',
@@ -40065,7 +27981,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],178:[function(require,module,exports){
+},{}],177:[function(require,module,exports){
 module.exports = {
   'name': 'LOG10E',
   'category': 'Constants',
@@ -40080,7 +27996,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],179:[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 module.exports = {
   'name': 'LOG2E',
   'category': 'Constants',
@@ -40095,7 +28011,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],180:[function(require,module,exports){
+},{}],179:[function(require,module,exports){
 module.exports = {
   'name': 'NaN',
   'category': 'Constants',
@@ -40110,7 +28026,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],181:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 module.exports = {
   'name': 'SQRT1_2',
   'category': 'Constants',
@@ -40125,7 +28041,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],182:[function(require,module,exports){
+},{}],181:[function(require,module,exports){
 module.exports = {
   'name': 'SQRT2',
   'category': 'Constants',
@@ -40140,7 +28056,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],183:[function(require,module,exports){
+},{}],182:[function(require,module,exports){
 module.exports = {
   'name': 'e',
   'category': 'Constants',
@@ -40157,7 +28073,7 @@ module.exports = {
   'seealso': ['exp']
 };
 
-},{}],184:[function(require,module,exports){
+},{}],183:[function(require,module,exports){
 module.exports = {
   'name': 'false',
   'category': 'Constants',
@@ -40171,7 +28087,7 @@ module.exports = {
   'seealso': ['true']
 };
 
-},{}],185:[function(require,module,exports){
+},{}],184:[function(require,module,exports){
 module.exports = {
   'name': 'i',
   'category': 'Constants',
@@ -40187,7 +28103,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],186:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 module.exports = {
   'name': 'null',
   'category': 'Constants',
@@ -40201,7 +28117,7 @@ module.exports = {
   'seealso': ['true', 'false']
 };
 
-},{}],187:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 module.exports = {
   'name': 'phi',
   'category': 'Constants',
@@ -40215,7 +28131,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],188:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 module.exports = {
   'name': 'pi',
   'category': 'Constants',
@@ -40230,7 +28146,7 @@ module.exports = {
   'seealso': ['tau']
 };
 
-},{}],189:[function(require,module,exports){
+},{}],188:[function(require,module,exports){
 module.exports = {
   'name': 'tau',
   'category': 'Constants',
@@ -40245,7 +28161,7 @@ module.exports = {
   'seealso': ['pi']
 };
 
-},{}],190:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 module.exports = {
   'name': 'true',
   'category': 'Constants',
@@ -40259,7 +28175,7 @@ module.exports = {
   'seealso': ['false']
 };
 
-},{}],191:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 module.exports = {
   'name': 'version',
   'category': 'Constants',
@@ -40273,7 +28189,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],192:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 module.exports = {
   'name': 'abs',
   'category': 'Arithmetic',
@@ -40288,7 +28204,7 @@ module.exports = {
   'seealso': ['sign']
 };
 
-},{}],193:[function(require,module,exports){
+},{}],192:[function(require,module,exports){
 module.exports = {
   'name': 'add',
   'category': 'Operators',
@@ -40309,7 +28225,7 @@ module.exports = {
   ]
 };
 
-},{}],194:[function(require,module,exports){
+},{}],193:[function(require,module,exports){
 module.exports = {
   'name': 'ceil',
   'category': 'Arithmetic',
@@ -40326,7 +28242,7 @@ module.exports = {
   'seealso': ['floor', 'fix', 'round']
 };
 
-},{}],195:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 module.exports = {
   'name': 'cube',
   'category': 'Arithmetic',
@@ -40346,7 +28262,7 @@ module.exports = {
   ]
 };
 
-},{}],196:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 module.exports = {
   'name': 'divide',
   'category': 'Operators',
@@ -40368,7 +28284,7 @@ module.exports = {
   ]
 };
 
-},{}],197:[function(require,module,exports){
+},{}],196:[function(require,module,exports){
 module.exports = {
   'name': 'dotDivide',
   'category': 'Operators',
@@ -40389,7 +28305,7 @@ module.exports = {
   ]
 };
 
-},{}],198:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 module.exports = {
   'name': 'dotMultiply',
   'category': 'Operators',
@@ -40410,7 +28326,7 @@ module.exports = {
   ]
 };
 
-},{}],199:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 module.exports = {
   'name': 'dotpow',
   'category': 'Operators',
@@ -40429,7 +28345,7 @@ module.exports = {
   ]
 };
 
-},{}],200:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 module.exports = {
   'name': 'exp',
   'category': 'Arithmetic',
@@ -40450,7 +28366,7 @@ module.exports = {
   ]
 };
 
-},{}],201:[function(require,module,exports){
+},{}],200:[function(require,module,exports){
 module.exports = {
   'name': 'fix',
   'category': 'Arithmetic',
@@ -40468,7 +28384,7 @@ module.exports = {
   'seealso': ['ceil', 'floor', 'round']
 };
 
-},{}],202:[function(require,module,exports){
+},{}],201:[function(require,module,exports){
 module.exports = {
   'name': 'floor',
   'category': 'Arithmetic',
@@ -40485,7 +28401,7 @@ module.exports = {
   'seealso': ['ceil', 'fix', 'round']
 };
 
-},{}],203:[function(require,module,exports){
+},{}],202:[function(require,module,exports){
 module.exports = {
   'name': 'gcd',
   'category': 'Arithmetic',
@@ -40502,7 +28418,7 @@ module.exports = {
   'seealso': [ 'lcm', 'xgcd' ]
 };
 
-},{}],204:[function(require,module,exports){
+},{}],203:[function(require,module,exports){
 module.exports = {
   'name': 'lcm',
   'category': 'Arithmetic',
@@ -40518,7 +28434,7 @@ module.exports = {
   'seealso': [ 'gcd' ]
 };
 
-},{}],205:[function(require,module,exports){
+},{}],204:[function(require,module,exports){
 module.exports = {
   'name': 'log',
   'category': 'Arithmetic',
@@ -40542,7 +28458,7 @@ module.exports = {
     'log10'
   ]
 };
-},{}],206:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 module.exports = {
   'name': 'log10',
   'category': 'Arithmetic',
@@ -40563,7 +28479,7 @@ module.exports = {
   ]
 };
 
-},{}],207:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 module.exports = {
   'name': 'mod',
   'category': 'Operators',
@@ -40585,7 +28501,7 @@ module.exports = {
   'seealso': ['divide']
 };
 
-},{}],208:[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 module.exports = {
   'name': 'multiply',
   'category': 'Operators',
@@ -40606,7 +28522,7 @@ module.exports = {
   ]
 };
 
-},{}],209:[function(require,module,exports){
+},{}],208:[function(require,module,exports){
 module.exports = {
   'name': 'norm',
   'category': 'Arithmetic',
@@ -40628,7 +28544,7 @@ module.exports = {
   ]
 };
 
-},{}],210:[function(require,module,exports){
+},{}],209:[function(require,module,exports){
 module.exports = {
   'name': 'nthRoot',
   'category': 'Arithmetic',
@@ -40650,7 +28566,7 @@ module.exports = {
     'pow'
   ]
 };
-},{}],211:[function(require,module,exports){
+},{}],210:[function(require,module,exports){
 module.exports = {
   'name': 'pow',
   'category': 'Operators',
@@ -40668,7 +28584,7 @@ module.exports = {
   'seealso': [ 'multiply' ]
 };
 
-},{}],212:[function(require,module,exports){
+},{}],211:[function(require,module,exports){
 module.exports = {
   'name': 'round',
   'category': 'Arithmetic',
@@ -40689,7 +28605,7 @@ module.exports = {
   'seealso': ['ceil', 'floor', 'fix']
 };
 
-},{}],213:[function(require,module,exports){
+},{}],212:[function(require,module,exports){
 module.exports = {
   'name': 'sign',
   'category': 'Arithmetic',
@@ -40708,7 +28624,7 @@ module.exports = {
   ]
 };
 
-},{}],214:[function(require,module,exports){
+},{}],213:[function(require,module,exports){
 module.exports = {
   'name': 'sqrt',
   'category': 'Arithmetic',
@@ -40728,7 +28644,7 @@ module.exports = {
   ]
 };
 
-},{}],215:[function(require,module,exports){
+},{}],214:[function(require,module,exports){
 module.exports = {
   'name': 'square',
   'category': 'Arithmetic',
@@ -40751,7 +28667,7 @@ module.exports = {
   ]
 };
 
-},{}],216:[function(require,module,exports){
+},{}],215:[function(require,module,exports){
 module.exports = {
   'name': 'subtract',
   'category': 'Operators',
@@ -40772,7 +28688,7 @@ module.exports = {
   ]
 };
 
-},{}],217:[function(require,module,exports){
+},{}],216:[function(require,module,exports){
 module.exports = {
   'name': 'unaryMinus',
   'category': 'Operators',
@@ -40792,7 +28708,7 @@ module.exports = {
   ]
 };
 
-},{}],218:[function(require,module,exports){
+},{}],217:[function(require,module,exports){
 module.exports = {
   'name': 'unaryPlus',
   'category': 'Operators',
@@ -40811,7 +28727,7 @@ module.exports = {
   ]
 };
 
-},{}],219:[function(require,module,exports){
+},{}],218:[function(require,module,exports){
 module.exports = {
   'name': 'xgcd',
   'category': 'Arithmetic',
@@ -40827,7 +28743,7 @@ module.exports = {
   'seealso': [ 'gcd', 'lcm' ]
 };
 
-},{}],220:[function(require,module,exports){
+},{}],219:[function(require,module,exports){
 module.exports = {
   'name': 'bitAnd',
   'category': 'Bitwise',
@@ -40846,7 +28762,7 @@ module.exports = {
   ]
 };
 
-},{}],221:[function(require,module,exports){
+},{}],220:[function(require,module,exports){
 module.exports = {
   'name': 'bitNot',
   'category': 'Bitwise',
@@ -40865,7 +28781,7 @@ module.exports = {
   ]
 };
 
-},{}],222:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 module.exports = {
   'name': 'bitOr',
   'category': 'Bitwise',
@@ -40883,7 +28799,7 @@ module.exports = {
   ]
 };
 
-},{}],223:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 module.exports = {
   'name': 'bitXor',
   'category': 'Bitwise',
@@ -40900,7 +28816,7 @@ module.exports = {
   ]
 };
 
-},{}],224:[function(require,module,exports){
+},{}],223:[function(require,module,exports){
 module.exports = {
   'name': 'leftShift',
   'category': 'Bitwise',
@@ -40918,7 +28834,7 @@ module.exports = {
   ]
 };
 
-},{}],225:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 module.exports = {
   'name': 'rightArithShift',
   'category': 'Bitwise',
@@ -40937,7 +28853,7 @@ module.exports = {
   ]
 };
 
-},{}],226:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 module.exports = {
   'name': 'rightLogShift',
   'category': 'Bitwise',
@@ -40956,7 +28872,7 @@ module.exports = {
   ]
 };
 
-},{}],227:[function(require,module,exports){
+},{}],226:[function(require,module,exports){
 module.exports = {
   'name': 'arg',
   'category': 'Complex',
@@ -40978,7 +28894,7 @@ module.exports = {
   ]
 };
 
-},{}],228:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 module.exports = {
   'name': 'conj',
   'category': 'Complex',
@@ -41000,7 +28916,7 @@ module.exports = {
   ]
 };
 
-},{}],229:[function(require,module,exports){
+},{}],228:[function(require,module,exports){
 module.exports = {
   'name': 'im',
   'category': 'Complex',
@@ -41022,7 +28938,7 @@ module.exports = {
   ]
 };
 
-},{}],230:[function(require,module,exports){
+},{}],229:[function(require,module,exports){
 module.exports = {
   'name': 're',
   'category': 'Complex',
@@ -41044,7 +28960,7 @@ module.exports = {
   ]
 };
 
-},{}],231:[function(require,module,exports){
+},{}],230:[function(require,module,exports){
 module.exports = {
   'name': 'bignumber',
   'category': 'Type',
@@ -41065,7 +28981,7 @@ module.exports = {
   ]
 };
 
-},{}],232:[function(require,module,exports){
+},{}],231:[function(require,module,exports){
 module.exports = {
   'name': 'boolean',
   'category': 'Type',
@@ -41088,7 +29004,7 @@ module.exports = {
   ]
 };
 
-},{}],233:[function(require,module,exports){
+},{}],232:[function(require,module,exports){
 module.exports = {
   'name': 'complex',
   'category': 'Type',
@@ -41109,7 +29025,7 @@ module.exports = {
   ]
 };
 
-},{}],234:[function(require,module,exports){
+},{}],233:[function(require,module,exports){
 module.exports = {
   'name': 'index',
   'category': 'Type',
@@ -41136,7 +29052,7 @@ module.exports = {
   ]
 };
 
-},{}],235:[function(require,module,exports){
+},{}],234:[function(require,module,exports){
 module.exports = {
   'name': 'matrix',
   'category': 'Type',
@@ -41160,7 +29076,7 @@ module.exports = {
   ]
 };
 
-},{}],236:[function(require,module,exports){
+},{}],235:[function(require,module,exports){
 module.exports = {
   'name': 'number',
   'category': 'Type',
@@ -41185,7 +29101,7 @@ module.exports = {
   ]
 };
 
-},{}],237:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 module.exports = {
   'name': 'string',
   'category': 'Type',
@@ -41205,7 +29121,7 @@ module.exports = {
   ]
 };
 
-},{}],238:[function(require,module,exports){
+},{}],237:[function(require,module,exports){
 module.exports = {
   'name': 'unit',
   'category': 'Type',
@@ -41227,7 +29143,7 @@ module.exports = {
   ]
 };
 
-},{}],239:[function(require,module,exports){
+},{}],238:[function(require,module,exports){
 module.exports = {
   'name': 'eval',
   'category': 'Expression',
@@ -41243,7 +29159,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],240:[function(require,module,exports){
+},{}],239:[function(require,module,exports){
 module.exports = {
   'name': 'help',
   'category': 'Expression',
@@ -41259,7 +29175,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],241:[function(require,module,exports){
+},{}],240:[function(require,module,exports){
 module.exports = {
   'name': 'and',
   'category': 'Logical',
@@ -41278,7 +29194,7 @@ module.exports = {
   ]
 };
 
-},{}],242:[function(require,module,exports){
+},{}],241:[function(require,module,exports){
 module.exports = {
   'name': 'not',
   'category': 'Logical',
@@ -41299,7 +29215,7 @@ module.exports = {
   ]
 };
 
-},{}],243:[function(require,module,exports){
+},{}],242:[function(require,module,exports){
 module.exports = {
   'name': 'or',
   'category': 'Logical',
@@ -41318,7 +29234,7 @@ module.exports = {
   ]
 };
 
-},{}],244:[function(require,module,exports){
+},{}],243:[function(require,module,exports){
 module.exports = {
   'name': 'xor',
   'category': 'Logical',
@@ -41338,7 +29254,7 @@ module.exports = {
   ]
 };
 
-},{}],245:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
 module.exports = {
   'name': 'concat',
   'category': 'Matrix',
@@ -41359,7 +29275,7 @@ module.exports = {
   ]
 };
 
-},{}],246:[function(require,module,exports){
+},{}],245:[function(require,module,exports){
 module.exports = {
   'name': 'cross',
   'category': 'Matrix',
@@ -41378,7 +29294,7 @@ module.exports = {
   ]
 };
 
-},{}],247:[function(require,module,exports){
+},{}],246:[function(require,module,exports){
 module.exports = {
   'name': 'det',
   'category': 'Matrix',
@@ -41395,7 +29311,7 @@ module.exports = {
   ]
 };
 
-},{}],248:[function(require,module,exports){
+},{}],247:[function(require,module,exports){
 module.exports = {
   'name': 'diag',
   'category': 'Matrix',
@@ -41415,7 +29331,7 @@ module.exports = {
   ]
 };
 
-},{}],249:[function(require,module,exports){
+},{}],248:[function(require,module,exports){
 module.exports = {
   'name': 'dot',
   'category': 'Matrix',
@@ -41435,7 +29351,7 @@ module.exports = {
   ]
 };
 
-},{}],250:[function(require,module,exports){
+},{}],249:[function(require,module,exports){
 module.exports = {
   'name': 'eye',
   'category': 'Matrix',
@@ -41457,7 +29373,7 @@ module.exports = {
   ]
 };
 
-},{}],251:[function(require,module,exports){
+},{}],250:[function(require,module,exports){
 module.exports = {
   'name': 'flatten',
   'category': 'Matrix',
@@ -41476,7 +29392,7 @@ module.exports = {
   ]
 };
 
-},{}],252:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 module.exports = {
   'name': 'inv',
   'category': 'Matrix',
@@ -41494,7 +29410,7 @@ module.exports = {
   ]
 };
 
-},{}],253:[function(require,module,exports){
+},{}],252:[function(require,module,exports){
 module.exports = {
   'name': 'ones',
   'category': 'Matrix',
@@ -41520,7 +29436,7 @@ module.exports = {
   ]
 };
 
-},{}],254:[function(require,module,exports){
+},{}],253:[function(require,module,exports){
 module.exports = {
   'name': 'range',
   'category': 'Type',
@@ -41547,7 +29463,7 @@ module.exports = {
   ]
 };
 
-},{}],255:[function(require,module,exports){
+},{}],254:[function(require,module,exports){
 module.exports = {
   'name': 'resize',
   'category': 'Matrix',
@@ -41568,7 +29484,7 @@ module.exports = {
   ]
 };
 
-},{}],256:[function(require,module,exports){
+},{}],255:[function(require,module,exports){
 module.exports = {
   'name': 'size',
   'category': 'Matrix',
@@ -41588,7 +29504,7 @@ module.exports = {
   ]
 };
 
-},{}],257:[function(require,module,exports){
+},{}],256:[function(require,module,exports){
 module.exports = {
   'name': 'squeeze',
   'category': 'Matrix',
@@ -41607,7 +29523,7 @@ module.exports = {
   ]
 };
 
-},{}],258:[function(require,module,exports){
+},{}],257:[function(require,module,exports){
 module.exports = {
   'name': 'subset',
   'category': 'Matrix',
@@ -41634,7 +29550,7 @@ module.exports = {
   ]
 };
 
-},{}],259:[function(require,module,exports){
+},{}],258:[function(require,module,exports){
 module.exports = {
   'name': 'trace',
   'category': 'Matrix',
@@ -41651,7 +29567,7 @@ module.exports = {
   ]
 };
 
-},{}],260:[function(require,module,exports){
+},{}],259:[function(require,module,exports){
 module.exports = {
   'name': 'transpose',
   'category': 'Matrix',
@@ -41670,7 +29586,7 @@ module.exports = {
   ]
 };
 
-},{}],261:[function(require,module,exports){
+},{}],260:[function(require,module,exports){
 module.exports = {
   'name': 'zeros',
   'category': 'Matrix',
@@ -41695,7 +29611,7 @@ module.exports = {
   ]
 };
 
-},{}],262:[function(require,module,exports){
+},{}],261:[function(require,module,exports){
 module.exports = {
   'name': 'combinations',
   'category': 'Probability',
@@ -41709,7 +29625,7 @@ module.exports = {
   'seealso': ['permutations', 'factorial']
 };
 
-},{}],263:[function(require,module,exports){
+},{}],262:[function(require,module,exports){
 module.exports = {
   'name': 'factorial',
   'category': 'Probability',
@@ -41726,7 +29642,7 @@ module.exports = {
   'seealso': ['combinations', 'permutations', 'gamma']
 };
 
-},{}],264:[function(require,module,exports){
+},{}],263:[function(require,module,exports){
 module.exports = {
   'name': 'gamma',
   'category': 'Probability',
@@ -41743,7 +29659,7 @@ module.exports = {
   'seealso': ['factorial']
 };
 
-},{}],265:[function(require,module,exports){
+},{}],264:[function(require,module,exports){
 module.exports = {
   'name': 'permutations',
   'category': 'Probability',
@@ -41759,7 +29675,7 @@ module.exports = {
   'seealso': ['combinations', 'factorial']
 };
 
-},{}],266:[function(require,module,exports){
+},{}],265:[function(require,module,exports){
 module.exports = {
   'name': 'pickRandom',
   'category': 'Probability',
@@ -41775,7 +29691,7 @@ module.exports = {
   'seealso': ['random', 'randomInt']
 };
 
-},{}],267:[function(require,module,exports){
+},{}],266:[function(require,module,exports){
 module.exports = {
   'name': 'random',
   'category': 'Probability',
@@ -41797,7 +29713,7 @@ module.exports = {
   'seealso': ['pickRandom', 'randomInt']
 };
 
-},{}],268:[function(require,module,exports){
+},{}],267:[function(require,module,exports){
 module.exports = {
   'name': 'randInt',
   'category': 'Probability',
@@ -41818,7 +29734,7 @@ module.exports = {
   ],
   'seealso': ['pickRandom', 'random']
 };
-},{}],269:[function(require,module,exports){
+},{}],268:[function(require,module,exports){
 module.exports = {
   'name': 'compare',
   'category': 'Relational',
@@ -41839,7 +29755,7 @@ module.exports = {
   ]
 };
 
-},{}],270:[function(require,module,exports){
+},{}],269:[function(require,module,exports){
 module.exports = {
   'name': 'deepEqual',
   'category': 'Relational',
@@ -41857,7 +29773,7 @@ module.exports = {
   ]
 };
 
-},{}],271:[function(require,module,exports){
+},{}],270:[function(require,module,exports){
 module.exports = {
   'name': 'equal',
   'category': 'Relational',
@@ -41880,7 +29796,7 @@ module.exports = {
   ]
 };
 
-},{}],272:[function(require,module,exports){
+},{}],271:[function(require,module,exports){
 module.exports = {
   'name': 'larger',
   'category': 'Relational',
@@ -41904,7 +29820,7 @@ module.exports = {
   ]
 };
 
-},{}],273:[function(require,module,exports){
+},{}],272:[function(require,module,exports){
 module.exports = {
   'name': 'largerEq',
   'category': 'Relational',
@@ -41926,7 +29842,7 @@ module.exports = {
   ]
 };
 
-},{}],274:[function(require,module,exports){
+},{}],273:[function(require,module,exports){
 module.exports = {
   'name': 'smaller',
   'category': 'Relational',
@@ -41949,7 +29865,7 @@ module.exports = {
   ]
 };
 
-},{}],275:[function(require,module,exports){
+},{}],274:[function(require,module,exports){
 module.exports = {
   'name': 'smallerEq',
   'category': 'Relational',
@@ -41971,7 +29887,7 @@ module.exports = {
   ]
 };
 
-},{}],276:[function(require,module,exports){
+},{}],275:[function(require,module,exports){
 module.exports = {
   'name': 'unequal',
   'category': 'Relational',
@@ -41995,7 +29911,7 @@ module.exports = {
   ]
 };
 
-},{}],277:[function(require,module,exports){
+},{}],276:[function(require,module,exports){
 module.exports = {
   'name': 'max',
   'category': 'Statistics',
@@ -42025,7 +29941,7 @@ module.exports = {
   ]
 };
 
-},{}],278:[function(require,module,exports){
+},{}],277:[function(require,module,exports){
 module.exports = {
   'name': 'mean',
   'category': 'Statistics',
@@ -42054,7 +29970,7 @@ module.exports = {
   ]
 };
 
-},{}],279:[function(require,module,exports){
+},{}],278:[function(require,module,exports){
 module.exports = {
   'name': 'median',
   'category': 'Statistics',
@@ -42078,7 +29994,7 @@ module.exports = {
   ]
 };
 
-},{}],280:[function(require,module,exports){
+},{}],279:[function(require,module,exports){
 module.exports = {
   'name': 'min',
   'category': 'Statistics',
@@ -42108,7 +30024,7 @@ module.exports = {
   ]
 };
 
-},{}],281:[function(require,module,exports){
+},{}],280:[function(require,module,exports){
 module.exports = {
   'name': 'prod',
   'category': 'Statistics',
@@ -42134,7 +30050,7 @@ module.exports = {
   ]
 };
 
-},{}],282:[function(require,module,exports){
+},{}],281:[function(require,module,exports){
 module.exports = {
   'name': 'std',
   'category': 'Statistics',
@@ -42163,7 +30079,7 @@ module.exports = {
   ]
 };
 
-},{}],283:[function(require,module,exports){
+},{}],282:[function(require,module,exports){
 module.exports = {
   'name': 'sum',
   'category': 'Statistics',
@@ -42189,7 +30105,7 @@ module.exports = {
   ]
 };
 
-},{}],284:[function(require,module,exports){
+},{}],283:[function(require,module,exports){
 module.exports = {
   'name': 'var',
   'category': 'Statistics',
@@ -42218,7 +30134,7 @@ module.exports = {
   ]
 };
 
-},{}],285:[function(require,module,exports){
+},{}],284:[function(require,module,exports){
 module.exports = {
   'name': 'acos',
   'category': 'Trigonometry',
@@ -42237,7 +30153,7 @@ module.exports = {
   ]
 };
 
-},{}],286:[function(require,module,exports){
+},{}],285:[function(require,module,exports){
 module.exports = {
   'name': 'acosh',
   'category': 'Trigonometry',
@@ -42254,7 +30170,7 @@ module.exports = {
     'atanh'
   ]
 };
-},{}],287:[function(require,module,exports){
+},{}],286:[function(require,module,exports){
 module.exports = {
   'name': 'acot',
   'category': 'Trigonometry',
@@ -42273,7 +30189,7 @@ module.exports = {
   ]
 };
 
-},{}],288:[function(require,module,exports){
+},{}],287:[function(require,module,exports){
 module.exports = {
   'name': 'acoth',
   'category': 'Trigonometry',
@@ -42289,7 +30205,7 @@ module.exports = {
     'asech'
   ]
 };
-},{}],289:[function(require,module,exports){
+},{}],288:[function(require,module,exports){
 module.exports = {
   'name': 'acsc',
   'category': 'Trigonometry',
@@ -42309,7 +30225,7 @@ module.exports = {
   ]
 };
 
-},{}],290:[function(require,module,exports){
+},{}],289:[function(require,module,exports){
 module.exports = {
   'name': 'acsch',
   'category': 'Trigonometry',
@@ -42326,7 +30242,7 @@ module.exports = {
   ]
 };
 
-},{}],291:[function(require,module,exports){
+},{}],290:[function(require,module,exports){
 module.exports = {
   'name': 'asec',
   'category': 'Trigonometry',
@@ -42346,7 +30262,7 @@ module.exports = {
   ]
 };
 
-},{}],292:[function(require,module,exports){
+},{}],291:[function(require,module,exports){
 module.exports = {
   'name': 'asech',
   'category': 'Trigonometry',
@@ -42363,7 +30279,7 @@ module.exports = {
   ]
 };
 
-},{}],293:[function(require,module,exports){
+},{}],292:[function(require,module,exports){
 module.exports = {
   'name': 'asin',
   'category': 'Trigonometry',
@@ -42382,7 +30298,7 @@ module.exports = {
   ]
 };
 
-},{}],294:[function(require,module,exports){
+},{}],293:[function(require,module,exports){
 module.exports = {
   'name': 'asinh',
   'category': 'Trigonometry',
@@ -42399,7 +30315,7 @@ module.exports = {
   ]
 };
 
-},{}],295:[function(require,module,exports){
+},{}],294:[function(require,module,exports){
 module.exports = {
   'name': 'atan',
   'category': 'Trigonometry',
@@ -42418,7 +30334,7 @@ module.exports = {
   ]
 };
 
-},{}],296:[function(require,module,exports){
+},{}],295:[function(require,module,exports){
 module.exports = {
   'name': 'atan2',
   'category': 'Trigonometry',
@@ -42441,7 +30357,7 @@ module.exports = {
   ]
 };
 
-},{}],297:[function(require,module,exports){
+},{}],296:[function(require,module,exports){
 module.exports = {
   'name': 'atanh',
   'category': 'Trigonometry',
@@ -42458,7 +30374,7 @@ module.exports = {
   ]
 };
 
-},{}],298:[function(require,module,exports){
+},{}],297:[function(require,module,exports){
 module.exports = {
   'name': 'cos',
   'category': 'Trigonometry',
@@ -42480,7 +30396,7 @@ module.exports = {
   ]
 };
 
-},{}],299:[function(require,module,exports){
+},{}],298:[function(require,module,exports){
 module.exports = {
   'name': 'cosh',
   'category': 'Trigonometry',
@@ -42498,7 +30414,7 @@ module.exports = {
   ]
 };
 
-},{}],300:[function(require,module,exports){
+},{}],299:[function(require,module,exports){
 module.exports = {
   'name': 'cot',
   'category': 'Trigonometry',
@@ -42517,7 +30433,7 @@ module.exports = {
   ]
 };
 
-},{}],301:[function(require,module,exports){
+},{}],300:[function(require,module,exports){
 module.exports = {
   'name': 'coth',
   'category': 'Trigonometry',
@@ -42536,7 +30452,7 @@ module.exports = {
   ]
 };
 
-},{}],302:[function(require,module,exports){
+},{}],301:[function(require,module,exports){
 module.exports = {
   'name': 'csc',
   'category': 'Trigonometry',
@@ -42555,7 +30471,7 @@ module.exports = {
   ]
 };
 
-},{}],303:[function(require,module,exports){
+},{}],302:[function(require,module,exports){
 module.exports = {
   'name': 'csch',
   'category': 'Trigonometry',
@@ -42574,7 +30490,7 @@ module.exports = {
   ]
 };
 
-},{}],304:[function(require,module,exports){
+},{}],303:[function(require,module,exports){
 module.exports = {
   'name': 'sec',
   'category': 'Trigonometry',
@@ -42593,7 +30509,7 @@ module.exports = {
   ]
 };
 
-},{}],305:[function(require,module,exports){
+},{}],304:[function(require,module,exports){
 module.exports = {
   'name': 'sech',
   'category': 'Trigonometry',
@@ -42612,7 +30528,7 @@ module.exports = {
   ]
 };
 
-},{}],306:[function(require,module,exports){
+},{}],305:[function(require,module,exports){
 module.exports = {
   'name': 'sin',
   'category': 'Trigonometry',
@@ -42634,7 +30550,7 @@ module.exports = {
   ]
 };
 
-},{}],307:[function(require,module,exports){
+},{}],306:[function(require,module,exports){
 module.exports = {
   'name': 'sinh',
   'category': 'Trigonometry',
@@ -42651,7 +30567,7 @@ module.exports = {
   ]
 };
 
-},{}],308:[function(require,module,exports){
+},{}],307:[function(require,module,exports){
 module.exports = {
   'name': 'tan',
   'category': 'Trigonometry',
@@ -42672,7 +30588,7 @@ module.exports = {
   ]
 };
 
-},{}],309:[function(require,module,exports){
+},{}],308:[function(require,module,exports){
 module.exports = {
   'name': 'tanh',
   'category': 'Trigonometry',
@@ -42690,7 +30606,7 @@ module.exports = {
   ]
 };
 
-},{}],310:[function(require,module,exports){
+},{}],309:[function(require,module,exports){
 module.exports = {
   'name': 'to',
   'category': 'Units',
@@ -42707,7 +30623,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],311:[function(require,module,exports){
+},{}],310:[function(require,module,exports){
 module.exports = {
   'name': 'clone',
   'category': 'Utils',
@@ -42725,7 +30641,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],312:[function(require,module,exports){
+},{}],311:[function(require,module,exports){
 module.exports = {
   'name': 'filter',
   'category': 'Utils',
@@ -42741,7 +30657,7 @@ module.exports = {
   'seealso': ['sort', 'map', 'forEach']
 };
 
-},{}],313:[function(require,module,exports){
+},{}],312:[function(require,module,exports){
 module.exports = {
   'name': 'forEach',
   'category': 'Utils',
@@ -42755,7 +30671,7 @@ module.exports = {
   'seealso': ['map', 'sort', 'filter']
 };
 
-},{}],314:[function(require,module,exports){
+},{}],313:[function(require,module,exports){
 module.exports = {
   'name': 'format',
   'category': 'Utils',
@@ -42773,7 +30689,7 @@ module.exports = {
   'seealso': ['print']
 };
 
-},{}],315:[function(require,module,exports){
+},{}],314:[function(require,module,exports){
 module.exports = {
   'name': 'import',
   'category': 'Utils',
@@ -42788,7 +30704,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],316:[function(require,module,exports){
+},{}],315:[function(require,module,exports){
 module.exports = {
   'name': 'map',
   'category': 'Utils',
@@ -42802,7 +30718,7 @@ module.exports = {
   'seealso': ['filter', 'forEach']
 };
 
-},{}],317:[function(require,module,exports){
+},{}],316:[function(require,module,exports){
 module.exports = {
   'name': 'sort',
   'category': 'Utils',
@@ -42820,7 +30736,7 @@ module.exports = {
   'seealso': ['map', 'filter', 'forEach']
 };
 
-},{}],318:[function(require,module,exports){
+},{}],317:[function(require,module,exports){
 module.exports = {
   'name': 'typeof',
   'category': 'Utils',
@@ -42837,7 +30753,7 @@ module.exports = {
   'seealso': []
 };
 
-},{}],319:[function(require,module,exports){
+},{}],318:[function(require,module,exports){
 // constants
 exports.e = require('./constants/e');
 exports.E = require('./constants/e');
@@ -43014,7 +30930,7 @@ exports['import'] =  require('./function/utils/import');
 exports.sort =  require('./function/utils/sort');
 exports['typeof'] =  require('./function/utils/typeof');
 
-},{"./constants/Infinity":175,"./constants/LN10":176,"./constants/LN2":177,"./constants/LOG10E":178,"./constants/LOG2E":179,"./constants/NaN":180,"./constants/SQRT1_2":181,"./constants/SQRT2":182,"./constants/e":183,"./constants/false":184,"./constants/i":185,"./constants/null":186,"./constants/phi":187,"./constants/pi":188,"./constants/tau":189,"./constants/true":190,"./constants/version":191,"./function/arithmetic/abs":192,"./function/arithmetic/add":193,"./function/arithmetic/ceil":194,"./function/arithmetic/cube":195,"./function/arithmetic/divide":196,"./function/arithmetic/dotDivide":197,"./function/arithmetic/dotMultiply":198,"./function/arithmetic/dotPow":199,"./function/arithmetic/exp":200,"./function/arithmetic/fix":201,"./function/arithmetic/floor":202,"./function/arithmetic/gcd":203,"./function/arithmetic/lcm":204,"./function/arithmetic/log":205,"./function/arithmetic/log10":206,"./function/arithmetic/mod":207,"./function/arithmetic/multiply":208,"./function/arithmetic/norm":209,"./function/arithmetic/nthRoot":210,"./function/arithmetic/pow":211,"./function/arithmetic/round":212,"./function/arithmetic/sign":213,"./function/arithmetic/sqrt":214,"./function/arithmetic/square":215,"./function/arithmetic/subtract":216,"./function/arithmetic/unaryMinus":217,"./function/arithmetic/unaryPlus":218,"./function/arithmetic/xgcd":219,"./function/bitwise/bitAnd":220,"./function/bitwise/bitNot":221,"./function/bitwise/bitOr":222,"./function/bitwise/bitXor":223,"./function/bitwise/leftShift":224,"./function/bitwise/rightArithShift":225,"./function/bitwise/rightLogShift":226,"./function/complex/arg":227,"./function/complex/conj":228,"./function/complex/im":229,"./function/complex/re":230,"./function/construction/bignumber":231,"./function/construction/boolean":232,"./function/construction/complex":233,"./function/construction/index":234,"./function/construction/matrix":235,"./function/construction/number":236,"./function/construction/string":237,"./function/construction/unit":238,"./function/expression/eval":239,"./function/expression/help":240,"./function/logical/and":241,"./function/logical/not":242,"./function/logical/or":243,"./function/logical/xor":244,"./function/matrix/concat":245,"./function/matrix/cross":246,"./function/matrix/det":247,"./function/matrix/diag":248,"./function/matrix/dot":249,"./function/matrix/eye":250,"./function/matrix/flatten":251,"./function/matrix/inv":252,"./function/matrix/ones":253,"./function/matrix/range":254,"./function/matrix/resize":255,"./function/matrix/size":256,"./function/matrix/squeeze":257,"./function/matrix/subset":258,"./function/matrix/trace":259,"./function/matrix/transpose":260,"./function/matrix/zeros":261,"./function/probability/combinations":262,"./function/probability/factorial":263,"./function/probability/gamma":264,"./function/probability/permutations":265,"./function/probability/pickRandom":266,"./function/probability/random":267,"./function/probability/randomInt":268,"./function/relational/compare":269,"./function/relational/deepEqual":270,"./function/relational/equal":271,"./function/relational/larger":272,"./function/relational/largerEq":273,"./function/relational/smaller":274,"./function/relational/smallerEq":275,"./function/relational/unequal":276,"./function/statistics/max":277,"./function/statistics/mean":278,"./function/statistics/median":279,"./function/statistics/min":280,"./function/statistics/prod":281,"./function/statistics/std":282,"./function/statistics/sum":283,"./function/statistics/var":284,"./function/trigonometry/acos":285,"./function/trigonometry/acosh":286,"./function/trigonometry/acot":287,"./function/trigonometry/acoth":288,"./function/trigonometry/acsc":289,"./function/trigonometry/acsch":290,"./function/trigonometry/asec":291,"./function/trigonometry/asech":292,"./function/trigonometry/asin":293,"./function/trigonometry/asinh":294,"./function/trigonometry/atan":295,"./function/trigonometry/atan2":296,"./function/trigonometry/atanh":297,"./function/trigonometry/cos":298,"./function/trigonometry/cosh":299,"./function/trigonometry/cot":300,"./function/trigonometry/coth":301,"./function/trigonometry/csc":302,"./function/trigonometry/csch":303,"./function/trigonometry/sec":304,"./function/trigonometry/sech":305,"./function/trigonometry/sin":306,"./function/trigonometry/sinh":307,"./function/trigonometry/tan":308,"./function/trigonometry/tanh":309,"./function/units/to":310,"./function/utils/clone":311,"./function/utils/filter":312,"./function/utils/forEach":313,"./function/utils/format":314,"./function/utils/import":315,"./function/utils/map":316,"./function/utils/sort":317,"./function/utils/typeof":318}],320:[function(require,module,exports){
+},{"./constants/Infinity":174,"./constants/LN10":175,"./constants/LN2":176,"./constants/LOG10E":177,"./constants/LOG2E":178,"./constants/NaN":179,"./constants/SQRT1_2":180,"./constants/SQRT2":181,"./constants/e":182,"./constants/false":183,"./constants/i":184,"./constants/null":185,"./constants/phi":186,"./constants/pi":187,"./constants/tau":188,"./constants/true":189,"./constants/version":190,"./function/arithmetic/abs":191,"./function/arithmetic/add":192,"./function/arithmetic/ceil":193,"./function/arithmetic/cube":194,"./function/arithmetic/divide":195,"./function/arithmetic/dotDivide":196,"./function/arithmetic/dotMultiply":197,"./function/arithmetic/dotPow":198,"./function/arithmetic/exp":199,"./function/arithmetic/fix":200,"./function/arithmetic/floor":201,"./function/arithmetic/gcd":202,"./function/arithmetic/lcm":203,"./function/arithmetic/log":204,"./function/arithmetic/log10":205,"./function/arithmetic/mod":206,"./function/arithmetic/multiply":207,"./function/arithmetic/norm":208,"./function/arithmetic/nthRoot":209,"./function/arithmetic/pow":210,"./function/arithmetic/round":211,"./function/arithmetic/sign":212,"./function/arithmetic/sqrt":213,"./function/arithmetic/square":214,"./function/arithmetic/subtract":215,"./function/arithmetic/unaryMinus":216,"./function/arithmetic/unaryPlus":217,"./function/arithmetic/xgcd":218,"./function/bitwise/bitAnd":219,"./function/bitwise/bitNot":220,"./function/bitwise/bitOr":221,"./function/bitwise/bitXor":222,"./function/bitwise/leftShift":223,"./function/bitwise/rightArithShift":224,"./function/bitwise/rightLogShift":225,"./function/complex/arg":226,"./function/complex/conj":227,"./function/complex/im":228,"./function/complex/re":229,"./function/construction/bignumber":230,"./function/construction/boolean":231,"./function/construction/complex":232,"./function/construction/index":233,"./function/construction/matrix":234,"./function/construction/number":235,"./function/construction/string":236,"./function/construction/unit":237,"./function/expression/eval":238,"./function/expression/help":239,"./function/logical/and":240,"./function/logical/not":241,"./function/logical/or":242,"./function/logical/xor":243,"./function/matrix/concat":244,"./function/matrix/cross":245,"./function/matrix/det":246,"./function/matrix/diag":247,"./function/matrix/dot":248,"./function/matrix/eye":249,"./function/matrix/flatten":250,"./function/matrix/inv":251,"./function/matrix/ones":252,"./function/matrix/range":253,"./function/matrix/resize":254,"./function/matrix/size":255,"./function/matrix/squeeze":256,"./function/matrix/subset":257,"./function/matrix/trace":258,"./function/matrix/transpose":259,"./function/matrix/zeros":260,"./function/probability/combinations":261,"./function/probability/factorial":262,"./function/probability/gamma":263,"./function/probability/permutations":264,"./function/probability/pickRandom":265,"./function/probability/random":266,"./function/probability/randomInt":267,"./function/relational/compare":268,"./function/relational/deepEqual":269,"./function/relational/equal":270,"./function/relational/larger":271,"./function/relational/largerEq":272,"./function/relational/smaller":273,"./function/relational/smallerEq":274,"./function/relational/unequal":275,"./function/statistics/max":276,"./function/statistics/mean":277,"./function/statistics/median":278,"./function/statistics/min":279,"./function/statistics/prod":280,"./function/statistics/std":281,"./function/statistics/sum":282,"./function/statistics/var":283,"./function/trigonometry/acos":284,"./function/trigonometry/acosh":285,"./function/trigonometry/acot":286,"./function/trigonometry/acoth":287,"./function/trigonometry/acsc":288,"./function/trigonometry/acsch":289,"./function/trigonometry/asec":290,"./function/trigonometry/asech":291,"./function/trigonometry/asin":292,"./function/trigonometry/asinh":293,"./function/trigonometry/atan":294,"./function/trigonometry/atan2":295,"./function/trigonometry/atanh":296,"./function/trigonometry/cos":297,"./function/trigonometry/cosh":298,"./function/trigonometry/cot":299,"./function/trigonometry/coth":300,"./function/trigonometry/csc":301,"./function/trigonometry/csch":302,"./function/trigonometry/sec":303,"./function/trigonometry/sech":304,"./function/trigonometry/sin":305,"./function/trigonometry/sinh":306,"./function/trigonometry/tan":307,"./function/trigonometry/tanh":308,"./function/units/to":309,"./function/utils/clone":310,"./function/utils/filter":311,"./function/utils/forEach":312,"./function/utils/format":313,"./function/utils/import":314,"./function/utils/map":315,"./function/utils/sort":316,"./function/utils/typeof":317}],319:[function(require,module,exports){
 'use strict';
 
 // Reserved keywords not allowed to use in the parser
@@ -43022,7 +30938,7 @@ module.exports = {
   end: true
 };
 
-},{}],321:[function(require,module,exports){
+},{}],320:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node'),
@@ -43144,7 +31060,7 @@ ArrayNode.prototype._toTex = function(callbacks) {
 
 module.exports = ArrayNode;
 
-},{"../../util/string":505,"./Node":329}],322:[function(require,module,exports){
+},{"../../util/string":504,"./Node":328}],321:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node'),
@@ -43253,7 +31169,7 @@ AssignmentNode.prototype._toTex = function(callbacks) {
 
 module.exports = AssignmentNode;
 
-},{"../../util/latex":502,"../../util/string":505,"../keywords":320,"../operators":335,"./ArrayNode":321,"./Node":329}],323:[function(require,module,exports){
+},{"../../util/latex":501,"../../util/string":504,"../keywords":319,"../operators":334,"./ArrayNode":320,"./Node":328}],322:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node');
@@ -43389,7 +31305,7 @@ BlockNode.prototype._toTex = function(callbacks) {
 
 module.exports = BlockNode;
 
-},{"../../type/ResultSet":490,"../../util/boolean":499,"./Node":329}],324:[function(require,module,exports){
+},{"../../type/ResultSet":489,"../../util/boolean":498,"./Node":328}],323:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node');
@@ -43556,7 +31472,7 @@ ConditionalNode.prototype._toTex = function(callbacks) {
 
 module.exports = ConditionalNode;
 
-},{"../../type/BigNumber":484,"../../type/Complex":485,"../../type/Unit":491,"../../util":501,"../../util/latex":502,"../operators":335,"./Node":329}],325:[function(require,module,exports){
+},{"../../type/BigNumber":483,"../../type/Complex":484,"../../type/Unit":490,"../../util":500,"../../util/latex":501,"../operators":334,"./Node":328}],324:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node');
@@ -43740,7 +31656,7 @@ ConstantNode.prototype._toTex = function(callbacks) {
 
 module.exports = ConstantNode;
 
-},{"../../type/BigNumber":484,"../../util/string":505,"../../util/types":506,"./Node":329}],326:[function(require,module,exports){
+},{"../../type/BigNumber":483,"../../util/string":504,"../../util/types":505,"./Node":328}],325:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node');
@@ -43872,7 +31788,7 @@ FunctionAssignmentNode.prototype._toTex = function(callbacks) {
 
 module.exports = FunctionAssignmentNode;
 
-},{"../../util/latex":502,"../../util/string":505,"../keywords":320,"../operators":335,"./Node":329}],327:[function(require,module,exports){
+},{"../../util/latex":501,"../../util/string":504,"../keywords":319,"../operators":334,"./Node":328}],326:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node');
@@ -44005,7 +31921,7 @@ FunctionNode.prototype.getIdentifier = function () {
 
 module.exports = FunctionNode;
 
-},{"../../util/latex":502,"./Node":329,"./SymbolNode":332}],328:[function(require,module,exports){
+},{"../../util/latex":501,"./Node":328,"./SymbolNode":331}],327:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node.js');
@@ -44231,7 +32147,7 @@ IndexNode.prototype._toTex = function(callbacks) {
 
 module.exports = IndexNode;
 
-},{"../../type/BigNumber":484,"../../type/Range":489,"./Node.js":329,"./RangeNode":331,"./SymbolNode":332}],329:[function(require,module,exports){
+},{"../../type/BigNumber":483,"../../type/Range":488,"./Node.js":328,"./RangeNode":330,"./SymbolNode":331}],328:[function(require,module,exports){
 'use strict';
 
 var keywords = require('../keywords');
@@ -44569,7 +32485,7 @@ function _transform(math) {
 
 module.exports = Node;
 
-},{"../keywords":320}],330:[function(require,module,exports){
+},{"../keywords":319}],329:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node'),
@@ -44928,7 +32844,7 @@ OperatorNode.prototype.getIdentifier = function () {
 
 module.exports = OperatorNode;
 
-},{"../../util/latex":502,"../operators":335,"./ConstantNode":325,"./FunctionNode":327,"./Node":329,"./SymbolNode":332}],331:[function(require,module,exports){
+},{"../../util/latex":501,"../operators":334,"./ConstantNode":324,"./FunctionNode":326,"./Node":328,"./SymbolNode":331}],330:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node');
@@ -45067,7 +32983,7 @@ RangeNode.prototype._toTex = function(callbacks) {
 
 module.exports = RangeNode;
 
-},{"../operators":335,"./Node":329}],332:[function(require,module,exports){
+},{"../operators":334,"./Node":328}],331:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node'),
@@ -45190,7 +33106,7 @@ SymbolNode.prototype._toTex = function(callbacks) {
 
 module.exports = SymbolNode;
 
-},{"../../type/Unit":491,"../../util/latex":502,"../../util/string":505,"./Node":329}],333:[function(require,module,exports){
+},{"../../type/Unit":490,"../../util/latex":501,"../../util/string":504,"./Node":328}],332:[function(require,module,exports){
 'use strict';
 
 var Node = require('./Node'),
@@ -45291,7 +33207,7 @@ UpdateNode.prototype._toTex = function(callbacks) {
 
 module.exports = UpdateNode;
 
-},{"./IndexNode":328,"./Node":329}],334:[function(require,module,exports){
+},{"./IndexNode":327,"./Node":328}],333:[function(require,module,exports){
 'use strict';
 
 exports.ArrayNode = require('./ArrayNode');
@@ -45308,7 +33224,7 @@ exports.RangeNode = require('./RangeNode');
 exports.SymbolNode = require('./SymbolNode');
 exports.UpdateNode = require('./UpdateNode');
 
-},{"./ArrayNode":321,"./AssignmentNode":322,"./BlockNode":323,"./ConditionalNode":324,"./ConstantNode":325,"./FunctionAssignmentNode":326,"./FunctionNode":327,"./IndexNode":328,"./Node":329,"./OperatorNode":330,"./RangeNode":331,"./SymbolNode":332,"./UpdateNode":333}],335:[function(require,module,exports){
+},{"./ArrayNode":320,"./AssignmentNode":321,"./BlockNode":322,"./ConditionalNode":323,"./ConstantNode":324,"./FunctionAssignmentNode":325,"./FunctionNode":326,"./IndexNode":327,"./Node":328,"./OperatorNode":329,"./RangeNode":330,"./SymbolNode":331,"./UpdateNode":332}],334:[function(require,module,exports){
 'use strict'
 
 //list of identifiers of nodes in order of their precedence
@@ -45606,7 +33522,7 @@ module.exports.getPrecedence = getPrecedence;
 module.exports.getAssociativity = getAssociativity;
 module.exports.isAssociativeWith = isAssociativeWith;
 
-},{}],336:[function(require,module,exports){
+},{}],335:[function(require,module,exports){
 'use strict';
 
 var util = require('../util/index'),
@@ -46987,7 +34903,7 @@ module.exports = function (math) {
 
   return parse;
 };
-},{"../error/ArgumentsError":169,"../util/index":501,"./node/ArrayNode":321,"./node/AssignmentNode":322,"./node/BlockNode":323,"./node/ConditionalNode":324,"./node/ConstantNode":325,"./node/FunctionAssignmentNode":326,"./node/FunctionNode":327,"./node/IndexNode":328,"./node/OperatorNode":330,"./node/RangeNode":331,"./node/SymbolNode":332,"./node/UpdateNode":333}],337:[function(require,module,exports){
+},{"../error/ArgumentsError":168,"../util/index":500,"./node/ArrayNode":320,"./node/AssignmentNode":321,"./node/BlockNode":322,"./node/ConditionalNode":323,"./node/ConstantNode":324,"./node/FunctionAssignmentNode":325,"./node/FunctionNode":326,"./node/IndexNode":327,"./node/OperatorNode":329,"./node/RangeNode":330,"./node/SymbolNode":331,"./node/UpdateNode":332}],336:[function(require,module,exports){
 'use strict';
 
 var BigNumber = require('../../type/BigNumber');
@@ -47031,7 +34947,7 @@ module.exports = function (math) {
   return transform;
 };
 
-},{"../../type/BigNumber":484,"../../util/array":497,"../../util/number":503,"./error.transform":338}],338:[function(require,module,exports){
+},{"../../type/BigNumber":483,"../../util/array":496,"../../util/number":502,"./error.transform":337}],337:[function(require,module,exports){
 var DimensionError = require('../../error/DimensionError');
 var IndexError = require('../../error/IndexError');
 
@@ -47048,7 +34964,7 @@ exports.transform = function (err) {
   return err;
 };
 
-},{"../../error/DimensionError":170,"../../error/IndexError":171}],339:[function(require,module,exports){
+},{"../../error/DimensionError":169,"../../error/IndexError":170}],338:[function(require,module,exports){
 'use strict';
 
 var SymbolNode = require('../../expression/node/SymbolNode');
@@ -47114,7 +35030,7 @@ module.exports = function (math) {
   return transform;
 };
 
-},{"../../error/ArgumentsError":169,"../../expression/node/SymbolNode":332,"../../util/array":497,"../../util/boolean":499}],340:[function(require,module,exports){
+},{"../../error/ArgumentsError":168,"../../expression/node/SymbolNode":331,"../../util/array":496,"../../util/boolean":498}],339:[function(require,module,exports){
 'use strict';
 
 /**
@@ -47162,7 +35078,7 @@ module.exports = function (math) {
   return transform;
 };
 
-},{}],341:[function(require,module,exports){
+},{}],340:[function(require,module,exports){
 'use strict';
 
 var BigNumber = require('../../type/BigNumber');
@@ -47211,7 +35127,7 @@ module.exports = function (math) {
   return transform;
 };
 
-},{"../../type/BigNumber":484,"../../type/Index":487,"../../type/Range":489,"../../util/number":503}],342:[function(require,module,exports){
+},{"../../type/BigNumber":483,"../../type/Index":486,"../../type/Range":488,"../../util/number":502}],341:[function(require,module,exports){
 'use strict';
 
 /**
@@ -47260,7 +35176,7 @@ module.exports = function (math) {
   return transform;
 };
 
-},{}],343:[function(require,module,exports){
+},{}],342:[function(require,module,exports){
 'use strict';
 
 var BigNumber = require('../../type/BigNumber');
@@ -47307,7 +35223,7 @@ module.exports = function (math) {
   return transform;
 };
 
-},{"../../type/BigNumber":484,"../../util/array":497,"../../util/number":503,"./error.transform":338}],344:[function(require,module,exports){
+},{"../../type/BigNumber":483,"../../util/array":496,"../../util/number":502,"./error.transform":337}],343:[function(require,module,exports){
 'use strict';
 
 var BigNumber = require('../../type/BigNumber');
@@ -47354,7 +35270,7 @@ module.exports = function (math) {
   return transform;
 };
 
-},{"../../type/BigNumber":484,"../../util/array":497,"../../util/number":503,"./error.transform":338}],345:[function(require,module,exports){
+},{"../../type/BigNumber":483,"../../util/array":496,"../../util/number":502,"./error.transform":337}],344:[function(require,module,exports){
 'use strict';
 
 var BigNumber = require('../../type/BigNumber');
@@ -47401,7 +35317,7 @@ module.exports = function (math) {
   return transform;
 };
 
-},{"../../type/BigNumber":484,"../../util/array":497,"../../util/number":503,"./error.transform":338}],346:[function(require,module,exports){
+},{"../../type/BigNumber":483,"../../util/array":496,"../../util/number":502,"./error.transform":337}],345:[function(require,module,exports){
 'use strict';
 
 var isBoolean = require('../../util/boolean').isBoolean;
@@ -47432,7 +35348,7 @@ module.exports = function (math) {
   return transform;
 };
 
-},{"../../util/array":497,"../../util/boolean":499}],347:[function(require,module,exports){
+},{"../../util/array":496,"../../util/boolean":498}],346:[function(require,module,exports){
 'use strict';
 
 var errorTransform = require('./error.transform').transform;
@@ -47461,7 +35377,7 @@ module.exports = function (math) {
   return transform;
 };
 
-},{"../../util/array":497,"../../util/boolean":499,"./error.transform":338}],348:[function(require,module,exports){
+},{"../../util/array":496,"../../util/boolean":498,"./error.transform":337}],347:[function(require,module,exports){
 'use strict';
 
 module.exports = function(math) {
@@ -47590,7 +35506,7 @@ module.exports = function(math) {
   }
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],349:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],348:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -47674,7 +35590,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],350:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],349:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -47831,7 +35747,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],351:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],350:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -47907,7 +35823,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],352:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],351:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -47975,7 +35891,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],353:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],352:[function(require,module,exports){
 'use strict';
 
 module.exports = function(math) {
@@ -48042,7 +35958,7 @@ module.exports = function(math) {
   };
 };
 
-},{}],354:[function(require,module,exports){
+},{}],353:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -48088,7 +36004,7 @@ module.exports = function (math) {
   }
 };
 
-},{}],355:[function(require,module,exports){
+},{}],354:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -48135,7 +36051,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../util/index":501}],356:[function(require,module,exports){
+},{"../../util/index":500}],355:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -48179,7 +36095,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../util/index":501}],357:[function(require,module,exports){
+},{"../../util/index":500}],356:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -48256,7 +36172,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],358:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],357:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -48331,7 +36247,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],359:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],358:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -48406,7 +36322,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],360:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],359:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -48549,7 +36465,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../util/index":501}],361:[function(require,module,exports){
+},{"../../util/index":500}],360:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -48707,7 +36623,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../util/index":501}],362:[function(require,module,exports){
+},{"../../util/index":500}],361:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -48806,7 +36722,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],363:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],362:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -48890,7 +36806,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],364:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],363:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -49025,7 +36941,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../util/index":501}],365:[function(require,module,exports){
+},{"../../util/index":500}],364:[function(require,module,exports){
 'use strict';
 
 module.exports = function(math) {
@@ -49275,7 +37191,7 @@ module.exports = function(math) {
   }
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],366:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],365:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -49458,7 +37374,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],367:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],366:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -49653,7 +37569,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../util/index":501}],368:[function(require,module,exports){
+},{"../../util/index":500}],367:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -49832,7 +37748,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],369:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],368:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -49968,7 +37884,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],370:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],369:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -50045,7 +37961,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],371:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],370:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -50148,7 +38064,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],372:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],371:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -50219,7 +38135,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],373:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],372:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -50375,7 +38291,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],374:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],373:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -50461,7 +38377,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],375:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],374:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -50538,7 +38454,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],376:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],375:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -50716,7 +38632,7 @@ module.exports = function (math, config) {
   }
 };
 
-},{"../../util/index":501}],377:[function(require,module,exports){
+},{"../../util/index":500}],376:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -50811,7 +38727,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Unit":491,"../../util/index":501}],378:[function(require,module,exports){
+},{"../../type/Unit":490,"../../util/index":500}],377:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -50880,7 +38796,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Unit":491,"../../util/index":501}],379:[function(require,module,exports){
+},{"../../type/Unit":490,"../../util/index":500}],378:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -50976,7 +38892,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Unit":491,"../../util/index":501}],380:[function(require,module,exports){
+},{"../../type/Unit":490,"../../util/index":500}],379:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -51071,7 +38987,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Unit":491,"../../util/index":501}],381:[function(require,module,exports){
+},{"../../type/Unit":490,"../../util/index":500}],380:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -51189,7 +39105,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Unit":491,"../../util/index":501}],382:[function(require,module,exports){
+},{"../../type/Unit":490,"../../util/index":500}],381:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -51309,7 +39225,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Unit":491,"../../util/index":501}],383:[function(require,module,exports){
+},{"../../type/Unit":490,"../../util/index":500}],382:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -51375,7 +39291,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Unit":491,"../../util/index":501}],384:[function(require,module,exports){
+},{"../../type/Unit":490,"../../util/index":500}],383:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -51448,7 +39364,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],385:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],384:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -51519,7 +39435,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],386:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],385:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -51591,7 +39507,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],387:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],386:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -51664,7 +39580,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],388:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],387:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -51729,7 +39645,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],389:[function(require,module,exports){
+},{"../../util/index":500}],388:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -51819,7 +39735,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],390:[function(require,module,exports){
+},{"../../util/index":500}],389:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -51878,7 +39794,7 @@ module.exports = function (math) {
   }
 };
 
-},{}],391:[function(require,module,exports){
+},{}],390:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -52007,7 +39923,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],392:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],391:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -52077,7 +39993,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Index":487,"../../util/index":501}],393:[function(require,module,exports){
+},{"../../type/Index":486,"../../util/index":500}],392:[function(require,module,exports){
 'use strict';
 
 var string = require('../../util/string');
@@ -52161,7 +40077,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/string":505}],394:[function(require,module,exports){
+},{"../../util/string":504}],393:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -52254,7 +40170,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],395:[function(require,module,exports){
+},{"../../util/index":500}],394:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -52308,7 +40224,7 @@ module.exports = function (math) {
   };
 };
 
-},{}],396:[function(require,module,exports){
+},{}],395:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -52371,7 +40287,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],397:[function(require,module,exports){
+},{"../../util/index":500}],396:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -52454,7 +40370,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Unit":491,"../../util/index":501}],398:[function(require,module,exports){
+},{"../../type/Unit":490,"../../util/index":500}],397:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -52522,7 +40438,7 @@ module.exports = function (math, config) {
   }
 };
 
-},{"../../util/index":501}],399:[function(require,module,exports){
+},{"../../util/index":500}],398:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -52591,7 +40507,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],400:[function(require,module,exports){
+},{"../../util/index":500}],399:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -52660,7 +40576,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Help":486}],401:[function(require,module,exports){
+},{"../../type/Help":485}],400:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -52704,7 +40620,7 @@ module.exports = function (math, config) {
 
 };
 
-},{}],402:[function(require,module,exports){
+},{}],401:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -52812,7 +40728,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],403:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],402:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -52883,7 +40799,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],404:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],403:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -52985,7 +40901,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],405:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],404:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -53069,7 +40985,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],406:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],405:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -53207,7 +41123,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../type/BigNumber":484,"../../util/index":501}],407:[function(require,module,exports){
+},{"../../type/BigNumber":483,"../../util/index":500}],406:[function(require,module,exports){
 'use strict';
 
 module.exports = function(math) {
@@ -53288,7 +41204,7 @@ module.exports = function(math) {
   }
 };
 
-},{"../../util/array":497}],408:[function(require,module,exports){
+},{"../../util/array":496}],407:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -53445,7 +41361,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../util/index":501}],409:[function(require,module,exports){
+},{"../../util/index":500}],408:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -53617,7 +41533,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],410:[function(require,module,exports){
+},{"../../util/index":500}],409:[function(require,module,exports){
 'use strict';
 
 module.exports = function(math) {
@@ -53694,7 +41610,7 @@ module.exports = function(math) {
   }
 };
 
-},{"../../util/array":497}],411:[function(require,module,exports){
+},{"../../util/array":496}],410:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -53824,7 +41740,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../util/index":501}],412:[function(require,module,exports){
+},{"../../util/index":500}],411:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -53873,7 +41789,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../util/index":501}],413:[function(require,module,exports){
+},{"../../util/index":500}],412:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -54068,7 +41984,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../util/index":501}],414:[function(require,module,exports){
+},{"../../util/index":500}],413:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -54181,7 +42097,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../util/index":501}],415:[function(require,module,exports){
+},{"../../util/index":500}],414:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -54503,7 +42419,7 @@ module.exports = function (math, config) {
 
 };
 
-},{"../../util/index":501}],416:[function(require,module,exports){
+},{"../../util/index":500}],415:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -54638,7 +42554,7 @@ module.exports = function (math, config) {
   }
 };
 
-},{"../../util/index":501}],417:[function(require,module,exports){
+},{"../../util/index":500}],416:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -54707,7 +42623,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],418:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],417:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -54767,7 +42683,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],419:[function(require,module,exports){
+},{"../../util/index":500}],418:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -54981,7 +42897,7 @@ module.exports = function (math, config) {
   }
 };
 
-},{"../../type/Index":487,"../../util/index":501}],420:[function(require,module,exports){
+},{"../../type/Index":486,"../../util/index":500}],419:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -55079,7 +42995,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],421:[function(require,module,exports){
+},{"../../util/index":500}],420:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -55162,7 +43078,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],422:[function(require,module,exports){
+},{"../../util/index":500}],421:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -55273,7 +43189,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../util/index":501}],423:[function(require,module,exports){
+},{"../../util/index":500}],422:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -55366,7 +43282,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],424:[function(require,module,exports){
+},{"../../util/index":500}],423:[function(require,module,exports){
 'use strict';
 
 // NOTE: distribution is NOT added to math.distribution but returned by the factory function
@@ -55575,7 +43491,7 @@ module.exports = function (math) {
   return distribution;
 };
 
-},{"../../util/array":497}],425:[function(require,module,exports){
+},{"../../util/array":496}],424:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -55713,7 +43629,7 @@ module.exports = function (math, config) {
   ]
 };
 
-},{"../../util/index":501}],426:[function(require,module,exports){
+},{"../../util/index":500}],425:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -55903,7 +43819,7 @@ module.exports = function (math, config) {
 
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],427:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],426:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -56012,7 +43928,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],428:[function(require,module,exports){
+},{"../../util/index":500}],427:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -56040,7 +43956,7 @@ module.exports = function (math) {
   math.pickRandom = distribution('uniform').pickRandom;
 };
 
-},{"./distribution":424}],429:[function(require,module,exports){
+},{"./distribution":423}],428:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -56079,7 +43995,7 @@ module.exports = function (math) {
   math.random = distribution('uniform').random;
 };
 
-},{"./distribution":424}],430:[function(require,module,exports){
+},{"./distribution":423}],429:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -56118,7 +44034,7 @@ module.exports = function (math) {
   math.randomInt = distribution('uniform').randomInt;
 };
 
-},{"./distribution":424}],431:[function(require,module,exports){
+},{"./distribution":423}],430:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -56244,7 +44160,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],432:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],431:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -56325,7 +44241,7 @@ module.exports = function (math) {
   }
 };
 
-},{}],433:[function(require,module,exports){
+},{}],432:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -56485,7 +44401,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],434:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],433:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -56608,7 +44524,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],435:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],434:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -56732,7 +44648,7 @@ module.exports = function (math, config) {
   }
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],436:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],435:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -56855,7 +44771,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],437:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],436:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -56978,7 +44894,7 @@ module.exports = function (math, config) {
   }
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],438:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],437:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -57137,7 +45053,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],439:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],438:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -57228,7 +45144,7 @@ module.exports = function (math) {
   }
 };
 
-},{}],440:[function(require,module,exports){
+},{}],439:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -57328,7 +45244,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../util/array":497}],441:[function(require,module,exports){
+},{"../../util/array":496}],440:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -57438,7 +45354,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../type/Unit":491,"../../util/array":497,"../../util/number":503}],442:[function(require,module,exports){
+},{"../../type/Unit":490,"../../util/array":496,"../../util/number":502}],441:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -57529,7 +45445,7 @@ module.exports = function (math) {
   }
 };
 
-},{}],443:[function(require,module,exports){
+},{}],442:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -57610,7 +45526,7 @@ module.exports = function (math) {
   }
 };
 
-},{}],444:[function(require,module,exports){
+},{}],443:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -57666,7 +45582,7 @@ module.exports = function (math) {
   };
 };
 
-},{}],445:[function(require,module,exports){
+},{}],444:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -57745,7 +45661,7 @@ module.exports = function (math) {
   }
 };
 
-},{}],446:[function(require,module,exports){
+},{}],445:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -57885,7 +45801,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../util/string":505}],447:[function(require,module,exports){
+},{"../../util/string":504}],446:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -57975,7 +45891,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],448:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],447:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -58064,7 +45980,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],449:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],448:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -58148,7 +46064,7 @@ module.exports = function (math) {
   var halfPi = 1.5707963267948966;
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],450:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],449:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -58238,7 +46154,7 @@ module.exports = function (math) {
   var halfPi = 1.5707963267948966;
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],451:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],450:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -58325,7 +46241,7 @@ module.exports = function (math) {
   var halfPi = 1.5707963267948966;
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],452:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],451:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -58414,7 +46330,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],453:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],452:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -58499,7 +46415,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],454:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],453:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -58595,7 +46511,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],455:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],454:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -58684,7 +46600,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],456:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],455:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -58769,7 +46685,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],457:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],456:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -58862,7 +46778,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],458:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],457:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -58959,7 +46875,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../util/index":501}],459:[function(require,module,exports){
+},{"../../type/Complex":484,"../../util/index":500}],458:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -59055,7 +46971,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],460:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],459:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -59140,7 +47056,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],461:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],460:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -59218,7 +47134,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],462:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],461:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -59300,7 +47216,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],463:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],462:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -59386,7 +47302,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],464:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],463:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -59469,7 +47385,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],465:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],464:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -59556,7 +47472,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],466:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],465:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -59639,7 +47555,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],467:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],466:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -59722,7 +47638,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],468:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],467:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -59807,7 +47723,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],469:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],468:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -59892,7 +47808,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],470:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],469:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math, config) {
@@ -59978,7 +47894,7 @@ module.exports = function (math, config) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],471:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],470:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60066,7 +47982,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],472:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],471:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60124,7 +48040,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Unit":491,"../../util/index":501}],473:[function(require,module,exports){
+},{"../../type/Unit":490,"../../util/index":500}],472:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60158,7 +48074,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],474:[function(require,module,exports){
+},{"../../util/index":500}],473:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60234,7 +48150,7 @@ module.exports = function (math) {
     }
   }
 };
-},{}],475:[function(require,module,exports){
+},{}],474:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60292,7 +48208,7 @@ module.exports = function (math) {
     recurse(array, []);
   }
 };
-},{}],476:[function(require,module,exports){
+},{}],475:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60373,7 +48289,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],477:[function(require,module,exports){
+},{"../../util/index":500}],476:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60529,7 +48445,7 @@ module.exports = function (math) {
   }
 };
 
-},{"../../type/Complex":485,"../../type/Unit":491,"../../util/index":501}],478:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Unit":490,"../../util/index":500}],477:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60591,7 +48507,7 @@ module.exports = function (math) {
   }
 };
 
-},{}],479:[function(require,module,exports){
+},{}],478:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60671,7 +48587,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../util/index":501}],480:[function(require,module,exports){
+},{"../../util/index":500}],479:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60747,7 +48663,7 @@ module.exports = function (math) {
     }
   };
 };
-},{}],481:[function(require,module,exports){
+},{}],480:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60825,7 +48741,7 @@ module.exports = function (math) {
   };
 };
 
-},{"../../type/Complex":485,"../../type/Help":486,"../../type/Index":487,"../../type/Range":489,"../../type/Unit":491,"../../util/types":506}],482:[function(require,module,exports){
+},{"../../type/Complex":484,"../../type/Help":485,"../../type/Index":486,"../../type/Range":488,"../../type/Unit":490,"../../util/types":505}],481:[function(require,module,exports){
 'use strict';
 
 module.exports = function (math) {
@@ -60848,7 +48764,7 @@ module.exports = function (math) {
 
   return reviver;
 };
-},{}],483:[function(require,module,exports){
+},{}],482:[function(require,module,exports){
 'use strict';
 
 var object = require('./util/object');
@@ -61267,14 +49183,14 @@ if (typeof window !== 'undefined') {
 module.exports = math;
 
 
-},{"./chaining/Chain":167,"./constants":168,"./error/index":173,"./expression/Parser":174,"./expression/docs/index":319,"./expression/node/index":334,"./expression/parse":336,"./expression/transform/concat.transform":337,"./expression/transform/filter.transform":339,"./expression/transform/forEach.transform":340,"./expression/transform/index.transform":341,"./expression/transform/map.transform":342,"./expression/transform/max.transform":343,"./expression/transform/mean.transform":344,"./expression/transform/min.transform":345,"./expression/transform/range.transform":346,"./expression/transform/subset.transform":347,"./function/arithmetic/_divide":348,"./function/arithmetic/abs":349,"./function/arithmetic/add":350,"./function/arithmetic/ceil":351,"./function/arithmetic/cube":352,"./function/arithmetic/divide":353,"./function/arithmetic/dotDivide":354,"./function/arithmetic/dotMultiply":355,"./function/arithmetic/dotPow":356,"./function/arithmetic/exp":357,"./function/arithmetic/fix":358,"./function/arithmetic/floor":359,"./function/arithmetic/gcd":360,"./function/arithmetic/lcm":361,"./function/arithmetic/log":362,"./function/arithmetic/log10":363,"./function/arithmetic/mod":364,"./function/arithmetic/multiply":365,"./function/arithmetic/norm":366,"./function/arithmetic/nthRoot":367,"./function/arithmetic/pow":368,"./function/arithmetic/round":369,"./function/arithmetic/sign":370,"./function/arithmetic/sqrt":371,"./function/arithmetic/square":372,"./function/arithmetic/subtract":373,"./function/arithmetic/unaryMinus":374,"./function/arithmetic/unaryPlus":375,"./function/arithmetic/xgcd":376,"./function/bitwise/bitAnd":377,"./function/bitwise/bitNot":378,"./function/bitwise/bitOr":379,"./function/bitwise/bitXor":380,"./function/bitwise/leftShift":381,"./function/bitwise/rightArithShift":382,"./function/bitwise/rightLogShift":383,"./function/complex/arg":384,"./function/complex/conj":385,"./function/complex/im":386,"./function/complex/re":387,"./function/construction/bignumber":388,"./function/construction/boolean":389,"./function/construction/chain":390,"./function/construction/complex":391,"./function/construction/index":392,"./function/construction/matrix":393,"./function/construction/number":394,"./function/construction/parser":395,"./function/construction/string":396,"./function/construction/unit":397,"./function/expression/compile":398,"./function/expression/eval":399,"./function/expression/help":400,"./function/expression/parse":401,"./function/logical/and":402,"./function/logical/not":403,"./function/logical/or":404,"./function/logical/xor":405,"./function/matrix/concat":406,"./function/matrix/cross":407,"./function/matrix/det":408,"./function/matrix/diag":409,"./function/matrix/dot":410,"./function/matrix/eye":411,"./function/matrix/flatten":412,"./function/matrix/inv":413,"./function/matrix/ones":414,"./function/matrix/range":415,"./function/matrix/resize":416,"./function/matrix/size":417,"./function/matrix/squeeze":418,"./function/matrix/subset":419,"./function/matrix/trace":420,"./function/matrix/transpose":421,"./function/matrix/zeros":422,"./function/probability/combinations":423,"./function/probability/factorial":425,"./function/probability/gamma":426,"./function/probability/permutations":427,"./function/probability/pickRandom":428,"./function/probability/random":429,"./function/probability/randomInt":430,"./function/relational/compare":431,"./function/relational/deepEqual":432,"./function/relational/equal":433,"./function/relational/larger":434,"./function/relational/largerEq":435,"./function/relational/smaller":436,"./function/relational/smallerEq":437,"./function/relational/unequal":438,"./function/statistics/max":439,"./function/statistics/mean":440,"./function/statistics/median":441,"./function/statistics/min":442,"./function/statistics/prod":443,"./function/statistics/std":444,"./function/statistics/sum":445,"./function/statistics/var":446,"./function/trigonometry/acos":447,"./function/trigonometry/acosh":448,"./function/trigonometry/acot":449,"./function/trigonometry/acoth":450,"./function/trigonometry/acsc":451,"./function/trigonometry/acsch":452,"./function/trigonometry/asec":453,"./function/trigonometry/asech":454,"./function/trigonometry/asin":455,"./function/trigonometry/asinh":456,"./function/trigonometry/atan":457,"./function/trigonometry/atan2":458,"./function/trigonometry/atanh":459,"./function/trigonometry/cos":460,"./function/trigonometry/cosh":461,"./function/trigonometry/cot":462,"./function/trigonometry/coth":463,"./function/trigonometry/csc":464,"./function/trigonometry/csch":465,"./function/trigonometry/sec":466,"./function/trigonometry/sech":467,"./function/trigonometry/sin":468,"./function/trigonometry/sinh":469,"./function/trigonometry/tan":470,"./function/trigonometry/tanh":471,"./function/units/to":472,"./function/utils/clone":473,"./function/utils/filter":474,"./function/utils/forEach":475,"./function/utils/format":476,"./function/utils/import":477,"./function/utils/map":478,"./function/utils/print":479,"./function/utils/sort":480,"./function/utils/typeof":481,"./json/reviver":482,"./type/BigNumber":484,"./type/Complex":485,"./type/Help":486,"./type/Index":487,"./type/Matrix":488,"./type/Range":489,"./type/ResultSet":490,"./type/Unit":491,"./type/collection":492,"./type/matrix/CcsMatrix":493,"./type/matrix/CrsMatrix":494,"./type/matrix/DenseMatrix":495,"./util/number":503,"./util/object":504}],484:[function(require,module,exports){
+},{"./chaining/Chain":166,"./constants":167,"./error/index":172,"./expression/Parser":173,"./expression/docs/index":318,"./expression/node/index":333,"./expression/parse":335,"./expression/transform/concat.transform":336,"./expression/transform/filter.transform":338,"./expression/transform/forEach.transform":339,"./expression/transform/index.transform":340,"./expression/transform/map.transform":341,"./expression/transform/max.transform":342,"./expression/transform/mean.transform":343,"./expression/transform/min.transform":344,"./expression/transform/range.transform":345,"./expression/transform/subset.transform":346,"./function/arithmetic/_divide":347,"./function/arithmetic/abs":348,"./function/arithmetic/add":349,"./function/arithmetic/ceil":350,"./function/arithmetic/cube":351,"./function/arithmetic/divide":352,"./function/arithmetic/dotDivide":353,"./function/arithmetic/dotMultiply":354,"./function/arithmetic/dotPow":355,"./function/arithmetic/exp":356,"./function/arithmetic/fix":357,"./function/arithmetic/floor":358,"./function/arithmetic/gcd":359,"./function/arithmetic/lcm":360,"./function/arithmetic/log":361,"./function/arithmetic/log10":362,"./function/arithmetic/mod":363,"./function/arithmetic/multiply":364,"./function/arithmetic/norm":365,"./function/arithmetic/nthRoot":366,"./function/arithmetic/pow":367,"./function/arithmetic/round":368,"./function/arithmetic/sign":369,"./function/arithmetic/sqrt":370,"./function/arithmetic/square":371,"./function/arithmetic/subtract":372,"./function/arithmetic/unaryMinus":373,"./function/arithmetic/unaryPlus":374,"./function/arithmetic/xgcd":375,"./function/bitwise/bitAnd":376,"./function/bitwise/bitNot":377,"./function/bitwise/bitOr":378,"./function/bitwise/bitXor":379,"./function/bitwise/leftShift":380,"./function/bitwise/rightArithShift":381,"./function/bitwise/rightLogShift":382,"./function/complex/arg":383,"./function/complex/conj":384,"./function/complex/im":385,"./function/complex/re":386,"./function/construction/bignumber":387,"./function/construction/boolean":388,"./function/construction/chain":389,"./function/construction/complex":390,"./function/construction/index":391,"./function/construction/matrix":392,"./function/construction/number":393,"./function/construction/parser":394,"./function/construction/string":395,"./function/construction/unit":396,"./function/expression/compile":397,"./function/expression/eval":398,"./function/expression/help":399,"./function/expression/parse":400,"./function/logical/and":401,"./function/logical/not":402,"./function/logical/or":403,"./function/logical/xor":404,"./function/matrix/concat":405,"./function/matrix/cross":406,"./function/matrix/det":407,"./function/matrix/diag":408,"./function/matrix/dot":409,"./function/matrix/eye":410,"./function/matrix/flatten":411,"./function/matrix/inv":412,"./function/matrix/ones":413,"./function/matrix/range":414,"./function/matrix/resize":415,"./function/matrix/size":416,"./function/matrix/squeeze":417,"./function/matrix/subset":418,"./function/matrix/trace":419,"./function/matrix/transpose":420,"./function/matrix/zeros":421,"./function/probability/combinations":422,"./function/probability/factorial":424,"./function/probability/gamma":425,"./function/probability/permutations":426,"./function/probability/pickRandom":427,"./function/probability/random":428,"./function/probability/randomInt":429,"./function/relational/compare":430,"./function/relational/deepEqual":431,"./function/relational/equal":432,"./function/relational/larger":433,"./function/relational/largerEq":434,"./function/relational/smaller":435,"./function/relational/smallerEq":436,"./function/relational/unequal":437,"./function/statistics/max":438,"./function/statistics/mean":439,"./function/statistics/median":440,"./function/statistics/min":441,"./function/statistics/prod":442,"./function/statistics/std":443,"./function/statistics/sum":444,"./function/statistics/var":445,"./function/trigonometry/acos":446,"./function/trigonometry/acosh":447,"./function/trigonometry/acot":448,"./function/trigonometry/acoth":449,"./function/trigonometry/acsc":450,"./function/trigonometry/acsch":451,"./function/trigonometry/asec":452,"./function/trigonometry/asech":453,"./function/trigonometry/asin":454,"./function/trigonometry/asinh":455,"./function/trigonometry/atan":456,"./function/trigonometry/atan2":457,"./function/trigonometry/atanh":458,"./function/trigonometry/cos":459,"./function/trigonometry/cosh":460,"./function/trigonometry/cot":461,"./function/trigonometry/coth":462,"./function/trigonometry/csc":463,"./function/trigonometry/csch":464,"./function/trigonometry/sec":465,"./function/trigonometry/sech":466,"./function/trigonometry/sin":467,"./function/trigonometry/sinh":468,"./function/trigonometry/tan":469,"./function/trigonometry/tanh":470,"./function/units/to":471,"./function/utils/clone":472,"./function/utils/filter":473,"./function/utils/forEach":474,"./function/utils/format":475,"./function/utils/import":476,"./function/utils/map":477,"./function/utils/print":478,"./function/utils/sort":479,"./function/utils/typeof":480,"./json/reviver":481,"./type/BigNumber":483,"./type/Complex":484,"./type/Help":485,"./type/Index":486,"./type/Matrix":487,"./type/Range":488,"./type/ResultSet":489,"./type/Unit":490,"./type/collection":491,"./type/matrix/CcsMatrix":492,"./type/matrix/CrsMatrix":493,"./type/matrix/DenseMatrix":494,"./util/number":502,"./util/object":503}],483:[function(require,module,exports){
 var BigNumber = require('decimal.js');
 
 // FIXME: replace all require('decimal.js') with require('./BigNumber').
 
 module.exports = BigNumber;
 
-},{"decimal.js":508}],485:[function(require,module,exports){
+},{"decimal.js":507}],484:[function(require,module,exports){
 'use strict';
 
 var util = require('../util/index'),
@@ -61749,7 +49665,7 @@ Complex.prototype.valueOf = Complex.prototype.toString;
 // exports
 module.exports = Complex;
 
-},{"../util/index":501,"./Unit":491}],486:[function(require,module,exports){
+},{"../util/index":500,"./Unit":490}],485:[function(require,module,exports){
 'use strict';
 
 var util = require('../util/index');
@@ -61878,7 +49794,7 @@ Help.prototype.valueOf = Help.prototype.toString;
 // exports
 module.exports = Help;
 
-},{"../util/index":501}],487:[function(require,module,exports){
+},{"../util/index":500}],486:[function(require,module,exports){
 'use strict';
 
 var util = require('../util/index'),
@@ -62171,7 +50087,7 @@ Index.fromJSON = function (json) {
 // exports
 module.exports = Index;
 
-},{"../util/index":501,"./Range":489}],488:[function(require,module,exports){
+},{"../util/index":500,"./Range":488}],487:[function(require,module,exports){
 'use strict';
 
 var string = require('../util/string'),
@@ -62436,7 +50352,7 @@ module.exports = function (config) {
   // exports
   return Matrix;
 };
-},{"../util/string":505}],489:[function(require,module,exports){
+},{"../util/string":504}],488:[function(require,module,exports){
 'use strict';
 
 var util = require('../util/index');
@@ -62731,7 +50647,7 @@ Range.fromJSON = function (json) {
 // exports
 module.exports = Range;
 
-},{"../util/index":501}],490:[function(require,module,exports){
+},{"../util/index":500}],489:[function(require,module,exports){
 'use strict';
 
 /**
@@ -62787,7 +50703,7 @@ ResultSet.fromJSON = function (json) {
 
 module.exports = ResultSet;
 
-},{}],491:[function(require,module,exports){
+},{}],490:[function(require,module,exports){
 'use strict';
 
 var util = require('../util/index'),
@@ -63682,7 +51598,7 @@ Unit.UNITS = UNITS;
 // exports
 module.exports = Unit;
 
-},{"../util/index":501}],492:[function(require,module,exports){
+},{"../util/index":500}],491:[function(require,module,exports){
 // utility methods for arrays and matrices
 'use strict';
 
@@ -63952,7 +51868,7 @@ module.exports = function (math) {
   
   return collection;
 };
-},{"../error/DimensionError":170,"../error/IndexError":171,"../util/index":501}],493:[function(require,module,exports){
+},{"../error/DimensionError":169,"../error/IndexError":170,"../util/index":500}],492:[function(require,module,exports){
 'use strict';
 
 var util = require('../../util/index');
@@ -65163,7 +53079,7 @@ module.exports = function (math) {
   
   return CcsMatrix;
 };
-},{"../../error/DimensionError":170,"../../util/index":501}],494:[function(require,module,exports){
+},{"../../error/DimensionError":169,"../../util/index":500}],493:[function(require,module,exports){
 'use strict';
 
 var util = require('../../util/index');
@@ -66361,7 +54277,7 @@ module.exports = function (math) {
 
   return CrsMatrix;
 };
-},{"../../error/DimensionError":170,"../../util/index":501}],495:[function(require,module,exports){
+},{"../../error/DimensionError":169,"../../util/index":500}],494:[function(require,module,exports){
 'use strict';
 
 var util = require('../../util/index');
@@ -67419,7 +55335,7 @@ module.exports = function (math) {
   return DenseMatrix;
 };
 
-},{"../../error/DimensionError":170,"../../util/index":501}],496:[function(require,module,exports){
+},{"../../error/DimensionError":169,"../../util/index":500}],495:[function(require,module,exports){
 'use strict';
 
 /**
@@ -67628,7 +55544,7 @@ function zeros(length) {
 
 module.exports = NumberFormatter;
 
-},{}],497:[function(require,module,exports){
+},{}],496:[function(require,module,exports){
 'use strict';
 
 var number = require('./number'),
@@ -68006,7 +55922,7 @@ exports.argsToArray = function(args) {
  * @return {Boolean} isArray
  */
 exports.isArray = isArray;
-},{"../error/DimensionError":170,"../error/IndexError":171,"./number":503,"./object":504,"./string":505,"./types":506}],498:[function(require,module,exports){
+},{"../error/DimensionError":169,"../error/IndexError":170,"./number":502,"./object":503,"./string":504,"./types":505}],497:[function(require,module,exports){
 'use strict';
 
 var BigNumber = require('../type/BigNumber');
@@ -69416,7 +57332,7 @@ exports.toFixed = function(value, precision) {
   // undefined default precision instead of 0.
 };
 
-},{"../type/BigNumber":484,"./function":500,"./number":503}],499:[function(require,module,exports){
+},{"../type/BigNumber":483,"./function":499,"./number":502}],498:[function(require,module,exports){
 'use strict';
 
 /**
@@ -69428,7 +57344,7 @@ exports.isBoolean = function(value) {
   return (value instanceof Boolean) || (typeof value == 'boolean');
 };
 
-},{}],500:[function(require,module,exports){
+},{}],499:[function(require,module,exports){
 // function utils
 
 /*
@@ -69453,7 +57369,7 @@ exports.memoize = function(fn) {
   };
 };
 
-},{}],501:[function(require,module,exports){
+},{}],500:[function(require,module,exports){
 'use strict';
 
 exports.array = require('./array');
@@ -69464,7 +57380,7 @@ exports.object = require('./object');
 exports.string = require('./string');
 exports.types = require('./types');
 
-},{"./array":497,"./bignumber":498,"./boolean":499,"./number":503,"./object":504,"./string":505,"./types":506}],502:[function(require,module,exports){
+},{"./array":496,"./bignumber":497,"./boolean":498,"./number":502,"./object":503,"./string":504,"./types":505}],501:[function(require,module,exports){
 'use strict';
 
 exports.symbols = {
@@ -69822,7 +57738,7 @@ exports.toFunction = function (node, callbacks, name) {
   }
 }
 
-},{}],503:[function(require,module,exports){
+},{}],502:[function(require,module,exports){
 'use strict';
 
 var NumberFormatter = require('./NumberFormatter');
@@ -70083,7 +57999,7 @@ exports.nearlyEqual = function(x, y, epsilon) {
   return false;
 };
 
-},{"./NumberFormatter":496}],504:[function(require,module,exports){
+},{"./NumberFormatter":495}],503:[function(require,module,exports){
 'use strict';
 
 /**
@@ -70284,7 +58200,7 @@ exports.lazy = function (object, prop, fn) {
   }
 };
 
-},{}],505:[function(require,module,exports){
+},{}],504:[function(require,module,exports){
 'use strict';
 
 var number = require('./number');
@@ -70395,7 +58311,7 @@ function formatArray (array, options) {
   }
 }
 
-},{"../type/BigNumber":484,"./bignumber":498,"./number":503}],506:[function(require,module,exports){
+},{"../type/BigNumber":483,"./bignumber":497,"./number":502}],505:[function(require,module,exports){
 'use strict';
 
 /**
@@ -70424,12 +58340,12 @@ exports.type = function(x) {
   return type;
 };
 
-},{}],507:[function(require,module,exports){
+},{}],506:[function(require,module,exports){
 module.exports = '1.6.0';
 // Note: This file is automatically generated when building math.js.
 // Changes made in this file will be overwritten.
 
-},{}],508:[function(require,module,exports){
+},{}],507:[function(require,module,exports){
 /*! decimal.js v4.0.2 https://github.com/MikeMcl/decimal.js/LICENCE */
 ;(function (global) {
     'use strict';
@@ -74491,10 +62407,10 @@ module.exports = '1.6.0';
     }
 })(this);
 
-},{"crypto":7}],509:[function(require,module,exports){
+},{"crypto":7}],508:[function(require,module,exports){
 module.exports = require('./lib/ReactWithAddons');
 
-},{"./lib/ReactWithAddons":609}],510:[function(require,module,exports){
+},{"./lib/ReactWithAddons":608}],509:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -74521,7 +62437,7 @@ var AutoFocusMixin = {
 
 module.exports = AutoFocusMixin;
 
-},{"./focusNode":643}],511:[function(require,module,exports){
+},{"./focusNode":642}],510:[function(require,module,exports){
 /**
  * Copyright 2013-2015 Facebook, Inc.
  * All rights reserved.
@@ -75016,7 +62932,7 @@ var BeforeInputEventPlugin = {
 
 module.exports = BeforeInputEventPlugin;
 
-},{"./EventConstants":524,"./EventPropagators":529,"./ExecutionEnvironment":530,"./FallbackCompositionState":531,"./SyntheticCompositionEvent":615,"./SyntheticInputEvent":619,"./keyOf":666}],512:[function(require,module,exports){
+},{"./EventConstants":523,"./EventPropagators":528,"./ExecutionEnvironment":529,"./FallbackCompositionState":530,"./SyntheticCompositionEvent":614,"./SyntheticInputEvent":618,"./keyOf":665}],511:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -75129,7 +63045,7 @@ module.exports = CSSCore;
 
 }).call(this,require('_process'))
 
-},{"./invariant":659,"_process":147}],513:[function(require,module,exports){
+},{"./invariant":658,"_process":147}],512:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -75254,7 +63170,7 @@ var CSSProperty = {
 
 module.exports = CSSProperty;
 
-},{}],514:[function(require,module,exports){
+},{}],513:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -75437,7 +63353,7 @@ module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
 
-},{"./CSSProperty":513,"./ExecutionEnvironment":530,"./camelizeStyleName":630,"./dangerousStyleValue":637,"./hyphenateStyleName":657,"./memoizeStringOnly":668,"./warning":680,"_process":147}],515:[function(require,module,exports){
+},{"./CSSProperty":512,"./ExecutionEnvironment":529,"./camelizeStyleName":629,"./dangerousStyleValue":636,"./hyphenateStyleName":656,"./memoizeStringOnly":667,"./warning":679,"_process":147}],514:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -75538,7 +63454,7 @@ module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":537,"./PooledClass":538,"./invariant":659,"_process":147}],516:[function(require,module,exports){
+},{"./Object.assign":536,"./PooledClass":537,"./invariant":658,"_process":147}],515:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -75920,7 +63836,7 @@ var ChangeEventPlugin = {
 
 module.exports = ChangeEventPlugin;
 
-},{"./EventConstants":524,"./EventPluginHub":526,"./EventPropagators":529,"./ExecutionEnvironment":530,"./ReactUpdates":608,"./SyntheticEvent":617,"./isEventSupported":660,"./isTextInputElement":662,"./keyOf":666}],517:[function(require,module,exports){
+},{"./EventConstants":523,"./EventPluginHub":525,"./EventPropagators":528,"./ExecutionEnvironment":529,"./ReactUpdates":607,"./SyntheticEvent":616,"./isEventSupported":659,"./isTextInputElement":661,"./keyOf":665}],516:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -75945,7 +63861,7 @@ var ClientReactRootIndex = {
 
 module.exports = ClientReactRootIndex;
 
-},{}],518:[function(require,module,exports){
+},{}],517:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -76084,7 +64000,7 @@ module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
 
-},{"./Danger":521,"./ReactMultiChildUpdateTypes":587,"./invariant":659,"./setTextContent":674,"_process":147}],519:[function(require,module,exports){
+},{"./Danger":520,"./ReactMultiChildUpdateTypes":586,"./invariant":658,"./setTextContent":673,"_process":147}],518:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -76384,7 +64300,7 @@ module.exports = DOMProperty;
 
 }).call(this,require('_process'))
 
-},{"./invariant":659,"_process":147}],520:[function(require,module,exports){
+},{"./invariant":658,"_process":147}],519:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -76577,7 +64493,7 @@ module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
 
-},{"./DOMProperty":519,"./quoteAttributeValueForBrowser":672,"./warning":680,"_process":147}],521:[function(require,module,exports){
+},{"./DOMProperty":518,"./quoteAttributeValueForBrowser":671,"./warning":679,"_process":147}],520:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -76765,7 +64681,7 @@ module.exports = Danger;
 
 }).call(this,require('_process'))
 
-},{"./ExecutionEnvironment":530,"./createNodesFromMarkup":635,"./emptyFunction":638,"./getMarkupWrap":651,"./invariant":659,"_process":147}],522:[function(require,module,exports){
+},{"./ExecutionEnvironment":529,"./createNodesFromMarkup":634,"./emptyFunction":637,"./getMarkupWrap":650,"./invariant":658,"_process":147}],521:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -76804,7 +64720,7 @@ var DefaultEventPluginOrder = [
 
 module.exports = DefaultEventPluginOrder;
 
-},{"./keyOf":666}],523:[function(require,module,exports){
+},{"./keyOf":665}],522:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -76944,7 +64860,7 @@ var EnterLeaveEventPlugin = {
 
 module.exports = EnterLeaveEventPlugin;
 
-},{"./EventConstants":524,"./EventPropagators":529,"./ReactMount":585,"./SyntheticMouseEvent":621,"./keyOf":666}],524:[function(require,module,exports){
+},{"./EventConstants":523,"./EventPropagators":528,"./ReactMount":584,"./SyntheticMouseEvent":620,"./keyOf":665}],523:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -77016,7 +64932,7 @@ var EventConstants = {
 
 module.exports = EventConstants;
 
-},{"./keyMirror":665}],525:[function(require,module,exports){
+},{"./keyMirror":664}],524:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -77107,7 +65023,7 @@ module.exports = EventListener;
 
 }).call(this,require('_process'))
 
-},{"./emptyFunction":638,"_process":147}],526:[function(require,module,exports){
+},{"./emptyFunction":637,"_process":147}],525:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -77386,7 +65302,7 @@ module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
 
-},{"./EventPluginRegistry":527,"./EventPluginUtils":528,"./accumulateInto":627,"./forEachAccumulated":644,"./invariant":659,"_process":147}],527:[function(require,module,exports){
+},{"./EventPluginRegistry":526,"./EventPluginUtils":527,"./accumulateInto":626,"./forEachAccumulated":643,"./invariant":658,"_process":147}],526:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -77667,7 +65583,7 @@ module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
 
-},{"./invariant":659,"_process":147}],528:[function(require,module,exports){
+},{"./invariant":658,"_process":147}],527:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -77889,7 +65805,7 @@ module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
 
-},{"./EventConstants":524,"./invariant":659,"_process":147}],529:[function(require,module,exports){
+},{"./EventConstants":523,"./invariant":658,"_process":147}],528:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -78032,7 +65948,7 @@ module.exports = EventPropagators;
 
 }).call(this,require('_process'))
 
-},{"./EventConstants":524,"./EventPluginHub":526,"./accumulateInto":627,"./forEachAccumulated":644,"_process":147}],530:[function(require,module,exports){
+},{"./EventConstants":523,"./EventPluginHub":525,"./accumulateInto":626,"./forEachAccumulated":643,"_process":147}],529:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -78076,7 +65992,7 @@ var ExecutionEnvironment = {
 
 module.exports = ExecutionEnvironment;
 
-},{}],531:[function(require,module,exports){
+},{}],530:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -78167,7 +66083,7 @@ PooledClass.addPoolingTo(FallbackCompositionState);
 
 module.exports = FallbackCompositionState;
 
-},{"./Object.assign":537,"./PooledClass":538,"./getTextContentAccessor":654}],532:[function(require,module,exports){
+},{"./Object.assign":536,"./PooledClass":537,"./getTextContentAccessor":653}],531:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -78378,7 +66294,7 @@ var HTMLDOMPropertyConfig = {
 
 module.exports = HTMLDOMPropertyConfig;
 
-},{"./DOMProperty":519,"./ExecutionEnvironment":530}],533:[function(require,module,exports){
+},{"./DOMProperty":518,"./ExecutionEnvironment":529}],532:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -78419,7 +66335,7 @@ var LinkedStateMixin = {
 
 module.exports = LinkedStateMixin;
 
-},{"./ReactLink":583,"./ReactStateSetters":602}],534:[function(require,module,exports){
+},{"./ReactLink":582,"./ReactStateSetters":601}],533:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -78576,7 +66492,7 @@ module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
 
-},{"./ReactPropTypes":594,"./invariant":659,"_process":147}],535:[function(require,module,exports){
+},{"./ReactPropTypes":593,"./invariant":658,"_process":147}],534:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -78634,7 +66550,7 @@ module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
 
-},{"./ReactBrowserEventEmitter":541,"./accumulateInto":627,"./forEachAccumulated":644,"./invariant":659,"_process":147}],536:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":540,"./accumulateInto":626,"./forEachAccumulated":643,"./invariant":658,"_process":147}],535:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -78692,7 +66608,7 @@ var MobileSafariClickEventPlugin = {
 
 module.exports = MobileSafariClickEventPlugin;
 
-},{"./EventConstants":524,"./emptyFunction":638}],537:[function(require,module,exports){
+},{"./EventConstants":523,"./emptyFunction":637}],536:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -78741,7 +66657,7 @@ function assign(target, sources) {
 
 module.exports = assign;
 
-},{}],538:[function(require,module,exports){
+},{}],537:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -78858,7 +66774,7 @@ module.exports = PooledClass;
 
 }).call(this,require('_process'))
 
-},{"./invariant":659,"_process":147}],539:[function(require,module,exports){
+},{"./invariant":658,"_process":147}],538:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -78970,7 +66886,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined') {
         console.debug(
           'Download the React DevTools for a better development experience: ' +
-          'http://fb.me/react-devtools'
+          'https://fb.me/react-devtools'
         );
       }
     }
@@ -78997,7 +66913,7 @@ if ("production" !== process.env.NODE_ENV) {
       if (!expectedFeatures[i]) {
         console.error(
           'One or more ES5 shim/shams expected by React are not available: ' +
-          'http://fb.me/react-warning-polyfills'
+          'https://fb.me/react-warning-polyfills'
         );
         break;
       }
@@ -79005,13 +66921,13 @@ if ("production" !== process.env.NODE_ENV) {
   }
 }
 
-React.version = '0.13.2';
+React.version = '0.13.3';
 
 module.exports = React;
 
 }).call(this,require('_process'))
 
-},{"./EventPluginUtils":528,"./ExecutionEnvironment":530,"./Object.assign":537,"./ReactChildren":545,"./ReactClass":546,"./ReactComponent":547,"./ReactContext":552,"./ReactCurrentOwner":553,"./ReactDOM":554,"./ReactDOMTextComponent":565,"./ReactDefaultInjection":568,"./ReactElement":571,"./ReactElementValidator":572,"./ReactInstanceHandles":580,"./ReactMount":585,"./ReactPerf":590,"./ReactPropTypes":594,"./ReactReconciler":597,"./ReactServerRendering":600,"./findDOMNode":641,"./onlyChild":669,"_process":147}],540:[function(require,module,exports){
+},{"./EventPluginUtils":527,"./ExecutionEnvironment":529,"./Object.assign":536,"./ReactChildren":544,"./ReactClass":545,"./ReactComponent":546,"./ReactContext":551,"./ReactCurrentOwner":552,"./ReactDOM":553,"./ReactDOMTextComponent":564,"./ReactDefaultInjection":567,"./ReactElement":570,"./ReactElementValidator":571,"./ReactInstanceHandles":579,"./ReactMount":584,"./ReactPerf":589,"./ReactPropTypes":593,"./ReactReconciler":596,"./ReactServerRendering":599,"./findDOMNode":640,"./onlyChild":668,"_process":147}],539:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -79042,7 +66958,7 @@ var ReactBrowserComponentMixin = {
 
 module.exports = ReactBrowserComponentMixin;
 
-},{"./findDOMNode":641}],541:[function(require,module,exports){
+},{"./findDOMNode":640}],540:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -79395,7 +67311,7 @@ var ReactBrowserEventEmitter = assign({}, ReactEventEmitterMixin, {
 
 module.exports = ReactBrowserEventEmitter;
 
-},{"./EventConstants":524,"./EventPluginHub":526,"./EventPluginRegistry":527,"./Object.assign":537,"./ReactEventEmitterMixin":575,"./ViewportMetrics":626,"./isEventSupported":660}],542:[function(require,module,exports){
+},{"./EventConstants":523,"./EventPluginHub":525,"./EventPluginRegistry":526,"./Object.assign":536,"./ReactEventEmitterMixin":574,"./ViewportMetrics":625,"./isEventSupported":659}],541:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -79465,7 +67381,7 @@ var ReactCSSTransitionGroup = React.createClass({
 
 module.exports = ReactCSSTransitionGroup;
 
-},{"./Object.assign":537,"./React":539,"./ReactCSSTransitionGroupChild":543,"./ReactTransitionGroup":606}],543:[function(require,module,exports){
+},{"./Object.assign":536,"./React":538,"./ReactCSSTransitionGroupChild":542,"./ReactTransitionGroup":605}],542:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -79614,7 +67530,7 @@ module.exports = ReactCSSTransitionGroupChild;
 
 }).call(this,require('_process'))
 
-},{"./CSSCore":512,"./React":539,"./ReactTransitionEvents":605,"./onlyChild":669,"./warning":680,"_process":147}],544:[function(require,module,exports){
+},{"./CSSCore":511,"./React":538,"./ReactTransitionEvents":604,"./onlyChild":668,"./warning":679,"_process":147}],543:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -79741,7 +67657,7 @@ var ReactChildReconciler = {
 
 module.exports = ReactChildReconciler;
 
-},{"./ReactReconciler":597,"./flattenChildren":642,"./instantiateReactComponent":658,"./shouldUpdateReactComponent":676}],545:[function(require,module,exports){
+},{"./ReactReconciler":596,"./flattenChildren":641,"./instantiateReactComponent":657,"./shouldUpdateReactComponent":675}],544:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -79895,7 +67811,7 @@ module.exports = ReactChildren;
 
 }).call(this,require('_process'))
 
-},{"./PooledClass":538,"./ReactFragment":577,"./traverseAllChildren":678,"./warning":680,"_process":147}],546:[function(require,module,exports){
+},{"./PooledClass":537,"./ReactFragment":576,"./traverseAllChildren":677,"./warning":679,"_process":147}],545:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -80733,7 +68649,7 @@ var ReactClass = {
         ("production" !== process.env.NODE_ENV ? warning(
           this instanceof Constructor,
           'Something is calling a React component directly. Use a factory or ' +
-          'JSX instead. See: http://fb.me/react-legacyfactory'
+          'JSX instead. See: https://fb.me/react-legacyfactory'
         ) : null);
       }
 
@@ -80842,7 +68758,7 @@ module.exports = ReactClass;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":537,"./ReactComponent":547,"./ReactCurrentOwner":553,"./ReactElement":571,"./ReactErrorUtils":574,"./ReactInstanceMap":581,"./ReactLifeCycle":582,"./ReactPropTypeLocationNames":592,"./ReactPropTypeLocations":593,"./ReactUpdateQueue":607,"./invariant":659,"./keyMirror":665,"./keyOf":666,"./warning":680,"_process":147}],547:[function(require,module,exports){
+},{"./Object.assign":536,"./ReactComponent":546,"./ReactCurrentOwner":552,"./ReactElement":570,"./ReactErrorUtils":573,"./ReactInstanceMap":580,"./ReactLifeCycle":581,"./ReactPropTypeLocationNames":591,"./ReactPropTypeLocations":592,"./ReactUpdateQueue":606,"./invariant":658,"./keyMirror":664,"./keyOf":665,"./warning":679,"_process":147}],546:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -80946,20 +68862,38 @@ ReactComponent.prototype.forceUpdate = function(callback) {
  */
 if ("production" !== process.env.NODE_ENV) {
   var deprecatedAPIs = {
-    getDOMNode: 'getDOMNode',
-    isMounted: 'isMounted',
-    replaceProps: 'replaceProps',
-    replaceState: 'replaceState',
-    setProps: 'setProps'
+    getDOMNode: [
+      'getDOMNode',
+      'Use React.findDOMNode(component) instead.'
+    ],
+    isMounted: [
+      'isMounted',
+      'Instead, make sure to clean up subscriptions and pending requests in ' +
+      'componentWillUnmount to prevent memory leaks.'
+    ],
+    replaceProps: [
+      'replaceProps',
+      'Instead, call React.render again at the top level.'
+    ],
+    replaceState: [
+      'replaceState',
+      'Refactor your code to use setState instead (see ' +
+      'https://github.com/facebook/react/issues/3236).'
+    ],
+    setProps: [
+      'setProps',
+      'Instead, call React.render again at the top level.'
+    ]
   };
-  var defineDeprecationWarning = function(methodName, displayName) {
+  var defineDeprecationWarning = function(methodName, info) {
     try {
       Object.defineProperty(ReactComponent.prototype, methodName, {
         get: function() {
           ("production" !== process.env.NODE_ENV ? warning(
             false,
-            '%s(...) is deprecated in plain JavaScript React classes.',
-            displayName
+            '%s(...) is deprecated in plain JavaScript React classes. %s',
+            info[0],
+            info[1]
           ) : null);
           return undefined;
         }
@@ -80979,7 +68913,7 @@ module.exports = ReactComponent;
 
 }).call(this,require('_process'))
 
-},{"./ReactUpdateQueue":607,"./invariant":659,"./warning":680,"_process":147}],548:[function(require,module,exports){
+},{"./ReactUpdateQueue":606,"./invariant":658,"./warning":679,"_process":147}],547:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -81026,7 +68960,7 @@ var ReactComponentBrowserEnvironment = {
 
 module.exports = ReactComponentBrowserEnvironment;
 
-},{"./ReactDOMIDOperations":558,"./ReactMount":585}],549:[function(require,module,exports){
+},{"./ReactDOMIDOperations":557,"./ReactMount":584}],548:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -81088,7 +69022,7 @@ module.exports = ReactComponentEnvironment;
 
 }).call(this,require('_process'))
 
-},{"./invariant":659,"_process":147}],550:[function(require,module,exports){
+},{"./invariant":658,"_process":147}],549:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -81137,7 +69071,7 @@ var ReactComponentWithPureRenderMixin = {
 
 module.exports = ReactComponentWithPureRenderMixin;
 
-},{"./shallowEqual":675}],551:[function(require,module,exports){
+},{"./shallowEqual":674}],550:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -81359,6 +69293,7 @@ var ReactCompositeComponentMixin = {
     this._pendingReplaceState = false;
     this._pendingForceUpdate = false;
 
+    var childContext;
     var renderedElement;
 
     var previouslyMounting = ReactLifeCycle.currentlyMountingInstance;
@@ -81373,7 +69308,8 @@ var ReactCompositeComponentMixin = {
         }
       }
 
-      renderedElement = this._renderValidatedComponent();
+      childContext = this._getValidatedChildContext(context);
+      renderedElement = this._renderValidatedComponent(childContext);
     } finally {
       ReactLifeCycle.currentlyMountingInstance = previouslyMounting;
     }
@@ -81387,7 +69323,7 @@ var ReactCompositeComponentMixin = {
       this._renderedComponent,
       rootID,
       transaction,
-      this._processChildContext(context)
+      this._mergeChildContext(context, childContext)
     );
     if (inst.componentDidMount) {
       transaction.getReactMountReady().enqueue(inst.componentDidMount, inst);
@@ -81517,7 +69453,7 @@ var ReactCompositeComponentMixin = {
    * @return {object}
    * @private
    */
-  _processChildContext: function(currentContext) {
+  _getValidatedChildContext: function(currentContext) {
     var inst = this._instance;
     var childContext = inst.getChildContext && inst.getChildContext();
     if (childContext) {
@@ -81542,6 +69478,13 @@ var ReactCompositeComponentMixin = {
           name
         ) : invariant(name in inst.constructor.childContextTypes));
       }
+      return childContext;
+    }
+    return null;
+  },
+
+  _mergeChildContext: function(currentContext, childContext) {
+    if (childContext) {
       return assign({}, currentContext, childContext);
     }
     return currentContext;
@@ -81801,6 +69744,10 @@ var ReactCompositeComponentMixin = {
       return inst.state;
     }
 
+    if (replace && queue.length === 1) {
+      return queue[0];
+    }
+
     var nextState = assign({}, replace ? queue[0] : inst.state);
     for (var i = replace ? 1 : 0; i < queue.length; i++) {
       var partial = queue[i];
@@ -81870,13 +69817,14 @@ var ReactCompositeComponentMixin = {
   _updateRenderedComponent: function(transaction, context) {
     var prevComponentInstance = this._renderedComponent;
     var prevRenderedElement = prevComponentInstance._currentElement;
-    var nextRenderedElement = this._renderValidatedComponent();
+    var childContext = this._getValidatedChildContext();
+    var nextRenderedElement = this._renderValidatedComponent(childContext);
     if (shouldUpdateReactComponent(prevRenderedElement, nextRenderedElement)) {
       ReactReconciler.receiveComponent(
         prevComponentInstance,
         nextRenderedElement,
         transaction,
-        this._processChildContext(context)
+        this._mergeChildContext(context, childContext)
       );
     } else {
       // These two IDs are actually the same! But nothing should rely on that.
@@ -81892,7 +69840,7 @@ var ReactCompositeComponentMixin = {
         this._renderedComponent,
         thisID,
         transaction,
-        this._processChildContext(context)
+        this._mergeChildContext(context, childContext)
       );
       this._replaceNodeWithMarkupByID(prevComponentID, nextMarkup);
     }
@@ -81930,11 +69878,12 @@ var ReactCompositeComponentMixin = {
   /**
    * @private
    */
-  _renderValidatedComponent: function() {
+  _renderValidatedComponent: function(childContext) {
     var renderedComponent;
     var previousContext = ReactContext.current;
-    ReactContext.current = this._processChildContext(
-      this._currentElement._context
+    ReactContext.current = this._mergeChildContext(
+      this._currentElement._context,
+      childContext
     );
     ReactCurrentOwner.current = this;
     try {
@@ -82036,7 +69985,7 @@ module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":537,"./ReactComponentEnvironment":549,"./ReactContext":552,"./ReactCurrentOwner":553,"./ReactElement":571,"./ReactElementValidator":572,"./ReactInstanceMap":581,"./ReactLifeCycle":582,"./ReactNativeComponent":588,"./ReactPerf":590,"./ReactPropTypeLocationNames":592,"./ReactPropTypeLocations":593,"./ReactReconciler":597,"./ReactUpdates":608,"./emptyObject":639,"./invariant":659,"./shouldUpdateReactComponent":676,"./warning":680,"_process":147}],552:[function(require,module,exports){
+},{"./Object.assign":536,"./ReactComponentEnvironment":548,"./ReactContext":551,"./ReactCurrentOwner":552,"./ReactElement":570,"./ReactElementValidator":571,"./ReactInstanceMap":580,"./ReactLifeCycle":581,"./ReactNativeComponent":587,"./ReactPerf":589,"./ReactPropTypeLocationNames":591,"./ReactPropTypeLocations":592,"./ReactReconciler":596,"./ReactUpdates":607,"./emptyObject":638,"./invariant":658,"./shouldUpdateReactComponent":675,"./warning":679,"_process":147}],551:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -82115,7 +70064,7 @@ module.exports = ReactContext;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":537,"./emptyObject":639,"./warning":680,"_process":147}],553:[function(require,module,exports){
+},{"./Object.assign":536,"./emptyObject":638,"./warning":679,"_process":147}],552:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -82149,7 +70098,7 @@ var ReactCurrentOwner = {
 
 module.exports = ReactCurrentOwner;
 
-},{}],554:[function(require,module,exports){
+},{}],553:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -82305,6 +70254,7 @@ var ReactDOM = mapObject({
 
   // SVG
   circle: 'circle',
+  clipPath: 'clipPath',
   defs: 'defs',
   ellipse: 'ellipse',
   g: 'g',
@@ -82328,7 +70278,7 @@ module.exports = ReactDOM;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":571,"./ReactElementValidator":572,"./mapObject":667,"_process":147}],555:[function(require,module,exports){
+},{"./ReactElement":570,"./ReactElementValidator":571,"./mapObject":666,"_process":147}],554:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -82392,7 +70342,7 @@ var ReactDOMButton = ReactClass.createClass({
 
 module.exports = ReactDOMButton;
 
-},{"./AutoFocusMixin":510,"./ReactBrowserComponentMixin":540,"./ReactClass":546,"./ReactElement":571,"./keyMirror":665}],556:[function(require,module,exports){
+},{"./AutoFocusMixin":509,"./ReactBrowserComponentMixin":539,"./ReactClass":545,"./ReactElement":570,"./keyMirror":664}],555:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -82457,11 +70407,13 @@ function assertValidProps(props) {
       'Can only set one of `children` or `props.dangerouslySetInnerHTML`.'
     ) : invariant(props.children == null));
     ("production" !== process.env.NODE_ENV ? invariant(
-      props.dangerouslySetInnerHTML.__html != null,
+      typeof props.dangerouslySetInnerHTML === 'object' &&
+      '__html' in props.dangerouslySetInnerHTML,
       '`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. ' +
-      'Please visit http://fb.me/react-invariant-dangerously-set-inner-html ' +
+      'Please visit https://fb.me/react-invariant-dangerously-set-inner-html ' +
       'for more information.'
-    ) : invariant(props.dangerouslySetInnerHTML.__html != null));
+    ) : invariant(typeof props.dangerouslySetInnerHTML === 'object' &&
+    '__html' in props.dangerouslySetInnerHTML));
   }
   if ("production" !== process.env.NODE_ENV) {
     ("production" !== process.env.NODE_ENV ? warning(
@@ -82901,7 +70853,7 @@ module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
 
-},{"./CSSPropertyOperations":514,"./DOMProperty":519,"./DOMPropertyOperations":520,"./Object.assign":537,"./ReactBrowserEventEmitter":541,"./ReactComponentBrowserEnvironment":548,"./ReactMount":585,"./ReactMultiChild":586,"./ReactPerf":590,"./escapeTextContentForBrowser":640,"./invariant":659,"./isEventSupported":660,"./keyOf":666,"./warning":680,"_process":147}],557:[function(require,module,exports){
+},{"./CSSPropertyOperations":513,"./DOMProperty":518,"./DOMPropertyOperations":519,"./Object.assign":536,"./ReactBrowserEventEmitter":540,"./ReactComponentBrowserEnvironment":547,"./ReactMount":584,"./ReactMultiChild":585,"./ReactPerf":589,"./escapeTextContentForBrowser":639,"./invariant":658,"./isEventSupported":659,"./keyOf":665,"./warning":679,"_process":147}],556:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -82950,7 +70902,7 @@ var ReactDOMForm = ReactClass.createClass({
 
 module.exports = ReactDOMForm;
 
-},{"./EventConstants":524,"./LocalEventTrapMixin":535,"./ReactBrowserComponentMixin":540,"./ReactClass":546,"./ReactElement":571}],558:[function(require,module,exports){
+},{"./EventConstants":523,"./LocalEventTrapMixin":534,"./ReactBrowserComponentMixin":539,"./ReactClass":545,"./ReactElement":570}],557:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -83119,7 +71071,7 @@ module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
 
-},{"./CSSPropertyOperations":514,"./DOMChildrenOperations":518,"./DOMPropertyOperations":520,"./ReactMount":585,"./ReactPerf":590,"./invariant":659,"./setInnerHTML":673,"_process":147}],559:[function(require,module,exports){
+},{"./CSSPropertyOperations":513,"./DOMChildrenOperations":517,"./DOMPropertyOperations":519,"./ReactMount":584,"./ReactPerf":589,"./invariant":658,"./setInnerHTML":672,"_process":147}],558:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -83164,7 +71116,7 @@ var ReactDOMIframe = ReactClass.createClass({
 
 module.exports = ReactDOMIframe;
 
-},{"./EventConstants":524,"./LocalEventTrapMixin":535,"./ReactBrowserComponentMixin":540,"./ReactClass":546,"./ReactElement":571}],560:[function(require,module,exports){
+},{"./EventConstants":523,"./LocalEventTrapMixin":534,"./ReactBrowserComponentMixin":539,"./ReactClass":545,"./ReactElement":570}],559:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -83210,7 +71162,7 @@ var ReactDOMImg = ReactClass.createClass({
 
 module.exports = ReactDOMImg;
 
-},{"./EventConstants":524,"./LocalEventTrapMixin":535,"./ReactBrowserComponentMixin":540,"./ReactClass":546,"./ReactElement":571}],561:[function(require,module,exports){
+},{"./EventConstants":523,"./LocalEventTrapMixin":534,"./ReactBrowserComponentMixin":539,"./ReactClass":545,"./ReactElement":570}],560:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -83388,7 +71340,7 @@ module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
 
-},{"./AutoFocusMixin":510,"./DOMPropertyOperations":520,"./LinkedValueUtils":534,"./Object.assign":537,"./ReactBrowserComponentMixin":540,"./ReactClass":546,"./ReactElement":571,"./ReactMount":585,"./ReactUpdates":608,"./invariant":659,"_process":147}],562:[function(require,module,exports){
+},{"./AutoFocusMixin":509,"./DOMPropertyOperations":519,"./LinkedValueUtils":533,"./Object.assign":536,"./ReactBrowserComponentMixin":539,"./ReactClass":545,"./ReactElement":570,"./ReactMount":584,"./ReactUpdates":607,"./invariant":658,"_process":147}],561:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -83441,7 +71393,7 @@ module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
 
-},{"./ReactBrowserComponentMixin":540,"./ReactClass":546,"./ReactElement":571,"./warning":680,"_process":147}],563:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":539,"./ReactClass":545,"./ReactElement":570,"./warning":679,"_process":147}],562:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -83619,7 +71571,7 @@ var ReactDOMSelect = ReactClass.createClass({
 
 module.exports = ReactDOMSelect;
 
-},{"./AutoFocusMixin":510,"./LinkedValueUtils":534,"./Object.assign":537,"./ReactBrowserComponentMixin":540,"./ReactClass":546,"./ReactElement":571,"./ReactUpdates":608}],564:[function(require,module,exports){
+},{"./AutoFocusMixin":509,"./LinkedValueUtils":533,"./Object.assign":536,"./ReactBrowserComponentMixin":539,"./ReactClass":545,"./ReactElement":570,"./ReactUpdates":607}],563:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -83832,7 +71784,7 @@ var ReactDOMSelection = {
 
 module.exports = ReactDOMSelection;
 
-},{"./ExecutionEnvironment":530,"./getNodeForCharacterOffset":652,"./getTextContentAccessor":654}],565:[function(require,module,exports){
+},{"./ExecutionEnvironment":529,"./getNodeForCharacterOffset":651,"./getTextContentAccessor":653}],564:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -83949,7 +71901,7 @@ assign(ReactDOMTextComponent.prototype, {
 
 module.exports = ReactDOMTextComponent;
 
-},{"./DOMPropertyOperations":520,"./Object.assign":537,"./ReactComponentBrowserEnvironment":548,"./ReactDOMComponent":556,"./escapeTextContentForBrowser":640}],566:[function(require,module,exports){
+},{"./DOMPropertyOperations":519,"./Object.assign":536,"./ReactComponentBrowserEnvironment":547,"./ReactDOMComponent":555,"./escapeTextContentForBrowser":639}],565:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -84090,7 +72042,7 @@ module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
 
-},{"./AutoFocusMixin":510,"./DOMPropertyOperations":520,"./LinkedValueUtils":534,"./Object.assign":537,"./ReactBrowserComponentMixin":540,"./ReactClass":546,"./ReactElement":571,"./ReactUpdates":608,"./invariant":659,"./warning":680,"_process":147}],567:[function(require,module,exports){
+},{"./AutoFocusMixin":509,"./DOMPropertyOperations":519,"./LinkedValueUtils":533,"./Object.assign":536,"./ReactBrowserComponentMixin":539,"./ReactClass":545,"./ReactElement":570,"./ReactUpdates":607,"./invariant":658,"./warning":679,"_process":147}],566:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -84163,7 +72115,7 @@ var ReactDefaultBatchingStrategy = {
 
 module.exports = ReactDefaultBatchingStrategy;
 
-},{"./Object.assign":537,"./ReactUpdates":608,"./Transaction":625,"./emptyFunction":638}],568:[function(require,module,exports){
+},{"./Object.assign":536,"./ReactUpdates":607,"./Transaction":624,"./emptyFunction":637}],567:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -84323,7 +72275,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"./BeforeInputEventPlugin":511,"./ChangeEventPlugin":516,"./ClientReactRootIndex":517,"./DefaultEventPluginOrder":522,"./EnterLeaveEventPlugin":523,"./ExecutionEnvironment":530,"./HTMLDOMPropertyConfig":532,"./MobileSafariClickEventPlugin":536,"./ReactBrowserComponentMixin":540,"./ReactClass":546,"./ReactComponentBrowserEnvironment":548,"./ReactDOMButton":555,"./ReactDOMComponent":556,"./ReactDOMForm":557,"./ReactDOMIDOperations":558,"./ReactDOMIframe":559,"./ReactDOMImg":560,"./ReactDOMInput":561,"./ReactDOMOption":562,"./ReactDOMSelect":563,"./ReactDOMTextComponent":565,"./ReactDOMTextarea":566,"./ReactDefaultBatchingStrategy":567,"./ReactDefaultPerf":569,"./ReactElement":571,"./ReactEventListener":576,"./ReactInjection":578,"./ReactInstanceHandles":580,"./ReactMount":585,"./ReactReconcileTransaction":596,"./SVGDOMPropertyConfig":610,"./SelectEventPlugin":611,"./ServerReactRootIndex":612,"./SimpleEventPlugin":613,"./createFullPageComponent":634,"_process":147}],569:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":510,"./ChangeEventPlugin":515,"./ClientReactRootIndex":516,"./DefaultEventPluginOrder":521,"./EnterLeaveEventPlugin":522,"./ExecutionEnvironment":529,"./HTMLDOMPropertyConfig":531,"./MobileSafariClickEventPlugin":535,"./ReactBrowserComponentMixin":539,"./ReactClass":545,"./ReactComponentBrowserEnvironment":547,"./ReactDOMButton":554,"./ReactDOMComponent":555,"./ReactDOMForm":556,"./ReactDOMIDOperations":557,"./ReactDOMIframe":558,"./ReactDOMImg":559,"./ReactDOMInput":560,"./ReactDOMOption":561,"./ReactDOMSelect":562,"./ReactDOMTextComponent":564,"./ReactDOMTextarea":565,"./ReactDefaultBatchingStrategy":566,"./ReactDefaultPerf":568,"./ReactElement":570,"./ReactEventListener":575,"./ReactInjection":577,"./ReactInstanceHandles":579,"./ReactMount":584,"./ReactReconcileTransaction":595,"./SVGDOMPropertyConfig":609,"./SelectEventPlugin":610,"./ServerReactRootIndex":611,"./SimpleEventPlugin":612,"./createFullPageComponent":633,"_process":147}],568:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -84589,7 +72541,7 @@ var ReactDefaultPerf = {
 
 module.exports = ReactDefaultPerf;
 
-},{"./DOMProperty":519,"./ReactDefaultPerfAnalysis":570,"./ReactMount":585,"./ReactPerf":590,"./performanceNow":671}],570:[function(require,module,exports){
+},{"./DOMProperty":518,"./ReactDefaultPerfAnalysis":569,"./ReactMount":584,"./ReactPerf":589,"./performanceNow":670}],569:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -84795,7 +72747,7 @@ var ReactDefaultPerfAnalysis = {
 
 module.exports = ReactDefaultPerfAnalysis;
 
-},{"./Object.assign":537}],571:[function(require,module,exports){
+},{"./Object.assign":536}],570:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -85104,7 +73056,7 @@ module.exports = ReactElement;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":537,"./ReactContext":552,"./ReactCurrentOwner":553,"./warning":680,"_process":147}],572:[function(require,module,exports){
+},{"./Object.assign":536,"./ReactContext":551,"./ReactCurrentOwner":552,"./warning":679,"_process":147}],571:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -85274,7 +73226,7 @@ function warnAndMonitorForKeyUse(message, element, parentType) {
 
   ("production" !== process.env.NODE_ENV ? warning(
     false,
-    message + '%s%s See http://fb.me/react-warning-keys for more information.',
+    message + '%s%s See https://fb.me/react-warning-keys for more information.',
     parentOrOwnerAddendum,
     childOwnerAddendum
   ) : null);
@@ -85570,7 +73522,7 @@ module.exports = ReactElementValidator;
 
 }).call(this,require('_process'))
 
-},{"./ReactCurrentOwner":553,"./ReactElement":571,"./ReactFragment":577,"./ReactNativeComponent":588,"./ReactPropTypeLocationNames":592,"./ReactPropTypeLocations":593,"./getIteratorFn":650,"./invariant":659,"./warning":680,"_process":147}],573:[function(require,module,exports){
+},{"./ReactCurrentOwner":552,"./ReactElement":570,"./ReactFragment":576,"./ReactNativeComponent":587,"./ReactPropTypeLocationNames":591,"./ReactPropTypeLocations":592,"./getIteratorFn":649,"./invariant":658,"./warning":679,"_process":147}],572:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -85666,7 +73618,7 @@ module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":571,"./ReactInstanceMap":581,"./invariant":659,"_process":147}],574:[function(require,module,exports){
+},{"./ReactElement":570,"./ReactInstanceMap":580,"./invariant":658,"_process":147}],573:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -85698,7 +73650,7 @@ var ReactErrorUtils = {
 
 module.exports = ReactErrorUtils;
 
-},{}],575:[function(require,module,exports){
+},{}],574:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -85748,7 +73700,7 @@ var ReactEventEmitterMixin = {
 
 module.exports = ReactEventEmitterMixin;
 
-},{"./EventPluginHub":526}],576:[function(require,module,exports){
+},{"./EventPluginHub":525}],575:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -85931,7 +73883,7 @@ var ReactEventListener = {
 
 module.exports = ReactEventListener;
 
-},{"./EventListener":525,"./ExecutionEnvironment":530,"./Object.assign":537,"./PooledClass":538,"./ReactInstanceHandles":580,"./ReactMount":585,"./ReactUpdates":608,"./getEventTarget":649,"./getUnboundedScrollPosition":655}],577:[function(require,module,exports){
+},{"./EventListener":524,"./ExecutionEnvironment":529,"./Object.assign":536,"./PooledClass":537,"./ReactInstanceHandles":579,"./ReactMount":584,"./ReactUpdates":607,"./getEventTarget":648,"./getUnboundedScrollPosition":654}],576:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -86117,7 +74069,7 @@ module.exports = ReactFragment;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":571,"./warning":680,"_process":147}],578:[function(require,module,exports){
+},{"./ReactElement":570,"./warning":679,"_process":147}],577:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -86159,7 +74111,7 @@ var ReactInjection = {
 
 module.exports = ReactInjection;
 
-},{"./DOMProperty":519,"./EventPluginHub":526,"./ReactBrowserEventEmitter":541,"./ReactClass":546,"./ReactComponentEnvironment":549,"./ReactDOMComponent":556,"./ReactEmptyComponent":573,"./ReactNativeComponent":588,"./ReactPerf":590,"./ReactRootIndex":599,"./ReactUpdates":608}],579:[function(require,module,exports){
+},{"./DOMProperty":518,"./EventPluginHub":525,"./ReactBrowserEventEmitter":540,"./ReactClass":545,"./ReactComponentEnvironment":548,"./ReactDOMComponent":555,"./ReactEmptyComponent":572,"./ReactNativeComponent":587,"./ReactPerf":589,"./ReactRootIndex":598,"./ReactUpdates":607}],578:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -86294,7 +74246,7 @@ var ReactInputSelection = {
 
 module.exports = ReactInputSelection;
 
-},{"./ReactDOMSelection":564,"./containsNode":632,"./focusNode":643,"./getActiveElement":645}],580:[function(require,module,exports){
+},{"./ReactDOMSelection":563,"./containsNode":631,"./focusNode":642,"./getActiveElement":644}],579:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -86631,7 +74583,7 @@ module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
 
-},{"./ReactRootIndex":599,"./invariant":659,"_process":147}],581:[function(require,module,exports){
+},{"./ReactRootIndex":598,"./invariant":658,"_process":147}],580:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -86680,7 +74632,7 @@ var ReactInstanceMap = {
 
 module.exports = ReactInstanceMap;
 
-},{}],582:[function(require,module,exports){
+},{}],581:[function(require,module,exports){
 /**
  * Copyright 2015, Facebook, Inc.
  * All rights reserved.
@@ -86717,7 +74669,7 @@ var ReactLifeCycle = {
 
 module.exports = ReactLifeCycle;
 
-},{}],583:[function(require,module,exports){
+},{}],582:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -86790,7 +74742,7 @@ ReactLink.PropTypes = {
 
 module.exports = ReactLink;
 
-},{"./React":539}],584:[function(require,module,exports){
+},{"./React":538}],583:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -86838,7 +74790,7 @@ var ReactMarkupChecksum = {
 
 module.exports = ReactMarkupChecksum;
 
-},{"./adler32":628}],585:[function(require,module,exports){
+},{"./adler32":627}],584:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -87730,7 +75682,7 @@ module.exports = ReactMount;
 
 }).call(this,require('_process'))
 
-},{"./DOMProperty":519,"./ReactBrowserEventEmitter":541,"./ReactCurrentOwner":553,"./ReactElement":571,"./ReactElementValidator":572,"./ReactEmptyComponent":573,"./ReactInstanceHandles":580,"./ReactInstanceMap":581,"./ReactMarkupChecksum":584,"./ReactPerf":590,"./ReactReconciler":597,"./ReactUpdateQueue":607,"./ReactUpdates":608,"./containsNode":632,"./emptyObject":639,"./getReactRootElementInContainer":653,"./instantiateReactComponent":658,"./invariant":659,"./setInnerHTML":673,"./shouldUpdateReactComponent":676,"./warning":680,"_process":147}],586:[function(require,module,exports){
+},{"./DOMProperty":518,"./ReactBrowserEventEmitter":540,"./ReactCurrentOwner":552,"./ReactElement":570,"./ReactElementValidator":571,"./ReactEmptyComponent":572,"./ReactInstanceHandles":579,"./ReactInstanceMap":580,"./ReactMarkupChecksum":583,"./ReactPerf":589,"./ReactReconciler":596,"./ReactUpdateQueue":606,"./ReactUpdates":607,"./containsNode":631,"./emptyObject":638,"./getReactRootElementInContainer":652,"./instantiateReactComponent":657,"./invariant":658,"./setInnerHTML":672,"./shouldUpdateReactComponent":675,"./warning":679,"_process":147}],585:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -88160,7 +76112,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 
-},{"./ReactChildReconciler":544,"./ReactComponentEnvironment":549,"./ReactMultiChildUpdateTypes":587,"./ReactReconciler":597}],587:[function(require,module,exports){
+},{"./ReactChildReconciler":543,"./ReactComponentEnvironment":548,"./ReactMultiChildUpdateTypes":586,"./ReactReconciler":596}],586:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -88193,7 +76145,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 
 module.exports = ReactMultiChildUpdateTypes;
 
-},{"./keyMirror":665}],588:[function(require,module,exports){
+},{"./keyMirror":664}],587:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -88301,7 +76253,7 @@ module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":537,"./invariant":659,"_process":147}],589:[function(require,module,exports){
+},{"./Object.assign":536,"./invariant":658,"_process":147}],588:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -88414,7 +76366,7 @@ module.exports = ReactOwner;
 
 }).call(this,require('_process'))
 
-},{"./invariant":659,"_process":147}],590:[function(require,module,exports){
+},{"./invariant":658,"_process":147}],589:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -88519,7 +76471,7 @@ module.exports = ReactPerf;
 
 }).call(this,require('_process'))
 
-},{"_process":147}],591:[function(require,module,exports){
+},{"_process":147}],590:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -88629,7 +76581,7 @@ var ReactPropTransferer = {
 
 module.exports = ReactPropTransferer;
 
-},{"./Object.assign":537,"./emptyFunction":638,"./joinClasses":664}],592:[function(require,module,exports){
+},{"./Object.assign":536,"./emptyFunction":637,"./joinClasses":663}],591:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -88658,7 +76610,7 @@ module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
 
-},{"_process":147}],593:[function(require,module,exports){
+},{"_process":147}],592:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -88682,7 +76634,7 @@ var ReactPropTypeLocations = keyMirror({
 
 module.exports = ReactPropTypeLocations;
 
-},{"./keyMirror":665}],594:[function(require,module,exports){
+},{"./keyMirror":664}],593:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -89031,7 +76983,7 @@ function getPreciseType(propValue) {
 
 module.exports = ReactPropTypes;
 
-},{"./ReactElement":571,"./ReactFragment":577,"./ReactPropTypeLocationNames":592,"./emptyFunction":638}],595:[function(require,module,exports){
+},{"./ReactElement":570,"./ReactFragment":576,"./ReactPropTypeLocationNames":591,"./emptyFunction":637}],594:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -89087,7 +77039,7 @@ PooledClass.addPoolingTo(ReactPutListenerQueue);
 
 module.exports = ReactPutListenerQueue;
 
-},{"./Object.assign":537,"./PooledClass":538,"./ReactBrowserEventEmitter":541}],596:[function(require,module,exports){
+},{"./Object.assign":536,"./PooledClass":537,"./ReactBrowserEventEmitter":540}],595:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -89263,7 +77215,7 @@ PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
 
-},{"./CallbackQueue":515,"./Object.assign":537,"./PooledClass":538,"./ReactBrowserEventEmitter":541,"./ReactInputSelection":579,"./ReactPutListenerQueue":595,"./Transaction":625}],597:[function(require,module,exports){
+},{"./CallbackQueue":514,"./Object.assign":536,"./PooledClass":537,"./ReactBrowserEventEmitter":540,"./ReactInputSelection":578,"./ReactPutListenerQueue":594,"./Transaction":624}],596:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -89388,7 +77340,7 @@ module.exports = ReactReconciler;
 
 }).call(this,require('_process'))
 
-},{"./ReactElementValidator":572,"./ReactRef":598,"_process":147}],598:[function(require,module,exports){
+},{"./ReactElementValidator":571,"./ReactRef":597,"_process":147}],597:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -89459,7 +77411,7 @@ ReactRef.detachRefs = function(instance, element) {
 
 module.exports = ReactRef;
 
-},{"./ReactOwner":589}],599:[function(require,module,exports){
+},{"./ReactOwner":588}],598:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -89490,7 +77442,7 @@ var ReactRootIndex = {
 
 module.exports = ReactRootIndex;
 
-},{}],600:[function(require,module,exports){
+},{}],599:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -89573,7 +77525,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":571,"./ReactInstanceHandles":580,"./ReactMarkupChecksum":584,"./ReactServerRenderingTransaction":601,"./emptyObject":639,"./instantiateReactComponent":658,"./invariant":659,"_process":147}],601:[function(require,module,exports){
+},{"./ReactElement":570,"./ReactInstanceHandles":579,"./ReactMarkupChecksum":583,"./ReactServerRenderingTransaction":600,"./emptyObject":638,"./instantiateReactComponent":657,"./invariant":658,"_process":147}],600:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -89686,7 +77638,7 @@ PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
 
-},{"./CallbackQueue":515,"./Object.assign":537,"./PooledClass":538,"./ReactPutListenerQueue":595,"./Transaction":625,"./emptyFunction":638}],602:[function(require,module,exports){
+},{"./CallbackQueue":514,"./Object.assign":536,"./PooledClass":537,"./ReactPutListenerQueue":594,"./Transaction":624,"./emptyFunction":637}],601:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -89792,7 +77744,7 @@ ReactStateSetters.Mixin = {
 
 module.exports = ReactStateSetters;
 
-},{}],603:[function(require,module,exports){
+},{}],602:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -89821,6 +77773,7 @@ var ReactUpdates = require("./ReactUpdates");
 var SyntheticEvent = require("./SyntheticEvent");
 
 var assign = require("./Object.assign");
+var emptyObject = require("./emptyObject");
 
 var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -90162,6 +78115,9 @@ assign(
 );
 
 ReactShallowRenderer.prototype.render = function(element, context) {
+  if (!context) {
+    context = emptyObject;
+  }
   var transaction = ReactUpdates.ReactReconcileTransaction.getPooled();
   this._render(element, transaction, context);
   ReactUpdates.ReactReconcileTransaction.release(transaction);
@@ -90302,7 +78258,7 @@ for (eventType in topLevelTypes) {
 
 module.exports = ReactTestUtils;
 
-},{"./EventConstants":524,"./EventPluginHub":526,"./EventPropagators":529,"./Object.assign":537,"./React":539,"./ReactBrowserEventEmitter":541,"./ReactCompositeComponent":551,"./ReactElement":571,"./ReactEmptyComponent":573,"./ReactInstanceHandles":580,"./ReactInstanceMap":581,"./ReactMount":585,"./ReactUpdates":608,"./SyntheticEvent":617}],604:[function(require,module,exports){
+},{"./EventConstants":523,"./EventPluginHub":525,"./EventPropagators":528,"./Object.assign":536,"./React":538,"./ReactBrowserEventEmitter":540,"./ReactCompositeComponent":550,"./ReactElement":570,"./ReactEmptyComponent":572,"./ReactInstanceHandles":579,"./ReactInstanceMap":580,"./ReactMount":584,"./ReactUpdates":607,"./SyntheticEvent":616,"./emptyObject":638}],603:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -90407,7 +78363,7 @@ var ReactTransitionChildMapping = {
 
 module.exports = ReactTransitionChildMapping;
 
-},{"./ReactChildren":545,"./ReactFragment":577}],605:[function(require,module,exports){
+},{"./ReactChildren":544,"./ReactFragment":576}],604:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -90518,7 +78474,7 @@ var ReactTransitionEvents = {
 
 module.exports = ReactTransitionEvents;
 
-},{"./ExecutionEnvironment":530}],606:[function(require,module,exports){
+},{"./ExecutionEnvironment":529}],605:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -90748,7 +78704,7 @@ var ReactTransitionGroup = React.createClass({
 
 module.exports = ReactTransitionGroup;
 
-},{"./Object.assign":537,"./React":539,"./ReactTransitionChildMapping":604,"./cloneWithProps":631,"./emptyFunction":638}],607:[function(require,module,exports){
+},{"./Object.assign":536,"./React":538,"./ReactTransitionChildMapping":603,"./cloneWithProps":630,"./emptyFunction":637}],606:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015, Facebook, Inc.
@@ -91048,7 +79004,7 @@ module.exports = ReactUpdateQueue;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":537,"./ReactCurrentOwner":553,"./ReactElement":571,"./ReactInstanceMap":581,"./ReactLifeCycle":582,"./ReactUpdates":608,"./invariant":659,"./warning":680,"_process":147}],608:[function(require,module,exports){
+},{"./Object.assign":536,"./ReactCurrentOwner":552,"./ReactElement":570,"./ReactInstanceMap":580,"./ReactLifeCycle":581,"./ReactUpdates":607,"./invariant":658,"./warning":679,"_process":147}],607:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -91331,7 +79287,7 @@ module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
 
-},{"./CallbackQueue":515,"./Object.assign":537,"./PooledClass":538,"./ReactCurrentOwner":553,"./ReactPerf":590,"./ReactReconciler":597,"./Transaction":625,"./invariant":659,"./warning":680,"_process":147}],609:[function(require,module,exports){
+},{"./CallbackQueue":514,"./Object.assign":536,"./PooledClass":537,"./ReactCurrentOwner":552,"./ReactPerf":589,"./ReactReconciler":596,"./Transaction":624,"./invariant":658,"./warning":679,"_process":147}],608:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -91388,7 +79344,7 @@ module.exports = React;
 
 }).call(this,require('_process'))
 
-},{"./LinkedStateMixin":533,"./React":539,"./ReactCSSTransitionGroup":542,"./ReactComponentWithPureRenderMixin":550,"./ReactDefaultPerf":569,"./ReactFragment":577,"./ReactTestUtils":603,"./ReactTransitionGroup":606,"./ReactUpdates":608,"./cloneWithProps":631,"./cx":636,"./update":679,"_process":147}],610:[function(require,module,exports){
+},{"./LinkedStateMixin":532,"./React":538,"./ReactCSSTransitionGroup":541,"./ReactComponentWithPureRenderMixin":549,"./ReactDefaultPerf":568,"./ReactFragment":576,"./ReactTestUtils":602,"./ReactTransitionGroup":605,"./ReactUpdates":607,"./cloneWithProps":630,"./cx":635,"./update":678,"_process":147}],609:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -91410,6 +79366,7 @@ var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 
 var SVGDOMPropertyConfig = {
   Properties: {
+    clipPath: MUST_USE_ATTRIBUTE,
     cx: MUST_USE_ATTRIBUTE,
     cy: MUST_USE_ATTRIBUTE,
     d: MUST_USE_ATTRIBUTE,
@@ -91455,6 +79412,7 @@ var SVGDOMPropertyConfig = {
     y: MUST_USE_ATTRIBUTE
   },
   DOMAttributeNames: {
+    clipPath: 'clip-path',
     fillOpacity: 'fill-opacity',
     fontFamily: 'font-family',
     fontSize: 'font-size',
@@ -91480,7 +79438,7 @@ var SVGDOMPropertyConfig = {
 
 module.exports = SVGDOMPropertyConfig;
 
-},{"./DOMProperty":519}],611:[function(require,module,exports){
+},{"./DOMProperty":518}],610:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -91675,7 +79633,7 @@ var SelectEventPlugin = {
 
 module.exports = SelectEventPlugin;
 
-},{"./EventConstants":524,"./EventPropagators":529,"./ReactInputSelection":579,"./SyntheticEvent":617,"./getActiveElement":645,"./isTextInputElement":662,"./keyOf":666,"./shallowEqual":675}],612:[function(require,module,exports){
+},{"./EventConstants":523,"./EventPropagators":528,"./ReactInputSelection":578,"./SyntheticEvent":616,"./getActiveElement":644,"./isTextInputElement":661,"./keyOf":665,"./shallowEqual":674}],611:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -91706,7 +79664,7 @@ var ServerReactRootIndex = {
 
 module.exports = ServerReactRootIndex;
 
-},{}],613:[function(require,module,exports){
+},{}],612:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -92135,7 +80093,7 @@ module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
 
-},{"./EventConstants":524,"./EventPluginUtils":528,"./EventPropagators":529,"./SyntheticClipboardEvent":614,"./SyntheticDragEvent":616,"./SyntheticEvent":617,"./SyntheticFocusEvent":618,"./SyntheticKeyboardEvent":620,"./SyntheticMouseEvent":621,"./SyntheticTouchEvent":622,"./SyntheticUIEvent":623,"./SyntheticWheelEvent":624,"./getEventCharCode":646,"./invariant":659,"./keyOf":666,"./warning":680,"_process":147}],614:[function(require,module,exports){
+},{"./EventConstants":523,"./EventPluginUtils":527,"./EventPropagators":528,"./SyntheticClipboardEvent":613,"./SyntheticDragEvent":615,"./SyntheticEvent":616,"./SyntheticFocusEvent":617,"./SyntheticKeyboardEvent":619,"./SyntheticMouseEvent":620,"./SyntheticTouchEvent":621,"./SyntheticUIEvent":622,"./SyntheticWheelEvent":623,"./getEventCharCode":645,"./invariant":658,"./keyOf":665,"./warning":679,"_process":147}],613:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -92180,7 +80138,7 @@ SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 
 module.exports = SyntheticClipboardEvent;
 
-},{"./SyntheticEvent":617}],615:[function(require,module,exports){
+},{"./SyntheticEvent":616}],614:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -92225,7 +80183,7 @@ SyntheticEvent.augmentClass(
 
 module.exports = SyntheticCompositionEvent;
 
-},{"./SyntheticEvent":617}],616:[function(require,module,exports){
+},{"./SyntheticEvent":616}],615:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -92264,7 +80222,7 @@ SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
 
-},{"./SyntheticMouseEvent":621}],617:[function(require,module,exports){
+},{"./SyntheticMouseEvent":620}],616:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -92430,7 +80388,7 @@ PooledClass.addPoolingTo(SyntheticEvent, PooledClass.threeArgumentPooler);
 
 module.exports = SyntheticEvent;
 
-},{"./Object.assign":537,"./PooledClass":538,"./emptyFunction":638,"./getEventTarget":649}],618:[function(require,module,exports){
+},{"./Object.assign":536,"./PooledClass":537,"./emptyFunction":637,"./getEventTarget":648}],617:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -92469,7 +80427,7 @@ SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
 
-},{"./SyntheticUIEvent":623}],619:[function(require,module,exports){
+},{"./SyntheticUIEvent":622}],618:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -92515,7 +80473,7 @@ SyntheticEvent.augmentClass(
 
 module.exports = SyntheticInputEvent;
 
-},{"./SyntheticEvent":617}],620:[function(require,module,exports){
+},{"./SyntheticEvent":616}],619:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -92602,7 +80560,7 @@ SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
 
-},{"./SyntheticUIEvent":623,"./getEventCharCode":646,"./getEventKey":647,"./getEventModifierState":648}],621:[function(require,module,exports){
+},{"./SyntheticUIEvent":622,"./getEventCharCode":645,"./getEventKey":646,"./getEventModifierState":647}],620:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -92683,7 +80641,7 @@ SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
 
-},{"./SyntheticUIEvent":623,"./ViewportMetrics":626,"./getEventModifierState":648}],622:[function(require,module,exports){
+},{"./SyntheticUIEvent":622,"./ViewportMetrics":625,"./getEventModifierState":647}],621:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -92731,7 +80689,7 @@ SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
 
-},{"./SyntheticUIEvent":623,"./getEventModifierState":648}],623:[function(require,module,exports){
+},{"./SyntheticUIEvent":622,"./getEventModifierState":647}],622:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -92793,7 +80751,7 @@ SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
 
-},{"./SyntheticEvent":617,"./getEventTarget":649}],624:[function(require,module,exports){
+},{"./SyntheticEvent":616,"./getEventTarget":648}],623:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -92854,7 +80812,7 @@ SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
 
-},{"./SyntheticMouseEvent":621}],625:[function(require,module,exports){
+},{"./SyntheticMouseEvent":620}],624:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -93096,7 +81054,7 @@ module.exports = Transaction;
 
 }).call(this,require('_process'))
 
-},{"./invariant":659,"_process":147}],626:[function(require,module,exports){
+},{"./invariant":658,"_process":147}],625:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -93125,7 +81083,7 @@ var ViewportMetrics = {
 
 module.exports = ViewportMetrics;
 
-},{}],627:[function(require,module,exports){
+},{}],626:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -93192,7 +81150,7 @@ module.exports = accumulateInto;
 
 }).call(this,require('_process'))
 
-},{"./invariant":659,"_process":147}],628:[function(require,module,exports){
+},{"./invariant":658,"_process":147}],627:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -93226,7 +81184,7 @@ function adler32(data) {
 
 module.exports = adler32;
 
-},{}],629:[function(require,module,exports){
+},{}],628:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -93258,7 +81216,7 @@ function camelize(string) {
 
 module.exports = camelize;
 
-},{}],630:[function(require,module,exports){
+},{}],629:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -93300,7 +81258,7 @@ function camelizeStyleName(string) {
 
 module.exports = camelizeStyleName;
 
-},{"./camelize":629}],631:[function(require,module,exports){
+},{"./camelize":628}],630:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -93360,7 +81318,7 @@ module.exports = cloneWithProps;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":571,"./ReactPropTransferer":591,"./keyOf":666,"./warning":680,"_process":147}],632:[function(require,module,exports){
+},{"./ReactElement":570,"./ReactPropTransferer":590,"./keyOf":665,"./warning":679,"_process":147}],631:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -93404,7 +81362,7 @@ function containsNode(outerNode, innerNode) {
 
 module.exports = containsNode;
 
-},{"./isTextNode":663}],633:[function(require,module,exports){
+},{"./isTextNode":662}],632:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -93490,7 +81448,7 @@ function createArrayFromMixed(obj) {
 
 module.exports = createArrayFromMixed;
 
-},{"./toArray":677}],634:[function(require,module,exports){
+},{"./toArray":676}],633:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -93553,7 +81511,7 @@ module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
 
-},{"./ReactClass":546,"./ReactElement":571,"./invariant":659,"_process":147}],635:[function(require,module,exports){
+},{"./ReactClass":545,"./ReactElement":570,"./invariant":658,"_process":147}],634:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -93644,7 +81602,7 @@ module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
 
-},{"./ExecutionEnvironment":530,"./createArrayFromMixed":633,"./getMarkupWrap":651,"./invariant":659,"_process":147}],636:[function(require,module,exports){
+},{"./ExecutionEnvironment":529,"./createArrayFromMixed":632,"./getMarkupWrap":650,"./invariant":658,"_process":147}],635:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -93701,7 +81659,7 @@ module.exports = cx;
 
 }).call(this,require('_process'))
 
-},{"./warning":680,"_process":147}],637:[function(require,module,exports){
+},{"./warning":679,"_process":147}],636:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -93759,7 +81717,7 @@ function dangerousStyleValue(name, value) {
 
 module.exports = dangerousStyleValue;
 
-},{"./CSSProperty":513}],638:[function(require,module,exports){
+},{"./CSSProperty":512}],637:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -93793,7 +81751,7 @@ emptyFunction.thatReturnsArgument = function(arg) { return arg; };
 
 module.exports = emptyFunction;
 
-},{}],639:[function(require,module,exports){
+},{}],638:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -93818,7 +81776,7 @@ module.exports = emptyObject;
 
 }).call(this,require('_process'))
 
-},{"_process":147}],640:[function(require,module,exports){
+},{"_process":147}],639:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -93858,7 +81816,7 @@ function escapeTextContentForBrowser(text) {
 
 module.exports = escapeTextContentForBrowser;
 
-},{}],641:[function(require,module,exports){
+},{}],640:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -93932,7 +81890,7 @@ module.exports = findDOMNode;
 
 }).call(this,require('_process'))
 
-},{"./ReactCurrentOwner":553,"./ReactInstanceMap":581,"./ReactMount":585,"./invariant":659,"./isNode":661,"./warning":680,"_process":147}],642:[function(require,module,exports){
+},{"./ReactCurrentOwner":552,"./ReactInstanceMap":580,"./ReactMount":584,"./invariant":658,"./isNode":660,"./warning":679,"_process":147}],641:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -93991,7 +81949,7 @@ module.exports = flattenChildren;
 
 }).call(this,require('_process'))
 
-},{"./traverseAllChildren":678,"./warning":680,"_process":147}],643:[function(require,module,exports){
+},{"./traverseAllChildren":677,"./warning":679,"_process":147}],642:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -94020,7 +81978,7 @@ function focusNode(node) {
 
 module.exports = focusNode;
 
-},{}],644:[function(require,module,exports){
+},{}],643:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94051,7 +82009,7 @@ var forEachAccumulated = function(arr, cb, scope) {
 
 module.exports = forEachAccumulated;
 
-},{}],645:[function(require,module,exports){
+},{}],644:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94080,7 +82038,7 @@ function getActiveElement() /*?DOMElement*/ {
 
 module.exports = getActiveElement;
 
-},{}],646:[function(require,module,exports){
+},{}],645:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94132,7 +82090,7 @@ function getEventCharCode(nativeEvent) {
 
 module.exports = getEventCharCode;
 
-},{}],647:[function(require,module,exports){
+},{}],646:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94237,7 +82195,7 @@ function getEventKey(nativeEvent) {
 
 module.exports = getEventKey;
 
-},{"./getEventCharCode":646}],648:[function(require,module,exports){
+},{"./getEventCharCode":645}],647:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94284,7 +82242,7 @@ function getEventModifierState(nativeEvent) {
 
 module.exports = getEventModifierState;
 
-},{}],649:[function(require,module,exports){
+},{}],648:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94315,7 +82273,7 @@ function getEventTarget(nativeEvent) {
 
 module.exports = getEventTarget;
 
-},{}],650:[function(require,module,exports){
+},{}],649:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94359,7 +82317,7 @@ function getIteratorFn(maybeIterable) {
 
 module.exports = getIteratorFn;
 
-},{}],651:[function(require,module,exports){
+},{}],650:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -94392,6 +82350,7 @@ var shouldWrap = {
   // Force wrapping for SVG elements because if they get created inside a <div>,
   // they will be initialized in the wrong namespace (and will not display).
   'circle': true,
+  'clipPath': true,
   'defs': true,
   'ellipse': true,
   'g': true,
@@ -94434,6 +82393,7 @@ var markupWrap = {
   'th': trWrap,
 
   'circle': svgWrap,
+  'clipPath': svgWrap,
   'defs': svgWrap,
   'ellipse': svgWrap,
   'g': svgWrap,
@@ -94477,7 +82437,7 @@ module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
 
-},{"./ExecutionEnvironment":530,"./invariant":659,"_process":147}],652:[function(require,module,exports){
+},{"./ExecutionEnvironment":529,"./invariant":658,"_process":147}],651:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94552,7 +82512,7 @@ function getNodeForCharacterOffset(root, offset) {
 
 module.exports = getNodeForCharacterOffset;
 
-},{}],653:[function(require,module,exports){
+},{}],652:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94587,7 +82547,7 @@ function getReactRootElementInContainer(container) {
 
 module.exports = getReactRootElementInContainer;
 
-},{}],654:[function(require,module,exports){
+},{}],653:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94624,7 +82584,7 @@ function getTextContentAccessor() {
 
 module.exports = getTextContentAccessor;
 
-},{"./ExecutionEnvironment":530}],655:[function(require,module,exports){
+},{"./ExecutionEnvironment":529}],654:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94664,7 +82624,7 @@ function getUnboundedScrollPosition(scrollable) {
 
 module.exports = getUnboundedScrollPosition;
 
-},{}],656:[function(require,module,exports){
+},{}],655:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94697,7 +82657,7 @@ function hyphenate(string) {
 
 module.exports = hyphenate;
 
-},{}],657:[function(require,module,exports){
+},{}],656:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -94738,7 +82698,7 @@ function hyphenateStyleName(string) {
 
 module.exports = hyphenateStyleName;
 
-},{"./hyphenate":656}],658:[function(require,module,exports){
+},{"./hyphenate":655}],657:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -94877,7 +82837,7 @@ module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":537,"./ReactCompositeComponent":551,"./ReactEmptyComponent":573,"./ReactNativeComponent":588,"./invariant":659,"./warning":680,"_process":147}],659:[function(require,module,exports){
+},{"./Object.assign":536,"./ReactCompositeComponent":550,"./ReactEmptyComponent":572,"./ReactNativeComponent":587,"./invariant":658,"./warning":679,"_process":147}],658:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -94935,7 +82895,7 @@ module.exports = invariant;
 
 }).call(this,require('_process'))
 
-},{"_process":147}],660:[function(require,module,exports){
+},{"_process":147}],659:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95000,7 +82960,7 @@ function isEventSupported(eventNameSuffix, capture) {
 
 module.exports = isEventSupported;
 
-},{"./ExecutionEnvironment":530}],661:[function(require,module,exports){
+},{"./ExecutionEnvironment":529}],660:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95027,7 +82987,7 @@ function isNode(object) {
 
 module.exports = isNode;
 
-},{}],662:[function(require,module,exports){
+},{}],661:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95070,7 +83030,7 @@ function isTextInputElement(elem) {
 
 module.exports = isTextInputElement;
 
-},{}],663:[function(require,module,exports){
+},{}],662:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95095,7 +83055,7 @@ function isTextNode(object) {
 
 module.exports = isTextNode;
 
-},{"./isNode":661}],664:[function(require,module,exports){
+},{"./isNode":660}],663:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95136,7 +83096,7 @@ function joinClasses(className/*, ... */) {
 
 module.exports = joinClasses;
 
-},{}],665:[function(require,module,exports){
+},{}],664:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -95192,7 +83152,7 @@ module.exports = keyMirror;
 
 }).call(this,require('_process'))
 
-},{"./invariant":659,"_process":147}],666:[function(require,module,exports){
+},{"./invariant":658,"_process":147}],665:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95228,7 +83188,7 @@ var keyOf = function(oneKeyObj) {
 
 module.exports = keyOf;
 
-},{}],667:[function(require,module,exports){
+},{}],666:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95281,7 +83241,7 @@ function mapObject(object, callback, context) {
 
 module.exports = mapObject;
 
-},{}],668:[function(require,module,exports){
+},{}],667:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95314,7 +83274,7 @@ function memoizeStringOnly(callback) {
 
 module.exports = memoizeStringOnly;
 
-},{}],669:[function(require,module,exports){
+},{}],668:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -95355,7 +83315,7 @@ module.exports = onlyChild;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":571,"./invariant":659,"_process":147}],670:[function(require,module,exports){
+},{"./ReactElement":570,"./invariant":658,"_process":147}],669:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95383,7 +83343,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = performance || {};
 
-},{"./ExecutionEnvironment":530}],671:[function(require,module,exports){
+},{"./ExecutionEnvironment":529}],670:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95411,7 +83371,7 @@ var performanceNow = performance.now.bind(performance);
 
 module.exports = performanceNow;
 
-},{"./performance":670}],672:[function(require,module,exports){
+},{"./performance":669}],671:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95439,7 +83399,7 @@ function quoteAttributeValueForBrowser(value) {
 
 module.exports = quoteAttributeValueForBrowser;
 
-},{"./escapeTextContentForBrowser":640}],673:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":639}],672:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95528,7 +83488,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setInnerHTML;
 
-},{"./ExecutionEnvironment":530}],674:[function(require,module,exports){
+},{"./ExecutionEnvironment":529}],673:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95570,7 +83530,7 @@ if (ExecutionEnvironment.canUseDOM) {
 
 module.exports = setTextContent;
 
-},{"./ExecutionEnvironment":530,"./escapeTextContentForBrowser":640,"./setInnerHTML":673}],675:[function(require,module,exports){
+},{"./ExecutionEnvironment":529,"./escapeTextContentForBrowser":639,"./setInnerHTML":672}],674:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -95614,7 +83574,7 @@ function shallowEqual(objA, objB) {
 
 module.exports = shallowEqual;
 
-},{}],676:[function(require,module,exports){
+},{}],675:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -95719,7 +83679,7 @@ module.exports = shouldUpdateReactComponent;
 
 }).call(this,require('_process'))
 
-},{"./warning":680,"_process":147}],677:[function(require,module,exports){
+},{"./warning":679,"_process":147}],676:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -95792,7 +83752,7 @@ module.exports = toArray;
 
 }).call(this,require('_process'))
 
-},{"./invariant":659,"_process":147}],678:[function(require,module,exports){
+},{"./invariant":658,"_process":147}],677:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -96046,7 +84006,7 @@ module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":571,"./ReactFragment":577,"./ReactInstanceHandles":580,"./getIteratorFn":650,"./invariant":659,"./warning":680,"_process":147}],679:[function(require,module,exports){
+},{"./ReactElement":570,"./ReactFragment":576,"./ReactInstanceHandles":579,"./getIteratorFn":649,"./invariant":658,"./warning":679,"_process":147}],678:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -96218,7 +84178,7 @@ module.exports = update;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":537,"./invariant":659,"./keyOf":666,"_process":147}],680:[function(require,module,exports){
+},{"./Object.assign":536,"./invariant":658,"./keyOf":665,"_process":147}],679:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -96282,413 +84242,541 @@ module.exports = warning;
 
 }).call(this,require('_process'))
 
-},{"./emptyFunction":638,"_process":147}],681:[function(require,module,exports){
+},{"./emptyFunction":637,"_process":147}],680:[function(require,module,exports){
 /* @flow */
 
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
 
-var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var React = _interopRequire(require("react/addons"));
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var FnButton = _interopRequire(require("./FnButton.jsx"));
+var _reactAddons = require('react/addons');
+
+var _reactAddons2 = _interopRequireDefault(_reactAddons);
+
+var _FnButtonJsx = require('./FnButton.jsx');
+
+var _FnButtonJsx2 = _interopRequireDefault(_FnButtonJsx);
 
 var Controls = (function (_React$Component) {
     function Controls(props) {
         _classCallCheck(this, Controls);
 
-        _get(Object.getPrototypeOf(Controls.prototype), "constructor", this).call(this, props);
+        _get(Object.getPrototypeOf(Controls.prototype), 'constructor', this).call(this, props);
         this.state = props;
     }
 
     _inherits(Controls, _React$Component);
 
-    _createClass(Controls, {
-        render: {
-            value: function render() {
-                var _this = this;
+    _createClass(Controls, [{
+        key: 'render',
+        value: function render() {
+            var _this = this;
 
-                var currentFn = this.props.currentFn;
+            var currentFn = this.props.currentFn;
 
-                var buttons = this.props.fns.map(function (fn, i) {
-                    return React.createElement(FnButton, {
-                        active: currentFn === i,
-                        updateFn: _this.props.updateFn,
-                        id: i,
-                        fn: fn,
-                        key: i
-                    });
+            var buttons = this.props.fns.map(function (fn, i) {
+                return _reactAddons2['default'].createElement(_FnButtonJsx2['default'], {
+                    active: currentFn === i,
+                    updateFn: _this.props.updateFn,
+                    id: i,
+                    fn: fn,
+                    key: i
                 });
+            });
 
-                return React.createElement(
-                    "div",
-                    { className: "controls" },
-                    buttons
-                );
-            }
+            return _reactAddons2['default'].createElement(
+                'div',
+                { className: 'controls' },
+                buttons
+            );
         }
-    });
+    }]);
 
     return Controls;
-})(React.Component);
+})(_reactAddons2['default'].Component);
 
 Controls.propTypes = {
-    fns: React.PropTypes.array,
-    addFn: React.PropTypes.func,
-    updateFn: React.PropTypes.func,
-    currentFn: React.PropTypes.number
+    fns: _reactAddons2['default'].PropTypes.array,
+    addFn: _reactAddons2['default'].PropTypes.func,
+    updateFn: _reactAddons2['default'].PropTypes.func,
+    currentFn: _reactAddons2['default'].PropTypes.number
 };
 
-module.exports = Controls;
+exports['default'] = Controls;
+module.exports = exports['default'];
 
-},{"./FnButton.jsx":682,"react/addons":509}],682:[function(require,module,exports){
+},{"./FnButton.jsx":681,"react/addons":508}],681:[function(require,module,exports){
 /* @flow */
 
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
 
-var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var React = _interopRequire(require("react/addons"));
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var cx = _interopRequire(require("classnames"));
+var _reactAddons = require('react/addons');
+
+var _reactAddons2 = _interopRequireDefault(_reactAddons);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var FnButton = (function (_React$Component) {
     function FnButton(props) {
         _classCallCheck(this, FnButton);
 
-        _get(Object.getPrototypeOf(FnButton.prototype), "constructor", this).call(this, props);
+        _get(Object.getPrototypeOf(FnButton.prototype), 'constructor', this).call(this, props);
         this.state = props;
     }
 
     _inherits(FnButton, _React$Component);
 
-    _createClass(FnButton, {
-        updateFn: {
-            value: function updateFn(i) {
-                this.props.updateFn(i);
-            }
-        },
-        render: {
-            value: function render() {
-                var buttonCx = cx("fn-button", {
-                    active: this.props.active
-                });
-
-                return React.createElement(
-                    "button",
-                    {
-                        className: buttonCx,
-                        onClick: this.updateFn.bind(this, this.props.id)
-                    },
-                    "y = " + this.props.fn
-                );
-            }
+    _createClass(FnButton, [{
+        key: 'updateFn',
+        value: function updateFn(i) {
+            this.props.updateFn(i);
         }
-    });
+    }, {
+        key: 'render',
+        value: function render() {
+            var buttonCx = (0, _classnames2['default'])('fn-button', {
+                'active': this.props.active
+            });
+
+            return _reactAddons2['default'].createElement(
+                'button',
+                {
+                    className: buttonCx,
+                    onClick: this.updateFn.bind(this, this.props.id)
+                },
+                'y = ' + this.props.fn
+            );
+        }
+    }]);
 
     return FnButton;
-})(React.Component);
+})(_reactAddons2['default'].Component);
 
 FnButton.propTypes = {
-    id: React.PropTypes.number,
-    fn: React.PropTypes.string,
-    updateFn: React.PropTypes.func,
-    active: React.PropTypes.bool
+    id: _reactAddons2['default'].PropTypes.number,
+    fn: _reactAddons2['default'].PropTypes.string,
+    updateFn: _reactAddons2['default'].PropTypes.func,
+    active: _reactAddons2['default'].PropTypes.bool
 };
 
-module.exports = FnButton;
+exports['default'] = FnButton;
+module.exports = exports['default'];
 
-},{"classnames":163,"react/addons":509}],683:[function(require,module,exports){
+},{"classnames":163,"react/addons":508}],682:[function(require,module,exports){
 /* @flow */
 
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
 
-var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var React = _interopRequire(require("react/addons"));
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
-var Graph = _interopRequire(require("../d3/Graph"));
+var _reactAddons = require('react/addons');
+
+var _reactAddons2 = _interopRequireDefault(_reactAddons);
+
+var _graphGraph = require('../graph/Graph');
+
+var _graphGraph2 = _interopRequireDefault(_graphGraph);
 
 var GraphComponent = (function (_React$Component) {
     function GraphComponent(props) {
         _classCallCheck(this, GraphComponent);
 
-        _get(Object.getPrototypeOf(GraphComponent.prototype), "constructor", this).call(this, props);
+        _get(Object.getPrototypeOf(GraphComponent.prototype), 'constructor', this).call(this, props);
     }
 
     _inherits(GraphComponent, _React$Component);
 
-    _createClass(GraphComponent, {
-        shouldComponentUpdate: {
-            value: function shouldComponentUpdate() {
-                return false;
-            }
-        },
-        componentWillReceiveProps: {
-            value: function componentWillReceiveProps(nextProps) {
-                if (this.props.fn === nextProps.fn) {
-                    return;
-                }
-                Graph.plot(nextProps.fn);
-            }
-        },
-        componentDidMount: {
-            value: function componentDidMount() {
-                Graph.init("#graph");
-                Graph.plot(this.props.fn);
-            }
-        },
-        render: {
-            value: function render() {
-                return React.createElement("div", { className: "graph", id: "graph" });
-            }
+    _createClass(GraphComponent, [{
+        key: 'shouldComponentUpdate',
+        value: function shouldComponentUpdate() {
+            return false;
         }
-    });
+    }, {
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(nextProps) {
+            if (this.props.fn === nextProps.fn) {
+                return;
+            }
+            _graphGraph2['default'].plot(nextProps.fn);
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            _graphGraph2['default'].init('#graph');
+            _graphGraph2['default'].plot(this.props.fn);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _reactAddons2['default'].createElement('div', { className: 'graph', id: 'graph' });
+        }
+    }]);
 
     return GraphComponent;
-})(React.Component);
+})(_reactAddons2['default'].Component);
 
 GraphComponent.propTypes = {
-    fn: React.PropTypes.string
+    fn: _reactAddons2['default'].PropTypes.string
 };
 
-module.exports = GraphComponent;
+exports['default'] = GraphComponent;
+module.exports = exports['default'];
 
-},{"../d3/Graph":685,"react/addons":509}],684:[function(require,module,exports){
+},{"../graph/Graph":684,"react/addons":508}],683:[function(require,module,exports){
 /* @flow */
 
-"use strict";
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
 
-var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc && desc.writable) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-var React = _interopRequire(require("react/addons"));
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _reactAddons = require('react/addons');
+
+var _reactAddons2 = _interopRequireDefault(_reactAddons);
 
 var NavBar = (function (_React$Component) {
     function NavBar(props) {
         _classCallCheck(this, NavBar);
 
-        _get(Object.getPrototypeOf(NavBar.prototype), "constructor", this).call(this, props);
+        _get(Object.getPrototypeOf(NavBar.prototype), 'constructor', this).call(this, props);
     }
 
     _inherits(NavBar, _React$Component);
 
-    _createClass(NavBar, {
-        toggleControls: {
-            value: function toggleControls() {
-                this.props.toggleControls();
-            }
-        },
-        addFn: {
-            value: function addFn() {
-                var expression = this.refs.expression.getDOMNode().value;
-                this.props.addFn(expression);
-            }
-        },
-        render: {
-            value: function render() {
-                return React.createElement(
-                    "div",
-                    { className: "navbar" },
-                    React.createElement(
-                        "a",
-                        { className: "btn controls-toggle", onClick: this.toggleControls.bind(this) },
-                        (this.props.controlsHidden ? "Show" : "Hide") + " Controls"
-                    ),
-                    React.createElement("input", { ref: "expression", className: "add-fn-input", placeholder: "Enter new function" }),
-                    React.createElement(
-                        "a",
-                        { className: "btn dadd-fn-submit", onClick: this.addFn.bind(this) },
-                        "Add"
-                    )
-                );
-            }
+    _createClass(NavBar, [{
+        key: 'toggleControls',
+        value: function toggleControls() {
+            this.props.toggleControls();
         }
-    });
+    }, {
+        key: 'addFn',
+        value: function addFn() {
+            var expression = this.refs.expression.getDOMNode().value;
+            this.props.addFn(expression);
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            return _reactAddons2['default'].createElement(
+                'div',
+                { className: 'navbar' },
+                _reactAddons2['default'].createElement(
+                    'a',
+                    { className: 'btn controls-toggle', onClick: this.toggleControls.bind(this) },
+                    (this.props.controlsHidden ? 'Show' : 'Hide') + ' Controls'
+                ),
+                _reactAddons2['default'].createElement('input', { className: 'input', ref: 'expression', placeholder: 'Enter new function' }),
+                _reactAddons2['default'].createElement(
+                    'a',
+                    { className: 'btn dadd-fn-submit', onClick: this.addFn.bind(this) },
+                    'Add'
+                )
+            );
+        }
+    }]);
 
     return NavBar;
-})(React.Component);
+})(_reactAddons2['default'].Component);
 
 NavBar.propTypes = {
-    controlsHidden: React.PropTypes.bool,
-    toggleControls: React.PropTypes.func
+    controlsHidden: _reactAddons2['default'].PropTypes.bool,
+    toggleControls: _reactAddons2['default'].PropTypes.func
 };
 
-module.exports = NavBar;
+exports['default'] = NavBar;
+module.exports = exports['default'];
 
-},{"react/addons":509}],685:[function(require,module,exports){
-"use strict";
+},{"react/addons":508}],684:[function(require,module,exports){
+/* @flow */
+'use strict';
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
 
-var d3 = _interopRequire(require("d3"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var math = _interopRequire(require("mathjs"));
+var _d3 = require('d3');
 
-var _ = _interopRequire(require("lodash"));
+var _d32 = _interopRequireDefault(_d3);
 
-// main svg elements
-var graphInner = undefined,
-    graphOuter = undefined;
+var _mathjs = require('mathjs');
 
+var _mathjs2 = _interopRequireDefault(_mathjs);
+
+// import _ from 'lodash';
+
+// import zoom from 'modules/zoom';
+
+// GRAPH DIMENSIONS
 // size/margin is arbitrary, scales with viewport
 var viewbox = 1000;
 var margin = { top: 80, right: 80, left: 80, bottom: 80 };
 var width = viewbox - margin.left - margin.right;
 var height = viewbox - margin.top - margin.bottom;
 
-// math expression to plot
-var expression = undefined;
+var selectors = {
+    graphContainer: '.graph',
+    graphInner: '.graph-inner',
+    xAxis: '.x-axis',
+    yAxis: '.y-axis',
+    path: '.path',
+    tooltip: '.tooltip',
+    tooltipBg: '.tooltip-bg'
+};
+
+// main svg elements
+var graphInner = undefined,
+    graphOuter = undefined;
+var xAxisEl = undefined,
+    yAxisEl = undefined,
+    pathEl = undefined;
+var tooltip = undefined;
+
+var data = undefined;
 
 var xScale = makeScale([0, 30], [0, width]);
 var yScale = makeScale([0, 5], [height, 0]);
 
-var xAxis = makeAxis(xScale, "bottom", -width);
-var yAxis = makeAxis(yScale, "left", -height);
+var xAxis = makeAxis(xScale, 'bottom', -width);
+var yAxis = makeAxis(yScale, 'left', -height);
 
-var selectors = {
-    graphInner: ".graph-inner",
-    xAxis: ".x-axis",
-    yAxis: ".y-axis",
-    path: ".path"
-};
-
-function updateGraph() {
-    // remove transform
-    graphInner.select(selectors.path).attr("transform", null);
-
-    zoom.x(xScale).y(yScale);
-    graphOuter.call(zoom);
-
-    // plot new bounds
-    plot(true);
-}
-
-var zoomed = _.throttle(function zoomed() {
-    var translate = zoom.translate();
-    var scale = zoom.scale();
-
-    graphOuter.select(selectors.xAxis).call(xAxis);
-    graphOuter.select(selectors.yAxis).call(yAxis);
-    graphInner.select(selectors.path).attr("transform", "translate(" + translate[0] + "," + translate[1] + ") scale(" + scale + ")");
-}, 16);
-
-var zoom = d3.behavior.zoom().x(xScale).y(yScale).on("zoom", zoomed).on("zoomend", updateGraph);
-
-var path = d3.svg.line().x(function (d) {
+var bisectX = _d32['default'].bisector(function (d) {
     return d.x;
+}).left;
+
+var line = _d32['default'].svg.line().x(function (d) {
+    return xScale(d.x);
 }).y(function (d) {
-    return d.y;
+    return yScale(d.y);
 }).defined(function (d) {
     return !isNaN(d.x) && !isNaN(d.y);
 });
-// .interpolate('basis');
+// .interpolate('basis-open');
+
+var zoom = (function () {
+
+    function updateGraph() {
+        // remove transform
+        pathEl.attr('transform', null);
+
+        // set zoom bounds
+        zoom.x(xScale).y(yScale);
+
+        graphOuter.call(zoom);
+
+        // plot new bounds
+        plot();
+    }
+
+    function zoomed() {
+        var translate = zoom.translate();
+        var scale = zoom.scale();
+
+        // redraw axes
+        xAxisEl.call(xAxis);
+        yAxisEl.call(yAxis);
+
+        // scale/translate the map rather than redraw every frame
+        pathEl.attr('transform', 'translate(' + translate[0] + ', ' + translate[1] + ') scale(' + scale + ')');
+    }
+
+    return _d32['default'].behavior.zoom().x(xScale).y(yScale).on('zoom', zoomed).on('zoomend', updateGraph);
+})();
+
+var plot = (function () {
+
+    var compiledExp = undefined;
+
+    function getDataPoints(exp, xDomain) {
+        // number of data samples
+        var n = 1500;
+
+        // create an array of points along x-axis
+        var xPoints = _d32['default'].range(xDomain[0], xDomain[1], Math.abs(xDomain[1] - xDomain[0]) / n);
+
+        // get y values and map results to object
+        return xPoints.map(function (x) {
+            return {
+                x: x,
+                y: exp.eval({ x: x })
+            };
+        }).filter(function (d) {
+            return !isNaN(d.y);
+        });
+    }
+
+    return function plot(newExp) {
+        // newExp is optional
+        // compile new expression or use previous
+        compiledExp = newExp ? _mathjs2['default'].compile(newExp) : compiledExp;
+
+        // get data from compiled expression
+        data = getDataPoints(compiledExp, xScale.domain());
+
+        // update pathEl and remove stroke attributes
+        pathEl.attr('d', line(data)).attr('stroke-dasharray', null).attr('stroke-dashoffset', null);
+
+        if (newExp) {
+            // if a new expression is passed, animate it in
+
+            // get length
+            var pathLength = pathEl.node().getTotalLength();
+
+            // draw line
+            pathEl.attr('stroke-dasharray', '' + pathLength + ' ' + pathLength).attr('stroke-dashoffset', pathLength).transition().duration(2000).attr('stroke-dashoffset', 0);
+        }
+    };
+})();
 
 function makeScale(domain, range) {
-    return d3.scale.linear().domain(domain).range(range);
+    return _d32['default'].scale.linear().domain(domain).range(range);
 }
 
 function makeAxis(scale, orient, tickSize) {
-    return d3.svg.axis().scale(scale).orient(orient).tickPadding(12).tickFormat(function (d) {
-        var prefix = d3.formatPrefix(d);
+    return _d32['default'].svg.axis().scale(scale).orient(orient).tickPadding(12).tickFormat(function (d) {
+        var prefix = _d32['default'].formatPrefix(d);
         // limit numbers to 4 decimal places
         return Number(prefix.scale(d).toFixed(4)).toString() + prefix.symbol;
     }).tickSize(tickSize);
 }
 
-function getDataPoints() {
-    var xDomain = xScale.domain();
+function setTooltip() {
+    var nearestDataPoint = undefined;
 
-    // number of data samples
-    var n = 1000;
+    // get x-coordinate
+    var x = xScale.invert(_d32['default'].mouse(this)[0]);
 
-    // create an array of points along x-axis
-    var xPoints = d3.range(xDomain[0], xDomain[1], Math.abs(xDomain[1]) / n);
+    // get index within data array
+    var i = bisectX(data, x);
 
-    // get y values and map results to object
-    return xPoints.map(function (x) {
-        return {
-            x: xScale(x),
-            y: yScale(expression.eval({ x: x }))
-        };
-    });
-}
+    // get data values to the left and right of cursor position
+    var left = data[i - 1];
+    var right = data[i];
 
-function plot(noAnimate) {
-    var data = getDataPoints();
-
-    if (noAnimate) {
-        graphInner.select(selectors.path).attr("d", path(data));
+    if (left && right) {
+        nearestDataPoint = x - left.date > right.date - x ? right : left;
     } else {
-        var transition = graphInner.transition();
-
-        transition.select(selectors.path).duration(400).attr("d", path(data));
+        // one or the other doesn't exist
+        nearestDataPoint = left || right;
     }
+
+    // position tooltip and set text
+    tooltip.attr('transform', 'translate(' + xScale(nearestDataPoint.x) + ', ' + yScale(nearestDataPoint.y) + ')');
+    tooltip.select('.x-value').text('x: ' + nearestDataPoint.x);
+    tooltip.select('.y-value').text('y: ' + nearestDataPoint.y);
+
+    // reset bg so previous styles don't interfere with .getBBox()
+    tooltip.select(selectors.tooltipBg).attr('width', 0).attr('height', 0);
+
+    // get bounds of tooltip
+    var tooltipRect = tooltip[0][0].getBBox();
+
+    // set bg
+    // 5px padding is where the 10s come from
+    tooltip.select(selectors.tooltipBg).attr('x', tooltipRect.x + 10).attr('y', tooltipRect.y + 10).attr('width', tooltipRect.width).attr('height', tooltipRect.height);
 }
 
 function init(selector) {
 
-    graphOuter = d3.select(selector).append("svg").attr("viewBox", "0 0 " + viewbox + " " + viewbox).append("g").attr("class", "graph-outer").attr("transform", "translate(" + margin.left + "," + margin.top + ")").call(zoom);
+    // create main svg element and .graph-outer <g>
+    graphOuter = _d32['default'].select(selector).append('svg').attr('viewBox', '0 0 ' + viewbox + ' ' + viewbox).append('g').attr('class', 'graph-outer').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')').on('mouseover', function () {
+        return tooltip.style('display', null);
+    }).on('mouseout', function () {
+        return tooltip.style('display', 'none');
+    }).on('mousemove', setTooltip).call(zoom);
 
-    // append background (this is necessary for the drag/zoom mechanic?)
-    // http://stackoverflow.com/a/17198478/3648823
-    graphOuter.append("rect").attr("width", width).attr("height", height);
+    // append underlay
+    graphOuter.append('svg:rect').attr('class', 'underlay').attr('width', width).attr('height', height);
 
     // append x-axis
-    graphOuter.append("g").attr("class", selectors.xAxis.slice(1)).attr("transform", "translate(0," + height + ")").call(xAxis);
+    xAxisEl = graphOuter.append('g').attr('class', selectors.xAxis.slice(1)).attr('transform', 'translate(0, ' + height + ')').call(xAxis);
 
     // append y-axis
-    graphOuter.append("g").attr("class", selectors.yAxis.slice(1)).call(yAxis);
+    yAxisEl = graphOuter.append('g').attr('class', selectors.yAxis.slice(1)).call(yAxis);
 
     // set clip
-    graphOuter.append("defs").append("svg:clipPath").attr("id", "clip").append("svg:rect").attr("id", "clip-rect").attr("x", "0").attr("y", "0").attr("width", width).attr("height", height);
+    graphOuter.append('defs').append('svg:clipPath').attr('id', 'clip').append('svg:rect').attr('id', 'clip-rect').attr('x', '0').attr('y', '0').attr('width', width).attr('height', height);
 
-    graphInner = graphOuter.append("g").attr("class", selectors.graphInner.slice(1)).attr("clip-path", "url(#clip)");
+    graphInner = graphOuter.append('g').attr('class', selectors.graphInner.slice(1)).attr('clip-path', 'url(#clip)');
 
     // append function path
-    graphInner.append("svg:path").attr("class", selectors.path.slice(1));
+    pathEl = graphInner.append('svg:path').attr('class', selectors.path.slice(1));
+
+    // append tooltip
+    tooltip = graphInner.append('g').attr('class', selectors.tooltip.slice(1)).style('display', 'none');
+
+    // tooltip background
+    tooltip.append('svg:rect').attr('class', selectors.tooltipBg.slice(1));
+
+    // tooltip circle
+    tooltip.append('circle').attr('r', 5);
+
+    // tooltip x value
+    tooltip.append('text').attr('class', 'x-value').attr('x', 15).attr('y', 25).attr('dy', '0.35em');
+
+    // tooltip y value
+    tooltip.append('text').attr('class', 'y-value').attr('transform', 'translate(0, 24)').attr('x', 15).attr('y', 25).attr('dy', '0.35em');
 }
 
-module.exports = {
+exports['default'] = {
     init: init,
-    plot: function methodName(exp) {
-        expression = math.compile(exp);
-        plot();
-    }
+    plot: plot
 };
+module.exports = exports['default'];
 
-},{"d3":164,"lodash":165,"mathjs":166}]},{},[1])
+},{"d3":164,"mathjs":165}]},{},[1])
 
 
 //# sourceMappingURL=chartreuse.js.map

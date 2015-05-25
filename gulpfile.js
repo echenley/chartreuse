@@ -4,6 +4,9 @@ var gulp = require('gulp');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var babelify = require('babelify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+
 var gutil = require('gulp-util');
 var webserver = require('gulp-webserver');
 var notify = require('gulp-notify');
@@ -13,8 +16,6 @@ var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var sourcemaps = require('gulp-sourcemaps');
 var minifycss = require('gulp-minify-css');
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var useref = require('gulp-useref');
 var exit = require('gulp-exit');
@@ -41,8 +42,10 @@ function buildScript(file) {
     props.entries = [sourceDir + '/jsx/' + file];
     props.debug = true;
 
-    var bundler = watchify(browserify(props))
-        .transform(babelify);
+    var bundler = watchify(browserify(props), { ignoreWatch: true })
+        .transform(babelify.configure({
+            only: /(src\/jsx)/
+        }));
 
     function rebundle() {
         gutil.log('Rebundle...');
