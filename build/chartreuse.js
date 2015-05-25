@@ -49,7 +49,7 @@ var Chartreuse = (function (_React$Component) {
             hideControls: false,
             fns: [
             // 'sqrt(1-x^2) + (x^2)^(1/3)', // heart
-            'sqrt(x)', 'tan(x)', 'sin(x)', '2 * x * x * x - 2 * x * x + 2 * x', 'sin(log(x))'],
+            'sin(x)', 'sqrt(x)', 'tan(x)', 'sin(log(x))'],
             currentFn: 0
         };
     }
@@ -84557,6 +84557,20 @@ var _mathjs2 = _interopRequireDefault(_mathjs);
 
 // import _ from 'lodash';
 
+// graph modules
+
+var _modulesTooltip = require('./modules/Tooltip');
+
+var _modulesTooltip2 = _interopRequireDefault(_modulesTooltip);
+
+var _modulesScale = require('./modules/Scale');
+
+var _modulesScale2 = _interopRequireDefault(_modulesScale);
+
+var _modulesAxes = require('./modules/Axes');
+
+var _modulesAxes2 = _interopRequireDefault(_modulesAxes);
+
 // import zoom from 'modules/zoom';
 
 // GRAPH DIMENSIONS
@@ -84571,9 +84585,7 @@ var selectors = {
     graphInner: '.graph-inner',
     xAxis: '.x-axis',
     yAxis: '.y-axis',
-    path: '.path',
-    tooltip: '.tooltip',
-    tooltipBg: '.tooltip-bg'
+    path: '.path'
 };
 
 // main svg elements
@@ -84582,24 +84594,26 @@ var graphInner = undefined,
 var xAxisEl = undefined,
     yAxisEl = undefined,
     pathEl = undefined;
-var tooltip = undefined;
 
 var data = undefined;
 
-var xScale = makeScale([0, 30], [0, width]);
-var yScale = makeScale([0, 5], [height, 0]);
+var scales = _modulesScale2['default'].create({
+    width: width,
+    height: height,
+    xDomain: [0, 30],
+    yDomain: [-5, 5]
+});
 
-var xAxis = makeAxis(xScale, 'bottom', -width);
-var yAxis = makeAxis(yScale, 'left', -height);
-
-var bisectX = _d32['default'].bisector(function (d) {
-    return d.x;
-}).left;
+var axes = _modulesAxes2['default'].create({
+    width: width,
+    height: height,
+    scales: scales
+});
 
 var line = _d32['default'].svg.line().x(function (d) {
-    return xScale(d.x);
+    return scales.x(d.x);
 }).y(function (d) {
-    return yScale(d.y);
+    return scales.y(d.y);
 }).defined(function (d) {
     return !isNaN(d.x) && !isNaN(d.y);
 });
@@ -84612,7 +84626,7 @@ var zoom = (function () {
         pathEl.attr('transform', null);
 
         // set zoom bounds
-        zoom.x(xScale).y(yScale);
+        zoom.x(scales.x).y(scales.y);
 
         graphOuter.call(zoom);
 
@@ -84625,14 +84639,14 @@ var zoom = (function () {
         var scale = zoom.scale();
 
         // redraw axes
-        xAxisEl.call(xAxis);
-        yAxisEl.call(yAxis);
+        xAxisEl.call(axes.x);
+        yAxisEl.call(axes.y);
 
         // scale/translate the map rather than redraw every frame
         pathEl.attr('transform', 'translate(' + translate[0] + ', ' + translate[1] + ') scale(' + scale + ')');
     }
 
-    return _d32['default'].behavior.zoom().x(xScale).y(yScale).on('zoom', zoomed).on('zoomend', updateGraph);
+    return _d32['default'].behavior.zoom().x(scales.x).y(scales.y).on('zoom', zoomed).on('zoomend', updateGraph);
 })();
 
 var plot = (function () {
@@ -84663,7 +84677,7 @@ var plot = (function () {
         compiledExp = newExp ? _mathjs2['default'].compile(newExp) : compiledExp;
 
         // get data from compiled expression
-        data = getDataPoints(compiledExp, xScale.domain());
+        data = getDataPoints(compiledExp, scales.x.domain());
 
         // update pathEl and remove stroke attributes
         pathEl.attr('d', line(data)).attr('stroke-dasharray', null).attr('stroke-dashoffset', null);
@@ -84680,9 +84694,54 @@ var plot = (function () {
     };
 })();
 
-function makeScale(domain, range) {
-    return _d32['default'].scale.linear().domain(domain).range(range);
+function init(selector) {
+
+    // create main svg element and .graph-outer <g>
+    graphOuter = _d32['default'].select(selector).append('svg').attr('viewBox', '0 0 ' + viewbox + ' ' + viewbox).append('g').attr('class', 'graph-outer').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')').on('mouseover', _modulesTooltip2['default'].show).on('mouseout', _modulesTooltip2['default'].hide).on('mousemove', function () {
+        // d3's magic this binding:
+        // this === graphOuter[0][0]
+        _modulesTooltip2['default'].update(this, data, scales.x, scales.y);
+    }).call(zoom);
+
+    // append underlay
+    graphOuter.append('svg:rect').attr('class', 'underlay').attr('width', width).attr('height', height);
+
+    // append x-axis
+    xAxisEl = graphOuter.append('g').attr('class', selectors.xAxis.slice(1)).attr('transform', 'translate(0, ' + height + ')').call(axes.x);
+
+    // append y-axis
+    yAxisEl = graphOuter.append('g').attr('class', selectors.yAxis.slice(1)).call(axes.y);
+
+    // set clip
+    graphOuter.append('defs').append('svg:clipPath').attr('id', 'clip').append('svg:rect').attr('id', 'clip-rect').attr('x', '0').attr('y', '0').attr('width', width).attr('height', height);
+
+    graphInner = graphOuter.append('g').attr('class', selectors.graphInner.slice(1)).attr('clip-path', 'url(#clip)');
+
+    // append function path
+    pathEl = graphInner.append('svg:path').attr('class', selectors.path.slice(1));
+
+    // append tooltip
+    _modulesTooltip2['default'].init(graphInner);
 }
+
+exports['default'] = {
+    init: init,
+    plot: plot
+};
+module.exports = exports['default'];
+
+},{"./modules/Axes":685,"./modules/Scale":686,"./modules/Tooltip":687,"d3":164,"mathjs":165}],685:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _d3 = require('d3');
+
+var _d32 = _interopRequireDefault(_d3);
 
 function makeAxis(scale, orient, tickSize) {
     return _d32['default'].svg.axis().scale(scale).orient(orient).tickPadding(12).tickFormat(function (d) {
@@ -84692,11 +84751,78 @@ function makeAxis(scale, orient, tickSize) {
     }).tickSize(tickSize);
 }
 
-function setTooltip() {
+function create(config) {
+    return {
+        x: makeAxis(config.scales.x, 'bottom', -config.width),
+        y: makeAxis(config.scales.y, 'left', -config.height)
+    };
+}
+
+exports['default'] = {
+    create: create
+};
+module.exports = exports['default'];
+
+},{"d3":164}],686:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _d3 = require('d3');
+
+var _d32 = _interopRequireDefault(_d3);
+
+function makeScale(domain, range) {
+    return _d32['default'].scale.linear().domain(domain).range(range);
+}
+
+function create(config) {
+    return {
+        x: makeScale(config.xDomain, [0, config.width]),
+        y: makeScale(config.yDomain, [config.height, 0])
+    };
+}
+
+exports['default'] = {
+    create: create
+};
+module.exports = exports['default'];
+
+},{"d3":164}],687:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _d3 = require('d3');
+
+var _d32 = _interopRequireDefault(_d3);
+
+var selectors = {
+    tooltip: '.tooltip',
+    tooltipBg: '.tooltip-bg'
+};
+
+var bisectX = _d32['default'].bisector(function (d) {
+    return d.x;
+}).left;
+var tooltip = undefined,
+    tooltipBg = undefined,
+    xValue = undefined,
+    yValue = undefined;
+
+function update(graphOuter, data, xScale, yScale) {
     var nearestDataPoint = undefined;
 
     // get x-coordinate
-    var x = xScale.invert(_d32['default'].mouse(this)[0]);
+    var x = xScale.invert(_d32['default'].mouse(graphOuter)[0]);
 
     // get index within data array
     var i = bisectX(data, x);
@@ -84714,11 +84840,11 @@ function setTooltip() {
 
     // position tooltip and set text
     tooltip.attr('transform', 'translate(' + xScale(nearestDataPoint.x) + ', ' + yScale(nearestDataPoint.y) + ')');
-    tooltip.select('.x-value').text('x: ' + nearestDataPoint.x);
-    tooltip.select('.y-value').text('y: ' + nearestDataPoint.y);
+    xValue.text('x: ' + nearestDataPoint.x);
+    yValue.text('y: ' + nearestDataPoint.y);
 
     // reset bg so previous styles don't interfere with .getBBox()
-    tooltip.select(selectors.tooltipBg).attr('width', 0).attr('height', 0);
+    tooltipBg.attr('width', 0).attr('height', 0);
 
     // get bounds of tooltip
     var tooltipRect = tooltip[0][0].getBBox();
@@ -84728,55 +84854,39 @@ function setTooltip() {
     tooltip.select(selectors.tooltipBg).attr('x', tooltipRect.x + 10).attr('y', tooltipRect.y + 10).attr('width', tooltipRect.width).attr('height', tooltipRect.height);
 }
 
-function init(selector) {
+function show() {
+    tooltip.style('display', null);
+}
 
-    // create main svg element and .graph-outer <g>
-    graphOuter = _d32['default'].select(selector).append('svg').attr('viewBox', '0 0 ' + viewbox + ' ' + viewbox).append('g').attr('class', 'graph-outer').attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')').on('mouseover', function () {
-        return tooltip.style('display', null);
-    }).on('mouseout', function () {
-        return tooltip.style('display', 'none');
-    }).on('mousemove', setTooltip).call(zoom);
+function hide() {
+    tooltip.style('display', 'none');
+}
 
-    // append underlay
-    graphOuter.append('svg:rect').attr('class', 'underlay').attr('width', width).attr('height', height);
-
-    // append x-axis
-    xAxisEl = graphOuter.append('g').attr('class', selectors.xAxis.slice(1)).attr('transform', 'translate(0, ' + height + ')').call(xAxis);
-
-    // append y-axis
-    yAxisEl = graphOuter.append('g').attr('class', selectors.yAxis.slice(1)).call(yAxis);
-
-    // set clip
-    graphOuter.append('defs').append('svg:clipPath').attr('id', 'clip').append('svg:rect').attr('id', 'clip-rect').attr('x', '0').attr('y', '0').attr('width', width).attr('height', height);
-
-    graphInner = graphOuter.append('g').attr('class', selectors.graphInner.slice(1)).attr('clip-path', 'url(#clip)');
-
-    // append function path
-    pathEl = graphInner.append('svg:path').attr('class', selectors.path.slice(1));
-
-    // append tooltip
-    tooltip = graphInner.append('g').attr('class', selectors.tooltip.slice(1)).style('display', 'none');
+function init(container) {
+    tooltip = container.append('g').attr('class', selectors.tooltip.slice(1)).style('display', 'none');
 
     // tooltip background
-    tooltip.append('svg:rect').attr('class', selectors.tooltipBg.slice(1));
+    tooltipBg = tooltip.append('svg:rect').attr('class', selectors.tooltipBg.slice(1));
 
     // tooltip circle
     tooltip.append('circle').attr('r', 5);
 
     // tooltip x value
-    tooltip.append('text').attr('class', 'x-value').attr('x', 15).attr('y', 25).attr('dy', '0.35em');
+    xValue = tooltip.append('text').attr('class', 'x-value').attr('x', 15).attr('y', 25).attr('dy', '0.35em');
 
     // tooltip y value
-    tooltip.append('text').attr('class', 'y-value').attr('transform', 'translate(0, 24)').attr('x', 15).attr('y', 25).attr('dy', '0.35em');
+    yValue = tooltip.append('text').attr('class', 'y-value').attr('transform', 'translate(0, 24)').attr('x', 15).attr('y', 25).attr('dy', '0.35em');
 }
 
 exports['default'] = {
     init: init,
-    plot: plot
+    update: update,
+    show: show,
+    hide: hide
 };
 module.exports = exports['default'];
 
-},{"d3":164,"mathjs":165}]},{},[1])
+},{"d3":164}]},{},[1])
 
 
 //# sourceMappingURL=chartreuse.js.map

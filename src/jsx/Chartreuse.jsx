@@ -25,10 +25,9 @@ class Chartreuse extends React.Component {
             hideControls: false,
             fns: [
                 // 'sqrt(1-x^2) + (x^2)^(1/3)', // heart
+                'sin(x)',
                 'sqrt(x)',
                 'tan(x)',
-                'sin(x)',
-                '2 * x * x * x - 2 * x * x + 2 * x',
                 'sin(log(x))'
             ],
             currentFn: 0
