@@ -18,6 +18,10 @@ let tooltip, tooltipBg, xValue, yValue, circle;
 
 let hidden = true;
 
+function isWithinBounds(y, domain) {
+    return !isNaN(y) && y > domain[0] && y < domain[1];
+}
+
 function update(graphOuter, data, xScale, yScale) {
     let nearestDataPoint;
 
@@ -43,7 +47,7 @@ function update(graphOuter, data, xScale, yScale) {
     let translateX = xScale(nearestDataPoint.x);
     let translateY;
 
-    if (isNaN(nearestDataPoint.y)) {
+    if (!isWithinBounds(nearestDataPoint.y, yScale.domain())) {
         // don't show the circle if data point isNaN
         circle.style('opacity', 0);
         translateY = mouseCoords[1];
