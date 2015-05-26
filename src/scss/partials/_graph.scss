@@ -55,6 +55,7 @@
     }
 
     .tick {
+        user-select: none;
         line {
             stroke: #eee;
         }
@@ -73,7 +74,7 @@
         }
         circle {
             fill: none;
-            stroke: blue;
+            stroke: $chartreuse;
         }
     }
 }

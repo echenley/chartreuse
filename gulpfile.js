@@ -21,11 +21,17 @@ var useref = require('gulp-useref');
 var exit = require('gulp-exit');
 var plumber = require('gulp-plumber');
 
-var jsEntry = 'Chartreuse';
-var sassEntry = 'src/scss/*.scss';
-var sourceDir = './src';
+// var inject = require('gulp-inject');
+// var svgstore = require('gulp-svgstore');
+var svgmin = require('gulp-svgmin');
+
+var srcDir = './src';
 var buildDir = './build';
 var distDir = './dist';
+
+var jsEntry = 'Chartreuse';
+var sassEntry = 'src/scss/*.scss';
+// var svgEntry = 'src/svg/*.svg';
 
 function handleError() {
     var args = Array.prototype.slice.call(arguments);
@@ -39,7 +45,7 @@ function handleError() {
 
 function buildScript(file) {
     var props = watchify.args;
-    props.entries = [sourceDir + '/jsx/' + file];
+    props.entries = [srcDir + '/jsx/' + file];
     props.debug = true;
 
     var bundler = watchify(browserify(props), { ignoreWatch: true })
@@ -80,12 +86,11 @@ gulp.task('styles', function() {
         .pipe(size());
 });
 
-// gulp.task('svg', function() {
-//    return gulp.src('src/svg/*.svg')
-//        .pipe(svgmin())
-//        // .pipe(svgstore()) // inlines the svgs as <symbol>s
-//        .pipe(gulp.dest(buildDir +'/svg/'));
-// });
+gulp.task('svg', function() {
+    return gulp.src('src/svg/*.svg')
+        .pipe(svgmin())
+        .pipe(gulp.dest(buildDir +'/svg'));
+});
 
 gulp.task('html', function() {
     return gulp.src('src/*.html')
@@ -94,7 +99,7 @@ gulp.task('html', function() {
 });
 
 gulp.task('serve', function() {
-    return gulp.src('build')
+    return gulp.src(buildDir)
         .pipe(webserver({
             livereload: true,
             host: '0.0.0.0',
@@ -104,7 +109,7 @@ gulp.task('serve', function() {
         }));
 });
 
-gulp.task('build', ['html', 'styles'], function() {
+gulp.task('build', ['html', 'styles', 'svg'], function() {
     return buildScript(jsEntry + '.jsx');
 });
 
@@ -123,6 +128,6 @@ gulp.task('dist', ['build'], function() {
 
 gulp.task('default', ['build', 'serve'], function() {
     gulp.watch('src/*.html', ['html']);
-    // gulp.watch('src/svg/*.svg', ['svg']);
+    gulp.watch('src/svg/*.svg', ['svg']);
     gulp.watch('src/scss/**/*.scss', ['styles']);
 });

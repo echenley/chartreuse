@@ -22,11 +22,11 @@ class Chartreuse extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            hideControls: false,
+            showFns: false,
             fns: [
                 'sin(x)',
-                'log(tan(sqrt(x)))',
                 'tan(x)',
+                'log(tan(sqrt(x)))',
                 'sqrt(sin(x))'
             ],
             currentFn: 0
@@ -50,23 +50,21 @@ class Chartreuse extends React.Component {
 
     render() {
         let currentFn = this.state.currentFn;
-        let chartreuseCx = cx(
-            'chartreuse',
-            { 'hide-controls': this.state.hideControls }
-        );
 
         return (
-            <div className={ chartreuseCx }>
+            <div className="chartreuse">
                 <NavBar
-                    toggleControls={ this.setState.bind(this, { hideControls: !this.state.hideControls }) }
-                    controlsHidden={ this.state.hideControls }
+                    toggleFns={ this.setState.bind(this, { showFns: !this.state.showFns }) }
+                    showFns={ this.state.showFns }
                     addFn={ this.addFn.bind(this) }
                 />
                 <Controls
+                    showFns={ this.state.showFns }
+                    toggleFns={ this.setState.bind(this, { showFns: !this.state.showFns }) }
                     fns={ this.state.fns }
                     addFn={ this.addFn.bind(this) }
                     updateFn={ this.updateFn.bind(this) }
-                    currentFn= { currentFn }
+                    currentFn={ currentFn }
                 />
                 <Graph
                     fn={ this.state.fns[currentFn] }

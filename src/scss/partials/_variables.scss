@@ -1,8 +1,14 @@
-$font: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+// colors
+$chartreuse: #77b300;
 $gray: #ccc;
+
+// typography
+$font: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $monospace: Consolas, 'Andale Mono WT', 'Andale Mono', 'Lucida Console', 'Lucida Sans Typewriter', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Liberation Mono', 'Nimbus Mono L', Monaco, 'Courier New', Courier, monospace;
+
+// layout
 $navbar-height: 60px;
-$controls-width: 200px;
 
 %valign {
     position: relative;

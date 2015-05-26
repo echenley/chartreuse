@@ -95,6 +95,8 @@ let plot = (function() {
 
     let compiledExp;
 
+    // let expressions = {};
+
     function getDataPoints(exp, xDomain) {
         // number of data samples
         let n = 1500;
@@ -112,21 +114,27 @@ let plot = (function() {
             y: exp.eval({ x: x })
         }));
 
-        // filter out NaN values
-        dataArr.filter(d => !isNaN(d.y));
+        // filter out NaN values here vs .defined()?
+        // dataArr.filter(d => !isNaN(d.y));
 
         return dataArr;
     }
 
-    return function plot(newExp) {
+    function plot(newExp) {
         // newExp is optional
-        // compile new expression or use previous
-        compiledExp = newExp ? math.compile(newExp) : compiledExp;
+        // if newExp is undefined, plot all current functions
+        // compiledExp = newExp ? math.compile(newExp) : compiledExp;
+
+        // compile new expression if one is passed
+        if (newExp) {
+            compiledExp = math.compile(newExp);
+            // expressions[newExp] = math.compile(newExp);
+        }
 
         // get data from compiled expression
         data = getDataPoints(compiledExp, scales.x.domain());
 
-        // update pathEl and remove stroke attributes
+        // update path data and remove stroke attributes
         pathEl.attr('d', line(data))
             .attr('stroke-dasharray', null)
             .attr('stroke-dashoffset', null);
@@ -145,7 +153,9 @@ let plot = (function() {
                 .duration(1500)
                 .attr('stroke-dashoffset', 0);
         }
-    };
+    }
+
+    return plot;
 })();
 
 function init(selector) {

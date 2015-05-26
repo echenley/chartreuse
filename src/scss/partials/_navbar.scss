@@ -11,25 +11,54 @@
     > * {
         display: inline-block;
         margin: 0 5px;
-        vertical-align: middle;
+        vertical-align: top;
         @extend %valign;
     }
 
     .btn,
     .input {
         padding: 0 10px;
-        border: 1px solid $gray;
         height: 30px;
         line-height: 30px;
     }
 
+    .input {
+        border: 1px solid $gray;
+    }
+
     .btn {
-        cursor: pointer;
+        border: 0;
+        background: $chartreuse;
+        color: #fff;
         font-size: 0.7em;
+        cursor: pointer;
 
         &:hover {
-            color: #333;
-            border-color: #333;
+            background: darken($chartreuse, 5%);
+        }
+    }
+
+    .fns-toggle {
+        padding: 5px;
+        cursor: pointer;
+        transition: background 150ms;
+
+        svg {
+            display: inline-block;
+            vertical-align: middle;
+            width: 24px;
+            height: 24px;
+            fill: $chartreuse;
+            transition: fill 150ms;
+        }
+
+        &.active,
+        &:hover {
+            background: $chartreuse;
+
+            svg {
+                fill: #fff;
+            }
         }
     }
 

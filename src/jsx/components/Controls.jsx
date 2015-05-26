@@ -4,12 +4,19 @@
 
 import React from 'react/addons';
 import FnButton from './FnButton.jsx';
+import cx from 'classnames';
 
 class Controls extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = props;
+    }
+
+    toggleFns(e) {
+        if (e.target === this.refs.overlay.getDOMNode()) {
+            this.props.toggleFns();
+        }
     }
 
     render() {
@@ -25,8 +32,15 @@ class Controls extends React.Component {
             />
         ));
 
+        let fnCx = cx(
+            'controls',
+            {
+                'active': this.props.showFns
+            }
+        );
+
         return (
-            <div className="controls">
+            <div ref="overlay" className={ fnCx } onClick={ this.toggleFns.bind(this) }>
                 { buttons }
             </div>
         );
@@ -34,6 +48,8 @@ class Controls extends React.Component {
 }
 
 Controls.propTypes = {
+    showFns: React.PropTypes.bool,
+    toggleFns: React.PropTypes.func,
     fns: React.PropTypes.array,
     addFn: React.PropTypes.func,
     updateFn: React.PropTypes.func,

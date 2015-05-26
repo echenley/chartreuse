@@ -3,6 +3,8 @@
 'use strict';
 
 import React from 'react/addons';
+import Isvg from 'react-inlinesvg';
+import cx from 'classnames';
 
 class NavBar extends React.Component {
 
@@ -10,8 +12,8 @@ class NavBar extends React.Component {
         super(props);
     }
 
-    toggleControls() {
-        this.props.toggleControls();
+    toggleFns() {
+        this.props.toggleFns();
     }
 
     addFn() {
@@ -20,22 +22,29 @@ class NavBar extends React.Component {
     }
 
     render() {
+
+        let fnToggleCx = cx(
+            'fns-toggle',
+            {
+            'active': this.props.showFns
+        });
+
         return (
             <div className="navbar">
-                <a className="btn controls-toggle" onClick={ this.toggleControls.bind(this) }>
-                    { (this.props.controlsHidden ? 'Show' : 'Hide') + ' Controls' }
+                <a className={ fnToggleCx } onClick={ this.toggleFns.bind(this) }>
+                    <Isvg src="svg/stats.svg"></Isvg>
                 </a>
 
                 <input className="input" ref="expression" placeholder="Enter new function" />
-                <a className="btn dadd-fn-submit" onClick={ this.addFn.bind(this) }>Add</a>
+                <a className="btn add-fn-submit" onClick={ this.addFn.bind(this) }>Add</a>
             </div>
         );
     }
 }
 
 NavBar.propTypes = {
-    controlsHidden: React.PropTypes.bool,
-    toggleControls: React.PropTypes.func
+    showFns: React.PropTypes.bool,
+    toggleFns: React.PropTypes.func
 };
 
 export default NavBar;
