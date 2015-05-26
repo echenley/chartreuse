@@ -21,8 +21,6 @@ var useref = require('gulp-useref');
 var exit = require('gulp-exit');
 var plumber = require('gulp-plumber');
 
-// var inject = require('gulp-inject');
-// var svgstore = require('gulp-svgstore');
 var svgmin = require('gulp-svgmin');
 
 var srcDir = './src';
@@ -31,7 +29,7 @@ var distDir = './dist';
 
 var jsEntry = 'Chartreuse';
 var sassEntry = 'src/scss/*.scss';
-// var svgEntry = 'src/svg/*.svg';
+var svgEntry = 'src/svg/*.svg';
 
 function handleError() {
     var args = Array.prototype.slice.call(arguments);
@@ -87,9 +85,10 @@ gulp.task('styles', function() {
 });
 
 gulp.task('svg', function() {
-    return gulp.src('src/svg/*.svg')
+    return gulp.src(svgEntry)
         .pipe(svgmin())
-        .pipe(gulp.dest(buildDir +'/svg'));
+        .pipe(gulp.dest(buildDir +'/svg'))
+        .pipe(gulp.dest(distDir +'/svg'));
 });
 
 gulp.task('html', function() {
