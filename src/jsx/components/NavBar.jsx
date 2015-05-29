@@ -12,8 +12,8 @@ class NavBar extends React.Component {
         super(props);
     }
 
-    toggleFns() {
-        this.props.toggleFns();
+    toggleControls() {
+        this.props.toggleControls();
     }
 
     addFn() {
@@ -26,12 +26,12 @@ class NavBar extends React.Component {
         let fnToggleCx = cx(
             'fns-toggle',
             {
-            'active': this.props.showFns
+            'active': this.props.showOverlay
         });
 
         return (
             <div className="navbar">
-                <a className={ fnToggleCx } onClick={ this.toggleFns.bind(this) }>
+                <a className={ fnToggleCx } onClick={ this.toggleControls.bind(this) }>
                     <Isvg src="svg/stats.svg"></Isvg>
                 </a>
 
@@ -43,8 +43,8 @@ class NavBar extends React.Component {
 }
 
 NavBar.propTypes = {
-    showFns: React.PropTypes.bool,
-    toggleFns: React.PropTypes.func
+    showOverlay: React.PropTypes.bool,
+    toggleControls: React.PropTypes.func
 };
 
 export default NavBar;

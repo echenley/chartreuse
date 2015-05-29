@@ -29,15 +29,13 @@ var distDir = './dist';
 
 var jsEntry = 'Chartreuse';
 var sassEntry = 'src/scss/*.scss';
-var svgEntry = 'src/svg/*.svg';
 
 function handleError() {
-    var args = Array.prototype.slice.call(arguments);
     gutil.beep();
     notify.onError({
         title: 'Compile Error',
         message: '<%= error.message %>'
-    }).apply(this, args);
+    }).apply(this, arguments);
     this.emit('end'); // Keep gulp from hanging on this task
 }
 
@@ -85,14 +83,13 @@ gulp.task('styles', function() {
 });
 
 gulp.task('svg', function() {
-    return gulp.src(svgEntry)
+    return gulp.src(srcDir + '/svg/*.svg')
         .pipe(svgmin())
-        .pipe(gulp.dest(buildDir +'/svg'))
-        .pipe(gulp.dest(distDir +'/svg'));
+        .pipe(gulp.dest(buildDir +'/svg'));
 });
 
 gulp.task('html', function() {
-    return gulp.src('src/*.html')
+    return gulp.src(srcDir + '/*.html')
         .pipe(gulp.dest(buildDir))
         .pipe(size());
 });
@@ -114,6 +111,11 @@ gulp.task('build', ['html', 'styles', 'svg'], function() {
 
 gulp.task('dist', ['build'], function() {
     var assets = useref.assets();
+
+    // move svgs to /dist
+    gulp.src(buildDir + '/svg/*.svg')
+        .pipe(gulp.dest(distDir +'/svg'));
+
     return gulp.src('build/*.html')
         .pipe(plumber())
         .pipe(assets)

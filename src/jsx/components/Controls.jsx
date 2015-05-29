@@ -3,44 +3,43 @@
 'use strict';
 
 import React from 'react/addons';
-import FnButton from './FnButton.jsx';
+// import FnButton from './FnButton.jsx';
 import cx from 'classnames';
 
 class Controls extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = props;
+        this.state = {
+            activeFns: []
+        };
     }
 
-    toggleFns(e) {
+    hideControls(e) {
         if (e.target === this.refs.overlay.getDOMNode()) {
-            this.props.toggleFns();
+            this.props.hideControls();
         }
     }
 
-    render() {
-        let currentFn = this.props.currentFn;
-
-        let buttons = this.props.fns.map((fn, i) => (
-            <FnButton
-                active={ currentFn === i }
-                updateFn={ this.props.updateFn }
-                id={ i }
-                fn={ fn }
-                key={ i }
-            />
-        ));
-
-        let fnCx = cx(
-            'controls',
-            {
-                'active': this.props.showFns
-            }
+    createButton(fn, i) {
+        // let toggleFn = ;
+        let buttonCx = cx({
+            'fn-button': true,
+            'active': fn.isActive
+        });
+        return (
+            <button className={ buttonCx } onClick={ () => this.props.toggleFn(fn) } key={ i }>
+                { 'y = ' + fn.signature }
+            </button>
         );
+    }
+
+    render() {
+        let buttons = this.props.fns.map(this.createButton.bind(this));
 
         return (
-            <div ref="overlay" className={ fnCx } onClick={ this.toggleFns.bind(this) }>
+            <div className="controls">
+                <a className="overlay" ref="overlay" onClick={ this.hideControls.bind(this) }></a>
                 { buttons }
             </div>
         );
@@ -48,12 +47,11 @@ class Controls extends React.Component {
 }
 
 Controls.propTypes = {
-    showFns: React.PropTypes.bool,
-    toggleFns: React.PropTypes.func,
+    hideControls: React.PropTypes.func,
     fns: React.PropTypes.array,
     addFn: React.PropTypes.func,
-    updateFn: React.PropTypes.func,
-    currentFn: React.PropTypes.number
+    toggleFn: React.PropTypes.func,
+    activeFns: React.PropTypes.array
 };
 
 export default Controls;

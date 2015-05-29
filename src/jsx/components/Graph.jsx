@@ -16,15 +16,22 @@ class GraphComponent extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.fn === nextProps.fn) {
-            return;
-        }
-        Graph.plot(nextProps.fn);
+        let prevFns = this.props.activeFns;
+        let nextFns = nextProps.activeFns;
+
+        let toRemove = prevFns.filter(fn => nextFns.indexOf(fn) === -1);
+        let toAdd = nextFns.filter(fn => prevFns.indexOf(fn) === -1);
+
+        // call Graph.remove() on any functions that have toggled off
+        toRemove.forEach(Graph.remove);
+
+        // call Graph.plot() on new functions
+        toAdd.forEach(Graph.plot);
     }
 
     componentDidMount() {
         Graph.init('#graph');
-        Graph.plot(this.props.fn);
+        this.props.activeFns.forEach(Graph.plot);
     }
 
     render() {
@@ -35,7 +42,7 @@ class GraphComponent extends React.Component {
 }
 
 GraphComponent.propTypes = {
-    fn: React.PropTypes.string
+    fns: React.PropTypes.array
 };
 
 export default GraphComponent;

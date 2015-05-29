@@ -3,14 +3,12 @@
 
 import d3 from 'd3';
 import math from 'mathjs';
-// import _ from 'lodash';
+import find from 'lodash/collection/find';
 
 // graph modules
 import Tooltip from './modules/Tooltip';
 import Scale from './modules/Scale';
 import Axes from './modules/Axes';
-
-// import zoom from 'modules/zoom';
 
 // GRAPH DIMENSIONS
 // size/margin is arbitrary, scales with viewport
@@ -19,19 +17,20 @@ const margin = { top: 80, right: 80, left: 80, bottom: 80 };
 const width = viewbox - margin.left - margin.right;
 const height = viewbox - margin.top - margin.bottom;
 
-const selectors = {
-    graphContainer: '.graph',
-    graphInner: '.graph-inner',
-    xAxis: '.x-axis',
-    yAxis: '.y-axis',
-    path: '.path'
+const classes = {
+    graphContainer: 'graph',
+    graphInner: 'graph-inner',
+    xAxis: 'x-axis',
+    yAxis: 'y-axis',
+    pathPrefix: 'path-'
 };
 
 // main svg elements
-let graphInner, graphOuter;
-let xAxisEl, yAxisEl, pathEl;
+let graphOuter, graphInner, pathWrap;
+let xAxisEl, yAxisEl;
 
-let data;
+// [{ signature, func, node }]
+let expressions = [];
 
 let scales = Scale.create({
     width: width,
@@ -46,17 +45,11 @@ let axes = Axes.create({
     scales: scales
 });
 
-let line = d3.svg.line()
-    .x(d => scales.x(d.x))
-    .y(d => scales.y(d.y))
-    .defined(d => !isNaN(d.x) && !isNaN(d.y) && isFinite(d.y));
-    // .interpolate('basis-open');
-
 let zoom = (function() {
 
     function updateGraph() {
         // remove transform
-        pathEl.attr('transform', null);
+        pathWrap.attr('transform', null);
 
         // set zoom bounds
         zoom.x(scales.x)
@@ -65,7 +58,7 @@ let zoom = (function() {
         graphOuter.call(zoom);
 
         // plot new bounds
-        plot();
+        Plot.update();
     }
 
     function zoomed() {
@@ -77,7 +70,7 @@ let zoom = (function() {
         yAxisEl.call(axes.y);
 
         // scale/translate the map rather than redraw every frame
-        pathEl.attr(
+        pathWrap.attr(
             'transform',
             `translate(${translate[0]}, ${translate[1]}) scale(${scale})`
         );
@@ -91,13 +84,23 @@ let zoom = (function() {
         .on('zoomend', updateGraph);
 })();
 
-let plot = (function() {
+let Plot = (function Plot() {
 
-    let compiledExp;
+    let line = d3.svg.line()
+        .x(d => scales.x(d.x))
+        .y(d => scales.y(d.y))
+        .defined(isReal);
 
-    // let expressions = {};
+    // TODO: add customizable interpolation in UI
+    // .interpolate('basis-open');
 
-    function getDataPoints(exp, xDomain) {
+    function isReal(d) {
+        return !isNaN(d.x) && !isNaN(d.y) && isFinite(d.y) &&
+            // e notation breaks <path d="">
+            d.y <= 1e21;
+    }
+
+    function getDataPoints(func, xDomain) {
         // number of data samples
         let n = 1500;
 
@@ -111,7 +114,7 @@ let plot = (function() {
         // get y values and map results to object
         let dataArr = xPoints.map(x => ({
             x: x,
-            y: exp.eval({ x: x })
+            y: func.eval({ x: x })
         }));
 
         // filter out NaN values here vs .defined()?
@@ -120,33 +123,23 @@ let plot = (function() {
         return dataArr;
     }
 
-    function plot(newExp) {
-        // newExp is optional
-        // if newExp is undefined, plot all current functions
-        // compiledExp = newExp ? math.compile(newExp) : compiledExp;
-
-        // compile new expression if one is passed
-        if (newExp) {
-            compiledExp = math.compile(newExp);
-            // expressions[newExp] = math.compile(newExp);
-        }
+    function plot(exp, draw?) {
+        // draw is optional
 
         // get data from compiled expression
-        data = getDataPoints(compiledExp, scales.x.domain());
+        exp.data = getDataPoints(exp.func, scales.x.domain());
 
         // update path data and remove stroke attributes
-        pathEl.attr('d', line(data))
+        exp.node.attr('d', line(exp.data))
             .attr('stroke-dasharray', null)
             .attr('stroke-dashoffset', null);
 
-        if (newExp) {
-            // if a new expression is passed, animate it in
-
+        if (draw) {
             // get length
-            let pathLength = pathEl.node().getTotalLength();
+            let pathLength = exp.node.node().getTotalLength();
 
             // draw line
-            pathEl.attr('stroke-dasharray', `${pathLength} ${pathLength}`)
+            exp.node.attr('stroke-dasharray', `${pathLength} ${pathLength}`)
                 .attr('stroke-dashoffset', pathLength)
                 .transition()
                 .ease(d3.ease('linear'))
@@ -155,7 +148,41 @@ let plot = (function() {
         }
     }
 
-    return plot;
+    function update() {
+        expressions.forEach(x => plot(x));
+    }
+
+    function remove(exp) {
+        let oldExp = find(expressions, x => exp.signature === x.signature);
+        expressions = expressions.filter(x => exp.signature !== x.signature);
+
+        // remove node
+        oldExp.node.remove();
+    }
+
+    function add(newExp) {
+
+        // create path for new function
+        let node = pathWrap.append('svg:path')
+            .attr('class', 'path');
+
+        let exp = {
+            signature: newExp.signature,
+            func: math.compile(newExp.signature),
+            node: node
+        };
+
+        expressions.push(exp);
+
+        // render expressions
+        plot(exp, true);
+    }
+
+    return {
+        add: add,
+        remove: remove,
+        update: update
+    };
 })();
 
 function init(selector) {
@@ -166,17 +193,17 @@ function init(selector) {
       .append('g')
         .attr('class', 'graph-outer')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
-        .on('mouseover', Tooltip.show)
-        .on('mouseout', Tooltip.hide)
-        .on('mousemove', function() {
-            // d3's magic this binding:
-            // this === g.graphOuter DOM node
-            Tooltip.update(this, data, scales.x, scales.y);
-        })
-        .on('click', function() {
-            Tooltip.show();
-            Tooltip.update(this, data, scales.x, scales.y);
-        })
+        // .on('mouseover', Tooltip.show)
+        // .on('mouseout', Tooltip.hide)
+        // .on('mousemove', function() {
+        //     // d3's magic this binding:
+        //     // this === g.graphOuter DOM node
+        //     Tooltip.update(this, data, scales.x, scales.y);
+        // })
+        // .on('click', function() {
+        //     Tooltip.show();
+        //     Tooltip.update(this, data, scales.x, scales.y);
+        // })
         .call(zoom);
 
     // append underlay
@@ -187,13 +214,13 @@ function init(selector) {
 
     // append x-axis
     xAxisEl = graphOuter.append('g')
-        .attr('class', selectors.xAxis.slice(1))
+        .attr('class', classes.xAxis)
         .attr('transform', `translate(0, ${height})`)
         .call(axes.x);
 
     // append y-axis
     yAxisEl = graphOuter.append('g')
-        .attr('class', selectors.yAxis.slice(1))
+        .attr('class', classes.yAxis)
         .call(axes.y);
 
     // set clip
@@ -207,12 +234,10 @@ function init(selector) {
         .attr('height', height);
 
     graphInner = graphOuter.append('g')
-        .attr('class', selectors.graphInner.slice(1))
+        .attr('class', classes.graphInner)
         .attr('clip-path', 'url(#clip)');
 
-    // append function path
-    pathEl = graphInner.append('svg:path')
-        .attr('class', selectors.path.slice(1));
+    pathWrap = graphInner.append('g');
 
     // append tooltip
     Tooltip.init(graphInner);
@@ -220,5 +245,6 @@ function init(selector) {
 
 export default {
     init: init,
-    plot: plot
+    plot: Plot.add,
+    remove: Plot.remove
 };

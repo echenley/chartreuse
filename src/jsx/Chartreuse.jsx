@@ -22,52 +22,64 @@ class Chartreuse extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showFns: false,
+            controlsActive: false,
             fns: [
-                'sin(x)',
-                'tan(x)',
-                'log(tan(sqrt(x)))',
-                'sqrt(sin(x))'
-            ],
-            currentFn: 0
+                { signature: 'sin(x)', isActive: true },
+                { signature: 'tan(x)', isActive: false }
+            ]
         };
     }
 
-    updateFn(i) {
+    toggleFn(fn) {
+        // toggle .isActive
+        fn.isActive = !fn.isActive;
+
         this.setState({
-            currentFn: i
+            fns: this.state.fns
         });
     }
 
-    addFn(fn) {
+    addFn(signature) {
         let fns = this.state.fns;
-        fns.push(fn);
+        fns.push({
+            signature: signature,
+            isActive: true
+        });
 
         this.setState({
             fns: fns
         });
     }
 
+    toggleControls() {
+        this.setState({
+            controlsActive: !this.state.controlsActive
+        });
+    }
+
     render() {
-        let currentFn = this.state.currentFn;
+        let fns = this.state.fns;
+        let toggleControls = this.toggleControls.bind(this);
+
+        let chartreuseCx = cx('chartreuse', {
+            'controls-active': this.state.controlsActive
+        });
 
         return (
-            <div className="chartreuse">
+            <div className={ chartreuseCx }>
                 <NavBar
-                    toggleFns={ this.setState.bind(this, { showFns: !this.state.showFns }) }
-                    showFns={ this.state.showFns }
+                    toggleControls={ toggleControls }
+                    controlsActive={ this.state.controlsActive }
                     addFn={ this.addFn.bind(this) }
                 />
                 <Controls
-                    showFns={ this.state.showFns }
-                    toggleFns={ this.setState.bind(this, { showFns: !this.state.showFns }) }
-                    fns={ this.state.fns }
+                    hideControls={ toggleControls }
+                    fns={ fns }
                     addFn={ this.addFn.bind(this) }
-                    updateFn={ this.updateFn.bind(this) }
-                    currentFn={ currentFn }
+                    toggleFn={ this.toggleFn.bind(this) }
                 />
                 <Graph
-                    fn={ this.state.fns[currentFn] }
+                    activeFns={ fns.filter(fn => fn.isActive) }
                 />
             </div>
         );

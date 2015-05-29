@@ -22,14 +22,7 @@ function isWithinBounds(y, domain) {
     return !isNaN(y) && y > domain[0] && y < domain[1];
 }
 
-function update(graphOuter, data, xScale, yScale) {
-    let nearestDataPoint;
-
-    let mouseCoords = d3.mouse(graphOuter);
-
-    // get x-coordinate
-    let x = xScale.invert(mouseCoords[0]);
-
+function getNearestDataPoint(data, x) {
     // get index within data array
     let i = bisectX(data, x);
 
@@ -38,22 +31,39 @@ function update(graphOuter, data, xScale, yScale) {
     let right = data[i];
 
     if (left && right) {
-        nearestDataPoint = x - left.x > right.x - x ? right : left;
-    } else {
-        // one or the other doesn't exist
-        nearestDataPoint = left || right;
+        // both exist, choose nearest
+        return x - left.x > right.x - x ? right : left;
     }
 
+    // one or the other doesn't exist
+    return left || right;
+}
+
+function update(graphOuter, data, xScale, yScale) {
+    // get mouse coordinates
+    let mouseCoords = d3.mouse(graphOuter);
+
+    // get scaled x-coordinate of mouse
+    let mouseX = xScale.invert(mouseCoords[0]);
+
+    // get nearest data point to mouseX
+    let nearestDataPoint = getNearestDataPoint(data, mouseX);
+
+    // get translate values for tooltip
     let translateX = xScale(nearestDataPoint.x);
     let translateY;
 
-    if (!isWithinBounds(nearestDataPoint.y, yScale.domain())) {
-        // don't show the circle if data point isNaN
-        circle.style('opacity', 0);
-        translateY = mouseCoords[1];
-    } else {
+    if (isWithinBounds(nearestDataPoint.y, yScale.domain())) {
+        // data point is on the chart
+        // position tooltip at point
         circle.style('opacity', null);
         translateY = yScale(nearestDataPoint.y);
+    } else {
+        // if data point isNaN or is off the chart
+        // hide the circle
+        // position tooltip at cursor
+        circle.style('opacity', 0);
+        translateY = mouseCoords[1];
     }
 
     // position tooltip and set text
@@ -65,10 +75,8 @@ function update(graphOuter, data, xScale, yScale) {
     xValue.text(`x: ${nearestDataPoint.x}`);
     yValue.text(`y: ${nearestDataPoint.y}`);
 
-    // reset bg so previous styles don't interfere with .getBBox()
-    tooltipBg
-        .attr('width', 0)
-        .attr('height', 0);
+    // reset bg dimensions so previous styles don't interfere with .getBBox()
+    tooltipBg.attr('width', 0).attr('height', 0);
 
     // get bounds of tooltip
     let tooltipRect = tooltip[0][0].getBBox();
@@ -93,6 +101,10 @@ function show() {
 function hide() {
     return hidden || toggle();
 }
+
+// function remove() {
+    // TODO: remove tooltip
+// }
 
 function init(container) {
     tooltip = container.append('g')

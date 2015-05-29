@@ -6,16 +6,24 @@
     width: 100%;
     height: 100%;
     padding: ($navbar-height + 30px) 30px 30px;
-    background: rgba(#000, 0.3);
     overflow-y: scroll;
     opacity: 0;
     visibility: hidden;
     transition: opacity 300ms, visibility 1ms 300ms;
 
-    &.active {
+    .controls-active & {
         opacity: 1;
         visibility: visible;
         transition: opacity 300ms;
+    }
+
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background: rgba(#000, 0.3);
     }
 
     .fn-button {
