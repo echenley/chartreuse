@@ -21,8 +21,7 @@ const classes = {
     graphContainer: 'graph',
     graphInner: 'graph-inner',
     xAxis: 'x-axis',
-    yAxis: 'y-axis',
-    pathPrefix: 'path-'
+    yAxis: 'y-axis'
 };
 
 // main svg elements
@@ -152,23 +151,25 @@ let Plot = (function Plot() {
         expressions.forEach(x => plot(x));
     }
 
-    function remove(exp) {
-        let oldExp = find(expressions, x => exp.signature === x.signature);
-        expressions = expressions.filter(x => exp.signature !== x.signature);
+    function remove(signature) {
+        let oldExp = find(expressions, exp => signature === exp.signature);
+
+        // remove fn from expressions
+        expressions = expressions.filter(exp => signature !== exp.signature);
 
         // remove node
         oldExp.node.remove();
     }
 
-    function add(newExp) {
+    function add(signature) {
 
         // create path for new function
         let node = pathWrap.append('svg:path')
             .attr('class', 'path');
 
         let exp = {
-            signature: newExp.signature,
-            func: math.compile(newExp.signature),
+            signature: signature,
+            func: math.compile(signature),
             node: node
         };
 

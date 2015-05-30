@@ -10,7 +10,9 @@
     "mathjs": "^1.6.0",
     "react": "^0.13.2",
     "react-inlinesvg": "^0.4.1",
-    "react-tools": "^0.13.2"
+    "react-router": "^0.13.3",
+    "react-tools": "^0.13.2",
+    "reflux": "^0.2.7"
   },
   "devDependencies": {
     "babelify": "^6.1.1",

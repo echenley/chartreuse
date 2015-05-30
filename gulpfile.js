@@ -41,12 +41,12 @@ function handleError() {
 
 function buildScript(file) {
     var props = watchify.args;
-    props.entries = [srcDir + '/jsx/' + file];
+    props.entries = [srcDir + '/js/' + file];
     props.debug = true;
 
     var bundler = watchify(browserify(props), { ignoreWatch: true })
         .transform(babelify.configure({
-            only: /(src\/jsx)/
+            only: /(src\/js)/
         }));
 
     function rebundle() {

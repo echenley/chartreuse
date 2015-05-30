@@ -1,3 +1,10 @@
+
+%valign {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
 .navbar {
     z-index: 10;
     position: absolute;
@@ -38,11 +45,18 @@
         }
     }
 
-    .fns-toggle {
+    %icon-active {
+        background: $chartreuse;
+
+        svg {
+            fill: #fff;
+        }
+    }
+
+    .menu-icon {
         padding: 10px;
         border-radius: 50%;
         cursor: pointer;
-        transition: background 150ms;
 
         svg {
             display: inline-block;
@@ -53,16 +67,20 @@
             transition: fill 150ms;
         }
 
-        &.active,
         &:hover {
-            background: $chartreuse;
-
-            svg {
-                fill: #fff;
-            }
+            @extend %icon-active;
         }
     }
 
-    .input {
+    .controls-toggle {
+        transition: background 150ms;
+
+        .controls-active & {
+            @extend %icon-active;
+        }
+    }
+
+    .settings-toggle {
+        float: right;
     }
 }

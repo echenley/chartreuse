@@ -5,6 +5,14 @@
 import React from 'react/addons';
 import Graph from '../graph/Graph';
 
+function removeFn(fn) {
+    Graph.remove(fn.signature);
+}
+
+function addFn(fn) {
+    Graph.plot(fn.signature);
+}
+
 class GraphComponent extends React.Component {
 
     constructor(props) {
@@ -22,27 +30,24 @@ class GraphComponent extends React.Component {
         let toRemove = prevFns.filter(fn => nextFns.indexOf(fn) === -1);
         let toAdd = nextFns.filter(fn => prevFns.indexOf(fn) === -1);
 
-        // call Graph.remove() on any functions that have toggled off
-        toRemove.forEach(Graph.remove);
-
-        // call Graph.plot() on new functions
-        toAdd.forEach(Graph.plot);
+        toRemove.forEach(removeFn);
+        toAdd.forEach(addFn);
     }
 
     componentDidMount() {
         Graph.init('#graph');
-        this.props.activeFns.forEach(Graph.plot);
+        this.props.activeFns.forEach(addFn);
     }
 
     render() {
         return (
-            <div className="graph" id="graph"></div>
+            <div className="graph" id="graph" />
         );
     }
 }
 
 GraphComponent.propTypes = {
-    fns: React.PropTypes.array
+    activeFns: React.PropTypes.array
 };
 
 export default GraphComponent;

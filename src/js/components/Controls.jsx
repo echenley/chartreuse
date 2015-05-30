@@ -3,7 +3,8 @@
 'use strict';
 
 import React from 'react/addons';
-// import FnButton from './FnButton.jsx';
+import Actions from '../actions/Actions';
+
 import cx from 'classnames';
 
 class Controls extends React.Component {
@@ -17,18 +18,17 @@ class Controls extends React.Component {
 
     hideControls(e) {
         if (e.target === this.refs.overlay.getDOMNode()) {
-            this.props.hideControls();
+            Actions.toggleControls();
         }
     }
 
     createButton(fn, i) {
-        // let toggleFn = ;
-        let buttonCx = cx({
-            'fn-button': true,
+        let buttonCx = cx('fn-button', {
             'active': fn.isActive
         });
+
         return (
-            <button className={ buttonCx } onClick={ () => this.props.toggleFn(fn) } key={ i }>
+            <button className={ buttonCx } onClick={ () => Actions.toggleFn(fn) } key={ i }>
                 { 'y = ' + fn.signature }
             </button>
         );
@@ -47,11 +47,7 @@ class Controls extends React.Component {
 }
 
 Controls.propTypes = {
-    hideControls: React.PropTypes.func,
-    fns: React.PropTypes.array,
-    addFn: React.PropTypes.func,
-    toggleFn: React.PropTypes.func,
-    activeFns: React.PropTypes.array
+    fns: React.PropTypes.array
 };
 
 export default Controls;
