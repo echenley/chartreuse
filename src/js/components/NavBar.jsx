@@ -28,7 +28,8 @@ class NavBar extends React.Component {
                     <Isvg src="svg/stats.svg"></Isvg>
                 </a>
 
-                <input className="input" ref="expression" placeholder="Enter new function" />
+                <span>y =</span>
+                <input className="input" ref="expression" placeholder="..." />
                 <a className="btn add-fn-submit" onClick={ this.addFn.bind(this) }>Add</a>
 
                 <a className='settings-toggle menu-icon' onClick={ () => {} }>

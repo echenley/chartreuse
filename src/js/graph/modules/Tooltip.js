@@ -14,7 +14,8 @@ let padding = { x: 8, y: 5 };
 let bisectX = d3.bisector(d => d.x).left;
 
 // svg elements
-let tooltip, tooltipBg, xValue, yValue, circle;
+let container, tooltip, tooltipBg, circle, xValue, yValue;
+// let tooltips = [];
 
 let hidden = true;
 
@@ -39,25 +40,25 @@ function getNearestDataPoint(data, x) {
     return left || right;
 }
 
-function update(graphOuter, data, xScale, yScale) {
+function update(data, scales) {
     // get mouse coordinates
-    let mouseCoords = d3.mouse(graphOuter);
+    let mouseCoords = d3.mouse(container[0][0]);
 
     // get scaled x-coordinate of mouse
-    let mouseX = xScale.invert(mouseCoords[0]);
+    let mouseX = scales.x.invert(mouseCoords[0]);
 
     // get nearest data point to mouseX
     let nearestDataPoint = getNearestDataPoint(data, mouseX);
 
     // get translate values for tooltip
-    let translateX = xScale(nearestDataPoint.x);
+    let translateX = scales.x(nearestDataPoint.x);
     let translateY;
 
-    if (isWithinBounds(nearestDataPoint.y, yScale.domain())) {
+    if (isWithinBounds(nearestDataPoint.y, scales.y.domain())) {
         // data point is on the chart
         // position tooltip at point
         circle.style('opacity', null);
-        translateY = yScale(nearestDataPoint.y);
+        translateY = scales.y(nearestDataPoint.y);
     } else {
         // if data point isNaN or is off the chart
         // hide the circle
@@ -82,7 +83,7 @@ function update(graphOuter, data, xScale, yScale) {
     let tooltipRect = tooltip[0][0].getBBox();
 
     // position bg
-    tooltip.select(selectors.tooltipBg)
+    tooltipBg
         .attr('x', tooltipRect.x + offset)
         .attr('y', tooltipRect.y + offset)
         .attr('width', tooltipRect.width - offset + padding.x * 2)
@@ -102,14 +103,26 @@ function hide() {
     return hidden || toggle();
 }
 
+function add() {
+
+    // tooltips.push({
+    //     tooltip: tooltip,
+    //     box: box,
+    //     circle: circle,
+    //     data: data
+    // });
+}
+
 // function remove() {
     // TODO: remove tooltip
 // }
 
-function init(container) {
+function init(c) {
+    container = c;
+
     tooltip = container.append('g')
         .attr('class', selectors.tooltip.slice(1))
-        .style('display', 0);
+        .style('display', 'none');
 
     // tooltip background
     tooltipBg = tooltip.append('svg:rect')
@@ -133,6 +146,8 @@ function init(container) {
         .attr('x', offset + padding.x)
         .attr('y', offset + padding.y)
         .attr('dy', '0.9em');
+
+    // add();
 }
 
 export default {
@@ -140,5 +155,6 @@ export default {
     update: update,
     show: show,
     hide: hide,
+    // add: add,
     toggle: toggle
 };

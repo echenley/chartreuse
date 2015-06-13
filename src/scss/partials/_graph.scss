@@ -49,6 +49,12 @@
         stroke-width: 2;
     }
 
+    .hitbox {
+        fill: none;
+        stroke: transparent;
+        stroke-width: 20;
+    }
+
     .domain,
     .range {
         stroke-width: 0;

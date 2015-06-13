@@ -3,12 +3,18 @@
 
 import d3 from 'd3';
 import math from 'mathjs';
+
+// utility functions
 import find from 'lodash/collection/find';
+import extend from 'lodash/object/assign';
 
 // graph modules
 import Tooltip from './modules/Tooltip';
 import Scale from './modules/Scale';
 import Axes from './modules/Axes';
+
+// prototypes
+import Expression from './modules/Expression';
 
 // GRAPH DIMENSIONS
 // size/margin is arbitrary, scales with viewport
@@ -28,7 +34,7 @@ const classes = {
 let graphOuter, graphInner, pathWrap;
 let xAxisEl, yAxisEl;
 
-// [{ signature, func, node }]
+// array of expressions objects
 let expressions = [];
 
 let scales = Scale.create({
@@ -129,21 +135,10 @@ let Plot = (function Plot() {
         exp.data = getDataPoints(exp.func, scales.x.domain());
 
         // update path data and remove stroke attributes
-        exp.node.attr('d', line(exp.data))
-            .attr('stroke-dasharray', null)
-            .attr('stroke-dashoffset', null);
+        exp.update(line);
 
         if (draw) {
-            // get length
-            let pathLength = exp.node.node().getTotalLength();
-
-            // draw line
-            exp.node.attr('stroke-dasharray', `${pathLength} ${pathLength}`)
-                .attr('stroke-dashoffset', pathLength)
-                .transition()
-                .ease(d3.ease('linear'))
-                .duration(1500)
-                .attr('stroke-dashoffset', 0);
+            exp.draw();
         }
     }
 
@@ -158,7 +153,7 @@ let Plot = (function Plot() {
         expressions = expressions.filter(exp => signature !== exp.signature);
 
         // remove node
-        oldExp.node.remove();
+        oldExp.remove();
     }
 
     function add(signature) {
@@ -167,11 +162,30 @@ let Plot = (function Plot() {
         let node = pathWrap.append('svg:path')
             .attr('class', 'path');
 
-        let exp = {
+        // create wider invisible path for mouseover
+        let hitbox = pathWrap.append('svg:path')
+            .attr('class', 'hitbox');
+
+        let exp = Object.create(Expression);
+
+        exp = extend(exp, {
             signature: signature,
             func: math.compile(signature),
-            node: node
-        };
+            node: node,
+            hitbox: hitbox,
+            data: null
+        });
+
+        exp.hitbox
+            .on('mouseover', Tooltip.show)
+            .on('mouseout', Tooltip.hide)
+            .on('mousemove', function() {
+                Tooltip.update(exp.data, scales);
+            })
+            .on('click', function() {
+                Tooltip.show();
+                Tooltip.update(exp.data, scales);
+            });
 
         expressions.push(exp);
 
@@ -186,6 +200,10 @@ let Plot = (function Plot() {
     };
 })();
 
+// function updateActiveFn(e) {
+//     console.log(e);
+// }
+
 function init(selector) {
 
     // create main svg element and .graph-outer <g>
@@ -194,17 +212,6 @@ function init(selector) {
       .append('g')
         .attr('class', 'graph-outer')
         .attr('transform', `translate(${margin.left}, ${margin.top})`)
-        // .on('mouseover', Tooltip.show)
-        // .on('mouseout', Tooltip.hide)
-        // .on('mousemove', function() {
-        //     // d3's magic this binding:
-        //     // this === g.graphOuter DOM node
-        //     Tooltip.update(this, data, scales.x, scales.y);
-        // })
-        // .on('click', function() {
-        //     Tooltip.show();
-        //     Tooltip.update(this, data, scales.x, scales.y);
-        // })
         .call(zoom);
 
     // append underlay
@@ -214,13 +221,13 @@ function init(selector) {
         .attr('height', height);
 
     // append x-axis
-    xAxisEl = graphOuter.append('g')
+    xAxisEl = graphOuter.append('svg:g')
         .attr('class', classes.xAxis)
         .attr('transform', `translate(0, ${height})`)
         .call(axes.x);
 
     // append y-axis
-    yAxisEl = graphOuter.append('g')
+    yAxisEl = graphOuter.append('svg:g')
         .attr('class', classes.yAxis)
         .call(axes.y);
 
@@ -234,14 +241,14 @@ function init(selector) {
         .attr('width', width)
         .attr('height', height);
 
-    graphInner = graphOuter.append('g')
+    graphInner = graphOuter.append('svg:g')
         .attr('class', classes.graphInner)
         .attr('clip-path', 'url(#clip)');
 
-    pathWrap = graphInner.append('g');
+    pathWrap = graphInner.append('svg:g');
 
     // append tooltip
-    Tooltip.init(graphInner);
+    Tooltip.init(graphOuter);
 }
 
 export default {

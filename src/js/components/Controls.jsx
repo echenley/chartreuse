@@ -24,7 +24,7 @@ class Controls extends React.Component {
 
     createButton(fn, i) {
         let buttonCx = cx('fn-button', {
-            'active': fn.isActive
+            active: fn.isActive
         });
 
         return (

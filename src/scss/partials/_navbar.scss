@@ -22,15 +22,24 @@
         @extend %valign;
     }
 
-    .btn,
-    .input {
+    .btn {
         padding: 0 10px;
         height: 30px;
         line-height: 30px;
     }
 
     .input {
-        border: 1px solid $gray;
+        width: 120px;
+        height: 30px;
+        padding: 0;
+        border: 0;
+        line-height: 30px;
+        font-size: 1em;
+        outline: 0;
+
+        &:focus {
+            background: rgba($chartreuse, 0.1);
+        }
     }
 
     .btn {

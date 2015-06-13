@@ -8,7 +8,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
 var gutil = require('gulp-util');
-var webserver = require('gulp-webserver');
+var connect = require('gulp-connect');
 var notify = require('gulp-notify');
 var size = require('gulp-size');
 var gulpif = require('gulp-if');
@@ -23,9 +23,9 @@ var plumber = require('gulp-plumber');
 
 var svgmin = require('gulp-svgmin');
 
-var srcDir = './src';
-var buildDir = './build';
-var distDir = './dist';
+var srcDir = './src/';
+var buildDir = './build/';
+var distDir = './dist/';
 
 var jsEntry = 'Chartreuse';
 var sassEntry = 'src/scss/*.scss';
@@ -36,12 +36,14 @@ function handleError() {
         title: 'Compile Error',
         message: '<%= error.message %>'
     }).apply(this, arguments);
-    this.emit('end'); // Keep gulp from hanging on this task
+
+    // Keep gulp from hanging on this task
+    this.emit('end');
 }
 
 function buildScript(file) {
     var props = watchify.args;
-    props.entries = [srcDir + '/js/' + file];
+    props.entries = [srcDir + 'js/' + file];
     props.debug = true;
 
     var bundler = watchify(browserify(props), { ignoreWatch: true })
@@ -59,6 +61,7 @@ function buildScript(file) {
             .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(buildDir))
+            .pipe(connect.reload())
             .pipe(notify(function() {
                 console.log('Rebundle Complete [' + (Date.now() - start) + 'ms]');
             }));
@@ -79,30 +82,32 @@ gulp.task('styles', function() {
         .pipe(sourcemaps.write())
         .pipe(autoprefixer('last 2 versions'))
         .pipe(gulp.dest(buildDir))
+        .pipe(connect.reload())
         .pipe(size());
 });
 
 gulp.task('svg', function() {
-    return gulp.src(srcDir + '/svg/*.svg')
+    return gulp.src(srcDir + 'svg/*.svg')
         .pipe(svgmin())
-        .pipe(gulp.dest(buildDir +'/svg'));
+        .pipe(gulp.dest(buildDir + 'svg'))
+        .pipe(connect.reload());
 });
 
 gulp.task('html', function() {
-    return gulp.src(srcDir + '/*.html')
+    return gulp.src(srcDir + '*.html')
         .pipe(gulp.dest(buildDir))
+        .pipe(connect.reload())
         .pipe(size());
 });
 
 gulp.task('serve', function() {
-    return gulp.src(buildDir)
-        .pipe(webserver({
-            livereload: true,
-            host: '0.0.0.0',
-            port: 9000,
-            // open: true,
-            fallback: 'index.html'
-        }));
+    return connect.server({
+        root: __dirname + '/build',
+        port: 9000,
+        host: '0.0.0.0',
+        livereload: true,
+        fallback: buildDir + 'index.html'
+    });
 });
 
 gulp.task('build', ['html', 'styles', 'svg'], function() {
@@ -113,8 +118,8 @@ gulp.task('dist', ['build'], function() {
     var assets = useref.assets();
 
     // move svgs to /dist
-    gulp.src(buildDir + '/svg/*.svg')
-        .pipe(gulp.dest(distDir +'/svg'));
+    gulp.src(buildDir + 'svg/*.svg')
+        .pipe(gulp.dest(distDir + 'svg'));
 
     return gulp.src('build/*.html')
         .pipe(plumber())
