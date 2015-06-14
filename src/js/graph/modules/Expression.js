@@ -25,7 +25,7 @@ const Expression = {
             .attr('stroke-dashoffset', pathLength)
             .transition()
             .ease(d3.ease('linear'))
-            .duration(1500)
+            .duration(1200)
             .attr('stroke-dashoffset', 0);
     }
 };

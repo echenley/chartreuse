@@ -1,10 +1,11 @@
 {
     "preset": "airbnb",
     
-    "requireParenthesesAroundIIFE": true,
     "validateIndentation": 4,
     "maximumLineLength": 100,
 
+    "requireParenthesesAroundIIFE": true,
+    "requirePaddingNewLinesBeforeLineComments": null,
     "disallowKeywords": ["with"],
     "disallowSpacesInsideObjectBrackets": null,
     "disallowImplicitTypeConversion": ["string"],

@@ -1,6 +1,7 @@
 'use strict';
 
 var gulp = require('gulp');
+var browserSync = require('browser-sync').create();
 var browserify = require('browserify');
 var watchify = require('watchify');
 var babelify = require('babelify');
@@ -8,7 +9,6 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
 var gutil = require('gulp-util');
-var connect = require('gulp-connect');
 var notify = require('gulp-notify');
 var size = require('gulp-size');
 var gulpif = require('gulp-if');
@@ -20,8 +20,8 @@ var uglify = require('gulp-uglify');
 var useref = require('gulp-useref');
 var exit = require('gulp-exit');
 var plumber = require('gulp-plumber');
-
 var svgmin = require('gulp-svgmin');
+var del = require('del');
 
 var srcDir = './src/';
 var buildDir = './build/';
@@ -61,7 +61,6 @@ function buildScript(file) {
             .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(buildDir))
-            .pipe(connect.reload())
             .pipe(notify(function() {
                 console.log('Rebundle Complete [' + (Date.now() - start) + 'ms]');
             }));
@@ -82,32 +81,40 @@ gulp.task('styles', function() {
         .pipe(sourcemaps.write())
         .pipe(autoprefixer('last 2 versions'))
         .pipe(gulp.dest(buildDir))
-        .pipe(connect.reload())
+        .pipe(browserSync.stream({ match: '**/*.css' }))
         .pipe(size());
 });
 
 gulp.task('svg', function() {
-    return gulp.src(srcDir + 'svg/*.svg')
-        .pipe(svgmin())
-        .pipe(gulp.dest(buildDir + 'svg'))
-        .pipe(connect.reload());
+    del(buildDir + 'svg/**/*', function() {
+        gulp.src(srcDir + 'svg/*.svg')
+            .pipe(svgmin())
+            .pipe(gulp.dest(buildDir + 'svg'))
+    });
 });
 
 gulp.task('html', function() {
     return gulp.src(srcDir + '*.html')
         .pipe(gulp.dest(buildDir))
-        .pipe(connect.reload())
         .pipe(size());
 });
 
-gulp.task('serve', function() {
-    return connect.server({
-        root: __dirname + '/build',
-        port: 9000,
-        host: '0.0.0.0',
-        livereload: true,
-        fallback: buildDir + 'index.html'
+gulp.task('clean', function() {
+    del(buildDir + '**/*');
+});
+
+gulp.task('serve', ['build'], function() {
+    browserSync.init({
+        server: {
+            baseDir: buildDir
+        }
     });
+
+    gulp.watch(srcDir + '*.html', ['html']);
+    gulp.watch(srcDir + 'svg/*.svg', ['svg']);
+    gulp.watch(srcDir + 'scss/**/*.scss', ['styles']);
+
+    gulp.watch(buildDir).on('change', browserSync.reload);
 });
 
 gulp.task('build', ['html', 'styles', 'svg'], function() {
@@ -121,6 +128,7 @@ gulp.task('dist', ['build'], function() {
     gulp.src(buildDir + 'svg/*.svg')
         .pipe(gulp.dest(distDir + 'svg'));
 
+    // minify css/js and move index.html to /dist
     return gulp.src('build/*.html')
         .pipe(plumber())
         .pipe(assets)
@@ -132,8 +140,4 @@ gulp.task('dist', ['build'], function() {
         .pipe(exit());
 });
 
-gulp.task('default', ['build', 'serve'], function() {
-    gulp.watch('src/*.html', ['html']);
-    gulp.watch('src/svg/*.svg', ['svg']);
-    gulp.watch('src/scss/**/*.scss', ['styles']);
-});
+gulp.task('default', ['serve']);
