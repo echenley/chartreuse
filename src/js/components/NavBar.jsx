@@ -17,7 +17,7 @@ class NavBar extends React.Component {
 
     addFn() {
         let expression = this.refs.expression.getDOMNode().value;
-        Actions.addFn(expression);
+        Actions.compileFn(expression);
     }
 
     render() {

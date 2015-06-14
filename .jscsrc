@@ -10,7 +10,9 @@
     "disallowSpacesInsideObjectBrackets": null,
     "disallowImplicitTypeConversion": ["string"],
     "disallowSpacesInAnonymousFunctionExpression": null,
+    "validateQuoteMarks": null,
 
+    "fileExtensions": [".js", ".jsx"],
     "excludeFiles": ["node_modules/**"],
-    "esprima": "esprima-fb"
+    "esprima": "babel-eslint"
 }

@@ -1,6 +1,7 @@
 'use strict';
 
 import d3 from 'd3';
+import dimensions from './dimensions';
 
 function makeScale(domain, range) {
     return d3.scale.linear()
@@ -8,10 +9,10 @@ function makeScale(domain, range) {
         .range(range);
 }
 
-function create(config) {
+function create(domains) {
     return {
-        x: makeScale(config.xDomain, [0, config.width]),
-        y: makeScale(config.yDomain, [config.height, 0])
+        x: makeScale(domains.xDomain, [0, dimensions.width]),
+        y: makeScale(domains.yDomain, [dimensions.height, 0])
     };
 }
 

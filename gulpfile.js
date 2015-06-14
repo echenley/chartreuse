@@ -27,8 +27,8 @@ var srcDir = './src/';
 var buildDir = './build/';
 var distDir = './dist/';
 
-var jsEntry = 'Chartreuse';
-var sassEntry = 'src/scss/*.scss';
+var jsEntry = 'PearGraph';
+var sassEntry = srcDir + 'scss/*.scss';
 
 function handleError() {
     gutil.beep();
@@ -114,7 +114,11 @@ gulp.task('serve', ['build'], function() {
     gulp.watch(srcDir + 'svg/*.svg', ['svg']);
     gulp.watch(srcDir + 'scss/**/*.scss', ['styles']);
 
-    gulp.watch(buildDir).on('change', browserSync.reload);
+    gulp.watch([
+        buildDir + '**/*.js',
+        buildDir + '**/*.svg',
+        buildDir + '**/*.html'
+    ]).on('change', browserSync.reload);
 });
 
 gulp.task('build', ['html', 'styles', 'svg'], function() {

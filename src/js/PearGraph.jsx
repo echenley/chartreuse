@@ -20,7 +20,7 @@ import cx from 'classnames';
 // let DefaultRoute  = Router.DefaultRoute;
 // let Link          = Router.Link;
 
-const Chartreuse = React.createClass({
+const PearGraph = React.createClass({
     mixins: [
         Reflux.connect(FnStore, 'fns'),
         Reflux.listenTo(Actions.toggleControls, 'toggleControls')
@@ -41,15 +41,15 @@ const Chartreuse = React.createClass({
     render() {
         let fns = this.state.fns;
 
-        let chartreuseCx = cx('chartreuse', {
+        let pearGraphCx = cx('pearGraph', {
             'controls-active': this.state.controlsActive
         });
 
         return (
-            <div className={ chartreuseCx }>
+            <div className={ pearGraphCx }>
                 <NavBar />
                 <Controls fns={ fns } />
-                <Graph activeFns={ fns.filter(fn => fn.isActive) } />
+                <Graph activeFns={ fns.filter(fn => fn.isVisible) } />
                 {/* <RouteHandler /> */}
             </div>
         );
@@ -57,7 +57,7 @@ const Chartreuse = React.createClass({
 });
 
 // let routes = (
-//     <Route handler={ Chartreuse }>
+//     <Route handler={ PearGraph }>
 //         <Route name="controls" handler={Controls} />
 //     </Route>
 // );
@@ -67,4 +67,4 @@ const Chartreuse = React.createClass({
 //     React.render(<Handler params={ state.params } />, document.getElementById('container'));
 // });
 
-React.render(<Chartreuse />, document.getElementById('container'));
+React.render(<PearGraph />, document.getElementById('container'));

@@ -33,12 +33,13 @@
         height: 30px;
         padding: 0;
         border: 0;
+        border-bottom: 1px solid $gray;
         line-height: 30px;
         font-size: 1em;
         outline: 0;
 
         &:focus {
-            background: rgba($chartreuse, 0.1);
+            background: #eee;
         }
     }
 

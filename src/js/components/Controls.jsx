@@ -9,13 +9,6 @@ import cx from 'classnames';
 
 class Controls extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            activeFns: []
-        };
-    }
-
     hideControls(e) {
         if (e.target === this.refs.overlay.getDOMNode()) {
             Actions.toggleControls();
@@ -24,7 +17,7 @@ class Controls extends React.Component {
 
     createButton(fn, i) {
         let buttonCx = cx('fn-button', {
-            active: fn.isActive
+            active: fn.isVisible
         });
 
         return (

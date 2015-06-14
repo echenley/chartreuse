@@ -3,41 +3,59 @@
 import Reflux from 'reflux';
 import Actions from '../actions/Actions';
 
-let defaultFns = [
-    { signature: 'sin(x)', isActive: true },
-    { signature: 'tan(x)', isActive: false }
-];
+// Fn Prototype
+import FnProto from '../graph/prototypes/FnProto';
+
+import extend from 'lodash/object/assign';
+
+let fns = [];
 
 const FnStore = Reflux.createStore({
     listenables: [Actions],
 
-    init() {
-        this.fns = defaultFns;
-    },
-
-    onAddFn(signature) {
+    onAddFn(fn) {
         // check that fn doesn't already exist...
         // if () { return; }
 
-        this.fns.push({
-            signature: signature,
-            isActive: true
-        });
-
-        this.trigger(this.fns);
+        fns.push(fn);
+        this.trigger(fns);
     },
 
     // onRemoveFn() {
 
     // },
 
+    onCompileFn(signature) {
+        let newFn = Object.create(FnProto)
+            .compile(signature);
+
+        // unselect all functions
+        fns.forEach(fn => fn.isSelected = false);
+
+        newFn = extend(newFn, {
+            isVisible: true,
+            isSelected: true
+        });
+
+        fns.push(newFn);
+
+        this.trigger(fns);
+    },
+
+    onSelectFn(selectedFn) {
+        // unselect all then select
+        fns.forEach(fn => fn.isSelected = false);
+        selectedFn.isSelected = true;
+        this.trigger(fns);
+    },
+
     onToggleFn(fn) {
-        fn.isActive = !fn.isActive;
-        this.trigger(this.fns);
+        fn.isVisible = !fn.isVisible;
+        this.trigger(fns);
     },
 
     getInitialState() {
-        return defaultFns;
+        return fns;
     }
 });
 

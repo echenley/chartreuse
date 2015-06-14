@@ -2,6 +2,8 @@
 
 import d3 from 'd3';
 
+import GraphState from './GraphState';
+
 const selectors = {
     tooltip: '.tooltip',
     tooltipBg: '.tooltip-bg'
@@ -14,8 +16,7 @@ let padding = { x: 8, y: 5 };
 let bisectX = d3.bisector(d => d.x).left;
 
 // svg elements
-let container, tooltip, tooltipBg, circle, xValue, yValue;
-// let tooltips = [];
+let elements = {};
 
 let hidden = true;
 
@@ -40,50 +41,59 @@ function getNearestDataPoint(data, x) {
     return left || right;
 }
 
-function update(data, scales) {
+function update(fn) {
+    if (!fn) {
+        // no selected function
+        return;
+    }
+
+    let xScale = GraphState.scales.x;
+    let yScale = GraphState.scales.y;
+
     // get mouse coordinates
-    let mouseCoords = d3.mouse(container[0][0]);
+    let mouseCoords = d3.mouse(elements.container[0][0]);
 
     // get scaled x-coordinate of mouse
-    let mouseX = scales.x.invert(mouseCoords[0]);
+    let mouseX = xScale.invert(mouseCoords[0]);
 
     // get nearest data point to mouseX
-    let nearestDataPoint = getNearestDataPoint(data, mouseX);
+    let nearestDataPoint = getNearestDataPoint(fn.data, mouseX);
 
     // get translate values for tooltip
-    let translateX = scales.x(nearestDataPoint.x);
+    let translateX = xScale(nearestDataPoint.x);
     let translateY;
 
-    if (isWithinBounds(nearestDataPoint.y, scales.y.domain())) {
+    if (isWithinBounds(nearestDataPoint.y, yScale.domain())) {
         // data point is on the chart
         // position tooltip at point
-        circle.style('opacity', null);
-        translateY = scales.y(nearestDataPoint.y);
+        elements.circle.style('opacity', null);
+        translateY = yScale(nearestDataPoint.y);
     } else {
         // if data point isNaN or is off the chart
         // hide the circle
         // position tooltip at cursor
-        circle.style('opacity', 0);
+        elements.circle.style('opacity', 0);
         translateY = mouseCoords[1];
     }
 
     // position tooltip and set text
-    tooltip.attr(
+    elements.tooltip.attr(
         'transform',
         `translate(${translateX}, ${translateY})`
     );
 
-    xValue.text(`x: ${nearestDataPoint.x}`);
-    yValue.text(`y: ${nearestDataPoint.y}`);
+    elements.signature.text(`y = ${fn.signature}`);
+    elements.xValue.text(`x: ${nearestDataPoint.x}`);
+    elements.yValue.text(`y: ${nearestDataPoint.y}`);
 
     // reset bg dimensions so previous styles don't interfere with .getBBox()
-    tooltipBg.attr('width', 0).attr('height', 0);
+    elements.tooltipBg.attr('width', 0).attr('height', 0);
 
     // get bounds of tooltip
-    let tooltipRect = tooltip[0][0].getBBox();
+    let tooltipRect = elements.tooltip[0][0].getBBox();
 
     // position bg
-    tooltipBg
+    elements.tooltipBg
         .attr('x', tooltipRect.x + offset)
         .attr('y', tooltipRect.y + offset)
         .attr('width', tooltipRect.width - offset + padding.x * 2)
@@ -92,7 +102,7 @@ function update(data, scales) {
 
 function toggle() {
     hidden = !hidden;
-    tooltip.style('display', hidden ? 'none' : null);
+    elements.tooltip.classed('hidden', hidden);
 }
 
 function show() {
@@ -103,46 +113,40 @@ function hide() {
     return hidden || toggle();
 }
 
-function add() {
+function init(container) {
+    elements.container = container;
 
-    // tooltips.push({
-    //     tooltip: tooltip,
-    //     box: box,
-    //     circle: circle,
-    //     data: data
-    // });
-}
-
-// function remove() {
-    // TODO: remove tooltip
-// }
-
-function init(c) {
-    container = c;
-
-    tooltip = container.append('g')
-        .attr('class', selectors.tooltip.slice(1))
-        .style('display', 'none');
+    elements.tooltip = elements.container.append('g')
+        .classed(selectors.tooltip.slice(1), true)
+        .classed('hidden', hidden);
 
     // tooltip background
-    tooltipBg = tooltip.append('svg:rect')
+    elements.tooltipBg = elements.tooltip.append('svg:rect')
         .attr('class', selectors.tooltipBg.slice(1));
 
     // tooltip circle
-    circle = tooltip.append('circle')
+    elements.circle = elements.tooltip.append('circle')
         .attr('r', circleRadius);
 
+    // tooltip function
+    elements.signature = elements.tooltip.append('text')
+        .attr('class', 'signature')
+        .attr('x', offset + padding.x)
+        .attr('y', offset + padding.y)
+        .attr('dy', '0.9em');
+
     // tooltip x value
-    xValue = tooltip.append('text')
+    elements.xValue = elements.tooltip.append('text')
         .attr('class', 'x-value')
+        .attr('transform', 'translate(0, 24)')
         .attr('x', offset + padding.x)
         .attr('y', offset + padding.y)
         .attr('dy', '0.9em');
 
     // tooltip y value
-    yValue = tooltip.append('text')
+    elements.yValue = elements.tooltip.append('text')
         .attr('class', 'y-value')
-        .attr('transform', 'translate(0, 24)')
+        .attr('transform', 'translate(0, 48)')
         .attr('x', offset + padding.x)
         .attr('y', offset + padding.y)
         .attr('dy', '0.9em');
@@ -155,6 +159,5 @@ export default {
     update: update,
     show: show,
     hide: hide,
-    // add: add,
     toggle: toggle
 };

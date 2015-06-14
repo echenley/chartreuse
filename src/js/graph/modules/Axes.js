@@ -1,6 +1,7 @@
 'use strict';
 
 import d3 from 'd3';
+import dimensions from './dimensions';
 
 function makeAxis(scale, orient, tickSize) {
     return d3.svg.axis()
@@ -15,10 +16,10 @@ function makeAxis(scale, orient, tickSize) {
         .tickSize(tickSize);
 }
 
-function create(config) {
+function create(scales) {
     return {
-        x: makeAxis(config.scales.x, 'bottom', -config.width),
-        y: makeAxis(config.scales.y, 'left', -config.height)
+        x: makeAxis(scales.x, 'bottom', -dimensions.width),
+        y: makeAxis(scales.y, 'left', -dimensions.height)
     };
 }
 

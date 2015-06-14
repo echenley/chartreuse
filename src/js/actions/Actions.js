@@ -4,6 +4,8 @@ import Reflux from 'reflux';
 
 const Actions = Reflux.createActions([
     'addFn',
+    'compileFn',
+    'selectFn',
     'toggleFn',
     'toggleControls'
 ]);

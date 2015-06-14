@@ -4,14 +4,7 @@
 
 import React from 'react/addons';
 import Graph from '../graph/Graph';
-
-function removeFn(fn) {
-    Graph.remove(fn.signature);
-}
-
-function addFn(fn) {
-    Graph.plot(fn.signature);
-}
+import difference from 'lodash/array/difference';
 
 class GraphComponent extends React.Component {
 
@@ -24,19 +17,22 @@ class GraphComponent extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        // props are immutable, so can do === to find which ones changed
         let prevFns = this.props.activeFns;
         let nextFns = nextProps.activeFns;
 
+        let toSelect = nextFns.filter(fn => fn.isSelected);
         let toRemove = prevFns.filter(fn => nextFns.indexOf(fn) === -1);
-        let toAdd = nextFns.filter(fn => prevFns.indexOf(fn) === -1);
+        let toRender = nextFns.filter(fn => prevFns.indexOf(fn) === -1);
 
-        toRemove.forEach(removeFn);
-        toAdd.forEach(addFn);
+        toSelect.forEach(Graph.selectFn);
+        toRemove.forEach(Graph.removeFn);
+        toRender.forEach(Graph.renderFn);
     }
 
     componentDidMount() {
         Graph.init('#graph');
-        this.props.activeFns.forEach(addFn);
+        // this.props.activeFns.filter(fn => fn.func).forEach(addFn);
     }
 
     render() {
