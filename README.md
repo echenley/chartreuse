@@ -1,4 +1,4 @@
-# Chartreuse - Functional 2D Graph Visualization
+# PearGraph - 2D Graphing App
 
 This is a work in progress...
 
@@ -6,3 +6,4 @@ This is a work in progress...
 
 - D3JS
 - ReactJS
+- RefluxJS
