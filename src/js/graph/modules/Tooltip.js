@@ -101,6 +101,10 @@ function update(fn) {
 }
 
 function toggle() {
+    if (!GraphState.fns.length) {
+        return;
+    }
+
     hidden = !hidden;
     elements.tooltip.classed('hidden', hidden);
 }
