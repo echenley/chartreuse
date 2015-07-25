@@ -8,7 +8,7 @@ import Axes from './Axes';
 import extend from 'lodash/object/assign';
 
 let scales = Scales.create({
-    xDomain: [0, 30],
+    xDomain: [-15, 15],
     yDomain: [-5, 5]
 });
 
