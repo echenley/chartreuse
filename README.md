@@ -1,6 +1,8 @@
 # PearGraph - 2D Graphing App
 
-This is a work in progress...
+**Note: this is very much a work in progress.**
+
+Demo: http://henleyedition.com/static/pear-graph/dist/
 
 ## Tech
 
