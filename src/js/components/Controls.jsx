@@ -32,7 +32,7 @@ class Controls extends React.Component {
 
         return (
             <div className="controls">
-                <a className="overlay" ref="overlay" onClick={ this.hideControls.bind(this) }></a>
+                <a className="overlay" href="#" ref="overlay" onClick={ this.hideControls.bind(this) }></a>
                 { buttons }
             </div>
         );
