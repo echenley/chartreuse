@@ -4,6 +4,12 @@ import d3 from 'd3';
 import math from 'mathjs';
 
 const FnProto = {
+    isVisible: true,
+    isSelected: true,
+    wrapper: null,
+    path: null,
+    hitbox: null,
+
     remove() {
         this.wrapper.remove();
         // this.path.remove();
@@ -11,6 +17,10 @@ const FnProto = {
     },
 
     update(line) {
+        this.path
+            .attr('stroke-dasharray', null)
+            .attr('stroke-dashoffset', null);
+
         // node/hitbox are d3 selections
         this.hitbox.attr('d', line(this.data));
         this.path.attr('d', line(this.data));
@@ -25,10 +35,7 @@ const FnProto = {
     draw() {
         let pathLength = this.path.node().getTotalLength();
 
-        this.path
-            .attr('stroke-dasharray', null)
-            .attr('stroke-dashoffset', null)
-            .attr('stroke-dasharray', `${pathLength} ${pathLength}`)
+        this.path.attr('stroke-dasharray', `${pathLength} ${pathLength}`)
             .attr('stroke-dashoffset', pathLength)
             .transition()
             .ease(d3.ease('linear'))
