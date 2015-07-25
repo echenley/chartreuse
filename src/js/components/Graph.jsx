@@ -32,7 +32,7 @@ class GraphComponent extends React.Component {
 
     componentDidMount() {
         Graph.init('#graph');
-        // this.props.activeFns.filter(fn => fn.func).forEach(addFn);
+        this.props.activeFns.forEach(Graph.renderFn);
     }
 
     render() {
