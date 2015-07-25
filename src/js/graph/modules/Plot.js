@@ -30,7 +30,7 @@ let line = d3.svg.line()
 
 function getDataPoints(func, xDomain) {
     // number of data samples
-    let n = 1500;
+    let n = 1000;
 
     // create an array of points along x-axis
     let xPoints = d3.range(
