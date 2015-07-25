@@ -3,7 +3,7 @@
 import Scales from '../modules/Scales';
 import Axes from '../modules/Axes';
 
-import find from 'lodash/collection/find';
+// import find from 'lodash/collection/find';
 
 const GraphStateProto = {
     updateScales(domains) {
