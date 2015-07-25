@@ -41,7 +41,7 @@ const PearGraph = React.createClass({
     render() {
         let fns = this.state.fns;
 
-        let pearGraphCx = cx('pearGraph', {
+        let pearGraphCx = cx('pear-graph', {
             'controls-active': this.state.controlsActive
         });
 
