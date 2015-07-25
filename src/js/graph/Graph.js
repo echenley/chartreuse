@@ -27,7 +27,7 @@ function init(selector) {
         .on('mouseover', Tooltip.show)
         .on('mouseout', Tooltip.hide)
         .on('mousemove', function() {
-            Tooltip.update(find(GraphState.fns, fn => fn.isSelected));
+            Tooltip.update(find(GraphState.fns, fn => fn.isVisible && fn.isSelected));
         })
         .call(Zoom);
 
