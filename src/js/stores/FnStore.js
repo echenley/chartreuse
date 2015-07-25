@@ -8,7 +8,15 @@ import FnProto from '../graph/prototypes/FnProto';
 
 import extend from 'lodash/object/assign';
 
-let fns = [];
+let defaultFn = Object.create(FnProto)
+    .compile('(x-1)/(x^3-2x+1)');
+
+defaultFn = extend(defaultFn, {
+    isVisible: true,
+    isSelected: true
+});
+
+let fns = [defaultFn];
 
 const FnStore = Reflux.createStore({
     listenables: [Actions],
@@ -29,13 +37,8 @@ const FnStore = Reflux.createStore({
         let newFn = Object.create(FnProto)
             .compile(signature);
 
-        // unselect all functions
+        // unselect all other functions
         fns.forEach(fn => fn.isSelected = false);
-
-        newFn = extend(newFn, {
-            isVisible: true,
-            isSelected: true
-        });
 
         fns.push(newFn);
 
